@@ -8,7 +8,7 @@ from tqdm import tqdm
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import StratifiedKFold, cross_validate
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, ExtraTreeClassifier
 from stree import Stree
 from Utils import Folders, Files
 
@@ -24,6 +24,8 @@ class Models:
             return Stree
         elif name == "Cart":
             return DecisionTreeClassifier
+        elif name == "ExtraTree":
+            return ExtraTreeClassifier
         else:
             msg = f"No model recognized {name}"
             if name == "Stree" or name == "stree":
@@ -176,6 +178,20 @@ class Experiment:
         self.leaves = []
         self.depths = []
 
+    def _get_complexity(self, result):
+        if self.model_name == "Cart":
+            nodes = result.tree_.node_count
+            depth = result.tree_.max_depth
+            leaves = result.get_n_leaves()
+        if self.model_name == "ExtraTree":
+            nodes = 0
+            leaves = result.get_n_leaves()
+            depth = 0
+        else:
+            nodes, leaves = result.nodes_leaves()
+            depth = result.depth_ if hasattr(result, "depth_") else 0
+        return nodes, leaves, depth
+
     def _n_fold_crossval(self, X, y, hyperparameters):
         if self.scores != []:
             raise ValueError("Must init experiment before!")
@@ -201,17 +217,9 @@ class Experiment:
             self.scores.append(res["test_score"])
             self.times.append(res["fit_time"])
             for result_item in res["estimator"]:
-                if self.model_name == "Cart":
-                    nodes_item = result_item.tree_.node_count
-                    depth_item = result_item.tree_.max_depth
-                    leaves_item = result_item.get_n_leaves()
-                else:
-                    nodes_item, leaves_item = result_item.nodes_leaves()
-                    depth_item = (
-                        result_item.depth_
-                        if hasattr(result_item, "depth_")
-                        else 0
-                    )
+                nodes_item, leaves_item, depth_item = self._get_complexity(
+                    result_item
+                )
                 self.nodes.append(nodes_item)
                 self.leaves.append(leaves_item)
                 self.depths.append(depth_item)

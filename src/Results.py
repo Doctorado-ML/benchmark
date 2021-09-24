@@ -1,7 +1,10 @@
 import os
 import json
 import abc
+import shutil
+import subprocess
 import xlsxwriter
+from tqdm import tqdm
 from Experiments import Datasets, BestResults
 from Utils import Folders, Files, Symbols
 
@@ -201,7 +204,7 @@ class ReportBest(BaseReport):
     def header(self):
         self.header_line("*")
         self.header_line(
-            f" Report Best Accuracies with {self.model}" f" in any platform"
+            f" Report Best Accuracies with {self.model} in any platform"
         )
         self.header_line("*")
         print("")
@@ -394,3 +397,77 @@ class SQL(BaseReport):
 
     def footer(self, accuracy):
         self.file.close()
+
+
+class Benchmark:
+    @staticmethod
+    def _process_dataset(results, data):
+        model = data["model"]
+        for record in data["results"]:
+            dataset = record["dataset"]
+            if (model, dataset) in results:
+                if record["accuracy"] > results[model, dataset]:
+                    results[model, dataset] = record["accuracy"]
+            else:
+                results[model, dataset] = record["accuracy"]
+
+    @staticmethod
+    def compile_results():
+        # build Files.exreport
+        result_file_name = os.path.join(Folders.results, Files.exreport)
+        results = {}
+        init_suffix, end_suffix = Files.results_suffixes("")
+        all_files = list(os.walk(Folders.results))
+        for root, _, files in tqdm(all_files, desc="files"):
+            for name in files:
+                if name.startswith(init_suffix) and name.endswith(end_suffix):
+                    file_name = os.path.join(root, name)
+                    with open(file_name) as fp:
+                        data = json.load(fp)
+                        Benchmark._process_dataset(results, data)
+
+        with open(result_file_name, "w") as f:
+            f.write("classifier, dataset, accuracy\n")
+            for (model, dataset), accuracy in results.items():
+                f.write(f"{model}, {dataset}, {accuracy}\n")
+
+    @staticmethod
+    def report():
+        def end_message(message, file):
+            length = 100
+            print("*" * length)
+            print(message)
+            print("*" * length)
+            with open(os.path.join(Folders.results, file)) as f:
+                data = f.read().splitlines()
+                for line in data:
+                    print(line)
+
+        def is_exe(fpath):
+            return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+
+        # Remove previous results
+        try:
+            shutil.rmtree(Folders.report)
+            os.remove(Files.exreport_pdf)
+        except FileNotFoundError:
+            pass
+        except OSError as e:
+            print("Error: %s : %s" % (Folders.report, e.strerror))
+        # Compute Friedman & Holm Tests
+        fout = open(os.path.join(Folders.results, Files.exreport_output), "w")
+        ferr = open(os.path.join(Folders.results, Files.exreport_err), "w")
+        result = subprocess.run(
+            ["Rscript", os.path.join(Folders.src, "benchmark.r")],
+            stdout=fout,
+            stderr=ferr,
+        )
+        fout.close()
+        ferr.close()
+        if result.returncode != 0:
+            end_message("Error computing benchmark", Files.exreport_err)
+        else:
+            end_message("Benchmark Ok", Files.exreport_output)
+
+        if is_exe(Files.cmd_open):
+            subprocess.run([Files.cmd_open, Files.exreport_pdf])

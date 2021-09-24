@@ -10,6 +10,7 @@ class Folders:
 
 class Files:
     index = "all.txt"
+    exreport = "exreport.csv"
     exreport_output = "exreport.txt"
     exreport_err = "exreport_err.txt"
     cmd_open = "/usr/bin/open"
@@ -25,7 +26,10 @@ class Files:
 
     @staticmethod
     def results_suffixes(model):
-        return f"results_{model}_", ".json"
+        if model == "":
+            return "results_", ".json"
+        else:
+            return f"results_{model}_", ".json"
 
     @staticmethod
     def dataset(name):
