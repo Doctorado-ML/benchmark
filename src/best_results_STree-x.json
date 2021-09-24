@@ -1,0 +1,375 @@
+{
+  "balance-scale": [
+    0,
+    {
+      "C": 10000.0,
+      "gamma": 0.1,
+      "kernel": "rbf",
+      "max_iter": 10000.0,
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "balloons": [
+    0,
+    {
+      "C": 7,
+      "gamma": 0.1,
+      "kernel": "rbf",
+      "max_iter": 10000.0,
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "breast-cancer-wisc-diag": [
+    0,
+    {
+      "C": 0.2,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "breast-cancer-wisc-prog": [
+    0,
+    {
+      "C": 0.2,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "breast-cancer-wisc": [
+    0,
+    { "kernel": "rbf", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "breast-cancer": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "cardiotocography-10clases": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "cardiotocography-3clases": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "conn-bench-sonar-mines-rocks": [
+    0,
+    { "kernel": "rbf", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "cylinder-bands": [0, { "kernel": "rbf", "multiclass_strategy": "ovr" }, ""],
+  "dermatology": [
+    0,
+    {
+      "C": 55,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "echocardiogram": [
+    0,
+    {
+      "C": 7,
+      "gamma": 0.1,
+      "kernel": "poly",
+      "max_features": "auto",
+      "max_iter": 10000.0,
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "fertility": [
+    0,
+    {
+      "C": 0.05,
+      "max_features": "auto",
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "haberman-survival": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "heart-hungarian": [
+    0,
+    {
+      "C": 0.05,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "hepatitis": [
+    0,
+    {
+      "C": 7,
+      "gamma": 0.1,
+      "kernel": "rbf",
+      "max_iter": 10000.0,
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "ilpd-indian-liver": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "ionosphere": [
+    0,
+    {
+      "C": 7,
+      "gamma": 0.1,
+      "kernel": "rbf",
+      "max_iter": 10000.0,
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "iris": [0, { "kernel": "liblinear", "multiclass_strategy": "ovr" }, ""],
+  "led-display": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "libras": [
+    0,
+    {
+      "C": 0.08,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "low-res-spect": [
+    0,
+    {
+      "C": 0.05,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "lymphography": [
+    0,
+    {
+      "C": 0.05,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "mammographic": [0, { "kernel": "rbf", "multiclass_strategy": "ovr" }, ""],
+  "molec-biol-promoter": [
+    0,
+    { "kernel": "rbf", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "musk-1": [
+    0,
+    {
+      "C": 0.05,
+      "gamma": 0.1,
+      "kernel": "poly",
+      "max_iter": 10000.0,
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "oocytes_merluccius_nucleus_4d": [
+    0,
+    { "C": 8.25, "gamma": 0.1, "kernel": "poly", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "oocytes_merluccius_states_2f": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "oocytes_trisopterus_nucleus_2f": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "oocytes_trisopterus_states_5b": [
+    0,
+    {
+      "C": 0.11,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "parkinsons": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "pima": [0, { "kernel": "liblinear", "multiclass_strategy": "ovr" }, ""],
+  "pittsburg-bridges-MATERIAL": [
+    0,
+    {
+      "C": 7,
+      "gamma": 0.1,
+      "kernel": "rbf",
+      "max_iter": 10000.0,
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "pittsburg-bridges-REL-L": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "pittsburg-bridges-SPAN": [
+    0,
+    {
+      "C": 0.05,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "pittsburg-bridges-T-OR-D": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "planning": [
+    0,
+    {
+      "C": 7,
+      "gamma": 10.0,
+      "kernel": "rbf",
+      "max_iter": 10000.0,
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "post-operative": [
+    0,
+    {
+      "C": 55,
+      "degree": 5,
+      "gamma": 0.1,
+      "kernel": "poly",
+      "max_iter": 10000.0,
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "seeds": [
+    0,
+    {
+      "C": 10000.0,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "statlog-australian-credit": [
+    0,
+    {
+      "C": 0.05,
+      "max_features": "auto",
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "statlog-german-credit": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "statlog-heart": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "statlog-image": [
+    0,
+    {
+      "C": 7,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "statlog-vehicle": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "synthetic-control": [
+    0,
+    {
+      "C": 0.55,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "tic-tac-toe": [
+    0,
+    {
+      "C": 0.2,
+      "gamma": 0.1,
+      "kernel": "poly",
+      "max_iter": 10000.0,
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "vertebral-column-2clases": [
+    0,
+    { "kernel": "liblinear", "multiclass_strategy": "ovr" },
+    ""
+  ],
+  "wine": [
+    0,
+    {
+      "C": 0.55,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ],
+  "zoo": [
+    0,
+    {
+      "C": 0.1,
+      "max_iter": 10000.0,
+      "kernel": "liblinear",
+      "multiclass_strategy": "ovr"
+    },
+    ""
+  ]
+}

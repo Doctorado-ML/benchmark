@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Results
+results/*
+exreport/exreport_output/*
+exreport/.Rapp.history
+exreport/Rplots.pdf
+Rplots.pdf
