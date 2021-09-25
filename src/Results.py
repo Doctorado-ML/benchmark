@@ -410,10 +410,16 @@ class Benchmark:
         for record in data["results"]:
             dataset = record["dataset"]
             if (model, dataset) in results:
-                if record["accuracy"] > results[model, dataset]:
-                    results[model, dataset] = record["accuracy"]
+                if record["accuracy"] > results[model, dataset][0]:
+                    results[model, dataset] = (
+                        record["accuracy"],
+                        record["accuracy_std"],
+                    )
             else:
-                results[model, dataset] = record["accuracy"]
+                results[model, dataset] = (
+                    record["accuracy"],
+                    record["accuracy_std"],
+                )
 
     @staticmethod
     def compile_results():
@@ -431,9 +437,9 @@ class Benchmark:
                         Benchmark._process_dataset(results, data)
 
         with open(result_file_name, "w") as f:
-            f.write("classifier, dataset, accuracy\n")
-            for (model, dataset), accuracy in results.items():
-                f.write(f"{model}, {dataset}, {accuracy}\n")
+            f.write("classifier, dataset, accuracy, stdev\n")
+            for (model, dataset), (accuracy, stdev) in results.items():
+                f.write(f"{model}, {dataset}, {accuracy}, {stdev}\n")
 
     @staticmethod
     def exreport():
@@ -486,10 +492,10 @@ class Benchmark:
                 data = f.read().splitlines()
                 data = data[1:]
             for line in data:
-                model, dataset, accuracy = line.split(", ")
+                model, dataset, accuracy, stdev = line.split(", ")
                 if model not in results:
                     results[model] = {}
-                results[model][dataset] = accuracy
+                results[model][dataset] = (accuracy, stdev)
             return results
 
         def show(results):
@@ -497,13 +503,14 @@ class Benchmark:
             print(f"{'Dataset':30s} ", end="")
             lines = "=" * 30 + " "
             for model in results:
-                print(f"{model:9s} ", end="")
-                lines += "=" * 9 + " "
+                print(f"{model:^13s} ", end="")
+                lines += "=" * 13 + " "
             print(f"\n{lines}")
             for dataset, _ in datasets.items():
                 print(f"{dataset:30s} ", end="")
                 for model in results:
-                    print(f"{float(results[model][dataset]):.7f} ", end="")
+                    print(f"{float(results[model][dataset][0]):.5f}±", end="")
+                    print(f"{float(results[model][dataset][1]):.3f} ", end="")
                 print("")
 
         show(build())
