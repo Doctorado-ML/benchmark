@@ -401,6 +401,10 @@ class SQL(BaseReport):
 
 class Benchmark:
     @staticmethod
+    def get_result_file_name():
+        return os.path.join(Folders.results, Files.exreport)
+
+    @staticmethod
     def _process_dataset(results, data):
         model = data["model"]
         for record in data["results"]:
@@ -414,7 +418,7 @@ class Benchmark:
     @staticmethod
     def compile_results():
         # build Files.exreport
-        result_file_name = os.path.join(Folders.results, Files.exreport)
+        result_file_name = Benchmark.get_result_file_name()
         results = {}
         init_suffix, end_suffix = Files.results_suffixes("")
         all_files = list(os.walk(Folders.results))
@@ -432,7 +436,7 @@ class Benchmark:
                 f.write(f"{model}, {dataset}, {accuracy}\n")
 
     @staticmethod
-    def report():
+    def exreport():
         def end_message(message, file):
             length = 100
             print("*" * length)
@@ -471,3 +475,35 @@ class Benchmark:
 
         if is_exe(Files.cmd_open):
             subprocess.run([Files.cmd_open, Files.exreport_pdf])
+
+    @staticmethod
+    def report():
+        def build():
+            # Build results data structure
+            file_name = Benchmark.get_result_file_name()
+            results = {}
+            with open(file_name) as f:
+                data = f.read().splitlines()
+                data = data[1:]
+            for line in data:
+                model, dataset, accuracy = line.split(", ")
+                if model not in results:
+                    results[model] = {}
+                results[model][dataset] = accuracy
+            return results
+
+        def show(results):
+            datasets = results[list(results)[0]]
+            print(f"{'Dataset':30s} ", end="")
+            lines = "=" * 30 + " "
+            for model in results:
+                print(f"{model:9s} ", end="")
+                lines += "=" * 9 + " "
+            print(f"\n{lines}")
+            for dataset, _ in datasets.items():
+                print(f"{dataset:30s} ", end="")
+                for model in results:
+                    print(f"{float(results[model][dataset]):.7f} ", end="")
+                print("")
+
+        show(build())
