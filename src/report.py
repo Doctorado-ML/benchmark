@@ -2,6 +2,7 @@ import argparse
 import numpy as np
 from Experiments import Datasets
 from Results import Report, Excel, SQL, ReportBest
+from Utils import Files
 
 """Build report on screen of a result file, optionally generate excel and sql
 file, and can compare results of report with best results obtained by model
@@ -76,6 +77,7 @@ else:
         if excel:
             excel = Excel(file, compare)
             excel.report()
+            Files.open(excel.get_file_name())
         if sql:
             sql = SQL(file)
             sql.report()

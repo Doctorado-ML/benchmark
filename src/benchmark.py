@@ -1,4 +1,6 @@
 from Results import Benchmark
+from Utils import Files
+import argparse
 
 
 def parse_arguments():
@@ -12,18 +14,21 @@ def parse_arguments():
         help="model name, dfault STree",
     )
     ap.add_argument(
-        "-r",
-        "--report",
+        "-x",
+        "--excel",
         type=bool,
         required=False,
-        help="Generate Report",
+        help="Generate Excel File",
     )
     args = ap.parse_args()
-    return (args.model, args.report)
+    return (args.model, args.excel)
 
 
-(model, report) = parse_arguments()
+(model, excel) = parse_arguments()
 benchmark = Benchmark()
 benchmark.compile_results()
 benchmark.report()
 benchmark.exreport()
+if excel:
+    benchmark.excel()
+    Files.open(benchmark.get_excel_file_name())

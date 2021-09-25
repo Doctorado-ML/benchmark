@@ -235,12 +235,15 @@ class Excel(BaseReport):
         super().__init__(file_name)
         self.compare = compare
 
+    def get_file_name(self):
+        return self.excel_file_name
+
     def header(self):
         if self.compare:
             self._load_best_results(self.data["model"])
             self._compare_totals = {}
-        file_name = self.file_name.replace(".json", ".xlsx")
-        self.book = xlsxwriter.Workbook(file_name)
+        self.excel_file_name = self.file_name.replace(".json", ".xlsx")
+        self.book = xlsxwriter.Workbook(self.excel_file_name)
         self.sheet = self.book.add_worksheet(self.data["model"])
         header = self.book.add_format()
         header.set_font_size(18)
@@ -453,9 +456,6 @@ class Benchmark:
                 for line in data:
                     print(line)
 
-        def is_exe(fpath):
-            return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
-
         # Remove previous results
         try:
             shutil.rmtree(Folders.report)
@@ -478,26 +478,25 @@ class Benchmark:
             end_message("Error computing benchmark", Files.exreport_err)
         else:
             end_message("Benchmark Ok", Files.exreport_output)
+        Files.open(Files.exreport_pdf)
 
-        if is_exe(Files.cmd_open):
-            subprocess.run([Files.cmd_open, Files.exreport_pdf])
+    @staticmethod
+    def build_results():
+        # Build results data structure
+        file_name = Benchmark.get_result_file_name()
+        results = {}
+        with open(file_name) as f:
+            data = f.read().splitlines()
+            data = data[1:]
+        for line in data:
+            model, dataset, accuracy, stdev = line.split(", ")
+            if model not in results:
+                results[model] = {}
+            results[model][dataset] = (accuracy, stdev)
+        return results
 
     @staticmethod
     def report():
-        def build():
-            # Build results data structure
-            file_name = Benchmark.get_result_file_name()
-            results = {}
-            with open(file_name) as f:
-                data = f.read().splitlines()
-                data = data[1:]
-            for line in data:
-                model, dataset, accuracy, stdev = line.split(", ")
-                if model not in results:
-                    results[model] = {}
-                results[model][dataset] = (accuracy, stdev)
-            return results
-
         def show(results):
             datasets = results[list(results)[0]]
             print(f"{'Dataset':30s} ", end="")
@@ -513,4 +512,67 @@ class Benchmark:
                     print(f"{float(results[model][dataset][1]):.3f} ", end="")
                 print("")
 
-        show(build())
+        show(Benchmark.build_results())
+
+    @staticmethod
+    def get_excel_file_name():
+        return os.path.join(Folders.exreport, Files.exreport_excel)
+
+    @staticmethod
+    def excel():
+        results = Benchmark.build_results()
+        book = xlsxwriter.Workbook(Benchmark.get_excel_file_name())
+        sheet = book.add_worksheet("Benchmark")
+        datasets = results[list(results)[0]]
+        normal = book.add_format({"font_size": 14})
+        decimal = book.add_format({"num_format": "0.000000", "font_size": 14})
+        merge_format = book.add_format(
+            {
+                "bold": 1,
+                "align": "center",
+                "valign": "vcenter",
+                "font_size": 14,
+            }
+        )
+        sheet.merge_range(0, 0, 1, 0, "Benchmark of Models", merge_format)
+        row = 3
+        # Set column width
+        sheet.set_column(0, 0, 40)
+        for column in range(2 * len(results)):
+            sheet.set_column(column + 1, column + 1, 15)
+        # Set report header
+        # Merge 2 rows
+        sheet.merge_range(row, 0, row + 1, 0, "Dataset", merge_format)
+        column = 1
+        for model in results:
+            # Merge 2 columns
+            sheet.merge_range(
+                row, column, row, column + 1, model, merge_format
+            )
+            column += 2
+        row += 1
+        column = 1
+        for _ in range(len(results)):
+            sheet.write(row, column, "Accuracy", merge_format)
+            sheet.write(row, column + 1, "Stdev", merge_format)
+            column += 2
+        for dataset, _ in datasets.items():
+            row += 1
+            sheet.write(row, 0, f"{dataset:30s}", normal)
+            column = 1
+            for model in results:
+                sheet.write(
+                    row,
+                    column,
+                    float(results[model][dataset][0]),
+                    decimal,
+                )
+                column += 1
+                sheet.write(
+                    row,
+                    column,
+                    float(results[model][dataset][1]),
+                    decimal,
+                )
+                column += 1
+        book.close()
