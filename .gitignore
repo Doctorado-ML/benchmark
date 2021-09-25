@@ -134,4 +134,5 @@ exreport/exreport_output/*
 exreport/.Rapp.history
 exreport/Rplots.pdf
 exreport/exreport.xlsx
+exreport/.~lock.exreport.xlsx#
 Rplots.pdf

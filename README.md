@@ -42,4 +42,6 @@ python src/report.py -f results/results_STree_iMac27_2021-09-22_17:13:02.json -q
 ```python
 # Do benchmark and print report
 python src/benchmark.py
+# Do benchmark, print report and build excel file with data
+python src/benchmark.py -x 1
 ```

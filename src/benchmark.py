@@ -6,14 +6,6 @@ import argparse
 def parse_arguments():
     ap = argparse.ArgumentParser()
     ap.add_argument(
-        "-m",
-        "--model",
-        type=str,
-        required=False,
-        default="STree",
-        help="model name, dfault STree",
-    )
-    ap.add_argument(
         "-x",
         "--excel",
         type=bool,
@@ -21,10 +13,10 @@ def parse_arguments():
         help="Generate Excel File",
     )
     args = ap.parse_args()
-    return (args.model, args.excel)
+    return args.excel
 
 
-(model, excel) = parse_arguments()
+excel = parse_arguments()
 benchmark = Benchmark()
 benchmark.compile_results()
 benchmark.report()
