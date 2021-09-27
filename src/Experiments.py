@@ -46,13 +46,16 @@ class Datasets:
 
 
 class BestResults:
-    def __init__(self, model, datasets):
+    def __init__(self, score, model, datasets):
+        self.score_name = score
         self.datasets = datasets
         self.model = model
         self.data = {}
 
     def _get_file_name(self):
-        return os.path.join(Folders.results, Files.best_results(self.model))
+        return os.path.join(
+            Folders.results, Files.best_results(self.score_name, self.model)
+        )
 
     def load(self, dictionary):
         self.file_name = self._get_file_name()
@@ -75,7 +78,7 @@ class BestResults:
         for record in data["results"]:
             dataset = record["dataset"]
             if dataset in results:
-                if record["accuracy"] > results[dataset]["accuracy"]:
+                if record["score"] > results[dataset]["score"]:
                     record["file_name"] = file_name
                     results[dataset] = record
             else:
@@ -84,7 +87,9 @@ class BestResults:
 
     def build(self):
         results = {}
-        init_suffix, end_suffix = Files.results_suffixes(self.model)
+        init_suffix, end_suffix = Files.results_suffixes(
+            score=self.score_name, model=self.model
+        )
         all_files = list(os.walk(Folders.results))
         for root, _, files in tqdm(all_files, desc="files"):
             for name in files:
@@ -98,7 +103,7 @@ class BestResults:
         datasets = Datasets()
         for name in tqdm(list(datasets), desc="datasets"):
             output[name] = (
-                results[name]["accuracy"],
+                results[name]["score"],
                 results[name]["hyperparameters"],
                 results[name]["file_name"],
             )
@@ -110,6 +115,7 @@ class BestResults:
 class Experiment:
     def __init__(
         self,
+        score_name,
         model_name,
         datasets,
         hyperparams_dict,
@@ -123,13 +129,18 @@ class Experiment:
         self.date = today.strftime("%Y-%m-%d")
         self.output_file = os.path.join(
             Folders.results,
-            Files.results(model_name, platform, self.date, self.time),
+            Files.results(
+                score_name, model_name, platform, self.date, self.time
+            ),
         )
+        self.score_name = score_name
         self.model_name = model_name
         self.model = Models.get_model(model_name)
         self.datasets = datasets
         dictionary = json.loads(hyperparams_dict)
-        hyper = BestResults(model=model_name, datasets=datasets)
+        hyper = BestResults(
+            score=score_name, model=model_name, datasets=datasets
+        )
         if hyperparams_file:
             self.hyperparameters_dict = hyper.load(
                 dictionary=dictionary,
@@ -181,7 +192,12 @@ class Experiment:
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore")
                 res = cross_validate(
-                    clf, X, y, cv=kfold, return_estimator=True
+                    clf,
+                    X,
+                    y,
+                    cv=kfold,
+                    return_estimator=True,
+                    scoring=self.score_name,
                 )
             self.scores.append(res["test_score"])
             self.times.append(res["fit_time"])
@@ -203,14 +219,15 @@ class Experiment:
         record["nodes"] = np.mean(self.nodes)
         record["leaves"] = np.mean(self.leaves)
         record["depth"] = np.mean(self.depths)
-        record["accuracy"] = np.mean(self.scores)
-        record["accuracy_std"] = np.std(self.scores)
+        record["score"] = np.mean(self.scores)
+        record["score_std"] = np.std(self.scores)
         record["time"] = np.mean(self.times)
         record["time_std"] = np.std(self.times)
         self.results.append(record)
 
     def _output_results(self):
         output = {}
+        output["score_name"] = self.score_name
         output["model"] = self.model_name
         output["folds"] = self.folds
         output["date"] = self.date

@@ -9,6 +9,13 @@ from Results import Report
 def parse_arguments():
     ap = argparse.ArgumentParser()
     ap.add_argument(
+        "-s",
+        "--score",
+        type=str,
+        required=True,
+        help="score name {accuracy, f1_macro, ...}",
+    )
+    ap.add_argument(
         "-P",
         "--platform",
         type=str,
@@ -55,6 +62,7 @@ def parse_arguments():
     )
     args = ap.parse_args()
     return (
+        args.score,
         args.model,
         args.n_folds,
         args.platform,
@@ -66,6 +74,7 @@ def parse_arguments():
 
 
 (
+    score,
     model,
     folds,
     platform,
@@ -75,6 +84,7 @@ def parse_arguments():
     report,
 ) = parse_arguments()
 job = Experiment(
+    score_name=score,
     model_name=model,
     datasets=Datasets(),
     hyperparams_dict=hyperparameters,

@@ -20,7 +20,7 @@ class BaseReport(abc.ABC):
         self.lines = self.data if best_file else self.data["results"]
 
     def _get_accuracy(self, item):
-        return self.data[item][0] if self.best_acc_file else item["accuracy"]
+        return self.data[item][0] if self.best_acc_file else item["score"]
 
     def report(self):
         self.header()
@@ -30,8 +30,8 @@ class BaseReport(abc.ABC):
             accuracy_total += self._get_accuracy(result)
         self.footer(accuracy_total)
 
-    def _load_best_results(self, model):
-        best = BestResults(model, Datasets())
+    def _load_best_results(self, score, model):
+        best = BestResults(score, model, Datasets())
         self.best_results = best.load({})
 
     def _compute_status(self, dataset, accuracy):
@@ -79,7 +79,7 @@ class Report(BaseReport):
         "Nodes",
         "Leaves",
         "Depth",
-        "Accuracy",
+        "Score",
         "Time",
         "Hyperparameters",
     ]
@@ -113,13 +113,11 @@ class Report(BaseReport):
         print(f"{result['depth']:{hl[i]}.2f} ", end="")
         i += 1
         if self.compare:
-            status = self._compute_status(
-                result["dataset"], result["accuracy"]
-            )
+            status = self._compute_status(result["dataset"], result["score"])
         else:
             status = " "
         print(
-            f"{result['accuracy']:8.6f}±{result['accuracy_std']:6.4f}{status}",
+            f"{result['score']:8.6f}±{result['score_std']:6.4f}{status}",
             end="",
         )
         i += 1
@@ -132,7 +130,9 @@ class Report(BaseReport):
 
     def header(self):
         if self.compare:
-            self._load_best_results(self.data["model"])
+            self._load_best_results(
+                self.data["score_name"], self.data["model"]
+            )
             self._compare_totals = {}
         self.header_line("*")
         self.header_line(
@@ -144,6 +144,7 @@ class Report(BaseReport):
             f" Execution took {self.data['duration']:7.2f} seconds on an "
             f"{self.data['platform']}"
         )
+        self.header_line(f" Score is {self.data['score_name']}")
         self.header_line("*")
         print("")
         line_col = ""
@@ -170,15 +171,18 @@ class ReportBest(BaseReport):
     header_lengths = [30, 8, 50, 35]
     header_cols = [
         "Dataset",
-        "Accuracy",
+        "Score",
         "File",
         "Hyperparameters",
     ]
 
-    def __init__(self, model):
-        file_name = os.path.join(Folders.results, Files.best_results(model))
+    def __init__(self, score, model):
+        file_name = os.path.join(
+            Folders.results, Files.best_results(score, model)
+        )
         super().__init__(file_name, best_file=True)
         self.compare = False
+        self.score_name = score
         self.model = model
 
     def header_line(self, text):
@@ -204,7 +208,8 @@ class ReportBest(BaseReport):
     def header(self):
         self.header_line("*")
         self.header_line(
-            f" Report Best Accuracies with {self.model} in any platform"
+            f" Report Best {self.score_name} Scores with {self.model} in any "
+            "platform"
         )
         self.header_line("*")
         print("")
@@ -222,14 +227,14 @@ class ReportBest(BaseReport):
                     f" {key} {self._status_meaning(key)} .....: {value:2d}"
                 )
         self.header_line(
-            f" Accuracy compared to stree_default (liblinear-ovr) .: "
+            f" Scores compared to stree_default accuracy (liblinear-ovr) .: "
             f"{accuracy/40.282203:7.4f}"
         )
         self.header_line("*")
 
 
 class Excel(BaseReport):
-    row = 4
+    row = 5
 
     def __init__(self, file_name, compare=False):
         super().__init__(file_name)
@@ -240,7 +245,9 @@ class Excel(BaseReport):
 
     def header(self):
         if self.compare:
-            self._load_best_results(self.data["model"])
+            self._load_best_results(
+                self.data["score_name"], self.data["model"]
+            )
             self._compare_totals = {}
         self.excel_file_name = self.file_name.replace(".json", ".xlsx")
         self.book = xlsxwriter.Workbook(self.excel_file_name)
@@ -266,6 +273,9 @@ class Excel(BaseReport):
         self.sheet.write(
             1, 5, f"Random seeds: {self.data['seeds']}", subheader
         )
+        self.sheet.write(
+            2, 0, f" Score is {self.data['score_name']}", subheader
+        )
         header_cols = [
             ("Dataset", 30),
             ("Samples", 10),
@@ -274,8 +284,8 @@ class Excel(BaseReport):
             ("Nodes", 7),
             ("Leaves", 7),
             ("Depth", 7),
-            ("Accuracy", 10),
-            ("Acc. Std.", 10),
+            ("Score", 10),
+            ("Score Std.", 10),
             ("Time", 10),
             ("Time Std.", 10),
             ("Parameters", 50),
@@ -285,7 +295,7 @@ class Excel(BaseReport):
         bold = self.book.add_format({"bold": True, "font_size": 14})
         i = 0
         for item, length in header_cols:
-            self.sheet.write(3, i, item, bold)
+            self.sheet.write(4, i, item, bold)
             self.sheet.set_column(i, i, length)
             i += 1
 
@@ -306,16 +316,14 @@ class Excel(BaseReport):
         self.sheet.write(self.row, col + 4, result["nodes"], normal)
         self.sheet.write(self.row, col + 5, result["leaves"], normal)
         self.sheet.write(self.row, col + 6, result["depth"], normal)
-        self.sheet.write(self.row, col + 7, result["accuracy"], decimal)
+        self.sheet.write(self.row, col + 7, result["score"], decimal)
         if self.compare:
-            status = self._compute_status(
-                result["dataset"], result["accuracy"]
-            )
+            status = self._compute_status(result["dataset"], result["score"])
             self.sheet.write(self.row, col + 8, status, normal)
             col = 9
         else:
             col = 8
-        self.sheet.write(self.row, col, result["accuracy_std"], decimal)
+        self.sheet.write(self.row, col, result["score_std"], decimal)
         self.sheet.write(self.row, col + 1, result["time"], decimal)
         self.sheet.write(self.row, col + 2, result["time_std"], decimal)
         self.sheet.write(
@@ -355,8 +363,9 @@ class SQL(BaseReport):
             "date",
             "time",
             "type",
-            "accuracy",
-            "accuracy_std",
+            "score_name",
+            "score",
+            "score_std",
             "dataset",
             "classifier",
             "norm",
@@ -382,8 +391,9 @@ class SQL(BaseReport):
             self.data["date"],
             self.data["time"],
             "crossval",
-            result["accuracy"],
-            result["accuracy_std"],
+            self.data["score_name"],
+            result["score"],
+            result["score_std"],
             result["dataset"],
             self.data["model"],
             0,
@@ -406,8 +416,8 @@ class SQL(BaseReport):
 
 class Benchmark:
     @staticmethod
-    def get_result_file_name():
-        return os.path.join(Folders.results, Files.exreport)
+    def get_result_file_name(score):
+        return os.path.join(Folders.results, Files.exreport(score))
 
     @staticmethod
     def _process_dataset(results, data):
@@ -415,23 +425,23 @@ class Benchmark:
         for record in data["results"]:
             dataset = record["dataset"]
             if (model, dataset) in results:
-                if record["accuracy"] > results[model, dataset][0]:
+                if record["score"] > results[model, dataset][0]:
                     results[model, dataset] = (
-                        record["accuracy"],
-                        record["accuracy_std"],
+                        record["score"],
+                        record["score_std"],
                     )
             else:
                 results[model, dataset] = (
-                    record["accuracy"],
-                    record["accuracy_std"],
+                    record["score"],
+                    record["score_std"],
                 )
 
     @staticmethod
-    def compile_results():
+    def compile_results(score):
         # build Files.exreport
-        result_file_name = Benchmark.get_result_file_name()
+        result_file_name = Benchmark.get_result_file_name(score)
         results = {}
-        init_suffix, end_suffix = Files.results_suffixes("")
+        init_suffix, end_suffix = Files.results_suffixes(score=score)
         all_files = list(os.walk(Folders.results))
         for root, _, files in tqdm(all_files, desc="files"):
             for name in files:
@@ -557,7 +567,7 @@ class Benchmark:
             row += 1
             column = 1
             for _ in range(len(results)):
-                sheet.write(row, column, "Accuracy", merge_format)
+                sheet.write(row, column, "Score", merge_format)
                 sheet.write(row, column + 1, "Stdev", merge_format)
                 column += 2
 

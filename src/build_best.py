@@ -9,6 +9,13 @@ from Experiments import Datasets, BestResults
 def parse_arguments():
     ap = argparse.ArgumentParser()
     ap.add_argument(
+        "-s",
+        "--score",
+        type=str,
+        required=True,
+        help="score name {accuracy, f1_macro, ...}",
+    )
+    ap.add_argument(
         "-m",
         "--model",
         type=str,
@@ -24,13 +31,13 @@ def parse_arguments():
         help="Generate Report",
     )
     args = ap.parse_args()
-    return (args.model, args.report)
+    return (args.score, args.model, args.report)
 
 
-(model, report) = parse_arguments()
+(score, model, report) = parse_arguments()
 datasets = Datasets()
-best = BestResults(model, datasets)
+best = BestResults(score, model, datasets)
 best.build()
 if report:
-    report = ReportBest(model)
+    report = ReportBest(score, model)
     report.report()

@@ -6,6 +6,13 @@ import argparse
 def parse_arguments():
     ap = argparse.ArgumentParser()
     ap.add_argument(
+        "-s",
+        "--score",
+        type=str,
+        required=True,
+        help="score name {accuracy, f1_macro, ...}",
+    )
+    ap.add_argument(
         "-x",
         "--excel",
         type=bool,
@@ -13,12 +20,12 @@ def parse_arguments():
         help="Generate Excel File",
     )
     args = ap.parse_args()
-    return args.excel
+    return (args, score, args.excel)
 
 
-excel = parse_arguments()
+(score, excel) = parse_arguments()
 benchmark = Benchmark()
-benchmark.compile_results()
+benchmark.compile_results(score)
 benchmark.report()
 benchmark.exreport()
 if excel:

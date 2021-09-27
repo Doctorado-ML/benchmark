@@ -12,7 +12,7 @@ class Folders:
 
 class Files:
     index = "all.txt"
-    exreport = "exreport.csv"
+
     exreport_output = "exreport.txt"
     exreport_err = "exreport_err.txt"
     exreport_excel = "exreport.xlsx"
@@ -22,19 +22,26 @@ class Files:
     benchmark_r = "benchmark.r"
 
     @staticmethod
-    def best_results(model):
-        return f"best_results_{model}.json"
+    def exreport(score):
+        return f"exreport_{score}.csv"
 
     @staticmethod
-    def results(model, platform, date, time):
-        return f"results_{model}_{platform}_{date}_{time}.json"
+    def best_results(score, model):
+        return f"best_results_{score}_{model}.json"
 
     @staticmethod
-    def results_suffixes(model):
-        if model == "":
-            return "results_", ".json"
+    def results(score, model, platform, date, time):
+        return f"results_{score}_{model}_{platform}_{date}_{time}.json"
+
+    @staticmethod
+    def results_suffixes(score="", model=""):
+        suffix = ".json"
+        if model == "" and score == "":
+            return "results_", suffix
+        elif model == "":
+            return f"results_{score}_", suffix
         else:
-            return f"results_{model}_", ".json"
+            return f"results_{score}_{model}_", suffix
 
     @staticmethod
     def dataset(name):
