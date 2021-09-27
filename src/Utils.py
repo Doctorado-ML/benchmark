@@ -19,6 +19,7 @@ class Files:
     cmd_open_macos = "/usr/bin/open"
     cmd_open_linux = "/usr/bin/xdg-open"
     exreport_pdf = "Rplots.pdf"
+    benchmark_r = "benchmark.r"
 
     @staticmethod
     def best_results(model):

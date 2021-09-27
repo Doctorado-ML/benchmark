@@ -338,6 +338,8 @@ class Excel(BaseReport):
         )
         bold = self.book.add_format({"bold": True, "font_size": 14})
         self.sheet.write(self.row + 1, 0, message, bold)
+        for c in range(self.row + 2):
+            self.sheet.set_row(c, 20)
         self.book.close()
 
 
@@ -468,7 +470,7 @@ class Benchmark:
         fout = open(os.path.join(Folders.results, Files.exreport_output), "w")
         ferr = open(os.path.join(Folders.results, Files.exreport_err), "w")
         result = subprocess.run(
-            ["Rscript", os.path.join(Folders.src, "benchmark.r")],
+            ["Rscript", os.path.join(Folders.src, Files.benchmark_r)],
             stdout=fout,
             stderr=ferr,
         )
@@ -523,7 +525,6 @@ class Benchmark:
         results = Benchmark.build_results()
         book = xlsxwriter.Workbook(Benchmark.get_excel_file_name())
         sheet = book.add_worksheet("Benchmark")
-        datasets = results[list(results)[0]]
         normal = book.add_format({"font_size": 14})
         decimal = book.add_format({"num_format": "0.000000", "font_size": 14})
         merge_format = book.add_format(
@@ -534,45 +535,61 @@ class Benchmark:
                 "font_size": 14,
             }
         )
-        sheet.merge_range(0, 0, 1, 0, "Benchmark of Models", merge_format)
-        row = 3
-        # Set column width
-        sheet.set_column(0, 0, 40)
-        for column in range(2 * len(results)):
-            sheet.set_column(column + 1, column + 1, 15)
-        # Set report header
-        # Merge 2 rows
-        sheet.merge_range(row, 0, row + 1, 0, "Dataset", merge_format)
-        column = 1
-        for model in results:
-            # Merge 2 columns
-            sheet.merge_range(
-                row, column, row, column + 1, model, merge_format
-            )
-            column += 2
-        row += 1
-        column = 1
-        for _ in range(len(results)):
-            sheet.write(row, column, "Accuracy", merge_format)
-            sheet.write(row, column + 1, "Stdev", merge_format)
-            column += 2
-        for dataset, _ in datasets.items():
-            row += 1
-            sheet.write(row, 0, f"{dataset:30s}", normal)
+        row = row_init = 3
+
+        def header():
+            nonlocal row
+            sheet.merge_range(0, 0, 1, 0, "Benchmark of Models", merge_format)
+            # Set column width
+            sheet.set_column(0, 0, 40)
+            for column in range(2 * len(results)):
+                sheet.set_column(column + 1, column + 1, 15)
+            # Set report header
+            # Merge 2 rows
+            sheet.merge_range(row, 0, row + 1, 0, "Dataset", merge_format)
             column = 1
             for model in results:
-                sheet.write(
-                    row,
-                    column,
-                    float(results[model][dataset][0]),
-                    decimal,
+                # Merge 2 columns
+                sheet.merge_range(
+                    row, column, row, column + 1, model, merge_format
                 )
-                column += 1
-                sheet.write(
-                    row,
-                    column,
-                    float(results[model][dataset][1]),
-                    decimal,
-                )
-                column += 1
+                column += 2
+            row += 1
+            column = 1
+            for _ in range(len(results)):
+                sheet.write(row, column, "Accuracy", merge_format)
+                sheet.write(row, column + 1, "Stdev", merge_format)
+                column += 2
+
+        def body():
+            nonlocal row
+            datasets = results[list(results)[0]]
+            for dataset, _ in datasets.items():
+                row += 1
+                sheet.write(row, 0, f"{dataset:30s}", normal)
+                column = 1
+                for model in results:
+                    sheet.write(
+                        row,
+                        column,
+                        float(results[model][dataset][0]),
+                        decimal,
+                    )
+                    column += 1
+                    sheet.write(
+                        row,
+                        column,
+                        float(results[model][dataset][1]),
+                        decimal,
+                    )
+                    column += 1
+
+        def footer():
+            for c in range(row_init, row + 1):
+                sheet.set_row(c, 20)
+
+        header()
+        body()
+        footer()
+
         book.close()
