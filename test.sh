@@ -10,5 +10,5 @@ for i in STree Wodt Cart SVC ExtraTree; do
     done
 done
 for a in accuracy f1_macro; do
-    ptyhon src/benchmark.py -s $a
+    python src/benchmark.py -s $a
 done

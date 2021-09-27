@@ -13,13 +13,22 @@ class Folders:
 class Files:
     index = "all.txt"
 
-    exreport_output = "exreport.txt"
-    exreport_err = "exreport_err.txt"
-    exreport_excel = "exreport.xlsx"
     cmd_open_macos = "/usr/bin/open"
     cmd_open_linux = "/usr/bin/xdg-open"
     exreport_pdf = "Rplots.pdf"
     benchmark_r = "benchmark.r"
+
+    @staticmethod
+    def exreport_output(score):
+        return f"exreport_{score}.txt"
+
+    @staticmethod
+    def exreport_err(score):
+        return f"exreport_err_{score}.txt"
+
+    @staticmethod
+    def exreport_excel(score):
+        return f"exreport_{score}.xlsx"
 
     @staticmethod
     def exreport(score):

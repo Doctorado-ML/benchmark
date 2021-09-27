@@ -279,15 +279,15 @@ class Excel(BaseReport):
         header_cols = [
             ("Dataset", 30),
             ("Samples", 10),
-            ("Variables", 7),
+            ("Features", 7),
             ("Classes", 7),
             ("Nodes", 7),
             ("Leaves", 7),
             ("Depth", 7),
-            ("Score", 10),
-            ("Score Std.", 10),
-            ("Time", 10),
-            ("Time Std.", 10),
+            ("Score", 12),
+            ("Score Std.", 12),
+            ("Time", 12),
+            ("Time Std.", 12),
             ("Parameters", 50),
         ]
         if self.compare:
@@ -348,6 +348,7 @@ class Excel(BaseReport):
         self.sheet.write(self.row + 1, 0, message, bold)
         for c in range(self.row + 2):
             self.sheet.set_row(c, 20)
+        self.sheet.set_row(0, 25)
         self.book.close()
 
 
@@ -452,12 +453,12 @@ class Benchmark:
                         Benchmark._process_dataset(results, data)
 
         with open(result_file_name, "w") as f:
-            f.write("classifier, dataset, accuracy, stdev\n")
+            f.write(f"classifier, dataset, {score}, stdev\n")
             for (model, dataset), (accuracy, stdev) in results.items():
                 f.write(f"{model}, {dataset}, {accuracy}, {stdev}\n")
 
     @staticmethod
-    def exreport():
+    def exreport(score):
         def end_message(message, file):
             length = 100
             print("*" * length)
@@ -477,25 +478,29 @@ class Benchmark:
         except OSError as e:
             print("Error: %s : %s" % (Folders.report, e.strerror))
         # Compute Friedman & Holm Tests
-        fout = open(os.path.join(Folders.results, Files.exreport_output), "w")
-        ferr = open(os.path.join(Folders.results, Files.exreport_err), "w")
+        fout = open(
+            os.path.join(Folders.results, Files.exreport_output(score)), "w"
+        )
+        ferr = open(
+            os.path.join(Folders.results, Files.exreport_err(score)), "w"
+        )
         result = subprocess.run(
-            ["Rscript", os.path.join(Folders.src, Files.benchmark_r)],
+            ["Rscript", os.path.join(Folders.src, Files.benchmark_r), score],
             stdout=fout,
             stderr=ferr,
         )
         fout.close()
         ferr.close()
         if result.returncode != 0:
-            end_message("Error computing benchmark", Files.exreport_err)
+            end_message("Error computing benchmark", Files.exreport_err(score))
         else:
-            end_message("Benchmark Ok", Files.exreport_output)
+            end_message("Benchmark Ok", Files.exreport_output(score))
         Files.open(Files.exreport_pdf)
 
     @staticmethod
-    def build_results():
+    def build_results(score):
         # Build results data structure
-        file_name = Benchmark.get_result_file_name()
+        file_name = Benchmark.get_result_file_name(score)
         results = {}
         with open(file_name) as f:
             data = f.read().splitlines()
@@ -508,7 +513,7 @@ class Benchmark:
         return results
 
     @staticmethod
-    def report():
+    def report(score):
         def show(results):
             datasets = results[list(results)[0]]
             print(f"{'Dataset':30s} ", end="")
@@ -524,18 +529,20 @@ class Benchmark:
                     print(f"{float(results[model][dataset][1]):.3f} ", end="")
                 print("")
 
-        show(Benchmark.build_results())
+        print(f"* Score is: {score}")
+        show(Benchmark.build_results(score))
 
     @staticmethod
-    def get_excel_file_name():
-        return os.path.join(Folders.exreport, Files.exreport_excel)
+    def get_excel_file_name(score):
+        return os.path.join(Folders.exreport, Files.exreport_excel(score))
 
     @staticmethod
-    def excel():
-        results = Benchmark.build_results()
-        book = xlsxwriter.Workbook(Benchmark.get_excel_file_name())
+    def excel(score):
+        results = Benchmark.build_results(score)
+        book = xlsxwriter.Workbook(Benchmark.get_excel_file_name(score))
         sheet = book.add_worksheet("Benchmark")
         normal = book.add_format({"font_size": 14})
+        bold = book.add_format({"bold": True, "font_size": 14})
         decimal = book.add_format({"num_format": "0.000000", "font_size": 14})
         merge_format = book.add_format(
             {
@@ -545,12 +552,14 @@ class Benchmark:
                 "font_size": 14,
             }
         )
-        row = row_init = 3
+        row = row_init = 4
 
         def header():
             nonlocal row
             sheet.merge_range(0, 0, 1, 0, "Benchmark of Models", merge_format)
-            # Set column width
+            sheet.write(1, 2, f"Score is {score}", bold)
+            sheet.set_row(1, 20)
+            # Set columns width
             sheet.set_column(0, 0, 40)
             for column in range(2 * len(results)):
                 sheet.set_column(column + 1, column + 1, 15)

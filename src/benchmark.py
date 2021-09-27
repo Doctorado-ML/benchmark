@@ -20,14 +20,14 @@ def parse_arguments():
         help="Generate Excel File",
     )
     args = ap.parse_args()
-    return (args, score, args.excel)
+    return (args.score, args.excel)
 
 
 (score, excel) = parse_arguments()
 benchmark = Benchmark()
 benchmark.compile_results(score)
-benchmark.report()
-benchmark.exreport()
+benchmark.report(score)
+benchmark.exreport(score)
 if excel:
-    benchmark.excel()
-    Files.open(benchmark.get_excel_file_name())
+    benchmark.excel(score)
+    Files.open(benchmark.get_excel_file_name(score))

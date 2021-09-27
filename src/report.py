@@ -47,8 +47,23 @@ def parse_arguments():
         required=False,
         help="best results of models",
     )
+    ap.add_argument(
+        "-s",
+        "--score",
+        type=str,
+        required=False,
+        default="accuracy",
+        help="score used in best results model",
+    )
     args = ap.parse_args()
-    return (args.file, args.excel, args.sql, args.compare, args.best)
+    return (
+        args.file,
+        args.excel,
+        args.sql,
+        args.compare,
+        args.best,
+        args.score,
+    )
 
 
 def default_report():
@@ -63,13 +78,13 @@ def default_report():
         )
 
 
-(file, excel, sql, compare, best) = parse_arguments()
+(file, excel, sql, compare, best, score) = parse_arguments()
 
 if file is None and best is None:
     default_report()
 else:
     if best is not None:
-        report = ReportBest(best)
+        report = ReportBest(score, best)
         report.report()
     else:
         report = Report(file, compare)
