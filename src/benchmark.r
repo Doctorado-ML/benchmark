@@ -8,21 +8,21 @@ destination <- "exreport/"
 results <- read.csv(csv_file)
 library(exreport)
 experiment <- expCreate(results, method="classifier", problem="dataset", name="Stree")
-testAccuracy <- testMultipleControl(experiment, args[1], "max")
-summary(testAccuracy)
-table1 <- tabularTestSummary(testAccuracy, columns =  c("pvalue", "rank", "wtl"))
+testScore <- testMultipleControl(experiment, args[1], "max")
+summary(testScore)
+table1 <- tabularTestSummary(testScore, columns =  c("pvalue", "rank", "wtl"))
 table1
 plot1 <- plotExpSummary(experiment, args[1], columns = 3)
-plot2 <- plotCumulativeRank(testAccuracy)
-plot3 <- plotRankDistribution(testAccuracy)
+plot2 <- plotCumulativeRank(testScore)
+plot3 <- plotRankDistribution(testScore)
 
 report <- exreport("Stree Report")
 # Add the experiment object for reference:
 report <- exreportAdd(report, experiment)
 # Now add the test:
-report <- exreportAdd(report, testAccuracy)
+report <- exreportAdd(report, testScore)
 # Finally you can add the different tables and plots.
-report <- exreportAdd(report, list(plot1,plot2,table1,plot3))
+report <- exreportAdd(report, list(plot1, plot2, table1, plot3))
 # At this point we would like to include an additional item in our report. We need a detailed table of our experiment, 
 # as we are preparing a scientific paper and we would like to have an overview of it to be included in an annex, 
 # despite the good summaries that we are providing with the plots and tests. Fortnunately, we have another built in 
