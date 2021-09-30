@@ -7,7 +7,7 @@ from datetime import datetime
 from tqdm import tqdm
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import StratifiedKFold, cross_validate
+from sklearn.model_selection import StratifiedKFold, KFold, cross_validate
 from Utils import Folders, Files
 from Models import Models
 
@@ -117,6 +117,7 @@ class Experiment:
         self,
         score_name,
         model_name,
+        stratified,
         datasets,
         hyperparams_dict,
         hyperparams_file,
@@ -130,11 +131,18 @@ class Experiment:
         self.output_file = os.path.join(
             Folders.results,
             Files.results(
-                score_name, model_name, platform, self.date, self.time
+                score_name,
+                model_name,
+                platform,
+                self.date,
+                self.time,
+                stratified,
             ),
         )
         self.score_name = score_name
         self.model_name = model_name
+        self.stratified = stratified == "1"
+        self.stratified_class = StratifiedKFold if self.stratified else KFold
         self.model = Models.get_model(model_name)
         self.datasets = datasets
         dictionary = json.loads(hyperparams_dict)
@@ -185,7 +193,7 @@ class Experiment:
             loop.set_description(f"Seed({random_state:4d})")
             random.seed(random_state)
             np.random.seed(random_state)
-            kfold = StratifiedKFold(
+            kfold = self.stratified_class(
                 shuffle=True, random_state=random_state, n_splits=self.folds
             )
             clf = self._build_classifier(random_state, hyperparameters)
@@ -229,6 +237,7 @@ class Experiment:
         output = {}
         output["score_name"] = self.score_name
         output["model"] = self.model_name
+        output["stratified"] = self.stratified
         output["folds"] = self.folds
         output["date"] = self.date
         output["time"] = self.time

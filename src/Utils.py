@@ -1,5 +1,6 @@
 import os
 import subprocess
+import argparse
 
 
 class Folders:
@@ -17,6 +18,7 @@ class Files:
     cmd_open_linux = "/usr/bin/xdg-open"
     exreport_pdf = "Rplots.pdf"
     benchmark_r = "benchmark.r"
+    arguments = ".env"
 
     @staticmethod
     def exreport_output(score):
@@ -39,8 +41,11 @@ class Files:
         return f"best_results_{score}_{model}.json"
 
     @staticmethod
-    def results(score, model, platform, date, time):
-        return f"results_{score}_{model}_{platform}_{date}_{time}.json"
+    def results(score, model, platform, date, time, stratified):
+        return (
+            f"results_{score}_{model}_{platform}_{date}_{time}_"
+            f"{stratified}.json"
+        )
 
     @staticmethod
     def results_suffixes(score="", model=""):
@@ -77,3 +82,23 @@ class Symbols:
     black_star = "\N{black star}"
     equal_best = check_mark
     better_best = black_star
+
+
+class EnvDefault(argparse.Action):
+    # Thanks to https://stackoverflow.com/users/445507/russell-heilling
+    def __init__(self, envvar, required=True, default=None, **kwargs):
+        self._args = {}
+        with open(Files.arguments) as f:
+            for line in f.read().splitlines():
+                key, value = line.split("=")
+                self._args[key] = value
+        if not default and envvar in self._args:
+            default = self._args[envvar]
+        if required and default:
+            required = False
+        super(EnvDefault, self).__init__(
+            default=default, required=required, **kwargs
+        )
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        setattr(namespace, self.dest, values)

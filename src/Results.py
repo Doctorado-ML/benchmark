@@ -139,7 +139,10 @@ class Report(BaseReport):
             f" Report {self.data['model']} with {self.data['folds']} Folds "
             f"cross validation and {len(self.data['seeds'])} random seeds"
         )
-        self.header_line(f" Random seeds: {self.data['seeds']}")
+        self.header_line(
+            f" Random seeds: {self.data['seeds']} Stratified: "
+            f"{self.data['stratified']}"
+        )
         self.header_line(
             f" Execution took {self.data['duration']:7.2f} seconds on an "
             f"{self.data['platform']}"
@@ -271,10 +274,19 @@ class Excel(BaseReport):
             subheader,
         )
         self.sheet.write(
-            1, 5, f"Random seeds: {self.data['seeds']}", subheader
+            1,
+            5,
+            f"Random seeds: {self.data['seeds']}",
+            subheader,
         )
         self.sheet.write(
             2, 0, f" Score is {self.data['score_name']}", subheader
+        )
+        self.sheet.write(
+            2,
+            5,
+            f"Stratified: {self.data['stratified']}",
+            subheader,
         )
         header_cols = [
             ("Dataset", 30),
@@ -364,6 +376,7 @@ class SQL(BaseReport):
             "date",
             "time",
             "type",
+            "stratified",
             "score_name",
             "score",
             "score_std",
@@ -392,6 +405,7 @@ class SQL(BaseReport):
             self.data["date"],
             self.data["time"],
             "crossval",
+            self.data["stratified"],
             self.data["score_name"],
             result["score"],
             result["score_std"],

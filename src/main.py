@@ -1,6 +1,7 @@
 import argparse
 from Experiments import Experiment, Datasets
 from Results import Report
+from Utils import EnvDefault
 
 """Do experiment and build result file, optionally print report with results
 """
@@ -11,6 +12,8 @@ def parse_arguments():
     ap.add_argument(
         "-s",
         "--score",
+        action=EnvDefault,
+        envvar="score",
         type=str,
         required=True,
         help="score name {accuracy, f1_macro, ...}",
@@ -18,6 +21,8 @@ def parse_arguments():
     ap.add_argument(
         "-P",
         "--platform",
+        action=EnvDefault,
+        envvar="platform",
         type=str,
         required=True,
         help="Platform where the test is run",
@@ -26,16 +31,16 @@ def parse_arguments():
         "-m",
         "--model",
         type=str,
-        required=False,
-        default="STree",
-        help="model name, dfault STree",
+        required=True,
+        help="model name",
     )
     ap.add_argument(
         "-n",
         "--n_folds",
+        action=EnvDefault,
+        envvar="n_folds",
         type=int,
-        required=False,
-        default=5,
+        required=True,
         help="number of folds",
     )
     ap.add_argument(
@@ -60,8 +65,18 @@ def parse_arguments():
         required=False,
         help="Report results",
     )
+    ap.add_argument(
+        "-t",
+        "--stratified",
+        action=EnvDefault,
+        envvar="stratified",
+        type=str,
+        required=True,
+        help="Stratified",
+    )
     args = ap.parse_args()
     return (
+        args.stratified,
         args.score,
         args.model,
         args.n_folds,
@@ -74,6 +89,7 @@ def parse_arguments():
 
 
 (
+    stratified,
     score,
     model,
     folds,
@@ -86,6 +102,7 @@ def parse_arguments():
 job = Experiment(
     score_name=score,
     model_name=model,
+    stratified=stratified,
     datasets=Datasets(),
     hyperparams_dict=hyperparameters,
     hyperparams_file=paramfile,

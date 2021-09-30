@@ -56,6 +56,7 @@ def parse_arguments():
         help="score used in best results model",
     )
     args = ap.parse_args()
+
     return (
         args.file,
         args.excel,

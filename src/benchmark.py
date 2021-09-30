@@ -1,5 +1,5 @@
 from Results import Benchmark
-from Utils import Files
+from Utils import Files, EnvDefault
 import argparse
 
 
@@ -8,6 +8,8 @@ def parse_arguments():
     ap.add_argument(
         "-s",
         "--score",
+        action=EnvDefault,
+        envvar="score",
         type=str,
         required=True,
         help="score name {accuracy, f1_macro, ...}",
