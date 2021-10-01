@@ -405,7 +405,7 @@ class SQL(BaseReport):
             self.data["date"],
             self.data["time"],
             "crossval",
-            self.data["stratified"],
+            "1" if self.data["stratified"] else "0",
             self.data["score_name"],
             result["score"],
             result["score_std"],
