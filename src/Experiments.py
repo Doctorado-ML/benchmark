@@ -28,15 +28,26 @@ class Diterator:
 
 class Datasets:
     def __init__(self):
-        with open(os.path.join(Folders.data, Files.index)) as f:
-            self.data_sets = f.read().splitlines()
+        try:
+            with open(os.path.join(Folders.data, Files.index)) as f:
+                self.data_sets = f.read().splitlines()
+        except FileNotFoundError:
+            with open(os.path.join("..", Folders.data, Files.index)) as f:
+                self.data_sets = f.read().splitlines()
 
     def load(self, name):
-        data = pd.read_csv(
-            os.path.join(Folders.data, Files.dataset(name)),
-            sep="\t",
-            index_col=0,
-        )
+        try:
+            data = pd.read_csv(
+                os.path.join(Folders.data, Files.dataset(name)),
+                sep="\t",
+                index_col=0,
+            )
+        except FileNotFoundError:
+            data = pd.read_csv(
+                os.path.join("..", Folders.data, Files.dataset(name)),
+                sep="\t",
+                index_col=0,
+            )
         X = data.drop("clase", axis=1).to_numpy()
         y = data["clase"].to_numpy()
         return X, y
