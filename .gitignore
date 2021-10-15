@@ -130,11 +130,4 @@ dmypy.json
 
 .idea/
 
-# Results
-results/*
-exreport/exreport_output/*
-exreport/.Rapp.history
-exreport/Rplots.pdf
-exreport/*.xlsx
-exreport/.~lock.*.xlsx#
 Rplots.pdf
