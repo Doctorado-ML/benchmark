@@ -13,7 +13,7 @@ class Folders:
 
 class Files:
     index = "all.txt"
-
+    report_ext = ".json"
     cmd_open_macos = "/usr/bin/open"
     cmd_open_linux = "/usr/bin/xdg-open"
     exreport_pdf = "Rplots.pdf"
@@ -47,15 +47,13 @@ class Files:
             f"{stratified}.json"
         )
 
-    @staticmethod
-    def results_suffixes(score="", model=""):
-        suffix = ".json"
+    def results_suffixes(self, score="", model=""):
+        suffix = self.report_ext
         if model == "" and score == "":
             return "results_", suffix
-        elif model == "":
+        if model == "":
             return f"results_{score}_", suffix
-        else:
-            return f"results_{score}_{model}_", suffix
+        return f"results_{score}_{model}_", suffix
 
     @staticmethod
     def dataset(name):
@@ -74,6 +72,24 @@ class Files:
                 else Files.cmd_open_linux
             )
             subprocess.run([command, name])
+
+    def get_all_results(self) -> list[str]:
+        first_path = "."
+        first_try = os.path.join(first_path, Folders.results)
+        second_path = ".."
+        second_try = os.path.join(second_path, first_try)
+        if os.path.isdir(first_try):
+            files_list = os.listdir(first_try)
+        elif os.path.isdir(second_try):
+            files_list = os.listdir(second_try)
+        else:
+            raise ValueError(f"{first_try} or {second_try} does not exist")
+        result = []
+        prefix, suffix = self.results_suffixes()
+        for result_file in files_list:
+            if result_file.startswith(prefix) and result_file.endswith(suffix):
+                result.append(result_file)
+        return result
 
 
 class Symbols:

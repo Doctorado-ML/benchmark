@@ -10,23 +10,22 @@ class Models:
     def get_model(name):
         if name == "STree":
             return Stree
-        elif name == "Cart":
+        if name == "Cart":
             return DecisionTreeClassifier
-        elif name == "ExtraTree":
+        if name == "ExtraTree":
             return ExtraTreeClassifier
-        elif name == "Wodt":
+        if name == "Wodt":
             return TreeClassifier
-        elif name == "SVC":
+        if name == "SVC":
             return SVC
-        elif name == "ODTE":
+        if name == "ODTE":
             return Odte
-        else:
-            msg = f"No model recognized {name}"
-            if name == "Stree" or name == "stree":
-                msg += ", did you mean STree?"
-            elif name == "odte" or name == "Odte":
-                msg += ", did you mean ODTE?"
-            raise ValueError(msg)
+        msg = f"No model recognized {name}"
+        if name in ("Stree", "stree"):
+            msg += ", did you mean STree?"
+        elif name in ("odte", "Odte"):
+            msg += ", did you mean ODTE?"
+        raise ValueError(msg)
 
     @staticmethod
     def get_complexity(name, result):

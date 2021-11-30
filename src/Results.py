@@ -34,7 +34,7 @@ class BaseReport(abc.ABC):
         best = BestResults(score, model, Datasets())
         self.best_results = best.load({})
 
-    def _compute_status(self, dataset, accuracy):
+    def _compute_status(self, dataset, accuracy: float):
         best = self.best_results[dataset][0]
         status = " "
         if accuracy == best:
@@ -57,15 +57,15 @@ class BaseReport(abc.ABC):
         return meaning[status]
 
     @abc.abstractmethod
-    def header(self):
+    def header(self) -> None:
         pass
 
     @abc.abstractmethod
-    def print_line(self, result):
+    def print_line(self, result) -> None:
         pass
 
     @abc.abstractmethod
-    def footer(self, accuracy):
+    def footer(self, accuracy: float) -> None:
         pass
 
 
@@ -84,18 +84,18 @@ class Report(BaseReport):
         "Hyperparameters",
     ]
 
-    def __init__(self, file_name, compare=False):
+    def __init__(self, file_name: str, compare: bool = False):
         super().__init__(file_name)
         self.compare = compare
 
-    def header_line(self, text):
+    def header_line(self, text: str) -> None:
         length = sum(self.header_lengths) + len(self.header_lengths) - 3
         if text == "*":
             print("*" * (length + 2))
         else:
             print(f"*{text:{length}s}*")
 
-    def print_line(self, result):
+    def print_line(self, result) -> None:
         hl = self.header_lengths
         i = 0
         print(f"{result['dataset']:{hl[i]}s} ", end="")
@@ -128,7 +128,7 @@ class Report(BaseReport):
         i += 1
         print(f"{str(result['hyperparameters']):{hl[i]}s} ")
 
-    def header(self):
+    def header(self) -> None:
         if self.compare:
             self._load_best_results(
                 self.data["score_name"], self.data["model"]
@@ -156,7 +156,7 @@ class Report(BaseReport):
             line_col += "=" * underscore + " "
         print(f"\n{line_col}")
 
-    def footer(self, accuracy):
+    def footer(self, accuracy: float) -> None:
         self.header_line("*")
         if self.compare:
             for key, value in self._compare_totals.items():
