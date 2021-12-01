@@ -6,7 +6,7 @@ import subprocess
 import xlsxwriter
 from tqdm import tqdm
 from Experiments import Datasets, BestResults
-from Utils import Folders, Files, Symbols
+from Utils import Folders, Files, Symbols, BEST_ACCURACY_STREE
 
 
 class BaseReport(abc.ABC):
@@ -165,7 +165,7 @@ class Report(BaseReport):
                 )
         self.header_line(
             f" Accuracy compared to stree_default (liblinear-ovr) .: "
-            f"{accuracy/40.282203:7.4f}"
+            f"{accuracy/BEST_ACCURACY_STREE:7.4f}"
         )
         self.header_line("*")
 
@@ -231,7 +231,7 @@ class ReportBest(BaseReport):
                 )
         self.header_line(
             f" Scores compared to stree_default accuracy (liblinear-ovr) .: "
-            f"{accuracy/40.282203:7.4f}"
+            f"{accuracy/BEST_ACCURACY_STREE:7.4f}"
         )
         self.header_line("*")
 
@@ -354,7 +354,7 @@ class Excel(BaseReport):
                 self.row += 1
         message = (
             f"** Accuracy compared to stree_default (liblinear-ovr) .: "
-            f"{accuracy/40.282203:7.4f}"
+            f"{accuracy/BEST_ACCURACY_STREE:7.4f}"
         )
         bold = self.book.add_format({"bold": True, "font_size": 14})
         self.sheet.write(self.row + 1, 0, message, bold)
@@ -626,3 +626,72 @@ class Benchmark:
         footer()
 
         book.close()
+
+
+class StubReport(BaseReport):
+    def __init__(self, file_name):
+        super().__init__(file_name=file_name, best_file=False)
+
+    def print_line(self, line) -> None:
+        pass
+
+    def header(self) -> None:
+        pass
+
+    def footer(self, accuracy: float) -> None:
+        self.accuracy = accuracy
+
+
+class Summary:
+    def __init__(self) -> None:
+        self.results = Files().get_all_results()
+        self.data = []
+
+    def acquire(self) -> None:
+        """Get all results"""
+        for result in self.results:
+            (
+                score,
+                model,
+                platform,
+                date,
+                time,
+                stratified,
+            ) = Files().split_file_name(result)
+            report = StubReport(os.path.join(Folders.results, result))
+            report.report()
+            entry = dict(
+                score=score,
+                model=model,
+                platform=platform,
+                date=date,
+                time=time,
+                stratified=stratified,
+                file=result,
+                metric=report.accuracy / BEST_ACCURACY_STREE,
+            )
+            self.data.append(entry)
+
+    def list(self) -> None:
+        """Print the list of results"""
+        max_length = max(len(x["file"]) for x in self.data)
+        print(
+            "\n".join(
+                [
+                    f"{x['file']:{max_length}s} {x['metric']:7.3f}"
+                    for x in self.data
+                ]
+            )
+        )
+
+    def best_result(
+        self, criterion=None, value=None, score="accuracy"
+    ) -> dict:
+        # First filter the same score results (accuracy, f1, ...)
+        haystack = [x for x in self.data if x["score"] == score]
+        haystack = (
+            haystack
+            if criterion is None or value is None
+            else [x for x in haystack if x[criterion] == value]
+        )
+        return sorted(haystack, key=lambda x: x["metric"], reverse=True)[0]

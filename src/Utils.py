@@ -2,6 +2,8 @@ import os
 import subprocess
 import argparse
 
+BEST_ACCURACY_STREE = 40.282203
+
 
 class Folders:
     data = "data"
@@ -46,6 +48,11 @@ class Files:
             f"results_{score}_{model}_{platform}_{date}_{time}_"
             f"{stratified}.json"
         )
+
+    def split_file_name(self, name):
+        _, score, model, platform, date, time, stratified = name.split("_")
+        stratified = stratified.replace(self.report_ext, "")
+        return score, model, platform, date, time, stratified
 
     def results_suffixes(self, score="", model=""):
         suffix = self.report_ext
