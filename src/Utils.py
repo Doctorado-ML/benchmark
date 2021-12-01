@@ -24,29 +24,29 @@ class Files:
 
     @staticmethod
     def exreport_output(score):
-        return f"exreport_{score}.txt"
+        return f"exreport_{score.replace('_','-')}.txt"
 
     @staticmethod
     def exreport_err(score):
-        return f"exreport_err_{score}.txt"
+        return f"exreport_err_{score.replace('_','-')}.txt"
 
     @staticmethod
     def exreport_excel(score):
-        return f"exreport_{score}.xlsx"
+        return f"exreport_{score.replace('_','-')}.xlsx"
 
     @staticmethod
     def exreport(score):
-        return f"exreport_{score}.csv"
+        return f"exreport_{score.replace('_','-')}.csv"
 
     @staticmethod
     def best_results(score, model):
-        return f"best_results_{score}_{model}.json"
+        return f"best_results_{score.replace('_','-')}_{model}.json"
 
     @staticmethod
     def results(score, model, platform, date, time, stratified):
         return (
-            f"results_{score}_{model}_{platform}_{date}_{time}_"
-            f"{stratified}.json"
+            f"results_{score.replace('_','-')}_{model}_{platform}_{date}_"
+            f"{time}_{stratified}.json"
         )
 
     def split_file_name(self, name):
