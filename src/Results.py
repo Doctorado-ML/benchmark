@@ -684,26 +684,32 @@ class Summary:
             )
         )
 
-    def show_result(self, file_name: str, metric: float = 0.0) -> None:
+    def show_result(self, data: dict, title: str = "") -> None:
         def whites(n: int) -> str:
             return " " * n + "*"
 
+        if data == {}:
+            print(f"** {title} has No data **")
+            return
+        file_name = data["file"]
+        metric = data["metric"]
         result = StubReport(os.path.join(Folders.results, file_name))
         length = 80
         print("*" * length)
+        if title != "":
+            print(f"*{title:^{length - 2}s}*")
+            print("*" + "-" * (length - 2) + "*")
         print("*" + whites(length - 2))
-        print(f"* {file_name:60s}" + whites(length - 63))
+        print(
+            f"* Model: {result.data['model']:15s} Score: "
+            f"{result.data['score_name']:17s} "
+            f"Metric: {metric:10.7f}" + whites(length - 69)
+        )
         print("*" + whites(length - 2))
         print(
             f"* Date : {result.data['date']:15s} Time: "
             f"{result.data['time']:18s} Time Spent: "
             f"{result.data['duration']:9,.2f} secs." + whites(length - 78)
-        )
-        print(
-            f"* Model: {result.data['model']:15s} Score: "
-            f"{result.data['score_name']:15s} "
-            f"  Stratified: {str(result.data['stratified']):15s}"
-            + whites(length - 78)
         )
         seeds = str(result.data["seeds"])
         seeds_len = len(seeds)
@@ -711,8 +717,11 @@ class Summary:
             f"* Seeds: {seeds:{seeds_len}s} Platform: "
             f"{result.data['platform']:17s} " + whites(length - 79)
         )
-        if metric != 0.0:
-            print(f"* Metric: {metric:10.7f}" + whites(length - 21))
+        print(
+            f"* Stratified: {str(result.data['stratified']):15s}"
+            + whites(length - 30)
+        )
+        print(f"* {file_name:60s}" + whites(length - 63))
         print("*" + whites(length - 2))
         print("*" * length)
 
