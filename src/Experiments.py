@@ -208,6 +208,7 @@ class Experiment:
                 shuffle=True, random_state=random_state, n_splits=self.folds
             )
             clf = self._build_classifier(random_state, hyperparameters)
+            self.version = clf.version() if hasattr(clf, "version") else "-"
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore")
                 res = cross_validate(
@@ -248,6 +249,7 @@ class Experiment:
         output = {}
         output["score_name"] = self.score_name
         output["model"] = self.model_name
+        output["version"] = self.version
         output["stratified"] = self.stratified
         output["folds"] = self.folds
         output["date"] = self.date

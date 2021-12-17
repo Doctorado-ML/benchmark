@@ -136,7 +136,8 @@ class Report(BaseReport):
             self._compare_totals = {}
         self.header_line("*")
         self.header_line(
-            f" Report {self.data['model']} with {self.data['folds']} Folds "
+            f" Report {self.data['model']} ver. {self.data['version']}"
+            f" with {self.data['folds']} Folds "
             f"cross validation and {len(self.data['seeds'])} random seeds"
         )
         self.header_line(
@@ -262,7 +263,8 @@ class Excel(BaseReport):
         self.sheet.write(
             0,
             0,
-            f" Report {self.data['model']} with {self.data['folds']} Folds "
+            f" Report {self.data['model']} ver. {self.data['version']}"
+            f" with {self.data['folds']} Folds "
             f"cross validation and {len(self.data['seeds'])} random seeds",
             header,
         )
