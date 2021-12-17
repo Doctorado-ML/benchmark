@@ -54,8 +54,9 @@ class Files:
         stratified = stratified.replace(self.report_ext, "")
         return score, model, platform, date, time, stratified
 
-    def results_suffixes(self, score="", model=""):
-        suffix = self.report_ext
+    @staticmethod
+    def results_suffixes(score="", model=""):
+        suffix = Files.report_ext
         if model == "" and score == "":
             return "results_", suffix
         if model == "":
