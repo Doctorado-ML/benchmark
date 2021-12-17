@@ -1,5 +1,6 @@
 import argparse
 from Results import Summary
+from Utils import EnvDefault
 
 
 def parse_arguments():
@@ -8,6 +9,8 @@ def parse_arguments():
         "-m",
         "--model",
         type=str,
+        action=EnvDefault,
+        envvar="model",
         required=True,
         help="model name",
     )
@@ -15,19 +18,31 @@ def parse_arguments():
         "-s",
         "--score",
         type=str,
+        action=EnvDefault,
+        envvar="score",
         required=True,
         help="score name {accuracy, f1_micro, f1_macro, all}",
+    )
+    ap.add_argument(
+        "-l",
+        "--list",
+        type=bool,
+        required=False,
+        default=False,
+        help="List all results",
     )
     args = ap.parse_args()
     return (
         args.score,
         args.model,
+        args.list,
     )
 
 
 (
     score,
     model,
+    list_results,
 ) = parse_arguments()
 
 all_metrics = ["accuracy", "f1-macro", "f1-micro"]
@@ -44,3 +59,5 @@ for metric in metrics:
     summary.show_result(
         summary.best_result(score=metric), title=f"BEST RESULT of {metric}"
     )
+if list_results:
+    summary.list()

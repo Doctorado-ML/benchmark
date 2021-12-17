@@ -140,12 +140,13 @@ class Report(BaseReport):
             f" with {self.data['folds']} Folds "
             f"cross validation and {len(self.data['seeds'])} random seeds"
         )
+        self.header_line(f" {self.data['title']}")
         self.header_line(
             f" Random seeds: {self.data['seeds']} Stratified: "
             f"{self.data['stratified']}"
         )
         self.header_line(
-            f" Execution took {self.data['duration']:7.2f} seconds on an "
+            f" Execution took {self.data['duration']:7.2f} seconds on "
             f"{self.data['platform']}"
         )
         self.header_line(f" Score is {self.data['score_name']}")
@@ -238,7 +239,7 @@ class ReportBest(BaseReport):
 
 
 class Excel(BaseReport):
-    row = 5
+    row = 6
 
     def __init__(self, file_name, compare=False):
         super().__init__(file_name)
@@ -271,21 +272,27 @@ class Excel(BaseReport):
         self.sheet.write(
             1,
             0,
-            f" Execution took {self.data['duration']:7.2f} seconds on an "
+            f" {self.data['title']}",
+            subheader,
+        )
+        self.sheet.write(
+            2,
+            0,
+            f" Execution took {self.data['duration']:7.2f} seconds on "
             f"{self.data['platform']}",
             subheader,
         )
         self.sheet.write(
-            1,
+            2,
             5,
             f"Random seeds: {self.data['seeds']}",
             subheader,
         )
         self.sheet.write(
-            2, 0, f" Score is {self.data['score_name']}", subheader
+            3, 0, f" Score is {self.data['score_name']}", subheader
         )
         self.sheet.write(
-            2,
+            3,
             5,
             f"Stratified: {self.data['stratified']}",
             subheader,
@@ -309,7 +316,7 @@ class Excel(BaseReport):
         bold = self.book.add_format({"bold": True, "font_size": 14})
         i = 0
         for item, length in header_cols:
-            self.sheet.write(4, i, item, bold)
+            self.sheet.write(5, i, item, bold)
             self.sheet.set_column(i, i, length)
             i += 1
 
@@ -378,12 +385,14 @@ class SQL(BaseReport):
             "date",
             "time",
             "type",
+            "title",
             "stratified",
             "score_name",
             "score",
             "score_std",
             "dataset",
             "classifier",
+            "version",
             "norm",
             "stand",
             "time_spent",
@@ -407,12 +416,14 @@ class SQL(BaseReport):
             self.data["date"],
             self.data["time"],
             "crossval",
+            self.data["title"],
             "1" if self.data["stratified"] else "0",
             self.data["score_name"],
             result["score"],
             result["score_std"],
             result["dataset"],
             self.data["model"],
+            self.data["version"],
             0,
             1,
             result["time"],
@@ -701,6 +712,8 @@ class Summary:
         if title != "":
             print(f"*{title:^{length - 2}s}*")
             print("*" + "-" * (length - 2) + "*")
+        print("*" + whites(length - 2))
+        print(f"* {result.data['title']:^{length - 4}} *")
         print("*" + whites(length - 2))
         print(
             f"* Model: {result.data['model']:15s} "

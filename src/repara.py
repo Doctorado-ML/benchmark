@@ -12,6 +12,9 @@ for result in results:
     file_name = os.path.join(Folders.results, result)
     with open(file_name) as f:
         data = json.load(f)
+        if "title" not in data:
+            print(f"Repairing title in {result}")
+            data["title"] = "default"
         if "version" not in data:
             print(f"Repairing version in {result}")
             model = data["model"]

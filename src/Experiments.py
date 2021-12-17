@@ -133,6 +133,7 @@ class Experiment:
         hyperparams_dict,
         hyperparams_file,
         platform,
+        title,
         progress_bar=True,
         folds=5,
     ):
@@ -152,6 +153,7 @@ class Experiment:
         )
         self.score_name = score_name
         self.model_name = model_name
+        self.title = title
         self.stratified = stratified == "1"
         self.stratified_class = StratifiedKFold if self.stratified else KFold
         self.model = Models.get_model(model_name)
@@ -231,6 +233,7 @@ class Experiment:
 
     def _add_results(self, name, hyperparameters, samples, features, classes):
         record = {}
+        record["title"] = self.title
         record["dataset"] = name
         record["samples"] = samples
         record["features"] = features

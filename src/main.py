@@ -50,6 +50,9 @@ def parse_arguments():
         "-f", "--paramfile", type=bool, required=False, default=False
     )
     ap.add_argument(
+        "--title", type=str, required=True, help="experiment title"
+    )
+    ap.add_argument(
         "-q",
         "--quiet",
         type=bool,
@@ -85,6 +88,7 @@ def parse_arguments():
         args.hyperparameters,
         args.paramfile,
         args.report,
+        args.title,
     )
 
 
@@ -98,6 +102,7 @@ def parse_arguments():
     hyperparameters,
     paramfile,
     report,
+    experiment_title,
 ) = parse_arguments()
 job = Experiment(
     score_name=score,
@@ -108,6 +113,7 @@ job = Experiment(
     hyperparams_file=paramfile,
     progress_bar=not quiet,
     platform=platform,
+    title=experiment_title,
     folds=folds,
 )
 job.do_experiment()
