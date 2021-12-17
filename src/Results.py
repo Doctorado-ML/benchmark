@@ -703,9 +703,10 @@ class Summary:
             print("*" + "-" * (length - 2) + "*")
         print("*" + whites(length - 2))
         print(
-            f"* Model: {result.data['model']:15s} Score: "
-            f"{result.data['score_name']:17s} "
-            f"Metric: {metric:10.7f}" + whites(length - 69)
+            f"* Model: {result.data['model']:15s} "
+            f"Ver. {result.data['version']:10s} "
+            f"Score: {result.data['score_name']:10s} "
+            f"Metric: {metric:10.7f}" + whites(length - 78)
         )
         print("*" + whites(length - 2))
         print(
