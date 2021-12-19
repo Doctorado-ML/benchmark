@@ -70,7 +70,7 @@ class BaseReport(abc.ABC):
 
 
 class Report(BaseReport):
-    header_lengths = [30, 5, 3, 3, 7, 7, 7, 15, 15, 15]
+    header_lengths = [30, 5, 3, 3, 7, 7, 7, 15, 16, 15]
     header_cols = [
         "Dataset",
         "Samp",
@@ -122,7 +122,7 @@ class Report(BaseReport):
         )
         i += 1
         print(
-            f"{result['time']:8.6f}±{result['time_std']:6.4f} ",
+            f"{result['time']:9.6f}±{result['time_std']:6.4f} ",
             end="",
         )
         i += 1
