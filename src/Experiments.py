@@ -233,7 +233,6 @@ class Experiment:
 
     def _add_results(self, name, hyperparameters, samples, features, classes):
         record = {}
-        record["title"] = self.title
         record["dataset"] = name
         record["samples"] = samples
         record["features"] = features
@@ -251,6 +250,7 @@ class Experiment:
     def _output_results(self):
         output = {}
         output["score_name"] = self.score_name
+        output["title"] = self.title
         output["model"] = self.model_name
         output["version"] = self.version
         output["stratified"] = self.stratified
