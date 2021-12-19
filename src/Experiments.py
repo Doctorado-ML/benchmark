@@ -89,7 +89,7 @@ class BestResults:
         for record in data["results"]:
             dataset = record["dataset"]
             if dataset in results:
-                if record["score"] > results[dataset]["score"]:
+                if record["score"] >= results[dataset]["score"]:
                     record["file_name"] = file_name
                     results[dataset] = record
             else:
@@ -101,7 +101,7 @@ class BestResults:
         init_suffix, end_suffix = Files.results_suffixes(
             score=self.score_name, model=self.model
         )
-        all_files = list(os.walk(Folders.results))
+        all_files = sorted(list(os.walk(Folders.results)))
         for root, _, files in tqdm(all_files, desc="files"):
             for name in files:
                 if name.startswith(init_suffix) and name.endswith(end_suffix):

@@ -97,7 +97,7 @@ class Files:
         for result_file in files_list:
             if result_file.startswith(prefix) and result_file.endswith(suffix):
                 result.append(result_file)
-        return result
+        return sorted(result)
 
 
 class Symbols:
