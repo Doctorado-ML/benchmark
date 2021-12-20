@@ -649,7 +649,7 @@ class StubReport(BaseReport):
         pass
 
     def header(self) -> None:
-        pass
+        self.title = self.data["title"]
 
     def footer(self, accuracy: float) -> None:
         self.accuracy = accuracy
@@ -676,6 +676,7 @@ class Summary:
             entry = dict(
                 score=score,
                 model=model,
+                title=report.title,
                 platform=platform,
                 date=date,
                 time=time,
@@ -691,7 +692,8 @@ class Summary:
         print(
             "\n".join(
                 [
-                    f"{x['file']:{max_length}s} {x['metric']:7.3f}"
+                    f"{x['file']:{max_length}s} {x['metric']:7.3f} "
+                    f"{x['title']}"
                     for x in self.data
                 ]
             )
