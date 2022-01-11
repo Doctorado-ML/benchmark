@@ -758,3 +758,23 @@ class Summary:
             if len(haystack) > 0
             else {}
         )
+
+    def best_results_datasets(self, score="accuracy") -> dict:
+        """Get the best results for each dataset"""
+        dt = Datasets()
+        best_results = {}
+        for dataset in dt:
+            best_results[dataset] = (1, "", "", "")
+        haystack = [x for x in self.data if x["score"] == score]
+        # Search for the best results for each dataset
+        for entry in haystack:
+            print(entry)
+            for dataset in entry["results"]:
+                if dataset["score"] < best_results[dataset][0]:
+                    best_results[dataset] = (
+                        dataset["score"],
+                        dataset["hyperparameters"],
+                        entry["file"],
+                        entry["title"],
+                    )
+        return best_results
