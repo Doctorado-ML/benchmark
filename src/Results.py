@@ -659,6 +659,7 @@ class Summary:
     def __init__(self) -> None:
         self.results = Files().get_all_results()
         self.data = []
+        self.datasets = {}
 
     def acquire(self) -> None:
         """Get all results"""
@@ -684,6 +685,7 @@ class Summary:
                 file=result,
                 metric=report.accuracy / BEST_ACCURACY_STREE,
             )
+            self.datasets[result] = report.lines
             self.data.append(entry)
 
     def list(self) -> None:
@@ -768,10 +770,9 @@ class Summary:
         haystack = [x for x in self.data if x["score"] == score]
         # Search for the best results for each dataset
         for entry in haystack:
-            print(entry)
-            for dataset in entry["results"]:
-                if dataset["score"] < best_results[dataset][0]:
-                    best_results[dataset] = (
+            for dataset in self.datasets[entry["file"]]:
+                if dataset["score"] < best_results[dataset["dataset"]][0]:
+                    best_results[dataset["dataset"]] = (
                         dataset["score"],
                         dataset["hyperparameters"],
                         entry["file"],
