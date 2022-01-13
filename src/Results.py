@@ -1,3 +1,4 @@
+from cgitb import text
 import os
 import json
 import abc
@@ -6,7 +7,7 @@ import subprocess
 import xlsxwriter
 from tqdm import tqdm
 from Experiments import Datasets, BestResults
-from Utils import Folders, Files, Symbols, BEST_ACCURACY_STREE
+from Utils import Folders, Files, Symbols, BEST_ACCURACY_STREE, TextColor
 
 
 class BaseReport(abc.ABC):
@@ -86,9 +87,11 @@ class Report(BaseReport):
 
     def __init__(self, file_name: str, compare: bool = False):
         super().__init__(file_name)
+        self.nline = 0
         self.compare = compare
 
     def header_line(self, text: str) -> None:
+        print(TextColor.LINE1, end="")
         length = sum(self.header_lengths) + len(self.header_lengths) - 3
         if text == "*":
             print("*" * (length + 2))
@@ -96,6 +99,11 @@ class Report(BaseReport):
             print(f"*{text:{length}s}*")
 
     def print_line(self, result) -> None:
+        self.nline += 1
+        text_color = (
+            TextColor.LINE1 if self.nline % 2 == 0 else TextColor.LINE2
+        )
+        print(text_color, end="")
         hl = self.header_lengths
         i = 0
         print(f"{result['dataset']:{hl[i]}s} ", end="")
