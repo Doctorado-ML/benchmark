@@ -1,0 +1,859 @@
+{
+    "title": "Prueba con max_features='auto'",
+    "score_name": "accuracy",
+    "model": "ODTE",
+    "version": "0.3.1",
+    "stratified": false,
+    "folds": 5,
+    "date": "2021-12-18",
+    "time": "19:59:11",
+    "duration": 13267.336010932922,
+    "seeds": [
+        57,
+        31,
+        1714,
+        17,
+        23,
+        79,
+        83,
+        97,
+        7,
+        1
+    ],
+    "platform": "Galgo",
+    "results": [
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "balance-scale",
+            "samples": 625,
+            "features": 4,
+            "classes": 3,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 5.8344,
+            "leaves": 3.4172,
+            "depth": 3.1068000000000002,
+            "score": 0.8739199999999999,
+            "score_std": 0.030841426685547495,
+            "time": 2.3922912740707396,
+            "time_std": 0.09072610406012926
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "balloons",
+            "samples": 16,
+            "features": 4,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 2.9548,
+            "leaves": 1.9773999999999998,
+            "depth": 1.9672,
+            "score": 0.595,
+            "score_std": 0.27538357088089177,
+            "time": 0.3737748098373413,
+            "time_std": 0.021617896493624517
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "breast-cancer-wisc-diag",
+            "samples": 569,
+            "features": 30,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 4.564,
+            "leaves": 2.782,
+            "depth": 2.6459999999999995,
+            "score": 0.9604611085235212,
+            "score_std": 0.01543177406657839,
+            "time": 1.2735235118865966,
+            "time_std": 0.04816246862908641
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "breast-cancer-wisc-prog",
+            "samples": 198,
+            "features": 33,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 3.2159999999999997,
+            "leaves": 2.1079999999999997,
+            "depth": 1.9808,
+            "score": 0.7626923076923078,
+            "score_std": 0.0691680627695892,
+            "time": 0.6455342245101928,
+            "time_std": 0.07060720136005633
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "breast-cancer-wisc",
+            "samples": 699,
+            "features": 9,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 4.3816,
+            "leaves": 2.6908000000000003,
+            "depth": 2.6305999999999994,
+            "score": 0.9692415210688591,
+            "score_std": 0.012072349303984906,
+            "time": 1.112875099182129,
+            "time_std": 0.040622992698015656
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "breast-cancer",
+            "samples": 286,
+            "features": 9,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 4.040400000000001,
+            "leaves": 2.5202000000000004,
+            "depth": 2.2732,
+            "score": 0.7035027223230489,
+            "score_std": 0.04646213362212257,
+            "time": 0.8300193500518799,
+            "time_std": 0.06401193965911894
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "cardiotocography-10clases",
+            "samples": 2126,
+            "features": 21,
+            "classes": 10,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 65.2624,
+            "leaves": 33.1312,
+            "depth": 9.6776,
+            "score": 0.6583262082297707,
+            "score_std": 0.02587468113173198,
+            "time": 66.56248046875,
+            "time_std": 0.9052462838946648
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "cardiotocography-3clases",
+            "samples": 2126,
+            "features": 21,
+            "classes": 3,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 16.3012,
+            "leaves": 8.6506,
+            "depth": 5.3624,
+            "score": 0.8206514222590444,
+            "score_std": 0.019268628143003414,
+            "time": 21.21832419872284,
+            "time_std": 1.4352802295798819
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "conn-bench-sonar-mines-rocks",
+            "samples": 208,
+            "features": 60,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 11.3696,
+            "leaves": 6.1848,
+            "depth": 4.3126,
+            "score": 0.7854239256678279,
+            "score_std": 0.07210263797211701,
+            "time": 1.5972815179824829,
+            "time_std": 0.0734765294423235
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "cylinder-bands",
+            "samples": 512,
+            "features": 35,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 5.8472,
+            "leaves": 3.4236,
+            "depth": 2.988,
+            "score": 0.6581991243099182,
+            "score_std": 0.037665821355862196,
+            "time": 2.469445672035217,
+            "time_std": 0.10731862884070771
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "dermatology",
+            "samples": 366,
+            "features": 34,
+            "classes": 6,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 15.2764,
+            "leaves": 8.1382,
+            "depth": 5.713000000000001,
+            "score": 0.9313624583487597,
+            "score_std": 0.04963502845385875,
+            "time": 2.995996775627136,
+            "time_std": 0.07464309055187446
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "echocardiogram",
+            "samples": 131,
+            "features": 10,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 4.166799999999999,
+            "leaves": 2.5834,
+            "depth": 2.4164000000000003,
+            "score": 0.7732193732193733,
+            "score_std": 0.0939544814387815,
+            "time": 0.6005292224884033,
+            "time_std": 0.04002806067383275
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "fertility",
+            "samples": 100,
+            "features": 9,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 1.626,
+            "leaves": 1.3130000000000002,
+            "depth": 1.2978,
+            "score": 0.88,
+            "score_std": 0.0547722557505166,
+            "time": 0.29800426483154296,
+            "time_std": 0.01574482197577434
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "haberman-survival",
+            "samples": 306,
+            "features": 3,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 1.5508000000000002,
+            "leaves": 1.2754,
+            "depth": 1.2466,
+            "score": 0.7353199365415125,
+            "score_std": 0.048398466240040176,
+            "time": 0.4788079023361206,
+            "time_std": 0.034328009126628825
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "heart-hungarian",
+            "samples": 294,
+            "features": 12,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 4.8044,
+            "leaves": 2.9022,
+            "depth": 2.7382000000000004,
+            "score": 0.8190356516656927,
+            "score_std": 0.04654451642032589,
+            "time": 0.9313029289245606,
+            "time_std": 0.0349480376608112
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "hepatitis",
+            "samples": 155,
+            "features": 19,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 4.2276,
+            "leaves": 2.6138,
+            "depth": 2.3878000000000004,
+            "score": 0.7941935483870968,
+            "score_std": 0.0720994803562264,
+            "time": 0.6127621030807495,
+            "time_std": 0.05288158913686017
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "ilpd-indian-liver",
+            "samples": 583,
+            "features": 9,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 1.3108000000000002,
+            "leaves": 1.1554,
+            "depth": 1.1462,
+            "score": 0.7135661656351313,
+            "score_std": 0.038048725185040336,
+            "time": 1.0560390949249268,
+            "time_std": 0.07051334349652885
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "ionosphere",
+            "samples": 351,
+            "features": 33,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 7.436800000000001,
+            "leaves": 4.2184,
+            "depth": 3.5346,
+            "score": 0.8678309859154929,
+            "score_std": 0.04880069449420995,
+            "time": 1.8031230926513673,
+            "time_std": 0.09773848070598631
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "iris",
+            "samples": 150,
+            "features": 4,
+            "classes": 3,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 5.2236,
+            "leaves": 3.1118000000000006,
+            "depth": 3.0716,
+            "score": 0.9539999999999997,
+            "score_std": 0.029732137494637004,
+            "time": 0.668781361579895,
+            "time_std": 0.02010693352858345
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "led-display",
+            "samples": 1000,
+            "features": 7,
+            "classes": 10,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 6.108,
+            "leaves": 3.554,
+            "depth": 3.0386,
+            "score": 0.4328,
+            "score_std": 0.06859416884837953,
+            "time": 9.006341724395751,
+            "time_std": 0.09411461151633284
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "libras",
+            "samples": 360,
+            "features": 90,
+            "classes": 15,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 95.20360000000001,
+            "leaves": 48.101800000000004,
+            "depth": 10.776,
+            "score": 0.8447222222222223,
+            "score_std": 0.04510704004618786,
+            "time": 15.913171172142029,
+            "time_std": 0.2686908266865625
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "low-res-spect",
+            "samples": 531,
+            "features": 100,
+            "classes": 9,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 30.3376,
+            "leaves": 15.6688,
+            "depth": 7.2436,
+            "score": 0.8986686651384234,
+            "score_std": 0.031028844542628907,
+            "time": 5.629604368209839,
+            "time_std": 0.2448691529749108
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "lymphography",
+            "samples": 148,
+            "features": 18,
+            "classes": 4,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 3.7599999999999993,
+            "leaves": 2.38,
+            "depth": 2.2616,
+            "score": 0.5733103448275862,
+            "score_std": 0.10990051591358012,
+            "time": 0.660338773727417,
+            "time_std": 0.044188156884441034
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "mammographic",
+            "samples": 961,
+            "features": 5,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 4.116,
+            "leaves": 2.558,
+            "depth": 2.505,
+            "score": 0.8244581174438689,
+            "score_std": 0.022882098560257955,
+            "time": 3.1380006408691408,
+            "time_std": 0.115410601047518
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "molec-biol-promoter",
+            "samples": 106,
+            "features": 57,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 12.439999999999998,
+            "leaves": 6.719999999999999,
+            "depth": 4.4412,
+            "score": 0.7809090909090908,
+            "score_std": 0.10693104254108432,
+            "time": 1.1963659858703612,
+            "time_std": 0.043209230767341233
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "musk-1",
+            "samples": 476,
+            "features": 166,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 14.816,
+            "leaves": 7.908,
+            "depth": 4.993,
+            "score": 0.809673245614035,
+            "score_std": 0.03171593468049997,
+            "time": 5.240445852279663,
+            "time_std": 0.1836467618850949
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "oocytes_merluccius_nucleus_4d",
+            "samples": 1022,
+            "features": 41,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 3.4531999999999994,
+            "leaves": 2.2266,
+            "depth": 2.0424,
+            "score": 0.6702563366810138,
+            "score_std": 0.024253557618839905,
+            "time": 7.363780989646911,
+            "time_std": 0.6071321614376367
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "oocytes_merluccius_states_2f",
+            "samples": 1022,
+            "features": 25,
+            "classes": 3,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 11.2416,
+            "leaves": 6.1208,
+            "depth": 4.4856,
+            "score": 0.9101779053084649,
+            "score_std": 0.01756910118033998,
+            "time": 5.506524205207825,
+            "time_std": 0.18639493698605186
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "oocytes_trisopterus_nucleus_2f",
+            "samples": 912,
+            "features": 25,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 6.862,
+            "leaves": 3.9309999999999996,
+            "depth": 3.236199999999999,
+            "score": 0.6640323064913229,
+            "score_std": 0.05242063153509427,
+            "time": 5.924961185455322,
+            "time_std": 0.2837551636644103
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "oocytes_trisopterus_states_5b",
+            "samples": 912,
+            "features": 32,
+            "classes": 3,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 8.6796,
+            "leaves": 4.8398,
+            "depth": 4.0012,
+            "score": 0.841225004503693,
+            "score_std": 0.023776483919740396,
+            "time": 5.335262231826782,
+            "time_std": 0.1878024808738558
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "parkinsons",
+            "samples": 195,
+            "features": 22,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 4.5336,
+            "leaves": 2.7668,
+            "depth": 2.5907999999999998,
+            "score": 0.8641025641025641,
+            "score_std": 0.04565254824298681,
+            "time": 0.7291313219070434,
+            "time_std": 0.042845874668374195
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "pima",
+            "samples": 768,
+            "features": 8,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 2.9647999999999994,
+            "leaves": 1.9824000000000002,
+            "depth": 1.8938000000000001,
+            "score": 0.6524607418725067,
+            "score_std": 0.028443878256656795,
+            "time": 2.484275779724121,
+            "time_std": 0.1239503263223896
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "pittsburg-bridges-MATERIAL",
+            "samples": 106,
+            "features": 7,
+            "classes": 3,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 4.460799999999999,
+            "leaves": 2.7304000000000004,
+            "depth": 2.6233999999999997,
+            "score": 0.8092207792207793,
+            "score_std": 0.0993692840138412,
+            "time": 0.6661828660964966,
+            "time_std": 0.0469384606932172
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "pittsburg-bridges-REL-L",
+            "samples": 103,
+            "features": 7,
+            "classes": 3,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 5.978,
+            "leaves": 3.489,
+            "depth": 3.1092,
+            "score": 0.6884761904761906,
+            "score_std": 0.09103880212339951,
+            "time": 0.8979115581512451,
+            "time_std": 0.05570347191042169
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "pittsburg-bridges-SPAN",
+            "samples": 92,
+            "features": 7,
+            "classes": 3,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 6.410799999999999,
+            "leaves": 3.7053999999999996,
+            "depth": 3.289,
+            "score": 0.5760818713450292,
+            "score_std": 0.12203669569967426,
+            "time": 0.9341348457336426,
+            "time_std": 0.04995696262954779
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "pittsburg-bridges-T-OR-D",
+            "samples": 102,
+            "features": 7,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 1.6776000000000002,
+            "leaves": 1.3388000000000002,
+            "depth": 1.3312,
+            "score": 0.8628095238095238,
+            "score_std": 0.0747571882042698,
+            "time": 0.3064739274978638,
+            "time_std": 0.01863107217038378
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "planning",
+            "samples": 182,
+            "features": 12,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 1.6792000000000002,
+            "leaves": 1.3396,
+            "depth": 1.2866,
+            "score": 0.7143693693693695,
+            "score_std": 0.0715459100205182,
+            "time": 0.4066534757614136,
+            "time_std": 0.03130632042369106
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "post-operative",
+            "samples": 90,
+            "features": 8,
+            "classes": 3,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 1.7252,
+            "leaves": 1.3626000000000003,
+            "depth": 1.3541999999999998,
+            "score": 0.711111111111111,
+            "score_std": 0.07535922203472521,
+            "time": 0.3387297582626343,
+            "time_std": 0.030136027220276022
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "seeds",
+            "samples": 210,
+            "features": 7,
+            "classes": 3,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 6.2028,
+            "leaves": 3.6014,
+            "depth": 3.3535999999999997,
+            "score": 0.91,
+            "score_std": 0.03818145006743066,
+            "time": 0.9942026758193969,
+            "time_std": 0.0354946969166096
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "statlog-australian-credit",
+            "samples": 690,
+            "features": 14,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 1.152,
+            "leaves": 1.076,
+            "depth": 1.0682,
+            "score": 0.6782608695652174,
+            "score_std": 0.03904983647915211,
+            "time": 1.5590076923370362,
+            "time_std": 0.15123476281415754
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "statlog-german-credit",
+            "samples": 1000,
+            "features": 24,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 2.3592,
+            "leaves": 1.6796,
+            "depth": 1.5997999999999999,
+            "score": 0.7000000000000002,
+            "score_std": 0.028017851452243787,
+            "time": 3.238086795806885,
+            "time_std": 0.26534128742026697
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "statlog-heart",
+            "samples": 270,
+            "features": 13,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 5.365200000000001,
+            "leaves": 3.1826000000000003,
+            "depth": 2.95,
+            "score": 0.8344444444444445,
+            "score_std": 0.049192380107400784,
+            "time": 1.0152350187301635,
+            "time_std": 0.037509659716731585
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "statlog-image",
+            "samples": 2310,
+            "features": 18,
+            "classes": 7,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 31.060399999999994,
+            "leaves": 16.030199999999997,
+            "depth": 7.5358,
+            "score": 0.8396103896103897,
+            "score_std": 0.022912050343347205,
+            "time": 34.87831760406494,
+            "time_std": 0.6954862897614058
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "statlog-vehicle",
+            "samples": 846,
+            "features": 18,
+            "classes": 4,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 38.281200000000005,
+            "leaves": 19.640600000000003,
+            "depth": 7.698200000000001,
+            "score": 0.6812105812739299,
+            "score_std": 0.039068400031818565,
+            "time": 12.267060437202453,
+            "time_std": 0.2710980434608262
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "synthetic-control",
+            "samples": 600,
+            "features": 60,
+            "classes": 6,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 29.1772,
+            "leaves": 15.0886,
+            "depth": 6.9708000000000006,
+            "score": 0.9790000000000001,
+            "score_std": 0.012827920936595903,
+            "time": 5.383720774650573,
+            "time_std": 0.11790502273129846
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "tic-tac-toe",
+            "samples": 958,
+            "features": 9,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 2.3440000000000003,
+            "leaves": 1.672,
+            "depth": 1.6241999999999999,
+            "score": 0.6534505890052357,
+            "score_std": 0.028021260679892277,
+            "time": 2.9247309350967408,
+            "time_std": 0.11995705595830672
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "vertebral-column-2clases",
+            "samples": 310,
+            "features": 6,
+            "classes": 2,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 3.2912,
+            "leaves": 2.1456,
+            "depth": 2.0478,
+            "score": 0.7387096774193549,
+            "score_std": 0.07405316311773545,
+            "time": 0.7948929500579834,
+            "time_std": 0.04368380439747337
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "wine",
+            "samples": 178,
+            "features": 13,
+            "classes": 3,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 8.7744,
+            "leaves": 4.8872,
+            "depth": 3.9322,
+            "score": 0.9657142857142855,
+            "score_std": 0.03248039507918392,
+            "time": 1.2169505834579468,
+            "time_std": 0.041932013410743096
+        },
+        {
+            "title": "Prueba con max_features='auto'",
+            "dataset": "zoo",
+            "samples": 101,
+            "features": 16,
+            "classes": 7,
+            "hyperparameters": {
+                "max_features": "auto"
+            },
+            "nodes": 9.7492,
+            "leaves": 5.3746,
+            "depth": 4.4886,
+            "score": 0.8780952380952382,
+            "score_std": 0.07346000191999837,
+            "time": 1.4145422315597533,
+            "time_std": 0.05225151166232989
+        }
+    ]
+}

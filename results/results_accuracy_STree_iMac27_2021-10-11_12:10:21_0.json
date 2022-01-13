@@ -1,0 +1,859 @@
+{
+    "score_name": "accuracy",
+    "model": "STree",
+    "stratified": false,
+    "folds": 5,
+    "date": "2021-10-11",
+    "time": "12:10:21",
+    "duration": 3559.2851271629333,
+    "seeds": [
+        57,
+        31,
+        1714,
+        17,
+        23,
+        79,
+        83,
+        97,
+        7,
+        1
+    ],
+    "platform": "iMac27",
+    "results": [
+        {
+            "dataset": "balance-scale",
+            "samples": 625,
+            "features": 4,
+            "classes": 3,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 11.08,
+            "leaves": 5.9,
+            "depth": 5.9,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.29608203411102296,
+            "time_std": 0.05800376592904279
+        },
+        {
+            "dataset": "balloons",
+            "samples": 16,
+            "features": 4,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 4.12,
+            "leaves": 2.56,
+            "depth": 2.56,
+            "score": 0.695,
+            "score_std": 0.2756860130252853,
+            "time": 0.02145723342895508,
+            "time_std": 0.003484936713723349
+        },
+        {
+            "dataset": "breast-cancer-wisc-diag",
+            "samples": 569,
+            "features": 30,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 4.5,
+            "leaves": 2.74,
+            "depth": 2.8,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.877890043258667,
+            "time_std": 0.07514514571654424
+        },
+        {
+            "dataset": "breast-cancer-wisc-prog",
+            "samples": 198,
+            "features": 33,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 1.4,
+            "leaves": 1.2,
+            "depth": 1.2,
+            "score": 0.7626538461538462,
+            "score_std": 0.06885699313039004,
+            "time": 0.12324615001678467,
+            "time_std": 0.04817967590079962
+        },
+        {
+            "dataset": "breast-cancer-wisc",
+            "samples": 699,
+            "features": 9,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 3.8,
+            "leaves": 2.4,
+            "depth": 2.38,
+            "score": 0.9466382322713258,
+            "score_std": 0.016639565009802557,
+            "time": 0.3298314428329468,
+            "time_std": 0.04356498804750404
+        },
+        {
+            "dataset": "breast-cancer",
+            "samples": 286,
+            "features": 9,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 1.0,
+            "leaves": 1.0,
+            "depth": 1.0,
+            "score": 0.7028009679370839,
+            "score_std": 0.04595046555906242,
+            "time": 0.03610964775085449,
+            "time_std": 0.0015106157148362081
+        },
+        {
+            "dataset": "cardiotocography-10clases",
+            "samples": 2126,
+            "features": 21,
+            "classes": 10,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 8.16,
+            "leaves": 4.12,
+            "depth": 8.88,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 7.8357046031951905,
+            "time_std": 2.4627549530204225
+        },
+        {
+            "dataset": "cardiotocography-3clases",
+            "samples": 2126,
+            "features": 21,
+            "classes": 3,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 7.5,
+            "leaves": 4.22,
+            "depth": 4.04,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 10.735974283218384,
+            "time_std": 1.2191717409851954
+        },
+        {
+            "dataset": "conn-bench-sonar-mines-rocks",
+            "samples": 208,
+            "features": 60,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 9.18,
+            "leaves": 5.02,
+            "depth": 4.34,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.8616111040115356,
+            "time_std": 0.2263455085054311
+        },
+        {
+            "dataset": "cylinder-bands",
+            "samples": 512,
+            "features": 35,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 2.34,
+            "leaves": 1.66,
+            "depth": 1.66,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.5457524156570435,
+            "time_std": 0.22339852674080543
+        },
+        {
+            "dataset": "dermatology",
+            "samples": 366,
+            "features": 34,
+            "classes": 6,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 4.12,
+            "leaves": 2.2,
+            "depth": 7.02,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 1.0549965524673461,
+            "time_std": 0.2738231855004655
+        },
+        {
+            "dataset": "echocardiogram",
+            "samples": 131,
+            "features": 10,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 3.46,
+            "leaves": 2.2,
+            "depth": 2.26,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.0618139123916626,
+            "time_std": 0.03776466579399315
+        },
+        {
+            "dataset": "fertility",
+            "samples": 100,
+            "features": 9,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 1.0,
+            "leaves": 1.0,
+            "depth": 1.0,
+            "score": 0.88,
+            "score_std": 0.0547722557505166,
+            "time": 0.019808073043823243,
+            "time_std": 0.0007728994055564187
+        },
+        {
+            "dataset": "haberman-survival",
+            "samples": 306,
+            "features": 3,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 3.44,
+            "leaves": 2.16,
+            "depth": 2.28,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.05146382331848145,
+            "time_std": 0.02764822456289111
+        },
+        {
+            "dataset": "heart-hungarian",
+            "samples": 294,
+            "features": 12,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 4.78,
+            "leaves": 2.86,
+            "depth": 2.78,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.12992241382598876,
+            "time_std": 0.08060668442515935
+        },
+        {
+            "dataset": "hepatitis",
+            "samples": 155,
+            "features": 19,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 1.0,
+            "leaves": 1.0,
+            "depth": 1.0,
+            "score": 0.7935483870967742,
+            "score_std": 0.07126039365927266,
+            "time": 0.04373243808746338,
+            "time_std": 0.003386475184436797
+        },
+        {
+            "dataset": "ilpd-indian-liver",
+            "samples": 583,
+            "features": 9,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 1.0,
+            "leaves": 1.0,
+            "depth": 1.0,
+            "score": 0.7135661656351313,
+            "score_std": 0.038048725185040336,
+            "time": 0.20999138832092284,
+            "time_std": 0.00959223038726252
+        },
+        {
+            "dataset": "ionosphere",
+            "samples": 351,
+            "features": 33,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 3.72,
+            "leaves": 2.36,
+            "depth": 2.34,
+            "score": 0.7544265593561369,
+            "score_std": 0.04933029218981169,
+            "time": 0.45135199546813964,
+            "time_std": 0.10115130712913821
+        },
+        {
+            "dataset": "iris",
+            "samples": 150,
+            "features": 4,
+            "classes": 3,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 5.04,
+            "leaves": 3.02,
+            "depth": 3.02,
+            "score": 0.95,
+            "score_std": 0.03415650255319865,
+            "time": 0.044464311599731444,
+            "time_std": 0.004070923453079827
+        },
+        {
+            "dataset": "led-display",
+            "samples": 1000,
+            "features": 7,
+            "classes": 10,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 18.86,
+            "leaves": 9.64,
+            "depth": 7.0,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 2.3480245590209963,
+            "time_std": 0.7826038124354694
+        },
+        {
+            "dataset": "libras",
+            "samples": 360,
+            "features": 90,
+            "classes": 15,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 2.88,
+            "leaves": 1.46,
+            "depth": 9.78,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 4.890707368850708,
+            "time_std": 2.233364180939774
+        },
+        {
+            "dataset": "low-res-spect",
+            "samples": 531,
+            "features": 100,
+            "classes": 9,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 15.3,
+            "leaves": 7.9,
+            "depth": 7.68,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 4.871575946807861,
+            "time_std": 1.2883364664936852
+        },
+        {
+            "dataset": "lymphography",
+            "samples": 148,
+            "features": 18,
+            "classes": 4,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 2.86,
+            "leaves": 1.92,
+            "depth": 1.98,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.11446984767913819,
+            "time_std": 0.043426249061934714
+        },
+        {
+            "dataset": "mammographic",
+            "samples": 961,
+            "features": 5,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 3.0,
+            "leaves": 2.0,
+            "depth": 2.0,
+            "score": 0.8213433721934368,
+            "score_std": 0.023399701915177804,
+            "time": 0.7433858251571656,
+            "time_std": 0.033300156684340075
+        },
+        {
+            "dataset": "molec-biol-promoter",
+            "samples": 106,
+            "features": 57,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 9.12,
+            "leaves": 4.98,
+            "depth": 4.2,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.6767927885055542,
+            "time_std": 0.17883642322771545
+        },
+        {
+            "dataset": "musk-1",
+            "samples": 476,
+            "features": 166,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 6.64,
+            "leaves": 3.8,
+            "depth": 3.52,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 3.58304630279541,
+            "time_std": 1.2258301806545189
+        },
+        {
+            "dataset": "oocytes_merluccius_nucleus_4d",
+            "samples": 1022,
+            "features": 41,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 1.0,
+            "leaves": 1.0,
+            "depth": 1.0,
+            "score": 0.6702563366810138,
+            "score_std": 0.024253557618839905,
+            "time": 2.2629391527175904,
+            "time_std": 0.10756100349601559
+        },
+        {
+            "dataset": "oocytes_merluccius_states_2f",
+            "samples": 1022,
+            "features": 25,
+            "classes": 3,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 9.5,
+            "leaves": 5.18,
+            "depth": 4.52,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 3.6488455295562745,
+            "time_std": 0.8217530527392047
+        },
+        {
+            "dataset": "oocytes_trisopterus_nucleus_2f",
+            "samples": 912,
+            "features": 25,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 8.02,
+            "leaves": 4.48,
+            "depth": 3.88,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 2.457123031616211,
+            "time_std": 0.5466978309557865
+        },
+        {
+            "dataset": "oocytes_trisopterus_states_5b",
+            "samples": 912,
+            "features": 32,
+            "classes": 3,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 4.8,
+            "leaves": 2.88,
+            "depth": 3.0,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 2.789097352027893,
+            "time_std": 0.507800694932641
+        },
+        {
+            "dataset": "parkinsons",
+            "samples": 195,
+            "features": 22,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 4.94,
+            "leaves": 2.96,
+            "depth": 3.0,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.19456698894500732,
+            "time_std": 0.02230511952602215
+        },
+        {
+            "dataset": "pima",
+            "samples": 768,
+            "features": 8,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 4.1,
+            "leaves": 2.5,
+            "depth": 3.02,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.6349923276901245,
+            "time_std": 0.13283819824862078
+        },
+        {
+            "dataset": "pittsburg-bridges-MATERIAL",
+            "samples": 106,
+            "features": 7,
+            "classes": 3,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 2.96,
+            "leaves": 1.98,
+            "depth": 1.98,
+            "score": 0.7452813852813851,
+            "score_std": 0.08866160199698558,
+            "time": 0.050269732475280764,
+            "time_std": 0.008099699743125407
+        },
+        {
+            "dataset": "pittsburg-bridges-REL-L",
+            "samples": 103,
+            "features": 7,
+            "classes": 3,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 1.66,
+            "leaves": 1.28,
+            "depth": 1.64,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.03545485973358154,
+            "time_std": 0.027653615375602295
+        },
+        {
+            "dataset": "pittsburg-bridges-SPAN",
+            "samples": 92,
+            "features": 7,
+            "classes": 3,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 3.16,
+            "leaves": 1.82,
+            "depth": 3.6,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.08239706039428711,
+            "time_std": 0.03557325677069767
+        },
+        {
+            "dataset": "pittsburg-bridges-T-OR-D",
+            "samples": 102,
+            "features": 7,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 1.0,
+            "leaves": 1.0,
+            "depth": 1.0,
+            "score": 0.8628095238095238,
+            "score_std": 0.0747571882042698,
+            "time": 0.015801687240600586,
+            "time_std": 0.0003971613125697508
+        },
+        {
+            "dataset": "planning",
+            "samples": 182,
+            "features": 12,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 1.0,
+            "leaves": 1.0,
+            "depth": 1.0,
+            "score": 0.7143693693693695,
+            "score_std": 0.0715459100205182,
+            "time": 0.03569414615631104,
+            "time_std": 0.0007751197604563786
+        },
+        {
+            "dataset": "post-operative",
+            "samples": 90,
+            "features": 8,
+            "classes": 3,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 2.72,
+            "leaves": 1.78,
+            "depth": 2.18,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.10123939990997315,
+            "time_std": 0.03467312433188491
+        },
+        {
+            "dataset": "seeds",
+            "samples": 210,
+            "features": 7,
+            "classes": 3,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 9.04,
+            "leaves": 5.02,
+            "depth": 4.2,
+            "score": 0.8995238095238095,
+            "score_std": 0.04862975023285386,
+            "time": 0.15811631679534913,
+            "time_std": 0.02076637466029316
+        },
+        {
+            "dataset": "statlog-australian-credit",
+            "samples": 690,
+            "features": 14,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 1.0,
+            "leaves": 1.0,
+            "depth": 1.0,
+            "score": 0.6782608695652174,
+            "score_std": 0.03904983647915211,
+            "time": 0.3371162223815918,
+            "time_std": 0.017279087106877235
+        },
+        {
+            "dataset": "statlog-german-credit",
+            "samples": 1000,
+            "features": 24,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 1.0,
+            "leaves": 1.0,
+            "depth": 1.0,
+            "score": 0.7000000000000002,
+            "score_std": 0.028017851452243787,
+            "time": 1.0081226778030397,
+            "time_std": 0.028427041009670743
+        },
+        {
+            "dataset": "statlog-heart",
+            "samples": 270,
+            "features": 13,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 5.3,
+            "leaves": 3.1,
+            "depth": 3.44,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.1572163963317871,
+            "time_std": 0.031079545638247785
+        },
+        {
+            "dataset": "statlog-image",
+            "samples": 2310,
+            "features": 18,
+            "classes": 7,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 10.34,
+            "leaves": 5.52,
+            "depth": 6.08,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 9.352551326751708,
+            "time_std": 1.0613384341730283
+        },
+        {
+            "dataset": "statlog-vehicle",
+            "samples": 846,
+            "features": 18,
+            "classes": 4,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 15.26,
+            "leaves": 7.98,
+            "depth": 6.62,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 1.9998293399810791,
+            "time_std": 0.3339578719125464
+        },
+        {
+            "dataset": "synthetic-control",
+            "samples": 600,
+            "features": 60,
+            "classes": 6,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 20.08,
+            "leaves": 10.42,
+            "depth": 6.46,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 3.8556637001037597,
+            "time_std": 0.48971286045307366
+        },
+        {
+            "dataset": "tic-tac-toe",
+            "samples": 958,
+            "features": 9,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 1.0,
+            "leaves": 1.0,
+            "depth": 1.0,
+            "score": 0.6534505890052357,
+            "score_std": 0.028021260679892277,
+            "time": 0.35759650230407714,
+            "time_std": 0.00803535305924316
+        },
+        {
+            "dataset": "vertebral-column-2clases",
+            "samples": 310,
+            "features": 6,
+            "classes": 2,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 3.72,
+            "leaves": 2.36,
+            "depth": 2.34,
+            "score": 0.8412903225806452,
+            "score_std": 0.045202745949944154,
+            "time": 0.15885396480560302,
+            "time_std": 0.023434475459576803
+        },
+        {
+            "dataset": "wine",
+            "samples": 178,
+            "features": 13,
+            "classes": 3,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 7.62,
+            "leaves": 4.3,
+            "depth": 3.62,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.1505920696258545,
+            "time_std": 0.025662632212485867
+        },
+        {
+            "dataset": "zoo",
+            "samples": 101,
+            "features": 16,
+            "classes": 7,
+            "hyperparameters": {
+                "splitter": "iwss",
+                "max_features": "auto"
+            },
+            "nodes": 9.62,
+            "leaves": 5.16,
+            "depth": 6.58,
+            "score": NaN,
+            "score_std": NaN,
+            "time": 0.27731751441955566,
+            "time_std": 0.05232267365389739
+        }
+    ],
+    "title": "default",
+    "version": "1.2.3"
+}

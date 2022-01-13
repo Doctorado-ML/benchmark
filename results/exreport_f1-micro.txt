@@ -1,0 +1,23 @@
+---------------------------------------------------------------------
+Friedman test, objetive maximize output variable f1_micro. Obtained p-value: 2.9567e-27
+Chi squared with 4 degrees of freedom statistic: 130.5592
+Test rejected: p-value: 2.9567e-27 < 0.0500
+---------------------------------------------------------------------
+Control post hoc test for output f1_micro
+Adjust method: Holm
+
+Control method: STree
+p-values:
+            SVC	1.0000
+           Wodt	0.0000
+           Cart	0.0000
+      ExtraTree	0.0000
+---------------------------------------------------------------------
+$testMultiple
+          classifier       pvalue     rank win tie loss
+STree          STree           NA 1.683673  NA  NA   NA
+SVC              SVC 1.000000e+00 1.683673  19  11   19
+Wodt            Wodt 2.043468e-06 3.244898  45   0    4
+Cart            Cart 7.353503e-11 3.816327  45   0    4
+ExtraTree  ExtraTree 6.260948e-19 4.571429  48   0    1
+

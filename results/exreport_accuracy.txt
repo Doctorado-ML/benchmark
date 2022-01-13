@@ -1,0 +1,25 @@
+---------------------------------------------------------------------
+Friedman test, objetive maximize output variable accuracy. Obtained p-value: 2.7347e-36
+Chi squared with 5 degrees of freedom statistic: 176.6822
+Test rejected: p-value: 2.7347e-36 < 0.0500
+---------------------------------------------------------------------
+Control post hoc test for output accuracy
+Adjust method: Holm
+
+Control method: SVC
+p-values:
+           ODTE	1.0000
+          STree	1.0000
+           Wodt	0.0000
+           Cart	0.0000
+      ExtraTree	0.0000
+---------------------------------------------------------------------
+$testMultiple
+          classifier       pvalue     rank win tie loss
+SVC              SVC           NA 2.030612  NA  NA   NA
+ODTE            ODTE 1.000000e+00 2.071429  24   2   23
+STree          STree 1.000000e+00 2.183673  22  11   16
+Wodt            Wodt 2.662615e-09 4.346939  47   0    2
+Cart            Cart 1.019512e-12 4.795918  46   0    3
+ExtraTree  ExtraTree 3.691815e-20 5.571429  49   0    0
+
