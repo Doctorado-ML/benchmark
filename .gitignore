@@ -132,5 +132,3 @@ dmypy.json
 
 Rplots.pdf
 .vscode
-# ignore results folder as it is going to be a soft link to a dropbox folder
-results
