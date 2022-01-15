@@ -43,9 +43,11 @@ class Models:
             nodes = 0
             leaves = result.get_n_leaves()
             depth = 0
-        elif name=="Bagging":
+        elif name == "Bagging":
             if hasattr(result.base_estimator_, "nodes_leaves"):
-                nodes, leaves = list(zip(*[x.nodes_leaves() for x in result.estimators_]))
+                nodes, leaves = list(
+                    zip(*[x.nodes_leaves() for x in result.estimators_])
+                )
                 nodes, leaves = mean(nodes), mean(leaves)
                 depth = mean([x.depth_ for x in result.estimators_])
             elif hasattr(result.base_estimator_, "tree_"):
@@ -53,7 +55,7 @@ class Models:
                 leaves = mean([x.get_n_leaves() for x in result.estimators_])
                 depth = mean([x.get_depth() for x in result.estimators_])
             else:
-                nodes = leaves=depth=0
+                nodes = leaves = depth = 0
         elif name == "RandomForest":
             leaves = mean([x.get_n_leaves() for x in result.estimators_])
             depth = mean([x.get_depth() for x in result.estimators_])
