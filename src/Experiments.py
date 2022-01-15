@@ -159,7 +159,6 @@ class Experiment:
         self.title = title
         self.stratified = stratified == "1"
         self.stratified_class = StratifiedKFold if self.stratified else KFold
-        self.model = Models.get_model(model_name)
         self.datasets = datasets
         dictionary = json.loads(hyperparams_dict)
         hyper = BestResults(
@@ -185,8 +184,10 @@ class Experiment:
         return self.output_file
 
     def _build_classifier(self, random_state, hyperparameters):
-        clf = self.model(random_state=random_state)
+        self.model = Models.get_model(self.model_name, random_state)
+        clf = self.model
         clf.set_params(**hyperparameters)
+        clf.set_params(random_state=random_state)
         return clf
 
     def _init_experiment(self):
