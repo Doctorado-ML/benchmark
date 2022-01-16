@@ -2,7 +2,7 @@ import argparse
 import numpy as np
 from Experiments import Datasets
 from Results import Report, Excel, SQL, ReportBest
-from Utils import Files
+from Utils import Files, TextColor
 
 """Build report on screen of a result file, optionally generate excel and sql
 file, and can compare results of report with best results obtained by model
@@ -69,10 +69,18 @@ def parse_arguments():
 
 def default_report():
     sets = Datasets()
+    color_line = TextColor.LINE1
+    print(color_line, end="")
     print(f"{'Dataset':30s} Samp. Feat Cls")
     print("=" * 30 + " ===== ==== ===")
     for line in sets:
         X, y = sets.load(line)
+        color_line = (
+            TextColor.LINE2
+            if color_line == TextColor.LINE1
+            else TextColor.LINE1
+        )
+        print(color_line, end="")
         print(
             f"{line:30s} {X.shape[0]:5,d} {X.shape[1]:4d} "
             f"{len(np.unique(y)):3d}"
