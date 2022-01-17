@@ -1,6 +1,6 @@
 #!/bin/bash
 ### Nombre de trabajo
-#PBS -N Bagging_RF
+#PBS -N Bagging_Wodt
 ### Seleccion de cola de trabajos
 #PBS -q workq
 ### mezcla errores con la salida principal
@@ -16,4 +16,4 @@
 #PBS -M ricardo.montanana@alu.uclm.es
 ### Ejecutable con sus parametros
 cd /home/Ricardo.Montanana/benchmark
-python src/main.py -s accuracy -q 1 -m BaggingStree --title "RandomForest like with STree" -p '{"n_estimators": 20, "base_estimator__max_features":"sqrt"}'
+python src/main.py -s accuracy -q 1 -m BaggingWodt --title "Bagging with Wodt max_features=0.75" -p '{"n_estimators": 100, "max_features":0.75}'
