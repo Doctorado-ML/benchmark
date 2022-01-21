@@ -146,7 +146,8 @@ class Report(BaseReport):
         self.header_line(
             f" Report {self.data['model']} ver. {self.data['version']}"
             f" with {self.data['folds']} Folds "
-            f"cross validation and {len(self.data['seeds'])} random seeds"
+            f"cross validation and {len(self.data['seeds'])} random seeds. "
+            f"{self.data['date']} {self.data['time']}"
         )
         self.header_line(f" {self.data['title']}")
         self.header_line(
@@ -274,7 +275,8 @@ class Excel(BaseReport):
             0,
             f" Report {self.data['model']} ver. {self.data['version']}"
             f" with {self.data['folds']} Folds "
-            f"cross validation and {len(self.data['seeds'])} random seeds",
+            f"cross validation and {len(self.data['seeds'])} random seeds. ",
+            f"{self.data['date']} {self.data['time']}"
             header,
         )
         self.sheet.write(
