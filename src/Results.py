@@ -154,9 +154,10 @@ class Report(BaseReport):
             f" Random seeds: {self.data['seeds']} Stratified: "
             f"{self.data['stratified']}"
         )
+        hours = self.data["duration"] / 3600
         self.header_line(
-            f" Execution took {self.data['duration']:7.2f} seconds on "
-            f"{self.data['platform']}"
+            f" Execution took {self.data['duration']:7.2f} seconds, "
+            f" {hours:5.2f} hours, on {self.data['platform']}"
         )
         self.header_line(f" Score is {self.data['score_name']}")
         self.header_line("*")
@@ -199,7 +200,7 @@ class ReportBest(BaseReport):
         self.score_name = score
         self.model = model
 
-    def header_line(self, text):
+    def header_line(self, text: str) -> None:
         length = sum(self.header_lengths) + len(self.header_lengths) - 3
         if text == "*":
             print("*" * (length + 2))
@@ -275,8 +276,8 @@ class Excel(BaseReport):
             0,
             f" Report {self.data['model']} ver. {self.data['version']}"
             f" with {self.data['folds']} Folds "
-            f"cross validation and {len(self.data['seeds'])} random seeds. ",
-            f"{self.data['date']} {self.data['time']}"
+            f"cross validation and {len(self.data['seeds'])} random seeds. "
+            f"{self.data['date']} {self.data['time']}",
             header,
         )
         self.sheet.write(
@@ -285,11 +286,12 @@ class Excel(BaseReport):
             f" {self.data['title']}",
             subheader,
         )
+        hours = self.data["duration"] / 3600
         self.sheet.write(
             2,
             0,
-            f" Execution took {self.data['duration']:7.2f} seconds on "
-            f"{self.data['platform']}",
+            f" Execution took {self.data['duration']:7.2f} seconds, "
+            f" {hours:5.2f} hours, on {self.data['platform']}",
             subheader,
         )
         self.sheet.write(
