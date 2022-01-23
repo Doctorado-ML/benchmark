@@ -321,7 +321,7 @@ class Excel(BaseReport):
             ("Score Std.", 12),
             ("Time", 12),
             ("Time Std.", 12),
-            ("Parameters", 50),
+            ("Hyperparameters", 50),
         ]
         if self.compare:
             header_cols.insert(8, ("Stat", 3))
