@@ -6,16 +6,16 @@ for i in accuracy f1_micro f1_macro; do
 done
 echo "* Computing scores with best hyperparameters in STree"
 for a in accuracy f1_macro f1_micro; do
-    python src/main.py -s $a -P iMac27 -m STree -f 1
+    python src/main.py -s $a -q 1 -m STree -f 1
 done
 echo "* Computing scores with best hyperparameters in SVC"
 for a in accuracy f1_macro f1_micro; do
-    python src/main.py -s $a -P iMac27 -m SVC -f 1
+    python src/main.py -s $a -q 1 -m SVC -f 1
 done
 echo "* Computing scores with the rest of models"
 for i in Wodt Cart ExtraTree; do
     for a in accuracy f1_macro f1_micro; do
-        python src/main.py -s $a -P iMac27 -m $i
+        python src/main.py -s $a -q 1 -m $i
     done
 done
 echo "* Building best hyperaparameters files for models"
