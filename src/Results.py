@@ -700,15 +700,23 @@ class Summary:
             self.datasets[result] = report.lines
             self.data.append(entry)
 
-    def list(self) -> None:
+    def list(self, score=None, model=None) -> None:
         """Print the list of results"""
-        max_length = max(len(x["file"]) for x in self.data)
+        data = self.data.copy()
+        if score:
+            data = [x for x in data if x["score"] == score]
+        if model:
+            data = [x for x in data if x["model"] == model]
+        max_file = max(len(x["file"]) for x in data)
+        max_title = max(len(x["title"]) for x in data)
+        print(f"{'File':{max_file}s} {'Score':7s} {'Title':s}")
+        print("=" * max_file + " " + "=" * 7 + " " + "=" * max_title)
         print(
             "\n".join(
                 [
-                    f"{x['file']:{max_length}s} {x['metric']:7.3f} "
+                    f"{x['file']:{max_file}s} {x['metric']:7.3f} "
                     f"{x['title']}"
-                    for x in self.data
+                    for x in data
                 ]
             )
         )
