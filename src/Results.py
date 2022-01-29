@@ -707,6 +707,7 @@ class Summary:
             data = [x for x in data if x["score"] == score]
         if model:
             data = [x for x in data if x["model"] == model]
+        data = sorted(data, key=lambda x: x["date"], reverse=True)
         max_file = max(len(x["file"]) for x in data)
         max_title = max(len(x["title"]) for x in data)
         print(f"{'File':{max_file}s} {'Score':7s} {'Title':s}")
