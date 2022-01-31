@@ -37,4 +37,4 @@ def parse_arguments():
 
 data = Summary()
 data.acquire()
-data.list(score, model)
+data.list_results(score, model)

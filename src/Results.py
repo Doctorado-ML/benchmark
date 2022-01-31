@@ -1,4 +1,3 @@
-from cgitb import text
 import os
 import json
 import abc
@@ -700,7 +699,7 @@ class Summary:
             self.datasets[result] = report.lines
             self.data.append(entry)
 
-    def list(self, score=None, model=None) -> None:
+    def list_results(self, score=None, model=None) -> None:
         """Print the list of results"""
         data = self.data.copy()
         if score:
@@ -710,14 +709,24 @@ class Summary:
         data = sorted(data, key=lambda x: x["date"], reverse=True)
         max_file = max(len(x["file"]) for x in data)
         max_title = max(len(x["title"]) for x in data)
-        print(f"{'File':{max_file}s} {'Score':7s} {'Title':s}")
-        print("=" * max_file + " " + "=" * 7 + " " + "=" * max_title)
+        print(TextColor.LINE1, end="")
+        print(f"{'Date':10s} {'File':{max_file}s} {'Score':7s} {'Title':s}")
+        print(
+            "=" * 10
+            + " "
+            + "=" * max_file
+            + " "
+            + "=" * 7
+            + " "
+            + "=" * max_title
+        )
         print(
             "\n".join(
                 [
-                    f"{x['file']:{max_file}s} {x['metric']:7.3f} "
-                    f"{x['title']}"
-                    for x in data
+                    (TextColor.LINE2 if n % 2 == 0 else TextColor.LINE1)
+                    + f"{x['date']} {x['file']:{max_file}s} "
+                    f"{x['metric']:7.3f} {x['title']}"
+                    for n, x in enumerate(data)
                 ]
             )
         )

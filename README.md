@@ -45,3 +45,14 @@ python src/benchmark.py
 # Do benchmark, print report and build excel file with data
 python src/benchmark.py -x 1
 ```
+
+## List
+
+```python
+# List of results of given model
+python src/list.py -m ODTE
+# List of results of given model and score
+python src/list.py -m STree -s f1-macro
+# List all results
+python src/list.py
+```
