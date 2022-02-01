@@ -60,4 +60,4 @@ for metric in metrics:
         summary.best_result(score=metric), title=f"BEST RESULT of {metric}"
     )
 if list_results:
-    summary.list()
+    summary.list_results()
