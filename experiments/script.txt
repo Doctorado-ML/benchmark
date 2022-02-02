@@ -1,2 +1,2 @@
 cd <folder>
-python src/main.py -m <model> -s <score> --title "<title>" -p '<parameters>'
+python src/main.py -q 1 -m <model> -s <score> --title "<title>" -p '<parameters>'

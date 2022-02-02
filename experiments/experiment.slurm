@@ -7,5 +7,5 @@
 #SBATCH --job-name="<model>-<score>-<date>"
 #SBATCH --mail-user=ricardo.montanana@alu.uclm.es   # email address
 #SBATCH --mail-type=END
-#SBATCH -w nodo-7-33
+#SBATCH -w nodo-7-3[2-3]
 # LOAD MODULES, INSERT CODE, AND RUN YOUR PROGRAMS HERE
