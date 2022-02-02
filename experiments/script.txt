@@ -1,0 +1,2 @@
+cd <folder>
+python src/main.py -m <model> -s <score> --title "<title>" -p '<parameters>'

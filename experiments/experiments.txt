@@ -1,0 +1,13 @@
+# Experiments to do:
+# Bagging
+# Random Forest
+# Odte
+# Random Forest
+
+#ODTE_accuracy_slurm_0202_1.sh, ODTE&ODTE Random Forest rbf-best&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"rbf\", \"splitter\": \"best\", \"max_features\": \"sqrt\"}"}
+#ODTE_accuracy_slurm_0202_2.sh, ODTE&ODTE Random Forest linear-best&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"linear\", \"splitter\": \"best\", \"max_features\": \"sqrt\"}"}
+#ODTE_accuracy_slurm_0202_3.sh, ODTE&ODTE Random Forest rbf-random&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"rbf\", \"splitter\": \"random\", \"max_features\": \"sqrt\"}"}
+#ODTE_accuracy_slurm_0202_4.sh, ODTE&ODTE Random Forest linear-random&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"linear\", \"splitter\": \"random\", \"max_features\": \"sqrt\"}"}
+#ODTE_accuracy_slurm_0202_5.sh, ODTE&ODTE Random Forest rbf-trandom&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"rbf\", \"splitter\": \"trandom\", \"max_features\": \"sqrt\"}"}
+#ODTE_accuracy_slurm_0202_6.sh, ODTE&ODTE Random Forest linear-trandom&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"linear\", \"splitter\": \"trandom\", \"max_features\": \"sqrt\"}"}
+
