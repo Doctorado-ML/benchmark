@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from Results import Benchmark
 from Utils import Files, EnvDefault
 import argparse

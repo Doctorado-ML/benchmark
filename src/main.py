@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import argparse
 from Experiments import Experiment, Datasets
 from Results import Report
