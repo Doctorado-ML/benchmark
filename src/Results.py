@@ -1,4 +1,5 @@
 import os
+import math
 import json
 import abc
 import shutil
@@ -741,7 +742,7 @@ class Summary:
         file_name = data["file"]
         metric = data["metric"]
         result = StubReport(os.path.join(Folders.results, file_name))
-        length = 80
+        length = 81
         print("*" * length)
         if title != "":
             print(f"*{title:^{length - 2}s}*")
@@ -786,7 +787,11 @@ class Summary:
             else [x for x in haystack if x[criterion] == value]
         )
         return (
-            sorted(haystack, key=lambda x: x["metric"], reverse=True)[0]
+            sorted(
+                haystack,
+                key=lambda x: -1.0 if math.isnan(x["metric"]) else x["metric"],
+                reverse=True,
+            )[0]
             if len(haystack) > 0
             else {}
         )
