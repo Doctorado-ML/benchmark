@@ -27,14 +27,15 @@
 #
 # kernel liblinear Random Forest and pseudo Random Forest
 # RF
-ODTE&ODTE Random Forest liblinear-best max_features-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"best\", \"multiclass_strategy\": \"ovr\"}"}
-ODTE&ODTE Random Forest liblinear-random max_features-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"random\", \"multiclass_strategy\": \"ovr\"}"}
-ODTE&ODTE Random Forest liblinear-trandom max_features-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"trandom\", \"multiclass_strategy\": \"ovr\"}"}
+#ODTE_accuracy_pbs_0209_1.sh, ODTE&ODTE Random Forest liblinear-best max_features-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"best\", \"multiclass_strategy\": \"ovr\"}"}
+#ODTE_accuracy_pbs_0209_2.sh, ODTE&ODTE Random Forest liblinear-random max_features-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"random\", \"multiclass_strategy\": \"ovr\"}"}
+#ODTE_accuracy_pbs_0209_3.sh, ODTE&ODTE Random Forest liblinear-trandom max_features-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"trandom\", \"multiclass_strategy\": \"ovr\"}"}
 # pseudo RF
-ODTE&ODTE pseudo Random Forest liblinear-best max_samples-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"best\", \"multiclass_strategy\": \"ovr\"}"}
-ODTE&ODTE pseudo Random Forest liblinear-random max_samples-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"random\", \"multiclass_strategy\": \"ovr\"}"}
-ODTE&ODTE pseudo Random Forest liblinear-trandom max_samples-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"trandom\", \"multiclass_strategy\": \"ovr\"}"}
-ODTE&ODTE pseudo Random Forest liblinear-best max_features-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"best\", \"multiclass_strategy\": \"ovr\"}"}
-ODTE&ODTE pseudo Random Forest liblinear-random max_features-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"random\", \"multiclass_strategy\": \"ovr\"}"}
-ODTE&ODTE pseudo Random Forest liblinear-trandom max_features-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"trandom\", \"multiclass_strategy\": \"ovr\"}"}# RF
+#ODTE_accuracy_pbs_0209_4.sh, ODTE&ODTE pseudo Random Forest liblinear-best max_samples-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"best\", \"multiclass_strategy\": \"ovr\"}"}
+#ODTE_accuracy_pbs_0209_5.sh, ODTE&ODTE pseudo Random Forest liblinear-random max_samples-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"random\", \"multiclass_strategy\": \"ovr\"}"}
+#ODTE_accuracy_pbs_0209_6.sh, ODTE&ODTE pseudo Random Forest liblinear-trandom max_samples-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_samples": 0.75, "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"trandom\", \"multiclass_strategy\": \"ovr\"}"}
+#ODTE_accuracy_pbs_0209_7.sh, ODTE&ODTE pseudo Random Forest liblinear-best max_features-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"best\", \"multiclass_strategy\": \"ovr\"}"}
+#ODTE_accuracy_pbs_0209_8.sh, ODTE&ODTE pseudo Random Forest liblinear-random max_features-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"random\", \"multiclass_strategy\": \"ovr\"}"}
+#ODTE_accuracy_pbs_0209_9.sh, ODTE&ODTE pseudo Random Forest liblinear-trandom max_features-sqrt&{"n_jobs": 10, "n_estimators": 100, "max_features": "sqrt", "be_hyperparams":  "{\"kernel\": \"liblinear\", \"splitter\": \"trandom\", \"multiclass_strategy\": \"ovr\"}"}# RF
 	
+
