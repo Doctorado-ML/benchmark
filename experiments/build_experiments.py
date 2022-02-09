@@ -44,6 +44,8 @@ def generate_experiment(data, score, platform):
         f"{datetime.datetime.now().month:02d}{datetime.datetime.now().day:02d}"
     )
     (model, title, parameters) = data.split("&")
+    file_name = f"{model}_{score}_{platform}_{day}_{generate_experiment.idx}"
+    output_file_name = f"{file_name}.sh"
     strings = [
         ("<date>", day),
         ("<folder>", path),
@@ -51,10 +53,8 @@ def generate_experiment(data, score, platform):
         ("<model>", model),
         ("<title>", title),
         ("<parameters>", parameters),
+        ("<file_name>", file_name),
     ]
-    output_file_name = (
-        f"{model}_{score}_{platform}_{day}_{generate_experiment.idx}.sh"
-    )
     data = lines.copy()
     for item, value in strings:
         data = [line.replace(item, value) for line in data]

@@ -5,6 +5,7 @@
 #PBS -q workq
 ### mezcla errores con la salida principal
 #PBS -j oe
+#PBS -o <file_name>.out
 ### Recursos
 #PBS -l select=1:ncpus=16:mem=56Gb
 #PBS -l place=exclhost
