@@ -29,13 +29,21 @@ def parse_arguments():
         required=False,
         help="model used in experiment",
     )
+    ap.add_argument(
+        "-k",
+        "--key",
+        type=str,
+        required=False,
+        default="date",
+        help="key to sort results",
+    )
     args = ap.parse_args()
 
-    return (args.excel, args.score, args.model)
+    return (args.excel, args.score, args.model, args.key)
 
 
-(excel, score, model) = parse_arguments()
+(excel, score, model, key) = parse_arguments()
 
 data = Summary()
 data.acquire()
-data.list_results(score, model)
+data.list_results(score=score, model=model, sort_key=key)

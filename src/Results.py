@@ -700,14 +700,22 @@ class Summary:
             self.datasets[result] = report.lines
             self.data.append(entry)
 
-    def list_results(self, score=None, model=None) -> None:
+    def list_results(
+        self, score=None, model=None, input_data=None, sort_key="date"
+    ) -> None:
         """Print the list of results"""
-        data = self.data.copy()
+        data = self.data.copy() if input_data is None else input_data
         if score:
             data = [x for x in data if x["score"] == score]
         if model:
             data = [x for x in data if x["model"] == model]
-        data = sorted(data, key=lambda x: x["date"], reverse=True)
+        data = sorted(
+            data,
+            key=lambda x: 0.0
+            if type(x[sort_key]) is float and math.isnan(x[sort_key])
+            else x[sort_key],
+            reverse=True,
+        )
         max_file = max(len(x["file"]) for x in data)
         max_title = max(len(x["title"]) for x in data)
         print(TextColor.LINE1, end="")
@@ -776,9 +784,7 @@ class Summary:
         print("*" + whites(length - 2))
         print("*" * length)
 
-    def best_result(
-        self, criterion=None, value=None, score="accuracy"
-    ) -> dict:
+    def best_results(self, criterion=None, value=None, score="accuracy", n=10):
         # First filter the same score results (accuracy, f1, ...)
         haystack = [x for x in self.data if x["score"] == score]
         haystack = (
@@ -791,10 +797,15 @@ class Summary:
                 haystack,
                 key=lambda x: -1.0 if math.isnan(x["metric"]) else x["metric"],
                 reverse=True,
-            )[0]
+            )[:n]
             if len(haystack) > 0
             else {}
         )
+
+    def best_result(
+        self, criterion=None, value=None, score="accuracy"
+    ) -> dict:
+        return self.best_results(criterion, value, score)[0]
 
     def best_results_datasets(self, score="accuracy") -> dict:
         """Get the best results for each dataset"""
@@ -814,3 +825,10 @@ class Summary:
                         entry["title"],
                     )
         return best_results
+
+    def show_top(self, score="accuracy", n=10):
+        self.list_results(
+            score=score,
+            input_data=self.best_results(score=score, n=n),
+            sort_key="metric",
+        )
