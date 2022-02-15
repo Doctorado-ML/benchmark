@@ -10,9 +10,6 @@ import pandas as pd
 from sklearn.model_selection import StratifiedKFold, KFold, cross_validate
 from Utils import Folders, Files
 from Models import Models
-from stree import Stree
-from wodt import Wodt
-from sklearn.tree import DecisionTreeClassifier
 
 
 class Randomized:
