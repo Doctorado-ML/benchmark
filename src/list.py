@@ -37,13 +37,21 @@ def parse_arguments():
         default="date",
         help="key to sort results",
     )
+    ap.add_argument(
+        "-n",
+        "--number",
+        type=int,
+        required=False,
+        default=0,
+        help="number of results to show, 0 to any",
+    )
     args = ap.parse_args()
 
-    return (args.excel, args.score, args.model, args.key)
+    return (args.excel, args.score, args.model, args.key, args.number)
 
 
-(excel, score, model, key) = parse_arguments()
+(excel, score, model, key, number) = parse_arguments()
 
 data = Summary()
 data.acquire()
-data.list_results(score=score, model=model, sort_key=key)
+data.list_results(score=score, model=model, sort_key=key, number=number)

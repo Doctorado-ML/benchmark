@@ -701,7 +701,12 @@ class Summary:
             self.data.append(entry)
 
     def list_results(
-        self, score=None, model=None, input_data=None, sort_key="date"
+        self,
+        score=None,
+        model=None,
+        input_data=None,
+        sort_key="date",
+        number=0,
     ) -> None:
         """Print the list of results"""
         data = self.data.copy() if input_data is None else input_data
@@ -716,6 +721,8 @@ class Summary:
             else x[sort_key],
             reverse=True,
         )
+        if number > 0:
+            data = data[:number]
         max_file = max(len(x["file"]) for x in data)
         max_title = max(len(x["title"]) for x in data)
         print(TextColor.LINE1, end="")
