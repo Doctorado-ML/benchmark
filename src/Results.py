@@ -4,8 +4,8 @@ import json
 import abc
 import shutil
 import subprocess
-import xlsxwriter
 from tqdm import tqdm
+import xlsxwriter
 from Experiments import Datasets, BestResults
 from Utils import Folders, Files, Symbols, BEST_ACCURACY_STREE, TextColor
 
