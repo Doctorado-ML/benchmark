@@ -922,6 +922,6 @@
             "time_std": 0.0014835150867263116
         }
     ],
-    "title": "default",
+    "title": "With gridsearched hyperparameters",
     "version": "1.2.3"
 }

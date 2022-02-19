@@ -662,6 +662,7 @@ class StubReport(BaseReport):
 
     def header(self) -> None:
         self.title = self.data["title"]
+        self.duration = self.data["duration"]
 
     def footer(self, accuracy: float) -> None:
         self.accuracy = accuracy
@@ -696,6 +697,7 @@ class Summary:
                 stratified=stratified,
                 file=result,
                 metric=report.accuracy / BEST_ACCURACY_STREE,
+                duration=report.duration,
             )
             self.datasets[result] = report.lines
             self.data.append(entry)
@@ -726,11 +728,16 @@ class Summary:
         max_file = max(len(x["file"]) for x in data)
         max_title = max(len(x["title"]) for x in data)
         print(TextColor.LINE1, end="")
-        print(f"{'Date':10s} {'File':{max_file}s} {'Score':7s} {'Title':s}")
+        print(
+            f"{'Date':10s} {'File':{max_file}s} {'Score':7s} {'Time(h)':7s} "
+            f"{'Title':s}"
+        )
         print(
             "=" * 10
             + " "
             + "=" * max_file
+            + " "
+            + "=" * 7
             + " "
             + "=" * 7
             + " "
@@ -741,7 +748,9 @@ class Summary:
                 [
                     (TextColor.LINE2 if n % 2 == 0 else TextColor.LINE1)
                     + f"{x['date']} {x['file']:{max_file}s} "
-                    f"{x['metric']:7.3f} {x['title']}"
+                    f"{x['metric']:7.3f} "
+                    f"{x['duration']/3600:7.3f} "
+                    f"{x['title']}"
                     for n, x in enumerate(data)
                 ]
             )
