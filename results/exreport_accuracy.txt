@@ -1,0 +1,41 @@
+---------------------------------------------------------------------
+Friedman test, objetive maximize output variable accuracy. Obtained p-value: 6.6349e-82
+Chi squared with 13 degrees of freedom statistic: 421.4222
+Test rejected: p-value: 6.6349e-82 < 0.0500
+---------------------------------------------------------------------
+Control post hoc test for output accuracy
+Adjust method: Holm
+
+Control method: ODTE
+p-values:
+         TBRRoF	0.2667
+            SVC	0.0337
+          TBRaF	0.0337
+          STree	0.0305
+    BaggingWodt	0.0181
+   RandomForest	0.0001
+          TBRoF	0.0001
+   BaggingStree	0.0000
+          Hedge	0.0000
+           Wodt	0.0000
+           Cart	0.0000
+      ExtraTree	0.0000
+        Bagging	0.0000
+---------------------------------------------------------------------
+$testMultiple
+               classifier       pvalue      rank win tie loss
+ODTE                 ODTE           NA  2.918367  NA  NA   NA
+TBRRoF             TBRRoF 2.666656e-01  3.857143  30   0   19
+TBRaF               TBRaF 3.368966e-02  5.040816  37   0   12
+SVC                   SVC 3.368966e-02  5.061224  34   3   12
+STree               STree 3.049694e-02  5.173469  36   6    7
+BaggingWodt   BaggingWodt 1.808617e-02  5.377551  33   1   15
+RandomForest RandomForest 9.782582e-05  6.561224  39   0   10
+TBRoF               TBRoF 6.942731e-05  6.653061  43   0    6
+BaggingStree BaggingStree 1.994251e-05  6.897959  42   4    3
+Hedge               Hedge 3.459008e-14  9.561224  47   0    2
+Wodt                 Wodt 1.250970e-16 10.142857  49   0    0
+Cart                 Cart 2.205000e-22 11.346939  48   0    1
+ExtraTree       ExtraTree 3.546304e-28 12.408163  49   0    0
+Bagging           Bagging 3.655835e-38 14.000000  49   0    0
+

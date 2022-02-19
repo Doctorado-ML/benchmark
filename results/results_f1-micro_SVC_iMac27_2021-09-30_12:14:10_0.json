@@ -903,6 +903,6 @@
             "time_std": 2.2023088990704206e-05
         }
     ],
-    "title": "default",
+    "title": "With gridsearched hyperparameters",
     "version": "-"
 }
