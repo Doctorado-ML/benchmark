@@ -9,7 +9,7 @@
 ### Recursos
 #PBS -l select=1:ncpus=16:mem=56Gb
 #PBS -l place=exclhost
-### Esportar variables de entorno
+### Exportar variables de entorno
 #PBS -V
 ### Send email on end
 #PBS -m e
