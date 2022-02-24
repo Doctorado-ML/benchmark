@@ -1,4 +1,5 @@
 import os
+from operator import itemgetter
 import math
 import json
 import abc
@@ -716,13 +717,7 @@ class Summary:
             data = [x for x in data if x["score"] == score]
         if model:
             data = [x for x in data if x["model"] == model]
-        data = sorted(
-            data,
-            key=lambda x: 0.0
-            if type(x[sort_key]) is float and math.isnan(x[sort_key])
-            else x[sort_key],
-            reverse=True,
-        )
+        data = sorted(data, key=itemgetter(sort_key, "time"), reverse=True)
         if number > 0:
             data = data[:number]
         max_file = max(len(x["file"]) for x in data)
