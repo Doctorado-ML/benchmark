@@ -717,7 +717,12 @@ class Summary:
             data = [x for x in data if x["score"] == score]
         if model:
             data = [x for x in data if x["model"] == model]
-        data = sorted(data, key=itemgetter(sort_key, "time"), reverse=True)
+        keys = (
+            itemgetter(sort_key, "time")
+            if sort_key == "date"
+            else itemgetter(sort_key, "date", "time")
+        )
+        data = sorted(data, key=keys, reverse=True)
         if number > 0:
             data = data[:number]
         max_file = max(len(x["file"]) for x in data)
