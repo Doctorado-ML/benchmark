@@ -732,7 +732,7 @@ class Summary:
             + " "
             + "=" * max_file
             + " "
-            + "=" * 7
+            + "=" * 8
             + " "
             + "=" * 7
             + " "
@@ -743,7 +743,7 @@ class Summary:
                 [
                     (TextColor.LINE2 if n % 2 == 0 else TextColor.LINE1)
                     + f"{x['date']} {x['file']:{max_file}s} "
-                    f"{x['metric']:7.3f} "
+                    f"{x['metric']:8.5f} "
                     f"{x['duration']/3600:7.3f} "
                     f"{x['title']}"
                     for n, x in enumerate(data)
