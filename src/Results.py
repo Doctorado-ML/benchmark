@@ -5,7 +5,6 @@ import json
 import abc
 import shutil
 import subprocess
-from tqdm import tqdm
 import xlsxwriter
 from Experiments import Datasets, BestResults
 from Utils import Folders, Files, Symbols, BEST_ACCURACY_STREE, TextColor
@@ -456,49 +455,56 @@ class SQL(BaseReport):
 
 
 class Benchmark:
-    @staticmethod
-    def get_result_file_name(score):
-        return os.path.join(Folders.results, Files.exreport(score))
+    def __init__(self, score):
+        self._score = score
+        self._results = []
+        self._models = []
+        self._report = {}
+        self._datasets = set()
 
-    @staticmethod
-    def _process_dataset(results, data):
-        model = data["model"]
-        for record in data["results"]:
-            dataset = record["dataset"]
-            if (model, dataset) in results:
-                if record["score"] > results[model, dataset][0]:
-                    results[model, dataset] = (
-                        record["score"],
-                        record["score_std"],
-                    )
-            else:
-                results[model, dataset] = (
-                    record["score"],
-                    record["score_std"],
+    def get_result_file_name(self):
+        return os.path.join(Folders.results, Files.exreport(self._score))
+
+    def compile_results(self):
+        summary = Summary()
+        summary.acquire(given_score=self._score)
+        self._models = summary.get_models()
+        for model in self._models:
+            best = summary.best_result(
+                criterion="model", value=model, score=self._score
+            )
+            file_name = os.path.join(Folders.results, best["file"])
+            with open(file_name) as fi:
+                experiment = json.load(fi)
+                for result in experiment["results"]:
+                    dataset = result["dataset"]
+                    record = {
+                        "model": model,
+                        "dataset": dataset,
+                        "score": result["score"],
+                        "score_std": result["score_std"],
+                        "file_name": file_name,
+                    }
+                    self._results.append(record)
+                    if model not in self._report:
+                        self._report[model] = {}
+                    self._report[model][dataset] = record
+                    self._datasets.add(dataset)
+        self._datasets = sorted(self._datasets)
+
+    def save_results(self):
+        # build Files.exreport
+        result_file_name = self.get_result_file_name()
+        with open(result_file_name, "w") as f:
+            f.write(f"classifier, dataset, {self._score}, stdev, file_name\n")
+            for record in self._results:
+                f.write(
+                    f"{record['model']}, {record['dataset']}, "
+                    f"{record['score']}, {record['score_std']}, "
+                    f"{record['file_name']}\n"
                 )
 
-    @staticmethod
-    def compile_results(score):
-        # build Files.exreport
-        result_file_name = Benchmark.get_result_file_name(score)
-        results = {}
-        init_suffix, end_suffix = Files.results_suffixes(score=score)
-        all_files = list(os.walk(Folders.results))
-        for root, _, files in tqdm(all_files, desc="files"):
-            for name in files:
-                if name.startswith(init_suffix) and name.endswith(end_suffix):
-                    file_name = os.path.join(root, name)
-                    with open(file_name) as fp:
-                        data = json.load(fp)
-                        Benchmark._process_dataset(results, data)
-
-        with open(result_file_name, "w") as f:
-            f.write(f"classifier, dataset, {score}, stdev\n")
-            for (model, dataset), (accuracy, stdev) in results.items():
-                f.write(f"{model}, {dataset}, {accuracy}, {stdev}\n")
-
-    @staticmethod
-    def exreport(score):
+    def exreport(self):
         def end_message(message, file):
             length = 100
             print("*" * length)
@@ -515,74 +521,67 @@ class Benchmark:
             os.remove(Files.exreport_pdf)
         except FileNotFoundError:
             pass
-        except OSError as e:
-            print("Error: %s : %s" % (Folders.report, e.strerror))
+        except OSError as os_error:
+            print("Error: %s : %s" % (Folders.report, os_error.strerror))
         # Compute Friedman & Holm Tests
         fout = open(
-            os.path.join(Folders.results, Files.exreport_output(score)), "w"
+            os.path.join(Folders.results, Files.exreport_output(self._score)),
+            "w",
         )
         ferr = open(
-            os.path.join(Folders.results, Files.exreport_err(score)), "w"
+            os.path.join(Folders.results, Files.exreport_err(self._score)), "w"
         )
         result = subprocess.run(
-            ["Rscript", os.path.join(Folders.src, Files.benchmark_r), score],
+            [
+                "Rscript",
+                os.path.join(Folders.src, Files.benchmark_r),
+                self._score,
+            ],
             stdout=fout,
             stderr=ferr,
         )
         fout.close()
         ferr.close()
         if result.returncode != 0:
-            end_message("Error computing benchmark", Files.exreport_err(score))
+            end_message(
+                "Error computing benchmark", Files.exreport_err(self._score)
+            )
         else:
-            end_message("Benchmark Ok", Files.exreport_output(score))
+            end_message("Benchmark Ok", Files.exreport_output(self._score))
         Files.open(Files.exreport_pdf)
 
-    @staticmethod
-    def build_results(score):
-        # Build results data structure
-        file_name = Benchmark.get_result_file_name(score)
-        results = {}
-        with open(file_name) as f:
-            data = f.read().splitlines()
-            data = data[1:]
-        for line in data:
-            model, dataset, accuracy, stdev = line.split(", ")
-            if model not in results:
-                results[model] = {}
-            results[model][dataset] = (accuracy, stdev)
-        return results
+    def report(self):
+        print(f"{'Dataset':30s} ", end="")
+        lines = "=" * 30 + " "
+        for model in self._models:
+            print(f"{model:^13s} ", end="")
+            lines += "=" * 13 + " "
+        print(f"\n{lines}")
+        for dataset in self._datasets:
+            print(f"{dataset:30s} ", end="")
+            for model in self._models:
+                result = self._report[model][dataset]
+                print(f"{float(result['score']):.5f}±", end="")
+                print(f"{float(result['score_std']):.3f} ", end="")
+            print("")
+        d_name = next(iter(self._datasets))
+        print(f"\n{'Model':30s} {'File Name':75s} Score")
+        print("=" * 30 + " " + "=" * 75 + " ========")
+        for model in self._models:
+            file_name = self._report[model][d_name]["file_name"]
+            report = StubReport(file_name)
+            report.report()
+            print(f"{model:^30s} {file_name:75s} {report.score:8.5f}")
 
-    @staticmethod
-    def report(score):
-        def show(results):
-            datasets = results[list(results)[0]]
-            print(f"{'Dataset':30s} ", end="")
-            lines = "=" * 30 + " "
-            for model in results:
-                print(f"{model:^13s} ", end="")
-                lines += "=" * 13 + " "
-            print(f"\n{lines}")
-            for dataset, _ in datasets.items():
-                print(f"{dataset:30s} ", end="")
-                for model in results:
-                    print(f"{float(results[model][dataset][0]):.5f}±", end="")
-                    print(f"{float(results[model][dataset][1]):.3f} ", end="")
-                print("")
+    def get_excel_file_name(self):
+        return os.path.join(
+            Folders.exreport, Files.exreport_excel(self._score)
+        )
 
-        print(f"* Score is: {score}")
-        show(Benchmark.build_results(score))
-
-    @staticmethod
-    def get_excel_file_name(score):
-        return os.path.join(Folders.exreport, Files.exreport_excel(score))
-
-    @staticmethod
-    def excel(score):
-        results = Benchmark.build_results(score)
-        book = xlsxwriter.Workbook(Benchmark.get_excel_file_name(score))
+    def excel(self):
+        book = xlsxwriter.Workbook(self.get_excel_file_name())
         sheet = book.add_worksheet("Benchmark")
         normal = book.add_format({"font_size": 14})
-        bold = book.add_format({"bold": True, "font_size": 14})
         decimal = book.add_format({"num_format": "0.000000", "font_size": 14})
         merge_format = book.add_format(
             {
@@ -592,22 +591,30 @@ class Benchmark:
                 "font_size": 14,
             }
         )
+        merge_format_normal = book.add_format(
+            {
+                "valign": "vcenter",
+                "font_size": 14,
+            }
+        )
         row = row_init = 4
 
         def header():
             nonlocal row
             sheet.merge_range(0, 0, 1, 0, "Benchmark of Models", merge_format)
-            sheet.write(1, 2, f"Score is {score}", bold)
+            sheet.merge_range(
+                0, 1, 1, 2, f"Score is {self._score}", merge_format
+            )
             sheet.set_row(1, 20)
             # Set columns width
             sheet.set_column(0, 0, 40)
-            for column in range(2 * len(results)):
+            for column in range(2 * len(self._results)):
                 sheet.set_column(column + 1, column + 1, 15)
             # Set report header
             # Merge 2 rows
             sheet.merge_range(row, 0, row + 1, 0, "Dataset", merge_format)
             column = 1
-            for model in results:
+            for model in self._models:
                 # Merge 2 columns
                 sheet.merge_range(
                     row, column, row, column + 1, model, merge_format
@@ -615,42 +622,73 @@ class Benchmark:
                 column += 2
             row += 1
             column = 1
-            for _ in range(len(results)):
+            for _ in range(len(self._results)):
                 sheet.write(row, column, "Score", merge_format)
                 sheet.write(row, column + 1, "Stdev", merge_format)
                 column += 2
 
         def body():
             nonlocal row
-            datasets = results[list(results)[0]]
-            for dataset, _ in datasets.items():
+            for dataset in self._datasets:
                 row += 1
                 sheet.write(row, 0, f"{dataset:30s}", normal)
                 column = 1
-                for model in results:
+                for model in self._models:
                     sheet.write(
                         row,
                         column,
-                        float(results[model][dataset][0]),
+                        float(self._report[model][dataset]["score"]),
                         decimal,
                     )
                     column += 1
                     sheet.write(
                         row,
                         column,
-                        float(results[model][dataset][1]),
+                        float(self._report[model][dataset]["score_std"]),
                         decimal,
                     )
                     column += 1
 
         def footer():
+            nonlocal row
             for c in range(row_init, row + 1):
                 sheet.set_row(c, 20)
+
+        def models_files():
+            nonlocal row
+            row += 2
+            # Set report header
+            # Merge 2 rows
+            sheet.merge_range(row, 0, row + 1, 0, "Model", merge_format)
+            sheet.merge_range(row, 1, row + 1, 5, "File", merge_format)
+            sheet.merge_range(row, 6, row + 1, 6, "Score", merge_format)
+            row += 1
+            d_name = next(iter(self._datasets))
+            for model in self._models:
+                file_name = self._report[model][d_name]["file_name"]
+                report = StubReport(file_name)
+                report.report()
+                row += 1
+                sheet.write(
+                    row,
+                    0,
+                    model,
+                    normal,
+                )
+                sheet.merge_range(
+                    row, 1, row, 5, file_name, merge_format_normal
+                )
+                sheet.write(
+                    row,
+                    6,
+                    report.score,
+                    decimal,
+                )
 
         header()
         body()
         footer()
-
+        models_files()
         book.close()
 
 
@@ -667,6 +705,7 @@ class StubReport(BaseReport):
 
     def footer(self, accuracy: float) -> None:
         self.accuracy = accuracy
+        self.score = accuracy / BEST_ACCURACY_STREE
 
 
 class Summary:
@@ -674,8 +713,12 @@ class Summary:
         self.results = Files().get_all_results()
         self.data = []
         self.datasets = {}
+        self.models = set()
 
-    def acquire(self) -> None:
+    def get_models(self):
+        return self.models
+
+    def acquire(self, given_score="any") -> None:
         """Get all results"""
         for result in self.results:
             (
@@ -686,22 +729,24 @@ class Summary:
                 time,
                 stratified,
             ) = Files().split_file_name(result)
-            report = StubReport(os.path.join(Folders.results, result))
-            report.report()
-            entry = dict(
-                score=score,
-                model=model,
-                title=report.title,
-                platform=platform,
-                date=date,
-                time=time,
-                stratified=stratified,
-                file=result,
-                metric=report.accuracy / BEST_ACCURACY_STREE,
-                duration=report.duration,
-            )
-            self.datasets[result] = report.lines
-            self.data.append(entry)
+            if given_score in ("any", score):
+                self.models.add(model)
+                report = StubReport(os.path.join(Folders.results, result))
+                report.report()
+                entry = dict(
+                    score=score,
+                    model=model,
+                    title=report.title,
+                    platform=platform,
+                    date=date,
+                    time=time,
+                    stratified=stratified,
+                    file=result,
+                    metric=report.score,
+                    duration=report.duration,
+                )
+                self.datasets[result] = report.lines
+                self.data.append(entry)
 
     def list_results(
         self,

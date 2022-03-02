@@ -2,7 +2,7 @@
 import argparse
 import os
 from Results import Summary, StubReport
-from Utils import EnvDefault, Folders, BEST_ACCURACY_STREE
+from Utils import EnvDefault, Folders
 
 """Check best results of two models giving scores and win-tie-loose results
 """
@@ -66,12 +66,9 @@ for result1, result2 in zip(report_1.lines, report_2.lines):
         tie += 1
 print(f"{'Model':<20} {'File':<70} {'Score':<10} Win Tie Loose")
 print("=" * 20 + " " + "=" * 70 + " " + "=" * 10 + " === === =====")
-print(
-    f"{model1:<20} {best_1['file']:<70} "
-    f"{report_1.accuracy / BEST_ACCURACY_STREE:10.5f}"
-)
+print(f"{model1:<20} {best_1['file']:<70} {report_1.score:10.5f}")
 print(
     f"{model2:<20} {best_2['file']:<70} "
-    f"{report_2.accuracy / BEST_ACCURACY_STREE:10.5f} "
+    f"{report_2.score:10.5f} "
     f"{win:3d} {tie:3d} {loose:5d}"
 )
