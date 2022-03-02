@@ -27,10 +27,11 @@ def parse_arguments():
 
 
 (score, excel) = parse_arguments()
-benchmark = Benchmark()
-benchmark.compile_results(score)
-benchmark.report(score)
-benchmark.exreport(score)
+benchmark = Benchmark(score)
+benchmark.compile_results()
+benchmark.save_results()
+benchmark.report()
+benchmark.exreport()
 if excel:
-    benchmark.excel(score)
-    Files.open(benchmark.get_excel_file_name(score))
+    benchmark.excel()
+    Files.open(benchmark.get_excel_file_name())
