@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 import argparse
 from Experiments import Experiment, Datasets
 from Results import Report
@@ -78,6 +79,14 @@ def parse_arguments():
         required=True,
         help="Stratified",
     )
+    ap.add_argument(
+        "-d",
+        "--dataset",
+        type=str,
+        required=False,
+        default=None,
+        help="Experiment with only this dataset",
+    )
     args = ap.parse_args()
     return (
         args.stratified,
@@ -90,6 +99,7 @@ def parse_arguments():
         args.paramfile,
         args.report,
         args.title,
+        args.dataset,
     )
 
 
@@ -104,12 +114,14 @@ def parse_arguments():
     paramfile,
     report,
     experiment_title,
+    dataset,
 ) = parse_arguments()
+report = report or dataset is not None
 job = Experiment(
     score_name=score,
     model_name=model,
     stratified=stratified,
-    datasets=Datasets(),
+    datasets=Datasets(dataset=dataset),
     hyperparams_dict=hyperparameters,
     hyperparams_file=paramfile,
     progress_bar=not quiet,
@@ -122,3 +134,6 @@ if report:
     result_file = job.get_output_file()
     report = Report(result_file)
     report.report()
+if dataset is not None:
+    print(f"Partial result file removed: {result_file}")
+    os.remove(result_file)

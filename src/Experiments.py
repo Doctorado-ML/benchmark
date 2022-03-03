@@ -27,13 +27,16 @@ class Diterator:
 
 
 class Datasets:
-    def __init__(self):
-        try:
-            with open(os.path.join(Folders.data, Files.index)) as f:
-                self.data_sets = f.read().splitlines()
-        except FileNotFoundError:
-            with open(os.path.join("..", Folders.data, Files.index)) as f:
-                self.data_sets = f.read().splitlines()
+    def __init__(self, dataset=None):
+        if dataset is None:
+            try:
+                with open(os.path.join(Folders.data, Files.index)) as f:
+                    self.data_sets = f.read().splitlines()
+            except FileNotFoundError:
+                with open(os.path.join("..", Folders.data, Files.index)) as f:
+                    self.data_sets = f.read().splitlines()
+        else:
+            self.data_sets = [dataset]
 
     def load(self, name):
         try:

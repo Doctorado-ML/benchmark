@@ -622,7 +622,7 @@ class Benchmark:
                 column += 2
             row += 1
             column = 1
-            for _ in range(len(self._results)):
+            for _ in range(len(self._models)):
                 sheet.write(row, column, "Score", merge_format)
                 sheet.write(row, column + 1, "Stdev", merge_format)
                 column += 2
