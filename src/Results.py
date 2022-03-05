@@ -251,22 +251,28 @@ class ReportBest(BaseReport):
 class Excel(BaseReport):
     row = 6
 
-    def __init__(self, file_name, compare=False):
+    def __init__(self, file_name, compare=False, book=None):
         super().__init__(file_name)
         self.compare = compare
-
-    def get_file_name(self):
-        return self.excel_file_name
-
-    def header(self):
         if self.compare:
             self._load_best_results(
                 self.data["score_name"], self.data["model"]
             )
             self._compare_totals = {}
-        self.excel_file_name = self.file_name.replace(".json", ".xlsx")
-        self.book = xlsxwriter.Workbook(self.excel_file_name)
+        if book is None:
+            self.excel_file_name = self.file_name.replace(".json", ".xlsx")
+            self.book = xlsxwriter.Workbook(self.excel_file_name)
+            self.close = True
+        else:
+            self.book = book
+            self.close = False
         self.sheet = self.book.add_worksheet(self.data["model"])
+
+    def get_file_name(self):
+        return self.excel_file_name
+
+    def header(self):
+
         header = self.book.add_format()
         header.set_font_size(18)
         subheader = self.book.add_format()
@@ -382,7 +388,8 @@ class Excel(BaseReport):
         for c in range(self.row + 2):
             self.sheet.set_row(c, 20)
         self.sheet.set_row(0, 25)
-        self.book.close()
+        if self.close:
+            self.book.close()
 
 
 class SQL(BaseReport):
@@ -581,10 +588,24 @@ class Benchmark:
     def excel(self):
         book = xlsxwriter.Workbook(self.get_excel_file_name())
         sheet = book.add_worksheet("Benchmark")
-        normal = book.add_format({"font_size": 14})
-        decimal = book.add_format({"num_format": "0.000000", "font_size": 14})
+        normal = book.add_format({"font_size": 14, "border": 1})
+        decimal = book.add_format(
+            {"num_format": "0.000000", "font_size": 14, "border": 1}
+        )
+        decimal_total = book.add_format(
+            {
+                "num_format": "0.000000",
+                "font_size": 14,
+                "border": 1,
+                "bold": True,
+            }
+        )
+        two_decimal_total = book.add_format(
+            {"num_format": "0.00", "font_size": 14, "border": 1, "bold": True}
+        )
         merge_format = book.add_format(
             {
+                "border": 1,
                 "bold": 1,
                 "align": "center",
                 "valign": "vcenter",
@@ -593,6 +614,7 @@ class Benchmark:
         )
         merge_format_normal = book.add_format(
             {
+                "border": 1,
                 "valign": "vcenter",
                 "font_size": 14,
             }
@@ -615,17 +637,18 @@ class Benchmark:
             sheet.merge_range(row, 0, row + 1, 0, "Dataset", merge_format)
             column = 1
             for model in self._models:
-                # Merge 2 columns
+                # Merge 3 columns
                 sheet.merge_range(
-                    row, column, row, column + 1, model, merge_format
+                    row, column, row, column + 2, model, merge_format
                 )
-                column += 2
+                column += 3
             row += 1
             column = 1
             for _ in range(len(self._models)):
                 sheet.write(row, column, "Score", merge_format)
                 sheet.write(row, column + 1, "Stdev", merge_format)
-                column += 2
+                sheet.write(row, column + 2, "Rank", merge_format)
+                column += 3
 
         def body():
             nonlocal row
@@ -633,6 +656,10 @@ class Benchmark:
                 row += 1
                 sheet.write(row, 0, f"{dataset:30s}", normal)
                 column = 1
+                range_cells = ""
+                for col in range(0, len(self._models) * 3, 3):
+                    range_cells += chr(ord("B") + col) + str(row + 1) + ","
+                range_cells = range_cells[:-1]
                 for model in self._models:
                     sheet.write(
                         row,
@@ -648,11 +675,43 @@ class Benchmark:
                         decimal,
                     )
                     column += 1
+                    cell_target = chr(ord("B") + column - 3) + str(row + 1)
+                    sheet.write_formula(
+                        row,
+                        column,
+                        f"=rank({cell_target},({range_cells}))",
+                        normal,
+                    )
+                    column += 1
 
         def footer():
             nonlocal row
-            for c in range(row_init, row + 1):
+            for c in range(row_init, row + 2):
                 sheet.set_row(c, 20)
+            # Write totals
+            row += 1
+            sheet.write(row, 0, "Total", merge_format)
+            for col in range(0, len(self._models) * 3, 3):
+                range_metric = (
+                    f"{chr(ord('B') + col )}7:{chr(ord('B') + col )}{row}"
+                )
+                sheet.write_formula(
+                    row,
+                    col + 1,
+                    f"=sum({range_metric})/{BEST_ACCURACY_STREE}",
+                    decimal_total,
+                )
+                range_rank = (
+                    f"{chr(ord('B') + col + 2)}7:"
+                    f"{chr(ord('B') + col + 2)}{row}"
+                )
+                sheet.write_formula(
+                    row,
+                    col + 3,
+                    f"=average({range_rank})",
+                    two_decimal_total,
+                )
+            row += 1
 
         def models_files():
             nonlocal row
@@ -684,11 +743,36 @@ class Benchmark:
                     report.score,
                     decimal,
                 )
+                k = Excel(file_name=file_name, book=book)
+                k.report()
+            sheet.freeze_panes(6, 1)
+            sheet.hide_gridlines()
+
+        def exreport_output():
+            file_name = os.path.join(
+                Folders.results, Files.exreport_output(self._score)
+            )
+            sheet = book.add_worksheet("Exreport")
+            normal = book.add_format(
+                {
+                    "font_size": 14,
+                    "border": 1,
+                    "font_color": "blue",
+                    "font_name": "Courier",
+                }
+            )
+            with open(file_name) as f:
+                lines = f.read().splitlines()
+            row = 0
+            for line in lines:
+                sheet.write(row, 0, line, normal)
+                row += 1
 
         header()
         body()
         footer()
         models_files()
+        exreport_output()
         book.close()
 
 
@@ -716,7 +800,7 @@ class Summary:
         self.models = set()
 
     def get_models(self):
-        return self.models
+        return sorted(self.models)
 
     def acquire(self, given_score="any") -> None:
         """Get all results"""
