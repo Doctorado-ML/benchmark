@@ -40,7 +40,7 @@
         {
             "n_jobs": -1,
             "n_estimators": 100,
-            "be_hyperparams": "{\"kernel\": \"liblinear\", \"multiclass_strategy\": \"ovr\"}"
+            "be_hyperparams": "{\"C\": 0.95, \"kernel\": \"liblinear\", \"multiclass_strategy\": \"ovr\"}"
         },
         "-program made-"
     ],
@@ -49,7 +49,7 @@
         {
             "n_jobs": -1,
             "n_estimators": 100,
-            "be_hyperparams": "{\"kernel\": \"liblinear\", \"multiclass_strategy\": \"ovr\"}"
+            "be_hyperparams": "{\"C\": 0.05, \"kernel\": \"liblinear\", \"multiclass_strategy\": \"ovr\"}"
         },
         "-program made-"
     ],
@@ -166,7 +166,7 @@
         {
             "n_jobs": -1,
             "n_estimators": 100,
-            "be_hyperparams": "{}"
+            "be_hyperparams": "{\"C\": 0.25, \"kernel\": \"liblinear\", \"multiclass_strategy\": \"ovr\"}"
         },
         "-program made-"
     ],
@@ -211,7 +211,7 @@
         {
             "n_jobs": -1,
             "n_estimators": 100,
-            "be_hyperparams": "{\"kernel\": \"rbf\", \"multiclass_strategy\": \"ovr\"}"
+            "be_hyperparams": "{\"C\": 2.8, \"kernel\": \"rbf\", \"gamma\": \"auto\"}"
         },
         "-program made-"
     ],
@@ -229,7 +229,7 @@
         {
             "n_jobs": -1,
             "n_estimators": 100,
-            "be_hyperparams": "{\"C\": 0.05, \"gamma\": 0.1, \"kernel\": \"poly\", \"max_iter\": 10000.0, \"multiclass_strategy\": \"ovr\"}"
+            "be_hyperparams": "{\"C\": 0.05, \"gamma\": 0.1, \"kernel\": \"poly\"}"
         },
         "-program made-"
     ],
@@ -265,7 +265,7 @@
         {
             "n_jobs": -1,
             "n_estimators": 100,
-            "be_hyperparams": "{\"C\": 0.11, \"max_iter\": 10000.0, \"kernel\": \"liblinear\", \"multiclass_strategy\": \"ovr\"}"
+            "be_hyperparams": "{\"C\": 1.75, \"max_iter\": 10000.0, \"kernel\": \"liblinear\", \"multiclass_strategy\": \"ovr\"}"
         },
         "-program made-"
     ],
@@ -337,7 +337,7 @@
         {
             "n_jobs": -1,
             "n_estimators": 100,
-            "be_hyperparams": "{\"C\": 55, \"degree\": 5, \"gamma\": 0.1, \"kernel\": \"poly\", \"max_iter\": 10000.0, \"multiclass_strategy\": \"ovr\"}"
+            "be_hyperparams": "{\"kernel\": \"rbf\", \"gamma\": 0.001}"
         },
         "-program made-"
     ],
@@ -400,7 +400,7 @@
         {
             "n_jobs": -1,
             "n_estimators": 100,
-            "be_hyperparams": "{}"
+            "be_hyperparams": "{\"C\": 2.83, \"kernel\": \"rbf\", \"gamma\": \"auto\"}"
         },
         "-program made-"
     ],
@@ -436,7 +436,7 @@
         {
             "n_jobs": -1,
             "n_estimators": 100,
-            "be_hyperparams": "{\"C\": 0.1, \"max_iter\": 10000.0, \"kernel\": \"liblinear\", \"multiclass_strategy\": \"ovr\"}"
+            "be_hyperparams": "{\"C\": 1.75, \"kernel\": \"liblinear\", \"multiclass_strategy\": \"ovr\"}"
         },
         "-program made-"
     ]
