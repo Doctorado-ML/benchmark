@@ -49,7 +49,20 @@ def parse_arguments():
         "-p", "--hyperparameters", type=str, required=False, default="{}"
     )
     ap.add_argument(
-        "-f", "--paramfile", type=bool, required=False, default=False
+        "-f",
+        "--paramfile",
+        type=bool,
+        required=False,
+        default=False,
+        help="Use best hyperparams file?",
+    )
+    ap.add_argument(
+        "-g",
+        "--grid_paramfile",
+        type=bool,
+        required=False,
+        default=False,
+        help="Use grid searched hyperparams file?",
     )
     ap.add_argument(
         "--title", type=str, required=True, help="experiment title"
@@ -97,6 +110,7 @@ def parse_arguments():
         args.quiet,
         args.hyperparameters,
         args.paramfile,
+        args.grid_paramfile,
         args.report,
         args.title,
         args.dataset,
@@ -112,11 +126,14 @@ def parse_arguments():
     quiet,
     hyperparameters,
     paramfile,
+    grid_paramfile,
     report,
     experiment_title,
     dataset,
 ) = parse_arguments()
 report = report or dataset is not None
+if grid_paramfile:
+    paramfile = False
 job = Experiment(
     score_name=score,
     model_name=model,
@@ -124,6 +141,7 @@ job = Experiment(
     datasets=Datasets(dataset=dataset),
     hyperparams_dict=hyperparameters,
     hyperparams_file=paramfile,
+    grid_paramfile=grid_paramfile,
     progress_bar=not quiet,
     platform=platform,
     title=experiment_title,

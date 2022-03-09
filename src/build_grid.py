@@ -75,6 +75,7 @@ results["linear"]["multiclass_strategy"] = ["ovo"]
 del results["linear"]["gamma"]
 del results["liblinear"]["gamma"]
 results["rbf"]["gamma"].append("scale")
+results["poly"]["gamma"].append("scale")
 results["poly"]["multiclass_strategy"].append("ovo")
 for kernel in kernels:
     results[kernel]["C"].append(1.0)
@@ -101,5 +102,5 @@ for item in results:
 file_name = Files.grid_input("accuracy", "ODTE")
 file_output = os.path.join(Folders.results, file_name)
 with open(file_output, "w") as f:
-    json.dump(output, f)
+    json.dump(output, f, indent=4)
 print(f"Grid values saved to {file_output}")
