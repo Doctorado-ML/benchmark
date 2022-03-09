@@ -94,11 +94,12 @@ print(f"{model1:<20} {best_1['file']:<70} {report_1.score:10.5f}")
 print(
     f"{model2:<20} {best_2['file']:<70} "
     f"{report_2.score:10.5f} "
-    f"{TextColor.GREEN}{win:3d} {TextColor.YELLOW}{tie:3d} {TextColor.RED}{loose:5d}"
+    f"{TextColor.GREEN}{win:3d} {TextColor.YELLOW}{tie:3d} "
+    f"{TextColor.RED}{loose:5d}"
 )
 if win_results:
-    print(TextColor.GREEN+"Winners:")
+    print(TextColor.GREEN + "Winners:")
     print(winners)
 if loose_results:
-    print(TextColor.RED+"Loosers:")
+    print(TextColor.RED + "Loosers:")
     print(loosers)
