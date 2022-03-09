@@ -377,6 +377,7 @@ class GridSearch:
         score = grid.best_score_
         hyperparameters = grid.best_params_
         self.results[name] = [score, hyperparameters, message]
+        print(f"{name:30s} {score} {hyperparameters} {message}")
 
     def do_gridsearch(self):
         now = time.time()
