@@ -21,7 +21,7 @@ class Models:
         if name == "SVC":
             return SVC()
         if name == "ODTE":
-            return Odte()
+            return Odte(base_estimator=Stree())
         if name == "BaggingStree":
             clf = Stree(random_state=random_state)
             return BaggingClassifier(base_estimator=clf)

@@ -49,6 +49,18 @@ class Files:
             f"{time}_{stratified}.json"
         )
 
+    @staticmethod
+    def grid_input(score, model):
+        return Files.grid("input", score, model)
+
+    @staticmethod
+    def grid_output(score, model):
+        return Files.grid("output", score, model)
+
+    @staticmethod
+    def grid(kind, score, model):
+        return f"grid_{kind}_{score.replace('_','-')}_{model}.json"
+
     def split_file_name(self, name):
         _, score, model, platform, date, time, stratified = name.split("_")
         stratified = stratified.replace(self.report_ext, "")
