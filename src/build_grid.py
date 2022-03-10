@@ -81,7 +81,7 @@ for kernel in kernels:
     results[kernel]["C"].append(1.0)
 
 for item in results:
-    results_tmp = {}
+    results_tmp = {"n_jobs": [-1], "n_estimators": [100]}
     for key, value in results[item].items():
         new_key = f"base_estimator__{key}"
         try:
