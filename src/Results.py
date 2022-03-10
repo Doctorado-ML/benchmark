@@ -183,11 +183,11 @@ class Report(BaseReport):
 
 
 class ReportBest(BaseReport):
-    header_lengths = [30, 8, 50, 35]
+    header_lengths = [30, 8, 76, 45]
     header_cols = [
         "Dataset",
         "Score",
-        "File",
+        "File/Message",
         "Hyperparameters",
     ]
 
@@ -197,6 +197,8 @@ class ReportBest(BaseReport):
             if best
             else Files.grid_output(score, model)
         )
+        self.best = best
+        self.grid = grid
         file_name = os.path.join(Folders.results, name)
         super().__init__(file_name, best_file=True)
         self.compare = False
@@ -225,8 +227,9 @@ class ReportBest(BaseReport):
 
     def header(self):
         self.header_line("*")
+        kind = "Best" if self.best else "Grid"
         self.header_line(
-            f" Report Best {self.score_name} Scores with {self.model} in any "
+            f" Report {kind} {self.score_name} Scores with {self.model} in any "
             "platform"
         )
         self.header_line("*")
