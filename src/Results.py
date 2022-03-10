@@ -191,10 +191,13 @@ class ReportBest(BaseReport):
         "Hyperparameters",
     ]
 
-    def __init__(self, score, model):
-        file_name = os.path.join(
-            Folders.results, Files.best_results(score, model)
+    def __init__(self, score, model, best, grid):
+        name = (
+            Files.best_results(score, model)
+            if best
+            else Files.grid_output(score, model)
         )
+        file_name = os.path.join(Folders.results, name)
         super().__init__(file_name, best_file=True)
         self.compare = False
         self.score_name = score
