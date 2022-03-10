@@ -229,8 +229,8 @@ class ReportBest(BaseReport):
         self.header_line("*")
         kind = "Best" if self.best else "Grid"
         self.header_line(
-            f" Report {kind} {self.score_name} Scores with {self.model} in any "
-            "platform"
+            f" Report {kind} {self.score_name} Scores with {self.model} "
+            "in any platform"
         )
         self.header_line("*")
         print("")
