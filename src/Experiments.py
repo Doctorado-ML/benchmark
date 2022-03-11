@@ -279,6 +279,7 @@ class Experiment:
         output["results"] = self.results
         with open(self.output_file, "w") as f:
             json.dump(output, f)
+            f.flush()
 
     def do_experiment(self):
         now = time.time()
