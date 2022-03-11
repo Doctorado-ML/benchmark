@@ -59,6 +59,8 @@ def parse_arguments():
     ap.add_argument(
         "-m",
         "--model",
+        action=EnvDefault,
+        envvar="model",
         type=str,
         required=True,
         help="model name",

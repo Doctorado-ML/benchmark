@@ -287,6 +287,7 @@ class Experiment:
             position=0,
             disable=not self.progress_bar,
         )
+        self.duration = 0.0
         for name in loop:
             loop.set_description(f"{name:30s}")
             X, y = self.datasets.load(name)
@@ -296,6 +297,7 @@ class Experiment:
             self._init_experiment()
             self._n_fold_crossval(X, y, hyperparameters)
             self._add_results(name, hyperparameters, samp, feat, n_classes)
+            self._output_results()
         self.duration = time.time() - now
         self._output_results()
         if self.progress_bar:
