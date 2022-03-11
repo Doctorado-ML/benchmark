@@ -14,7 +14,8 @@ data = [
     '{"kernel": "rbf"}',
     '{"C": 1.05, "gamma": "auto","kernel": "rbf"}',
     '{"splitter": "random", "max_features": "auto"}',
-    '{"C": 0.05, "max_features": "auto", "kernel": "liblinear", "multiclass_strategy": "ovr"}',
+    '{"C": 0.05, "max_features": "auto", "kernel": "liblinear", '
+    '"multiclass_strategy": "ovr"}',
     '{"kernel": "rbf", "C": 0.05}',
     '{"C": 0.05, "kernel": "liblinear", "multiclass_strategy": "ovr"}',
     '{"C": 7, "gamma": 0.1, "kernel": "rbf"}',
@@ -27,13 +28,15 @@ data = [
     '{"C": 2.8, "kernel": "rbf", "gamma": "auto"}',
     '{"kernel": "rbf"}',
     '{"C": 0.05, "gamma": 0.1, "kernel": "poly"}',
-    '{"C": 8.25, "gamma": 0.1, "kernel": "poly", "multiclass_strategy": "ovr"}',
+    '{"C": 8.25, "gamma": 0.1, "kernel": "poly", "multiclass_strategy": '
+    '"ovr"}',
     '{"kernel": "liblinear", "multiclass_strategy": "ovr"}',
     '{"C": 1.75, "kernel": "liblinear", "multiclass_strategy": "ovr"}',
     '{"C":57, "kernel": "rbf"}',
     '{"C": 7, "gamma": 0.1, "kernel": "rbf", "multiclass_strategy": "ovr"}',
     '{"C": 5, "kernel": "rbf", "gamma": "auto"}',
-    '{"C": 0.05, "max_iter": 10000.0, "kernel": "liblinear", "multiclass_strategy": "ovr"}',
+    '{"C": 0.05, "max_iter": 10000.0, "kernel": "liblinear", '
+    '"multiclass_strategy": "ovr"}',
     '{"C":0.0275, "kernel": "liblinear", "multiclass_strategy": "ovr"}',
     '{"C": 7, "gamma": 10.0, "kernel": "rbf", "multiclass_strategy": "ovr"}',
     '{"kernel": "rbf", "gamma": 0.001}',
@@ -59,16 +62,14 @@ for kernel in kernels:
     for item in hyper:
         results[kernel][item] = []
 # load data
-for item in data:
-    line = json.loads(item)
+for sample in data:
+    line = json.loads(sample)
     if "kernel" not in line:
         line["kernel"] = "linear"
     kernel = line["kernel"]
     for item in hyper:
-        if item in line:
-            results[kernel][item].append(line[item]) if line[
-                item
-            ] not in results[kernel][item] else None
+        if item in line and line[item] not in results[kernel][item]:
+            results[kernel][item].append(line[item])
 
 # Add default values and remove inconsistent values
 results["linear"]["multiclass_strategy"] = ["ovo"]
@@ -81,12 +82,12 @@ for kernel in kernels:
     results[kernel]["C"].append(1.0)
 
 for item in results:
-    results_tmp = {}
+    results_tmp = {"n_jobs": [-1], "n_estimators": [100]}
     for key, value in results[item].items():
         new_key = f"base_estimator__{key}"
         try:
             results_tmp[new_key] = sorted(value)
-        except:
+        except TypeError:
             t1 = sorted(
                 [
                     x

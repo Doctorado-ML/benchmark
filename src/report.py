@@ -3,7 +3,8 @@ import argparse
 import numpy as np
 from Experiments import Datasets
 from Results import Report, Excel, SQL, ReportBest
-from Utils import Files, TextColor
+from Utils import Files, TextColor, EnvDefault
+
 
 """Build report on screen of a result file, optionally generate excel and sql
 file, and can compare results of report with best results obtained by model
@@ -49,12 +50,29 @@ def parse_arguments():
         help="best results of models",
     )
     ap.add_argument(
-        "-s",
-        "--score",
+        "-g",
+        "--grid",
         type=str,
         required=False,
-        default="accuracy",
-        help="score used in best results model",
+        help="grid results of model",
+    )
+    ap.add_argument(
+        "-m",
+        "--model",
+        action=EnvDefault,
+        envvar="model",
+        type=str,
+        required=True,
+        help="model name",
+    )
+    ap.add_argument(
+        "-s",
+        "--score",
+        action=EnvDefault,
+        envvar="score",
+        type=str,
+        required=True,
+        help="score name {accuracy, f1_macro, ...}",
     )
     args = ap.parse_args()
 
@@ -64,7 +82,9 @@ def parse_arguments():
         args.sql,
         args.compare,
         args.best,
+        args.grid,
         args.score,
+        args.model,
     )
 
 
@@ -88,13 +108,14 @@ def default_report():
         )
 
 
-(file, excel, sql, compare, best, score) = parse_arguments()
-
+(file, excel, sql, compare, best, grid, score, model) = parse_arguments()
+if grid:
+    best = False
 if file is None and best is None:
     default_report()
 else:
-    if best is not None:
-        report = ReportBest(score, best)
+    if best is not None or grid is not None:
+        report = ReportBest(score, model, best, grid)
         report.report()
     else:
         report = Report(file, compare)
