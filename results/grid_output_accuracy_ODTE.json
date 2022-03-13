@@ -2,173 +2,177 @@
     "balance-scale": [
         0.9743999999999999,
         {
-            "base_estimator__C": 100,
+            "base_estimator__C": 57,
             "base_estimator__gamma": 0.1,
             "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:48:23 took 5.943 min"
+        "v. 0.3.2, Computed on bart on 2022-03-10 at 22:56:53 took 12.182 min"
     ],
     "balloons": [
         0.7666666666666667,
         {
-            "base_estimator__C": 1.0,
-            "base_estimator__kernel": "linear",
-            "base_estimator__multiclass_strategy": "ovo",
+            "base_estimator__C": 5,
+            "base_estimator__gamma": 0.14,
+            "base_estimator__kernel": "rbf",
+            "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:48:23 took 13.169 s"
+        "v. 0.3.2, Computed on bart on 2022-03-10 at 23:09:07 took 18.229 s"
     ],
     "breast-cancer-wisc-diag": [
         0.9788852662630028,
         {
-            "base_estimator__C": 0.05,
+            "base_estimator__C": 0.0275,
             "base_estimator__kernel": "liblinear",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:48:06 took 1.503 min"
+        "v. 0.3.2, Computed on bart on 2022-03-10 at 23:15:54 took 2.077 min"
     ],
     "breast-cancer-wisc-prog": [
         0.8234615384615385,
         {
-            "base_estimator__C": 0.1,
-            "base_estimator__kernel": "liblinear",
+            "base_estimator__C": 57,
+            "base_estimator__gamma": 0.001,
+            "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:48:12 took 1.305 min"
+        "v. 0.3.2, Computed on bart on 2022-03-10 at 23:18:02 took 1.622 min"
     ],
     "breast-cancer-wisc": [
         0.9713977389516959,
         {
-            "base_estimator__C": 1.0,
+            "base_estimator__C": 0.95,
             "base_estimator__kernel": "liblinear",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:48:10 took 1.732 min"
+        "v. 0.3.2, Computed on bart on 2022-03-10 at 23:19:42 took 2.845 min"
     ],
     "breast-cancer": [
         0.7342407743496672,
         {
-            "base_estimator__C": 1.0,
-            "base_estimator__kernel": "linear",
-            "base_estimator__multiclass_strategy": "ovo",
-            "n_estimators": 100,
-            "n_jobs": -1
-        },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:48:24 took 3.735 min"
-    ],
-    "cardiotocography-10clases": [
-        0.8410196078431372,
-        {
-            "base_estimator__C": 1,
-            "base_estimator__kernel": "linear",
-            "base_estimator__multiclass_strategy": "ovo",
-            "n_estimators": 100,
-            "n_jobs": -1
-        },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:48:24 took 5.345 h"
-    ],
-    "cardiotocography-3clases": [
-        0.9270952775476389,
-        {
-            "base_estimator__C": 7,
+            "base_estimator__C": 0.2,
             "base_estimator__gamma": 0.1,
             "base_estimator__kernel": "poly",
             "base_estimator__multiclass_strategy": "ovo",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:48:24 took 1.173 h"
+        "v. 0.3.2, Computed on bart on 2022-03-10 at 23:09:29 took 6.367 min"
+    ],
+    "cardiotocography-10clases": [
+        0.8504380005523335,
+        {
+            "base_estimator__C": 10000.0,
+            "base_estimator__kernel": "liblinear",
+            "base_estimator__multiclass_strategy": "ovr",
+            "n_estimators": 100,
+            "n_jobs": -1
+        },
+        "v. 0.3.2, Computed on bart on 2022-03-10 at 23:22:36 took 6.617 h"
+    ],
+    "cardiotocography-3clases": [
+        0.9270952775476389,
+        {
+            "base_estimator__C": 8.25,
+            "base_estimator__gamma": 0.1,
+            "base_estimator__kernel": "poly",
+            "base_estimator__multiclass_strategy": "ovo",
+            "n_estimators": 100,
+            "n_jobs": -1
+        },
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 05:59:45 took 1.653 h"
     ],
     "conn-bench-sonar-mines-rocks": [
         0.8750290360046458,
         {
-            "base_estimator__C": 2.8,
-            "base_estimator__gamma": "auto",
+            "base_estimator__C": 1.05,
+            "base_estimator__gamma": "scale",
             "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:48:06 took 1.022 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 07:39:03 took 1.108 min"
     ],
     "cylinder-bands": [
         0.798705501618123,
         {
-            "base_estimator__C": 100,
+            "base_estimator__C": 5,
             "base_estimator__gamma": "auto",
             "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:48:25 took 14.326 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 07:40:13 took 16.625 min"
     ],
     "dermatology": [
         0.9753424657534246,
         {
-            "base_estimator__C": 100,
+            "base_estimator__C": 10000.0,
             "base_estimator__kernel": "liblinear",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:49:22 took 2.475 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 07:56:54 took 3.753 min"
     ],
     "echocardiogram": [
         0.8552706552706553,
         {
-            "base_estimator__C": 7,
+            "base_estimator__C": 5,
             "base_estimator__gamma": 0.001,
             "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:49:22 took 46.758 s"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 08:00:42 took 1.256 min"
     ],
     "fertility": [
         0.8800000000000001,
         {
-            "base_estimator__C": 0.05,
-            "base_estimator__kernel": "liblinear",
+            "base_estimator__C": 2,
+            "base_estimator__gamma": 0.1,
+            "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:00 took 45.061 s"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 08:02:01 took 47.947 s"
     ],
     "haberman-survival": [
         0.7450555261766261,
         {
-            "base_estimator__C": 100,
+            "base_estimator__C": 0.001,
             "base_estimator__kernel": "liblinear",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:49:31 took 6.622 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 08:02:52 took 6.742 min"
     ],
     "heart-hungarian": [
         0.8230274693161894,
         {
-            "base_estimator__C": 1.0,
+            "base_estimator__C": 10000.0,
             "base_estimator__gamma": 0.001,
             "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:50:35 took 3.244 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 08:09:39 took 4.249 min"
     ],
     "hepatitis": [
         0.8451612903225806,
@@ -180,31 +184,30 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:50:35 took 1.106 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 08:13:57 took 51.179 s"
     ],
     "ilpd-indian-liver": [
         0.735764809902741,
         {
-            "base_estimator__C": 7,
-            "base_estimator__gamma": "scale",
-            "base_estimator__kernel": "rbf",
+            "base_estimator__C": 1.75,
+            "base_estimator__kernel": "liblinear",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:50:45 took 8.906 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 08:14:52 took 16.143 min"
     ],
     "ionosphere": [
         0.9544466800804828,
         {
-            "base_estimator__C": 100,
+            "base_estimator__C": 2,
             "base_estimator__gamma": 0.1,
             "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:03 took 1.557 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 08:31:03 took 1.719 min"
     ],
     "iris": [
         0.9733333333333334,
@@ -215,19 +218,18 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:13 took 48.223 s"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 08:32:50 took 1.301 min"
     ],
     "led-display": [
         0.7209999999999999,
         {
-            "base_estimator__C": 0.1,
-            "base_estimator__gamma": 0.1,
-            "base_estimator__kernel": "poly",
-            "base_estimator__multiclass_strategy": "ovo",
+            "base_estimator__C": 0.001,
+            "base_estimator__kernel": "liblinear",
+            "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:08 took 1.385 h"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 08:34:11 took 1.999 h"
     ],
     "libras": [
         0.861111111111111,
@@ -238,7 +240,7 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:11 took 1.750 h"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 10:34:15 took 2.248 h"
     ],
     "low-res-spect": [
         0.9058014459530946,
@@ -249,18 +251,18 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:08 took 21.314 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 12:49:14 took 31.953 min"
     ],
     "lymphography": [
         0.8372413793103448,
         {
-            "base_estimator__C": 1.0,
-            "base_estimator__kernel": "linear",
-            "base_estimator__multiclass_strategy": "ovo",
+            "base_estimator__C": 0.001,
+            "base_estimator__kernel": "liblinear",
+            "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:12 took 1.033 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 13:21:14 took 1.252 min"
     ],
     "mammographic": [
         0.8387305699481866,
@@ -272,18 +274,18 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:13 took 12.794 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 13:22:33 took 26.986 min"
     ],
     "molec-biol-promoter": [
         0.8311688311688311,
         {
-            "base_estimator__C": 0.05,
+            "base_estimator__C": 0.0275,
             "base_estimator__kernel": "liblinear",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:10 took 29.699 s"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 13:49:35 took 30.541 s"
     ],
     "musk-1": [
         0.9391008771929824,
@@ -295,42 +297,42 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:50:40 took 8.453 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 13:50:09 took 9.730 min"
     ],
     "oocytes_merluccius_nucleus_4d": [
-        0.8551841224294596,
+        0.8581252989000479,
         {
-            "base_estimator__C": 7,
+            "base_estimator__C": 8.25,
             "base_estimator__gamma": 0.1,
             "base_estimator__kernel": "poly",
             "base_estimator__multiclass_strategy": "ovo",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:04 took 50.748 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 13:59:56 took 1.096 h"
     ],
     "oocytes_merluccius_states_2f": [
-        0.93246293639407,
+        0.9344237207077952,
         {
-            "base_estimator__C": 100,
+            "base_estimator__C": 10000.0,
             "base_estimator__kernel": "liblinear",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:12 took 20.560 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 15:05:50 took 24.250 min"
     ],
     "oocytes_trisopterus_nucleus_2f": [
         0.8651113913408995,
         {
-            "base_estimator__C": 100,
-            "base_estimator__gamma": "scale",
+            "base_estimator__C": 57,
+            "base_estimator__gamma": "auto",
             "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:15 took 32.692 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 15:30:09 took 39.672 min"
     ],
     "oocytes_trisopterus_states_5b": [
         0.9342460817870654,
@@ -341,53 +343,54 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 11:52:12 took 15.904 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 16:09:52 took 21.649 min"
     ],
     "parkinsons": [
         0.9435897435897436,
         {
-            "base_estimator__C": 7,
-            "base_estimator__gamma": "auto",
+            "base_estimator__C": 2.8,
+            "base_estimator__gamma": 0.14,
             "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:02 took 57.874 s"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 16:31:35 took 1.368 min"
     ],
     "pima": [
         0.7760122230710466,
         {
-            "base_estimator__C": 1.0,
+            "base_estimator__C": 0.95,
             "base_estimator__kernel": "liblinear",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:02 took 12.702 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 16:33:00 took 22.081 min"
     ],
     "pittsburg-bridges-MATERIAL": [
         0.8770562770562771,
         {
             "base_estimator__C": 2.8,
-            "base_estimator__gamma": "scale",
+            "base_estimator__gamma": 0.14,
             "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:02 took 41.987 s"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 16:55:08 took 1.246 min"
     ],
     "pittsburg-bridges-REL-L": [
         0.6704761904761904,
         {
-            "base_estimator__C": 0.1,
-            "base_estimator__kernel": "liblinear",
-            "base_estimator__multiclass_strategy": "ovr",
+            "base_estimator__C": 0.2,
+            "base_estimator__gamma": "scale",
+            "base_estimator__kernel": "poly",
+            "base_estimator__multiclass_strategy": "ovo",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:02 took 1.683 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 16:56:26 took 3.173 min"
     ],
     "pittsburg-bridges-SPAN": [
         0.7076023391812866,
@@ -398,30 +401,30 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:02 took 1.185 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 16:59:39 took 2.500 min"
     ],
     "pittsburg-bridges-T-OR-D": [
         0.8823809523809523,
         {
-            "base_estimator__C": 0.1,
+            "base_estimator__C": 0.08,
             "base_estimator__kernel": "liblinear",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:02 took 27.283 s"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 17:02:13 took 46.708 s"
     ],
     "planning": [
         0.7358858858858859,
         {
             "base_estimator__C": 1.0,
-            "base_estimator__gamma": 1,
+            "base_estimator__gamma": 10.0,
             "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:02 took 2.878 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 17:03:02 took 3.934 min"
     ],
     "post-operative": [
         0.7111111111111111,
@@ -432,7 +435,7 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:03 took 59.116 s"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 17:07:02 took 1.562 min"
     ],
     "seeds": [
         0.9571428571428571,
@@ -443,7 +446,7 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:03 took 47.715 s"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 17:08:38 took 1.167 min"
     ],
     "statlog-australian-credit": [
         0.6782608695652174,
@@ -454,7 +457,7 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:03 took 18.926 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 17:09:51 took 30.903 min"
     ],
     "statlog-german-credit": [
         0.764,
@@ -466,31 +469,30 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:03 took 28.413 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 17:40:49 took 44.154 min"
     ],
     "statlog-heart": [
         0.8444444444444444,
         {
-            "base_estimator__C": 2.8,
+            "base_estimator__C": 2,
             "base_estimator__gamma": 0.001,
             "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:03 took 2.263 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 18:25:01 took 2.943 min"
     ],
     "statlog-image": [
         0.9705627705627705,
         {
-            "base_estimator__C": 100,
-            "base_estimator__gamma": 0.1,
-            "base_estimator__kernel": "poly",
-            "base_estimator__multiclass_strategy": "ovo",
+            "base_estimator__C": 10000.0,
+            "base_estimator__kernel": "liblinear",
+            "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:08 took 1.951 h"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 18:28:01 took 3.596 h"
     ],
     "statlog-vehicle": [
         0.8203271841280891,
@@ -501,7 +503,7 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:04 took 34.949 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 22:03:53 took 48.089 min"
     ],
     "synthetic-control": [
         0.9866666666666667,
@@ -512,30 +514,30 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:04 took 20.117 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 22:52:02 took 29.924 min"
     ],
     "tic-tac-toe": [
         0.9916448516579406,
         {
-            "base_estimator__C": 1.0,
-            "base_estimator__gamma": "auto",
+            "base_estimator__C": 10000.0,
+            "base_estimator__gamma": 0.001,
             "base_estimator__kernel": "rbf",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:04 took 4.638 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 23:22:01 took 9.094 min"
     ],
     "vertebral-column-2clases": [
         0.864516129032258,
         {
-            "base_estimator__C": 1.0,
+            "base_estimator__C": 0.95,
             "base_estimator__kernel": "liblinear",
             "base_estimator__multiclass_strategy": "ovr",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:04 took 1.745 min"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 23:31:09 took 3.291 min"
     ],
     "wine": [
         0.9887301587301588,
@@ -547,18 +549,18 @@
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:07 took 31.702 s"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 23:34:30 took 47.147 s"
     ],
     "zoo": [
         0.96,
         {
-            "base_estimator__C": 2.8,
+            "base_estimator__C": 8.25,
             "base_estimator__gamma": 0.1,
             "base_estimator__kernel": "poly",
             "base_estimator__multiclass_strategy": "ovo",
             "n_estimators": 100,
             "n_jobs": -1
         },
-        "v. 0.3.2, Computed on Galgo on 2022-03-12 at 12:30:05 took 56.503 s"
+        "v. 0.3.2, Computed on bart on 2022-03-11 at 23:35:20 took 1.272 min"
     ]
 }
