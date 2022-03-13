@@ -489,7 +489,7 @@ class Excel(BaseReport):
         self.sheet.set_column(
             self.col_hyperparams,
             self.col_hyperparams,
-            self.max_hyper_width + 1,
+            max(self.max_hyper_width + 1, 23),
         )
         self.sheet.write(self.row + 1, 0, message, bold)
         for c in range(self.row + 2):
