@@ -256,6 +256,10 @@ class ReportBest(BaseReport):
 
 class Excel(BaseReport):
     row = 6
+    # alternate lines colors
+    color1 = "#DCE6F1"
+    color2 = "#FDE9D9"
+    color3 = "#B1A0C7"
 
     def __init__(self, file_name, compare=False, book=None):
         super().__init__(file_name)
@@ -273,53 +277,125 @@ class Excel(BaseReport):
             self.book = book
             self.close = False
         self.sheet = self.book.add_worksheet(self.data["model"])
+        self.max_hyper_width = 0
+        self.col_hyperparams = 0
 
     def get_file_name(self):
         return self.excel_file_name
 
     def header(self):
-
-        header = self.book.add_format()
-        header.set_font_size(18)
-        subheader = self.book.add_format()
-        subheader.set_font_size(16)
-        self.sheet.write(
-            0,
-            0,
+        merge_format = self.book.add_format(
+            {
+                "border": 1,
+                "bold": 1,
+                "align": "center",
+                "valign": "vcenter",
+                "font_size": 18,
+                "bg_color": self.color3,
+            }
+        )
+        merge_format_subheader = self.book.add_format(
+            {
+                "border": 1,
+                "bold": 1,
+                "align": "center",
+                "valign": "vcenter",
+                "font_size": 16,
+                "bg_color": self.color1,
+            }
+        )
+        merge_format_subheader_left = self.book.add_format(
+            {
+                "border": 1,
+                "bold": 1,
+                "align": "left",
+                "valign": "vcenter",
+                "font_size": 12,
+                "bg_color": self.color1,
+            }
+        )
+        header_text = (
             f" Report {self.data['model']} ver. {self.data['version']}"
             f" with {self.data['folds']} Folds "
             f"cross validation and {len(self.data['seeds'])} random seeds. "
-            f"{self.data['date']} {self.data['time']}",
-            header,
+            f"{self.data['date']} {self.data['time']}"
         )
-        self.sheet.write(
-            1,
+        self.sheet.merge_range(0, 0, 0, 11, header_text, merge_format)
+        self.sheet.merge_range(
+            1, 0, 1, 11, f" {self.data['title']}", merge_format_subheader
+        )
+        self.sheet.merge_range(
+            2,
             0,
-            f" {self.data['title']}",
-            subheader,
+            3,
+            0,
+            f" Score is {self.data['score_name']}",
+            merge_format_subheader,
+        )
+        self.sheet.merge_range(
+            2,
+            1,
+            3,
+            3,
+            " Execution time",
+            merge_format_subheader,
         )
         hours = self.data["duration"] / 3600
-        self.sheet.write(
+        self.sheet.merge_range(
             2,
-            0,
-            f" Execution took {self.data['duration']:7.2f} seconds, "
-            f" {hours:5.2f} hours, on {self.data['platform']}",
-            subheader,
-        )
-        self.sheet.write(
+            4,
             2,
             5,
-            f"Random seeds: {self.data['seeds']}",
-            subheader,
+            f"{self.data['duration']:7,.2f} s",
+            merge_format_subheader,
         )
-        self.sheet.write(
-            3, 0, f" Score is {self.data['score_name']}", subheader
-        )
-        self.sheet.write(
+        self.sheet.merge_range(
+            3,
+            4,
             3,
             5,
+            f" {hours:5.2f} h",
+            merge_format_subheader,
+        )
+        self.sheet.merge_range(
+            2,
+            6,
+            3,
+            6,
+            " ",
+            merge_format_subheader,
+        )
+        self.sheet.merge_range(
+            2,
+            7,
+            3,
+            7,
+            "Platform",
+            merge_format_subheader,
+        )
+        self.sheet.merge_range(
+            2,
+            8,
+            3,
+            8,
+            f"{self.data['platform']}",
+            merge_format_subheader,
+        )
+        self.sheet.merge_range(
+            2,
+            9,
+            2,
+            11,
+            f"Random seeds: {self.data['seeds']}",
+            merge_format_subheader_left,
+        )
+        self.sheet.merge_range(
+            3,
+            9,
+            3,
+            11,
             f"Stratified: {self.data['stratified']}",
-            subheader,
+            merge_format_subheader_left,
         )
         header_cols = [
             ("Dataset", 30),
@@ -337,7 +413,14 @@ class Excel(BaseReport):
         ]
         if self.compare:
             header_cols.insert(8, ("Stat", 3))
-        bold = self.book.add_format({"bold": True, "font_size": 14})
+        bold = self.book.add_format(
+            {
+                "bold": True,
+                "font_size": 14,
+                "bg_color": self.color3,
+                "border": 1,
+            }
+        )
         i = 0
         for item, length in header_cols:
             self.sheet.write(5, i, item, bold)
@@ -347,13 +430,21 @@ class Excel(BaseReport):
     def print_line(self, result):
         size_n = 14
         decimal = self.book.add_format(
-            {"num_format": "0.000000", "font_size": size_n}
+            {"num_format": "0.000000", "font_size": size_n, "border": 1}
         )
         integer = self.book.add_format(
-            {"num_format": "#,###", "font_size": size_n}
+            {"num_format": "#,###", "font_size": size_n, "border": 1}
         )
-        normal = self.book.add_format({"font_size": size_n})
+        normal = self.book.add_format({"font_size": size_n, "border": 1})
         col = 0
+        if self.row % 2 == 0:
+            normal.set_bg_color(self.color1)
+            decimal.set_bg_color(self.color1)
+            integer.set_bg_color(self.color1)
+        else:
+            normal.set_bg_color(self.color2)
+            decimal.set_bg_color(self.color2)
+            integer.set_bg_color(self.color2)
         self.sheet.write(self.row, col, result["dataset"], normal)
         self.sheet.write(self.row, col + 1, result["samples"], integer)
         self.sheet.write(self.row, col + 2, result["features"], normal)
@@ -374,6 +465,10 @@ class Excel(BaseReport):
         self.sheet.write(
             self.row, col + 3, str(result["hyperparameters"]), normal
         )
+        self.col_hyperparams = col + 3
+        self.max_hyper_width = max(
+            self.max_hyper_width, len(str(result["hyperparameters"]))
+        )
         self.row += 1
 
     def footer(self, accuracy):
@@ -390,10 +485,18 @@ class Excel(BaseReport):
             f"{accuracy/BEST_ACCURACY_STREE:7.4f}"
         )
         bold = self.book.add_format({"bold": True, "font_size": 14})
+        # set width of the hyperparams column with the maximum width
+        self.sheet.set_column(
+            self.col_hyperparams,
+            self.col_hyperparams,
+            self.max_hyper_width + 1,
+        )
         self.sheet.write(self.row + 1, 0, message, bold)
         for c in range(self.row + 2):
             self.sheet.set_row(c, 20)
         self.sheet.set_row(0, 25)
+        self.sheet.freeze_panes(6, 1)
+        self.sheet.hide_gridlines()
         if self.close:
             self.book.close()
 
@@ -604,10 +707,27 @@ class Benchmark:
                 "font_size": 14,
                 "border": 1,
                 "bold": True,
+                "bg_color": Excel.color3,
             }
         )
         two_decimal_total = book.add_format(
-            {"num_format": "0.00", "font_size": 14, "border": 1, "bold": True}
+            {
+                "num_format": "0.00",
+                "font_size": 14,
+                "border": 1,
+                "bold": True,
+                "bg_color": Excel.color3,
+            }
+        )
+        merge_format_header = book.add_format(
+            {
+                "border": 1,
+                "bold": 1,
+                "align": "center",
+                "valign": "vcenter",
+                "font_size": 14,
+                "bg_color": Excel.color1,
+            }
         )
         merge_format = book.add_format(
             {
@@ -616,6 +736,7 @@ class Benchmark:
                 "align": "center",
                 "valign": "vcenter",
                 "font_size": 14,
+                "bg_color": Excel.color3,
             }
         )
         merge_format_normal = book.add_format(
@@ -629,9 +750,11 @@ class Benchmark:
 
         def header():
             nonlocal row
-            sheet.merge_range(0, 0, 1, 0, "Benchmark of Models", merge_format)
             sheet.merge_range(
-                0, 1, 1, 2, f"Score is {self._score}", merge_format
+                0, 0, 1, 0, "Benchmark of Models", merge_format_header
+            )
+            sheet.merge_range(
+                0, 1, 1, 2, f"Score is {self._score}", merge_format_header
             )
             sheet.set_row(1, 20)
             # Set columns width
@@ -660,6 +783,20 @@ class Benchmark:
             nonlocal row
             for dataset in self._datasets:
                 row += 1
+                normal = book.add_format({"font_size": 14, "border": 1})
+                decimal = book.add_format(
+                    {
+                        "num_format": "0.000000",
+                        "font_size": 14,
+                        "border": 1,
+                    }
+                )
+                if row % 2 == 0:
+                    normal.set_bg_color(Excel.color1)
+                    decimal.set_bg_color(Excel.color1)
+                else:
+                    normal.set_bg_color(Excel.color2)
+                    decimal.set_bg_color(Excel.color2)
                 sheet.write(row, 0, f"{dataset:30s}", normal)
                 column = 1
                 range_cells = ""
@@ -765,6 +902,7 @@ class Benchmark:
                     "border": 1,
                     "font_color": "blue",
                     "font_name": "Courier",
+                    "bold": True,
                 }
             )
             with open(file_name) as f:
