@@ -486,7 +486,7 @@
   "statlog-image": [
     0.9705627705627705,
     {
-      "base_estimator__C": 10000.0,
+      "base_estimator__C": 7.0,
       "base_estimator__kernel": "liblinear",
       "base_estimator__multiclass_strategy": "ovr",
       "n_estimators": 100,
