@@ -8,6 +8,7 @@ BEST_ACCURACY_STREE = 40.282203
 class Folders:
     data = "data"
     results = "results"
+    hidden_results = "hidden_results"
     src = "src"
     exreport = "exreport"
     report = os.path.join(exreport, "exreport_output")
@@ -93,9 +94,11 @@ class Files:
             )
             subprocess.run([command, name])
 
-    def get_all_results(self) -> list[str]:
+    def get_all_results(self, hidden) -> list[str]:
         first_path = "."
-        first_try = os.path.join(first_path, Folders.results)
+        first_try = os.path.join(
+            first_path, Folders.hidden_results if hidden else Folders.results
+        )
         second_path = ".."
         second_try = os.path.join(second_path, first_try)
         if os.path.isdir(first_try):

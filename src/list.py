@@ -38,6 +38,13 @@ def parse_arguments():
         help="key to sort results",
     )
     ap.add_argument(
+        "--hidden",
+        type=str,
+        required=False,
+        default=False,
+        help="Show hidden results",
+    )
+    ap.add_argument(
         "-n",
         "--number",
         type=int,
@@ -47,11 +54,18 @@ def parse_arguments():
     )
     args = ap.parse_args()
 
-    return (args.excel, args.score, args.model, args.key, args.number)
+    return (
+        args.excel,
+        args.score,
+        args.model,
+        args.key,
+        args.number,
+        args.hidden,
+    )
 
 
-(excel, score, model, key, number) = parse_arguments()
+(excel, score, model, key, number, hidden) = parse_arguments()
 
-data = Summary()
+data = Summary(hidden=hidden)
 data.acquire()
 data.list_results(score=score, model=model, sort_key=key, number=number)

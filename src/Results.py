@@ -937,11 +937,12 @@ class StubReport(BaseReport):
 
 
 class Summary:
-    def __init__(self) -> None:
-        self.results = Files().get_all_results()
+    def __init__(self, hidden=False) -> None:
+        self.results = Files().get_all_results(hidden=hidden)
         self.data = []
         self.datasets = {}
         self.models = set()
+        self.hidden = hidden
 
     def get_models(self):
         return sorted(self.models)
@@ -959,7 +960,14 @@ class Summary:
             ) = Files().split_file_name(result)
             if given_score in ("any", score):
                 self.models.add(model)
-                report = StubReport(os.path.join(Folders.results, result))
+                report = StubReport(
+                    os.path.join(
+                        Folders.hidden_results
+                        if self.hidden
+                        else Folders.results,
+                        result,
+                    )
+                )
                 report.report()
                 entry = dict(
                     score=score,
@@ -1000,7 +1008,13 @@ class Summary:
             data = data[:number]
         max_file = max(len(x["file"]) for x in data)
         max_title = max(len(x["title"]) for x in data)
-        print(TextColor.LINE1, end="")
+        if self.hidden:
+            color1 = TextColor.GREEN
+            color2 = TextColor.YELLOW
+        else:
+            color1 = TextColor.LINE1
+            color2 = TextColor.LINE2
+        print(color1, end="")
         print(
             f"{'Date':10s} {'File':{max_file}s} {'Score':7s} {'Time(h)':7s} "
             f"{'Title':s}"
@@ -1019,7 +1033,7 @@ class Summary:
         print(
             "\n".join(
                 [
-                    (TextColor.LINE2 if n % 2 == 0 else TextColor.LINE1)
+                    (color2 if n % 2 == 0 else color1)
                     + f"{x['date']} {x['file']:{max_file}s} "
                     f"{x['metric']:8.5f} "
                     f"{x['duration']/3600:7.3f} "
