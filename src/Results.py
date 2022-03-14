@@ -14,7 +14,10 @@ class BaseReport(abc.ABC):
     def __init__(self, file_name, best_file=False):
         self.file_name = file_name
         if not os.path.isfile(file_name):
-            raise ValueError(f"{file_name} does not exists!")
+            if not os.path.isfile(os.path.join(Folders.results, file_name)):
+                raise FileNotFoundError(f"{file_name} does not exists!")
+            else:
+                file_name = os.path.join(Folders.results, file_name)
         with open(file_name) as f:
             self.data = json.load(f)
         self.best_acc_file = best_file
