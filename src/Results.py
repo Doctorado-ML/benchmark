@@ -275,6 +275,7 @@ class Excel(BaseReport):
         if book is None:
             self.excel_file_name = self.file_name.replace(".json", ".xlsx")
             self.book = xlsxwriter.Workbook(self.excel_file_name)
+            self.set_book_properties()
             self.close = True
         else:
             self.book = book
@@ -282,6 +283,30 @@ class Excel(BaseReport):
         self.sheet = self.book.add_worksheet(self.data["model"])
         self.max_hyper_width = 0
         self.col_hyperparams = 0
+
+    @staticmethod
+    def set_properties(book, title):
+        book.set_properties(
+            {
+                "title": title,
+                "subject": "Machine learning results",
+                "author": "Ricardo Montañana Gómez",
+                "manager": "Dr. J. A. Gámez, Dr. J. M. Puerta",
+                "company": "UCLM",
+                "comments": "Created with Python and XlsxWriter",
+            }
+        )
+
+    def set_book_properties(self):
+        self.set_properties(self.book, self.get_title())
+
+    def get_title(self):
+        return (
+            f" Report {self.data['model']} ver. {self.data['version']}"
+            f" with {self.data['folds']} Folds "
+            f"cross validation and {len(self.data['seeds'])} random seeds. "
+            f"{self.data['date']} {self.data['time']}"
+        )
 
     def get_file_name(self):
         return self.excel_file_name
@@ -317,12 +342,7 @@ class Excel(BaseReport):
                 "bg_color": self.color1,
             }
         )
-        header_text = (
-            f" Report {self.data['model']} ver. {self.data['version']}"
-            f" with {self.data['folds']} Folds "
-            f"cross validation and {len(self.data['seeds'])} random seeds. "
-            f"{self.data['date']} {self.data['time']}"
-        )
+        header_text = self.get_title()
         self.sheet.merge_range(0, 0, 0, 11, header_text, merge_format)
         self.sheet.merge_range(
             1, 0, 1, 11, f" {self.data['title']}", merge_format_subheader
@@ -699,6 +719,7 @@ class Benchmark:
 
     def excel(self):
         book = xlsxwriter.Workbook(self.get_excel_file_name())
+        Excel.set_properties(book, "Experimentation summary")
         sheet = book.add_worksheet("Benchmark")
         normal = book.add_format({"font_size": 14, "border": 1})
         decimal = book.add_format(
