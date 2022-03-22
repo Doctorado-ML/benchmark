@@ -69,16 +69,8 @@
     },
     "-program made-"
   ],
-  "cardiotocography-10clases": [
-    0.0,
-    { "n_estimators": 100, "n_jobs": -1 },
-    "-program made-"
-  ],
-  "cardiotocography-3clases": [
-    0.0,
-    { "n_estimators": 100, "n_jobs": -1 },
-    "-program made-"
-  ],
+  "cardiotocography-10clases": [0.0, { "n_estimators": 100 }, "-program made-"],
+  "cardiotocography-3clases": [0.0, { "n_estimators": 100 }, "-program made-"],
   "conn-bench-sonar-mines-rocks": [
     0.0,
     {
@@ -192,7 +184,7 @@
     },
     "-program made-"
   ],
-  "iris": [0.0, { "n_estimators": 100, "n_jobs": -1 }, "-program made-"],
+  "iris": [0.0, { "n_estimators": 100 }, "-program made-"],
   "led-display": [
     0.0,
     {
@@ -215,11 +207,7 @@
     },
     "-program made-"
   ],
-  "low-res-spect": [
-    0.0,
-    { "n_estimators": 100, "n_jobs": -1 },
-    "-program made-"
-  ],
+  "low-res-spect": [0.0, { "n_estimators": 100 }, "-program made-"],
   "lymphography": [
     0.0,
     {
@@ -279,7 +267,7 @@
   ],
   "oocytes_merluccius_states_2f": [
     0.0,
-    { "n_estimators": 100, "n_jobs": -1 },
+    { "n_estimators": 100 },
     "-program made-"
   ],
   "oocytes_trisopterus_nucleus_2f": [
@@ -314,7 +302,7 @@
     },
     "-program made-"
   ],
-  "pima": [0.0, { "n_estimators": 100, "n_jobs": -1 }, "-program made-"],
+  "pima": [0.0, { "n_estimators": 100 }, "-program made-"],
   "pittsburg-bridges-MATERIAL": [
     0.0,
     {
@@ -328,11 +316,7 @@
     },
     "-program made-"
   ],
-  "pittsburg-bridges-REL-L": [
-    0.0,
-    { "n_estimators": 100, "n_jobs": -1 },
-    "-program made-"
-  ],
+  "pittsburg-bridges-REL-L": [0.0, { "n_estimators": 100 }, "-program made-"],
   "pittsburg-bridges-SPAN": [
     0.0,
     {
@@ -394,16 +378,8 @@
     },
     "-program made-"
   ],
-  "statlog-australian-credit": [
-    0.0,
-    { "n_estimators": 100, "n_jobs": -1 },
-    "-program made-"
-  ],
-  "statlog-german-credit": [
-    0.0,
-    { "n_estimators": 100, "n_jobs": -1 },
-    "-program made-"
-  ],
+  "statlog-australian-credit": [0.0, { "n_estimators": 100 }, "-program made-"],
+  "statlog-german-credit": [0.0, { "n_estimators": 100 }, "-program made-"],
   "statlog-heart": [
     0.0,
     {
@@ -436,11 +412,7 @@
     },
     "-program made-"
   ],
-  "synthetic-control": [
-    0.0,
-    { "n_estimators": 100, "n_jobs": -1 },
-    "-program made-"
-  ],
+  "synthetic-control": [0.0, { "n_estimators": 100 }, "-program made-"],
   "tic-tac-toe": [
     0.0,
     {
