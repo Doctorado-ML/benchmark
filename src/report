@@ -92,8 +92,8 @@ def default_report():
     sets = Datasets()
     color_line = TextColor.LINE1
     print(color_line, end="")
-    print(f"{'Dataset':30s} Samp. Feat Cls")
-    print("=" * 30 + " ===== ==== ===")
+    print(f"{'Dataset':30s} Samp. Feat Cls Balance")
+    print("=" * 30 + " ===== ==== === " + "=" * 40)
     for line in sets:
         X, y = sets.load(line)
         color_line = (
@@ -101,10 +101,16 @@ def default_report():
             if color_line == TextColor.LINE1
             else TextColor.LINE1
         )
+        values, counts = np.unique(y, return_counts=True)
+        comp = ""
+        sep = ""
+        for value, count in zip(values, counts):
+            comp += f"{sep}{count/sum(counts)*100:5.2f}%"
+            sep = "/ "
         print(color_line, end="")
         print(
             f"{line:30s} {X.shape[0]:5,d} {X.shape[1]:4d} "
-            f"{len(np.unique(y)):3d}"
+            f"{len(np.unique(y)):3d} {comp:40s}"
         )
 
 
