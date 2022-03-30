@@ -2,3 +2,4 @@ pandas
 stree
 mufs
 xlsxwriter
+tqdm
