@@ -114,22 +114,23 @@ def default_report():
         )
 
 
-(file, excel, sql, compare, best, grid, score, model) = parse_arguments()
-if grid:
-    best = False
-if file is None and best is None:
-    default_report()
-else:
-    if best is not None or grid is not None:
-        report = ReportBest(score, model, best, grid)
-        report.report()
+if __name__ == "__main__":
+    (file, excel, sql, compare, best, grid, score, model) = parse_arguments()
+    if grid:
+        best = False
+    if file is None and best is None:
+        default_report()
     else:
-        report = Report(file, compare)
-        report.report()
-        if excel:
-            excel = Excel(file, compare)
-            excel.report()
-            Files.open(excel.get_file_name())
-        if sql:
-            sql = SQL(file)
-            sql.report()
+        if best is not None or grid is not None:
+            report = ReportBest(score, model, best, grid)
+            report.report()
+        else:
+            report = Report(file, compare)
+            report.report()
+            if excel:
+                excel = Excel(file, compare)
+                excel.report()
+                Files.open(excel.get_file_name())
+            if sql:
+                sql = SQL(file)
+                sql.report()

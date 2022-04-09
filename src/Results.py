@@ -1159,3 +1159,56 @@ class Summary:
             input_data=self.best_results(score=score, n=n),
             sort_key="metric",
         )
+
+
+class PairCheck:
+    def __init__(self, score, model_a, model_b, winners=False, loosers=False):
+        self.score = score
+        self.model_a = model_a
+        self.model_b = model_b
+        self.winners = winners
+        self.loosers = loosers
+        self.winners_data = []
+        self.loosers_data = []
+        self.tie_data = []
+
+    def compute(self):
+        summary = Summary()
+        summary.acquire()
+        best_a = summary.best_result(
+            criterion="model", value=self.model_a, score=self.score
+        )
+        best_b = summary.best_result(
+            criterion="model", value=self.model_b, score=self.score
+        )
+        report_a = StubReport(os.path.join(Folders.results, best_a["file"]))
+        report_a.report()
+        report_b = StubReport(os.path.join(Folders.results, best_b["file"]))
+        report_b.report()
+        for result_a, result_b in zip(report_a.lines, report_b.lines):
+            result = result_a["score"] - result_b["score"]
+            if result > 0:
+                self.winners_data.append(result_a["dataset"])
+            elif result < 0:
+                self.loosers_data.append(result_a["dataset"])
+            else:
+                self.tie_data.append(result_a["dataset"])
+
+    def print(self):
+        print(f"{'Model':<20} {'File':<70} {'Score':<10} Win Tie Loose")
+        print("=" * 20 + " " + "=" * 70 + " " + "=" * 10 + " === === =====")
+        print(
+            f"{self.model_a:<20} {self.best_a['file']:<70} {report_1.score:10.5f}"
+        )
+        print(
+            f"{model2:<20} {best_2['file']:<70} "
+            f"{report_2.score:10.5f} "
+            f"{TextColor.GREEN}{win:3d} {TextColor.YELLOW}{tie:3d} "
+            f"{TextColor.RED}{loose:5d}"
+        )
+        if win_results:
+            print(TextColor.GREEN + "Winners:")
+            print(winners)
+        if loose_results:
+            print(TextColor.RED + "Loosers:")
+            print(loosers)

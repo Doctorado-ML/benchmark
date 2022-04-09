@@ -64,8 +64,8 @@ def parse_arguments():
     )
 
 
-(excel, score, model, key, number, hidden) = parse_arguments()
-
-data = Summary(hidden=hidden)
-data.acquire()
-data.list_results(score=score, model=model, sort_key=key, number=number)
+if __name__ == "__main__":
+    (excel, score, model, key, number, hidden) = parse_arguments()
+    data = Summary(hidden=hidden)
+    data.acquire()
+    data.list_results(score=score, model=model, sort_key=key, number=number)

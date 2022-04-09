@@ -117,41 +117,42 @@ def parse_arguments():
     )
 
 
-(
-    stratified,
-    score,
-    model,
-    folds,
-    platform,
-    quiet,
-    hyperparameters,
-    paramfile,
-    grid_paramfile,
-    report,
-    experiment_title,
-    dataset,
-) = parse_arguments()
-report = report or dataset is not None
-if grid_paramfile:
-    paramfile = False
-job = Experiment(
-    score_name=score,
-    model_name=model,
-    stratified=stratified,
-    datasets=Datasets(dataset=dataset),
-    hyperparams_dict=hyperparameters,
-    hyperparams_file=paramfile,
-    grid_paramfile=grid_paramfile,
-    progress_bar=not quiet,
-    platform=platform,
-    title=experiment_title,
-    folds=folds,
-)
-job.do_experiment()
-if report:
-    result_file = job.get_output_file()
-    report = Report(result_file)
-    report.report()
-if dataset is not None:
-    print(f"Partial result file removed: {result_file}")
-    os.remove(result_file)
+if __name__ == "__main__":
+    (
+        stratified,
+        score,
+        model,
+        folds,
+        platform,
+        quiet,
+        hyperparameters,
+        paramfile,
+        grid_paramfile,
+        report,
+        experiment_title,
+        dataset,
+    ) = parse_arguments()
+    report = report or dataset is not None
+    if grid_paramfile:
+        paramfile = False
+    job = Experiment(
+        score_name=score,
+        model_name=model,
+        stratified=stratified,
+        datasets=Datasets(dataset=dataset),
+        hyperparams_dict=hyperparameters,
+        hyperparams_file=paramfile,
+        grid_paramfile=grid_paramfile,
+        progress_bar=not quiet,
+        platform=platform,
+        title=experiment_title,
+        folds=folds,
+    )
+    job.do_experiment()
+    if report:
+        result_file = job.get_output_file()
+        report = Report(result_file)
+        report.report()
+    if dataset is not None:
+        print(f"Partial result file removed: {result_file}")
+        os.remove(result_file)
