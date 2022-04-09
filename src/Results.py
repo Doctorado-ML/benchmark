@@ -1166,11 +1166,11 @@ class PairCheck:
         self.score = score
         self.model_a = model_a
         self.model_b = model_b
-        self.winners = winners
-        self.loosers = loosers
-        self.winners_data = []
-        self.loosers_data = []
-        self.tie_data = []
+        self.show_winners = winners
+        self.show_loosers = loosers
+        self.winners = []
+        self.loosers = []
+        self.tie = []
 
     def compute(self):
         summary = Summary()
@@ -1178,37 +1178,39 @@ class PairCheck:
         best_a = summary.best_result(
             criterion="model", value=self.model_a, score=self.score
         )
+        self.file_a = best_a["file"]
         best_b = summary.best_result(
             criterion="model", value=self.model_b, score=self.score
         )
+        self.file_b = best_b["file"]
         report_a = StubReport(os.path.join(Folders.results, best_a["file"]))
         report_a.report()
+        self.score_a = report_a.score
         report_b = StubReport(os.path.join(Folders.results, best_b["file"]))
         report_b.report()
+        self.score_b = report_b.score
         for result_a, result_b in zip(report_a.lines, report_b.lines):
             result = result_a["score"] - result_b["score"]
             if result > 0:
-                self.winners_data.append(result_a["dataset"])
+                self.winners.append(result_a["dataset"])
             elif result < 0:
-                self.loosers_data.append(result_a["dataset"])
+                self.loosers.append(result_a["dataset"])
             else:
-                self.tie_data.append(result_a["dataset"])
+                self.tie.append(result_a["dataset"])
 
-    def print(self):
+    def report(self):
         print(f"{'Model':<20} {'File':<70} {'Score':<10} Win Tie Loose")
         print("=" * 20 + " " + "=" * 70 + " " + "=" * 10 + " === === =====")
+        print(f"{self.model_a:<20} {self.file_a:<70} {self.score_a:10.5f}")
         print(
-            f"{self.model_a:<20} {self.best_a['file']:<70} {report_1.score:10.5f}"
+            f"{self.model_b:<20} {self.file_b:<70} "
+            f"{self.score_b:10.5f} "
+            f"{TextColor.GREEN}{len(self.winners):3d} {TextColor.YELLOW}{len(self.tie):3d} "
+            f"{TextColor.RED}{len(self.loosers):5d}"
         )
-        print(
-            f"{model2:<20} {best_2['file']:<70} "
-            f"{report_2.score:10.5f} "
-            f"{TextColor.GREEN}{win:3d} {TextColor.YELLOW}{tie:3d} "
-            f"{TextColor.RED}{loose:5d}"
-        )
-        if win_results:
+        if self.show_winners:
             print(TextColor.GREEN + "Winners:")
-            print(winners)
-        if loose_results:
+            print(self.winners)
+        if self.show_loosers:
             print(TextColor.RED + "Loosers:")
-            print(loosers)
+            print(self.loosers)
