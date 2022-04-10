@@ -42,11 +42,11 @@ def parse_arguments():
     )
     ap.add_argument(
         "-l",
-        "--loose",
+        "--lose",
         type=bool,
         default=False,
         required=False,
-        help="show loose results",
+        help="show lose results",
     )
     args = ap.parse_args()
     return (
@@ -54,7 +54,7 @@ def parse_arguments():
         args.model1,
         args.model2,
         args.win,
-        args.loose,
+        args.lose,
     )
 
 
@@ -64,8 +64,8 @@ if __name__ == "__main__":
         model1,
         model2,
         win_results,
-        loose_results,
+        lose_results,
     ) = parse_arguments()
-    pair_check = PairCheck(score, model1, model2, win_results, loose_results)
+    pair_check = PairCheck(score, model1, model2, win_results, lose_results)
     pair_check.compute()
     pair_check.report()

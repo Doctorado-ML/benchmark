@@ -1162,14 +1162,14 @@ class Summary:
 
 
 class PairCheck:
-    def __init__(self, score, model_a, model_b, winners=False, loosers=False):
+    def __init__(self, score, model_a, model_b, winners=False, losers=False):
         self.score = score
         self.model_a = model_a
         self.model_b = model_b
         self.show_winners = winners
-        self.show_loosers = loosers
+        self.show_losers = losers
         self.winners = []
-        self.loosers = []
+        self.losers = []
         self.tie = []
 
     def compute(self):
@@ -1194,23 +1194,23 @@ class PairCheck:
             if result > 0:
                 self.winners.append(result_a["dataset"])
             elif result < 0:
-                self.loosers.append(result_a["dataset"])
+                self.losers.append(result_a["dataset"])
             else:
                 self.tie.append(result_a["dataset"])
 
     def report(self):
-        print(f"{'Model':<20} {'File':<70} {'Score':<10} Win Tie Loose")
-        print("=" * 20 + " " + "=" * 70 + " " + "=" * 10 + " === === =====")
+        print(f"{'Model':<20} {'File':<70} {'Score':<10} Win Tie Lose")
+        print("=" * 20 + " " + "=" * 70 + " " + "=" * 10 + " === === ====")
         print(f"{self.model_a:<20} {self.file_a:<70} {self.score_a:10.5f}")
         print(
             f"{self.model_b:<20} {self.file_b:<70} "
             f"{self.score_b:10.5f} "
             f"{TextColor.GREEN}{len(self.winners):3d} {TextColor.YELLOW}"
-            f"{len(self.tie):3d} {TextColor.RED}{len(self.loosers):5d}"
+            f"{len(self.tie):3d} {TextColor.RED}{len(self.losers):4d}"
         )
         if self.show_winners:
             print(TextColor.GREEN + "Winners:")
             print(self.winners)
-        if self.show_loosers:
-            print(TextColor.RED + "Loosers:")
-            print(self.loosers)
+        if self.show_losers:
+            print(TextColor.RED + "losers:")
+            print(self.losers)
