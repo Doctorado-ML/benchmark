@@ -1205,8 +1205,8 @@ class PairCheck:
         print(
             f"{self.model_b:<20} {self.file_b:<70} "
             f"{self.score_b:10.5f} "
-            f"{TextColor.GREEN}{len(self.winners):3d} {TextColor.YELLOW}{len(self.tie):3d} "
-            f"{TextColor.RED}{len(self.loosers):5d}"
+            f"{TextColor.GREEN}{len(self.winners):3d} {TextColor.YELLOW}"
+            f"{len(self.tie):3d} {TextColor.RED}{len(self.loosers):5d}"
         )
         if self.show_winners:
             print(TextColor.GREEN + "Winners:")
