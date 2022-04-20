@@ -3,9 +3,9 @@ SHELL := /bin/bash
 .PHONY: coverage deps help lint push test doc build
 
 lint:  ## Lint and static-check
-	black src
-	flake8 src
-	mypy src
+	black benchmark
+	flake8 benchmark
+	mypy benchmark
 
 audit: ## Audit pip
 	pip-audit

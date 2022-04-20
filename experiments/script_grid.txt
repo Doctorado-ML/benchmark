@@ -1,2 +1,0 @@
-cd <folder>
-python src/grid.py -q 1 -m <model> -s <score> -d <dataset>
