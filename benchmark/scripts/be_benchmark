@@ -22,16 +22,25 @@ def parse_arguments():
         required=False,
         help="Generate Excel File",
     )
+    ap.add_argument(
+        "-t",
+        "--tex-output",
+        type=bool,
+        required=False,
+        default=False,
+    )
     args = ap.parse_args()
-    return (args.score, args.excel)
+    return (args.score, args.excel, args.tex_output)
 
 
-(score, excel) = parse_arguments()
+(score, excel, tex_output) = parse_arguments()
 benchmark = Benchmark(score)
 benchmark.compile_results()
 benchmark.save_results()
-benchmark.report()
+benchmark.report(tex_output)
 benchmark.exreport()
 if excel:
     benchmark.excel()
     Files.open(benchmark.get_excel_file_name())
+if tex_output:
+    print(f"File {benchmark.get_tex_file()} generated")

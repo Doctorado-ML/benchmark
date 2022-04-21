@@ -6,6 +6,7 @@ import abc
 import shutil
 import subprocess
 import xlsxwriter
+import numpy as np
 from .Experiments import Datasets, BestResults
 from .Utils import Folders, Files, Symbols, BEST_ACCURACY_STREE, TextColor
 
@@ -689,20 +690,34 @@ class Benchmark:
             end_message("Benchmark Ok", Files.exreport_output(self._score))
         Files.open(Files.exreport_pdf)
 
-    def report(self):
+    def report(self, tex_output):
+        # Report Header
         print(f"{'Dataset':30s} ", end="")
         lines = "=" * 30 + " "
         for model in self._models:
             print(f"{model:^13s} ", end="")
             lines += "=" * 13 + " "
         print(f"\n{lines}")
-        for dataset in self._datasets:
+        if tex_output:
+            self.print_tex_header()
+        # Report Body
+        for num, dataset in enumerate(self._datasets):
             print(f"{dataset:30s} ", end="")
+            scores = []
             for model in self._models:
                 result = self._report[model][dataset]
-                print(f"{float(result['score']):.5f}±", end="")
-                print(f"{float(result['score_std']):.3f} ", end="")
+                score = float(result["score"])
+                score_std = float(result["score_std"])
+                print(f"{score:.5f}±", end="")
+                print(f"{score_std:.3f} ", end="")
+                scores.append((score, score_std))
             print("")
+            if tex_output:
+                self.print_tex_line(num, dataset, scores)
+
+        if tex_output:
+            self.print_tex_footer()
+        # Summary of result files used
         d_name = next(iter(self._datasets))
         print(f"\n{'Model':30s} {'File Name':75s} Score")
         print("=" * 30 + " " + "=" * 75 + " ========")
@@ -711,6 +726,58 @@ class Benchmark:
             report = StubReport(file_name)
             report.report()
             print(f"{model:^30s} {file_name:75s} {report.score:8.5f}")
+
+    def get_tex_file(self):
+        return os.path.join(Folders.exreport, Files.tex_output(self._score))
+
+    def print_tex_header(self):
+        with open(self.get_tex_file(), "w") as f:
+            header_data = "# & Dataset & \\#S & \\#F & \\#L & " + " & ".join(
+                self._models
+            )
+            tabular = "{rlrrr" + "c" * len(self._models) + "}"
+            header = (
+                "\\begin{sidewaystable}[ht]\n"
+                "\\centering\n"
+                "\\renewcommand{\\arraystretch}{1.2}\n"
+                "\\renewcommand{\\tabcolsep}{0.07cm}\n"
+                "\\caption{Accuracy results (mean ± std) for all the "
+                "algorithms and datasets}\n"
+                "\\label{table:datasets}\n"
+                "\\resizebox{0.95\\textwidth}{!}{\n"
+                "\\begin {tabular} {" + tabular + "}\\hline\n"
+                "\\" + header_data + "\\\\\n"
+                "\\hline\n"
+            )
+            f.write(header)
+
+    def print_tex_line(self, num, dataset, scores):
+        dt = Datasets()
+        with open(self.get_tex_file(), "a") as f:
+            X, y = dt.load(dataset)
+            samples, features = X.shape
+            n_classes = len(np.unique(y))
+            dataset_name = dataset.replace("_", "\\_")
+            print_line = (
+                f"{num + 1} & {dataset_name} & {samples} & {features} "
+                f"& {n_classes}"
+            )
+            max_value = max(scores)[0]
+            for score, score_std in scores:
+                # Add score and score_std
+                value = f"{score:.4f}±{score_std:.3f}"
+                value_formated = (
+                    "\\bfseries " + value + " "
+                    if score == max_value
+                    else value
+                )
+                print_line += " & " + value_formated
+            print_line += "\\\\"
+            f.write(f"{print_line}\n")
+
+    def print_tex_footer(self):
+        with open(self.get_tex_file(), "a") as f:
+            f.write("\\hline\n\\end{tabular}}\n\\end{sidewaystable}\n")
 
     def get_excel_file_name(self):
         return os.path.join(

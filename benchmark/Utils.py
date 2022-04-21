@@ -42,6 +42,10 @@ class Files:
         return f"exreport_{score.replace('_','-')}.csv"
 
     @staticmethod
+    def tex_output(score):
+        return f"exreport_{score.replace('_','-')}.tex"
+
+    @staticmethod
     def best_results(score, model):
         return f"best_results_{score.replace('_','-')}_{model}.json"
 
