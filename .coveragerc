@@ -12,3 +12,4 @@ ignore_errors = True
 omit =
     benchmark/__init__.py
     benchmark/_version.py
+    benchmark/tests/*

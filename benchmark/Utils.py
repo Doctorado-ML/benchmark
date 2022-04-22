@@ -102,14 +102,13 @@ class Files:
         return None
 
     def get_all_results(self, hidden) -> list[str]:
-        first_path = "."
-        first_try = os.path.join(
-            first_path, Folders.hidden_results if hidden else Folders.results
+        result_path = os.path.join(
+            ".", Folders.hidden_results if hidden else Folders.results
         )
-        if os.path.isdir(first_try):
-            files_list = os.listdir(first_try)
+        if os.path.isdir(result_path):
+            files_list = os.listdir(result_path)
         else:
-            raise ValueError(f"{first_try} does not exist")
+            raise ValueError(f"{result_path} does not exist")
         result = []
         prefix, suffix = self.results_suffixes()
         for result_file in files_list:
@@ -143,16 +142,11 @@ class EnvDefault(argparse.Action):
     # Thanks to https://stackoverflow.com/users/445507/russell-heilling
     def __init__(self, envvar, required=True, default=None, **kwargs):
         self._args = EnvData.load()
-        if not default and envvar in self._args:
-            default = self._args[envvar]
-        if required and default:
-            required = False
+        default = self._args[envvar]
+        required = False
         super(EnvDefault, self).__init__(
             default=default, required=required, **kwargs
         )
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        setattr(namespace, self.dest, values)
 
 
 class TextColor:

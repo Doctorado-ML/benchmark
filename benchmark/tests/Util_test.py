@@ -132,6 +132,29 @@ class UtilTest(unittest.TestCase):
             ["results_accuracy_STree_iMac27_2021-11-01_23:55:16_0.json"],
         )
 
+    def test_Files_get_results_Error(self):
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        # check with results
+        os.rename(Folders.results, f"{Folders.results}.test")
+        try:
+            Files().get_all_results(hidden=False)
+        except ValueError:
+            pass
+        else:
+            self.fail("Files.get_all_results() should raise ValueError")
+        finally:
+            os.rename(f"{Folders.results}.test", Folders.results)
+        # check with hidden_results
+        os.rename(Folders.hidden_results, f"{Folders.hidden_results}.test")
+        try:
+            Files().get_all_results(hidden=True)
+        except ValueError:
+            pass
+        else:
+            self.fail("Files.get_all_results() should raise ValueError")
+        finally:
+            os.rename(f"{Folders.hidden_results}.test", Folders.hidden_results)
+
     def test_Symbols(self):
         self.assertEqual(Symbols.check_mark, "\N{heavy check mark}")
 
@@ -156,6 +179,13 @@ class UtilTest(unittest.TestCase):
         self.assertDictEqual(computed, expected)
 
     def test_EnvDefault(self):
+        expected = {
+            "score": "accuracy",
+            "platform": "iMac27",
+            "n_folds": 5,
+            "model": "ODTE",
+            "stratified": "0",
+        }
         ap = argparse.ArgumentParser()
         ap.add_argument(
             "-s",
@@ -178,6 +208,8 @@ class UtilTest(unittest.TestCase):
         ap.add_argument(
             "-m",
             "--model",
+            action=EnvDefault,
+            envvar="model",
             type=str,
             required=True,
             help="model name",
@@ -200,20 +232,26 @@ class UtilTest(unittest.TestCase):
             required=True,
             help="Stratified",
         )
-        # ap.add_argument(
-        #     "--title",
-        #     type=str,
-        #     required=True,
-        # )
-        # args = ap.parse_args([
-        #         "--title",
-        #         "test",
-        #     ])
-        # args = ap.parse_known_args(namespace=unittest)
-        # computed = args.__dict__
-        # for key, value in expected.items():
-        #     self.assertEqual(computed[key], value)
-        # print(computed)
+        ap.add_argument(
+            "--title",
+            type=str,
+            required=True,
+        )
+        ap.add_argument(
+            "--test",
+            type=str,
+            required=False,
+            default=None,
+        )
+        args = ap.parse_args(
+            [
+                "--title",
+                "test",
+            ],
+        )
+        computed = args.__dict__
+        for key, value in expected.items():
+            self.assertEqual(computed[key], value)
 
     def test_TextColor(self):
         self.assertEqual(TextColor.BLUE, "\033[94m")
