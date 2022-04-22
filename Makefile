@@ -7,6 +7,14 @@ lint:  ## Lint and static-check
 	flake8 benchmark
 	mypy benchmark
 
+test:  ## Run tests
+	python -m unittest -v benchmark.tests
+
+coverage:  ## Run tests with coverage
+	coverage erase
+	coverage run -m unittest -v benchmark.tests
+	coverage report -m
+
 audit: ## Audit pip
 	pip-audit
 

@@ -87,28 +87,29 @@ class Files:
         return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
 
     @staticmethod
-    def open(name):
+    def open(name, test=False):
         if os.path.isfile(name):
             command = (
                 Files.cmd_open_macos
                 if Files.is_exe(Files.cmd_open_macos)
                 else Files.cmd_open_linux
             )
-            subprocess.run([command, name])
+            return (
+                subprocess.run([command, name])
+                if not test
+                else [command, name]
+            )
+        return None
 
     def get_all_results(self, hidden) -> list[str]:
         first_path = "."
         first_try = os.path.join(
             first_path, Folders.hidden_results if hidden else Folders.results
         )
-        second_path = ".."
-        second_try = os.path.join(second_path, first_try)
         if os.path.isdir(first_try):
             files_list = os.listdir(first_try)
-        elif os.path.isdir(second_try):
-            files_list = os.listdir(second_try)
         else:
-            raise ValueError(f"{first_try} or {second_try} does not exist")
+            raise ValueError(f"{first_try} does not exist")
         result = []
         prefix, suffix = self.results_suffixes()
         for result_file in files_list:
