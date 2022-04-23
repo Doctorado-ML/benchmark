@@ -6,11 +6,6 @@ from ..Utils import Folders, Files, Symbols, TextColor, EnvData, EnvDefault
 
 
 class UtilTest(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        self._random_state = 1
-        self._kernels = ["liblinear", "linear", "rbf", "poly", "sigmoid"]
-        super().__init__(*args, **kwargs)
-
     def test_Folders(self):
         self.assertEqual("results", Folders.results)
         self.assertEqual("hidden_results", Folders.hidden_results)
