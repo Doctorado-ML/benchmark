@@ -5,7 +5,6 @@ SHELL := /bin/bash
 lint:  ## Lint and static-check
 	black benchmark
 	flake8 benchmark
-	mypy benchmark
 
 test:  ## Run tests
 	python -m unittest -v benchmark.tests

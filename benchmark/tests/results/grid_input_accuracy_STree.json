@@ -1,0 +1,7 @@
+[
+  {
+    "C": [1.0],
+    "kernel": ["linear", "rbf", "liblinear"],
+    "multiclass_strategy": ["ovr"]
+  }
+] 

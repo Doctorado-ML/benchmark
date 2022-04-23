@@ -1,1 +1,20 @@
-{"balance-scale": [0.98, {"splitter": "iwss", "max_features": "auto"}, "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.json"], "balloons": [0.86, {"C": 7, "gamma": 0.1, "kernel": "rbf", "max_iter": 10000.0, "multiclass_strategy": "ovr"}, "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json"]}
+{
+    "balance-scale": [
+        0.9199946751863685,
+        {
+            "C": 1.0,
+            "kernel": "liblinear",
+            "multiclass_strategy": "ovr"
+        },
+        "v. 1.2.4, Computed on Test on 2022-04-24 at 00:15:45 took 0.240s"
+    ],
+    "balloons": [
+        0.625,
+        {
+            "C": 1.0,
+            "kernel": "linear",
+            "multiclass_strategy": "ovr"
+        },
+        "v. 1.2.4, Computed on Test on 2022-04-24 at 00:15:45 took 0.253s"
+    ]
+}

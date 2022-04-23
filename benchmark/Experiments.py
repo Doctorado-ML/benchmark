@@ -376,6 +376,9 @@ class GridSearch:
         self.duration = 0
         self._init_data()
 
+    def get_output_file(self):
+        return self.output_file
+
     def _init_data(self):
         # if result file not exist initialize it
         try:
@@ -399,12 +402,17 @@ class GridSearch:
         with open(self.output_file, "w") as f:
             json.dump(data, f, indent=4)
 
+    @staticmethod
+    def _duration_message(duration):
+        if duration < 60:
+            return f"{duration:.3f}s"
+        elif duration < 3600:
+            return f"{duration/60:.3f}m"
+        else:
+            return f"{duration/3600:.3f}h"
+
     def _store_result(self, name, grid, duration):
-        d_message = f"{duration:.3f} s"
-        if duration > 3600:
-            d_message = f"{duration / 3600:.3f} h"
-        elif duration > 60:
-            d_message = f"{duration / 60:.3f} min"
+        d_message = self._duration_message(duration)
         message = (
             f"v. {self.version}, Computed on {self.platform} on "
             f"{self.date} at {self.time} "
@@ -413,7 +421,6 @@ class GridSearch:
         score = grid.best_score_
         hyperparameters = grid.best_params_
         self.results[name] = [score, hyperparameters, message]
-        print(f"{name:30s} {score} {hyperparameters} {message}")
 
     def do_gridsearch(self):
         now = time.time()

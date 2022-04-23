@@ -1,7 +1,6 @@
 import os
 import json
 import unittest
-from ..Models import Models
 from ..Experiments import Experiment, Datasets
 
 
@@ -32,7 +31,7 @@ class ExperimentTest(unittest.TestCase):
             os.remove(self.exp.get_output_file())
         return super().tearDown()
 
-    def test_build_hyperparams_and_grid_file(self):
+    def test_build_hyperparams_file(self):
         expected = {
             "balance-scale": [
                 0.98,
@@ -53,7 +52,29 @@ class ExperimentTest(unittest.TestCase):
         }
         exp = self.build_exp(hyperparams=True)
         self.assertSequenceEqual(exp.hyperparameters_dict, expected)
+
+    def test_build_grid_file(self):
+        expected = {
+            "balance-scale": [
+                0.9199946751863685,
+                {
+                    "C": 1.0,
+                    "kernel": "liblinear",
+                    "multiclass_strategy": "ovr",
+                },
+                "",
+            ],
+            "balloons": [
+                0.625,
+                {"C": 1.0, "kernel": "linear", "multiclass_strategy": "ovr"},
+                "",
+            ],
+        }
         exp = self.build_exp(grid=True)
+        computed = exp.hyperparameters_dict
+        # Remove generation string as it is dynamic through time
+        for name in ["balance-scale", "balloons"]:
+            computed[name][2] = ""
         self.assertSequenceEqual(exp.hyperparameters_dict, expected)
 
     def test_get_output_file(self):
