@@ -35,7 +35,7 @@ class GridSearchTest(unittest.TestCase):
         file_name = self.grid.get_output_file()
         if os.path.exists(file_name):
             os.remove(file_name)
-        grid = self.build_exp()
+        _ = self.build_exp()
         # check the output file is initialized
         with open(file_name) as f:
             data = json.load(f)

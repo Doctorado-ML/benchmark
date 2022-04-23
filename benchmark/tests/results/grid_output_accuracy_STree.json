@@ -6,7 +6,7 @@
             "kernel": "liblinear",
             "multiclass_strategy": "ovr"
         },
-        "v. 1.2.4, Computed on Test on 2022-04-24 at 00:15:45 took 0.240s"
+        "v. 1.2.4, Computed on Test on 2022-04-24 at 00:18:17 took 0.261s"
     ],
     "balloons": [
         0.625,
@@ -15,6 +15,6 @@
             "kernel": "linear",
             "multiclass_strategy": "ovr"
         },
-        "v. 1.2.4, Computed on Test on 2022-04-24 at 00:15:45 took 0.253s"
+        "v. 1.2.4, Computed on Test on 2022-04-24 at 00:18:17 took 0.478s"
     ]
 }
