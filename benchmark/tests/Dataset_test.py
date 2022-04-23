@@ -1,0 +1,71 @@
+import os
+import shutil
+import unittest
+
+from ..Experiments import Randomized, Datasets
+
+
+class DatasetTest(unittest.TestCase):
+    def __init__(self, *args, **kwargs):
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        self.datasets_values = {
+            "balance-scale": (625, 4, 3),
+            "balloons": (16, 4, 2),
+            "iris": (150, 4, 3),
+            "wine": (178, 13, 3),
+        }
+        super().__init__(*args, **kwargs)
+
+    def tearDown(self) -> None:
+        self.set_env(".env.dist")
+        return super().tearDown()
+
+    @staticmethod
+    def set_env(env):
+        shutil.copy(env, ".env")
+
+    def test_Randomized(self):
+        expected = [57, 31, 1714, 17, 23, 79, 83, 97, 7, 1]
+        self.assertSequenceEqual(Randomized.seeds, expected)
+
+    def test_Datasets_iterator(self):
+        test = {
+            ".env.dist": ["balance-scale", "balloons"],
+            ".env.surcov": ["iris", "wine"],
+        }
+        for key, value in test.items():
+            self.set_env(key)
+            dt = Datasets()
+            computed = []
+            for dataset in dt:
+                computed.append(dataset)
+                X, y = dt.load(dataset)
+                m, n = X.shape
+                c = max(y) + 1
+                # Check dataset integrity
+                self.assertSequenceEqual(
+                    (m, n, c), self.datasets_values[dataset]
+                )
+            self.assertSequenceEqual(computed, value)
+        self.set_env(".env.dist")
+
+    def test_Datasets_subset(self):
+        test = {
+            ".env.dist": "balloons",
+            ".env.surcov": "wine",
+        }
+        for key, value in test.items():
+            self.set_env(key)
+            dt = Datasets(value)
+            computed = []
+            for dataset in dt:
+                computed.append(dataset)
+                X, y = dt.load(dataset)
+                m, n = X.shape
+                c = max(y) + 1
+                # Check dataset integrity
+                self.assertSequenceEqual(
+                    (m, n, c), self.datasets_values[dataset]
+                )
+            self.assertSequenceEqual(computed, [value])
+        self.set_env(".env.dist")

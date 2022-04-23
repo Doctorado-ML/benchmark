@@ -1,0 +1,55 @@
+{
+  "score_name": "accuracy",
+  "model": "STree",
+  "stratified": false,
+  "folds": 5,
+  "date": "2021-09-30",
+  "time": "11:42:07",
+  "duration": 624.2505249977112,
+  "seeds": [57, 31, 1714, 17, 23, 79, 83, 97, 7, 1],
+  "platform": "iMac27",
+  "results": [
+    {
+      "dataset": "balance-scale",
+      "samples": 625,
+      "features": 4,
+      "classes": 3,
+      "hyperparameters": {
+        "C": 10000.0,
+        "gamma": 0.1,
+        "kernel": "rbf",
+        "max_iter": 10000.0,
+        "multiclass_strategy": "ovr"
+      },
+      "nodes": 7.0,
+      "leaves": 4.0,
+      "depth": 3.0,
+      "score": 0.97056,
+      "score_std": 0.015046806970251203,
+      "time": 0.01404867172241211,
+      "time_std": 0.002026269126958884
+    },
+    {
+      "dataset": "balloons",
+      "samples": 16,
+      "features": 4,
+      "classes": 2,
+      "hyperparameters": {
+        "C": 7,
+        "gamma": 0.1,
+        "kernel": "rbf",
+        "max_iter": 10000.0,
+        "multiclass_strategy": "ovr"
+      },
+      "nodes": 3.0,
+      "leaves": 2.0,
+      "depth": 2.0,
+      "score": 0.86,
+      "score_std": 0.28501461950807594,
+      "time": 0.0008541679382324218,
+      "time_std": 3.629469326417878e-5
+    }
+  ],
+  "title": "With gridsearched hyperparameters",
+  "version": "1.2.3"
+}

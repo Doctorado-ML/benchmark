@@ -16,9 +16,6 @@ from ..Models import Models
 
 
 class ModelTest(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
     def test_Models(self):
         test = {
             "STree": Stree,

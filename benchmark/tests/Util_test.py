@@ -114,15 +114,16 @@ class UtilTest(unittest.TestCase):
 
     def test_Files_get_results(self):
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
-        self.assertSequenceEqual(
+        self.assertCountEqual(
             Files().get_all_results(hidden=False),
             [
                 "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.json",
+                "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json",
                 "results_accuracy_STree_macbook-pro_2021-11-01_19:17:07_0."
                 "json",
             ],
         )
-        self.assertSequenceEqual(
+        self.assertCountEqual(
             Files().get_all_results(hidden=True),
             ["results_accuracy_STree_iMac27_2021-11-01_23:55:16_0.json"],
         )

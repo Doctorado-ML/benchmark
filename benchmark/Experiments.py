@@ -42,15 +42,11 @@ class DatasetsTanveer:
 
     def load(self, name):
         file_name = os.path.join(self.folder(), self.dataset_names(name))
-        try:
-            data = pd.read_csv(
-                file_name,
-                sep="\t",
-                index_col=0,
-            )
-        except FileNotFoundError:
-            print(f"Couldn't open data file {file_name}")
-            exit(1)
+        data = pd.read_csv(
+            file_name,
+            sep="\t",
+            index_col=0,
+        )
         X = data.drop("clase", axis=1).to_numpy()
         y = data["clase"].to_numpy()
         return X, y
@@ -67,14 +63,10 @@ class DatasetsSurcov:
 
     def load(self, name):
         file_name = os.path.join(self.folder(), self.dataset_names(name))
-        try:
-            data = pd.read_csv(
-                file_name,
-                index_col=0,
-            )
-        except FileNotFoundError:
-            print(f"Couldn't open data file {file_name}")
-            exit(1)
+        data = pd.read_csv(
+            file_name,
+            index_col=0,
+        )
         data.dropna(axis=0, how="any", inplace=True)
         self.columns = data.columns
         X = data.drop("class", axis=1).to_numpy()
@@ -92,12 +84,8 @@ class Datasets:
         self.dataset = class_name()
         if dataset_name is None:
             file_name = os.path.join(self.dataset.folder(), Files.index)
-            try:
-                with open(file_name) as f:
-                    self.data_sets = f.read().splitlines()
-            except FileNotFoundError:
-                print(f"Couldn't open index file {file_name}")
-                exit(1)
+            with open(file_name) as f:
+                self.data_sets = f.read().splitlines()
         else:
             self.data_sets = [dataset_name]
 
@@ -109,10 +97,11 @@ class Datasets:
 
 
 class BestResults:
-    def __init__(self, score, model, datasets):
+    def __init__(self, score, model, datasets, quiet=False):
         self.score_name = score
         self.datasets = datasets
         self.model = model
+        self.quiet = quiet
         self.data = {}
 
     def _get_file_name(self):
@@ -154,7 +143,9 @@ class BestResults:
             score=self.score_name, model=self.model
         )
         all_files = sorted(list(os.walk(Folders.results)))
-        for root, _, files in tqdm(all_files, desc="files"):
+        for root, _, files in tqdm(
+            all_files, desc="files", disable=self.quiet
+        ):
             for name in files:
                 if name.startswith(init_suffix) and name.endswith(end_suffix):
                     file_name = os.path.join(root, name)
@@ -164,7 +155,7 @@ class BestResults:
         # Build best results json file
         output = {}
         datasets = Datasets()
-        for name in tqdm(list(datasets), desc="datasets"):
+        for name in tqdm(list(datasets), desc="datasets", disable=self.quiet):
             output[name] = (
                 results[name]["score"],
                 results[name]["hyperparameters"],
