@@ -179,7 +179,7 @@ class UtilTest(unittest.TestCase):
             "score": "accuracy",
             "platform": "iMac27",
             "n_folds": 5,
-            "model": "ODTE",
+            "model": "STree",
             "stratified": "0",
         }
         ap = argparse.ArgumentParser()
@@ -234,16 +234,14 @@ class UtilTest(unittest.TestCase):
             required=True,
         )
         ap.add_argument(
-            "--test",
-            type=str,
+            "-r",
+            "--report",
+            type=bool,
             required=False,
-            default=None,
+            help="Generate Report",
         )
         args = ap.parse_args(
-            [
-                "--title",
-                "test",
-            ],
+            ["--title", "test", "-m", "STree"],
         )
         computed = args.__dict__
         for key, value in expected.items():

@@ -44,5 +44,5 @@ datasets = Datasets()
 best = BestResults(score, model, datasets)
 best.build()
 if report:
-    report = ReportBest(score, model)
+    report = ReportBest(score, model, best=True, grid=False)
     report.report()

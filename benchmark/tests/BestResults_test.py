@@ -1,6 +1,5 @@
 import os
 import unittest
-from ..Models import Models
 from ..Experiments import BestResults, Datasets
 
 
@@ -8,9 +7,6 @@ class BestResultTest(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
         super().__init__(*args, **kwargs)
-
-    def tearDown(self) -> None:
-        return super().tearDown()
 
     def test_load(self):
         expected = {

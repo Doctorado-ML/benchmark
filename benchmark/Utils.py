@@ -148,6 +148,9 @@ class EnvDefault(argparse.Action):
             default=default, required=required, **kwargs
         )
 
+    def __call__(self, parser, namespace, values, option_string=None):
+        setattr(namespace, self.dest, values)
+
 
 class TextColor:
     BLUE = "\033[94m"

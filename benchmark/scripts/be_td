@@ -2,7 +2,7 @@
 import sys
 import time
 from benchmark.Experiments import Datasets
-from benchmark.mufs import MUFS
+from mufs import MUFS
 
 mufs_i = MUFS()
 mufs_c = MUFS()
