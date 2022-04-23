@@ -1,4 +1,5 @@
 import os
+import json
 import unittest
 from ..Models import Models
 from ..Experiments import Experiment, Datasets
@@ -22,11 +23,13 @@ class ExperimentTest(unittest.TestCase):
             "platform": "test",
             "title": "Test",
             "progress_bar": False,
-            "folds": 1,
+            "folds": 2,
         }
         return Experiment(**params)
 
     def tearDown(self) -> None:
+        if os.path.exists(self.exp.get_output_file()):
+            os.remove(self.exp.get_output_file())
         return super().tearDown()
 
     def test_build_hyperparams_and_grid_file(self):
@@ -59,3 +62,49 @@ class ExperimentTest(unittest.TestCase):
             file_name.startswith("results/results_accuracy_STree_test_")
         )
         self.assertTrue(file_name.endswith("_0.json"))
+
+    def test_exception_n_fold_crossval(self):
+        self.exp.do_experiment()
+        with self.assertRaises(ValueError):
+            self.exp._n_fold_crossval([], [], {})
+
+    def test_do_experiment(self):
+        self.exp.do_experiment()
+        file_name = self.exp.get_output_file()
+        with open(file_name) as f:
+            data = json.load(f)
+        # Check Header
+        expected = {
+            "score_name": "accuracy",
+            "title": "Test",
+            "model": "STree",
+            "stratified": False,
+            "folds": 2,
+            "seeds": [57, 31, 1714, 17, 23, 79, 83, 97, 7, 1],
+            "platform": "test",
+        }
+        for key, value in expected.items():
+            self.assertEqual(data[key], value)
+        # Check Results
+        expected_results = [
+            {
+                "dataset": "balance-scale",
+                "samples": 625,
+                "features": 4,
+                "classes": 3,
+                "hyperparameters": {},
+            },
+            {
+                "dataset": "balloons",
+                "samples": 16,
+                "features": 4,
+                "classes": 2,
+                "hyperparameters": {},
+            },
+        ]
+
+        for expected_result, computed_result in zip(
+            expected_results, data["results"]
+        ):
+            for key, value in expected_result.items():
+                self.assertEqual(computed_result[key], value)

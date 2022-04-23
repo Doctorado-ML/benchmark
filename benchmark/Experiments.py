@@ -336,8 +336,6 @@ class Experiment:
             self._output_results()
         self.duration = time.time() - now
         self._output_results()
-        if self.progress_bar:
-            print(f"Results in {self.output_file}")
 
 
 class GridSearch:
