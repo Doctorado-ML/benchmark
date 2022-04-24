@@ -3,4 +3,5 @@ scikit-learn
 odte
 mufs
 xlsxwriter
+openpyxl
 tqdm

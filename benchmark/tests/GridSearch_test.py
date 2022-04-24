@@ -24,6 +24,7 @@ class GridSearchTest(unittest.TestCase):
             "progress_bar": False,
             "platform": "Test",
             "folds": 2,
+            "test": True,
         }
         return GridSearch(**params)
 
@@ -66,18 +67,15 @@ class GridSearchTest(unittest.TestCase):
                     "kernel": "liblinear",
                     "multiclass_strategy": "ovr",
                 },
-                "",
+                "v. 1.2.4, Computed on Test on 2022-02-22 at 12:00:00 took 1s",
             ],
             "balloons": [
                 0.625,
                 {"C": 1.0, "kernel": "linear", "multiclass_strategy": "ovr"},
-                "",
+                "v. 1.2.4, Computed on Test on 2022-02-22 at 12:00:00 took 1s",
             ],
         }
-        dt = Datasets()
-        for dataset in dt:
-            self.assertEqual(data[dataset][0], expected[dataset][0])
-            self.assertSequenceEqual(data[dataset][1], expected[dataset][1])
+        self.assertSequenceEqual(data, expected)
 
     def test_duration_message(self):
         expected = ["47.234s", "5.421m", "1.177h"]

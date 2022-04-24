@@ -121,6 +121,7 @@ class UtilTest(unittest.TestCase):
                 "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json",
                 "results_accuracy_STree_macbook-pro_2021-11-01_19:17:07_0."
                 "json",
+                "results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.json",
             ],
         )
         self.assertCountEqual(

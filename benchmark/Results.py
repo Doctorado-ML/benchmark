@@ -18,8 +18,8 @@ class BaseReport(abc.ABC):
             if not os.path.isfile(os.path.join(Folders.results, file_name)):
                 raise FileNotFoundError(f"{file_name} does not exists!")
             else:
-                file_name = os.path.join(Folders.results, file_name)
-        with open(file_name) as f:
+                self.file_name = os.path.join(Folders.results, file_name)
+        with open(self.file_name) as f:
             self.data = json.load(f)
         self.best_acc_file = best_file
         self.lines = self.data if best_file else self.data["results"]
@@ -205,7 +205,6 @@ class ReportBest(BaseReport):
         self.grid = grid
         file_name = os.path.join(Folders.results, name)
         super().__init__(file_name, best_file=True)
-        self.compare = False
         self.score_name = score
         self.model = model
 
@@ -246,11 +245,6 @@ class ReportBest(BaseReport):
 
     def footer(self, accuracy):
         self.header_line("*")
-        if self.compare:
-            for key, value in self._compare_totals.items():
-                self.header_line(
-                    f" {key} {self._status_meaning(key)} .....: {value:2d}"
-                )
         self.header_line(
             f" Scores compared to stree_default accuracy (liblinear-ovr) .: "
             f"{accuracy/BEST_ACCURACY_STREE:7.4f}"

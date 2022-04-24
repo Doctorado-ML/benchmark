@@ -348,10 +348,12 @@ class GridSearch:
         platform,
         progress_bar=True,
         folds=5,
+        test=False,
     ):
         today = datetime.now()
-        self.time = today.strftime("%H:%M:%S")
-        self.date = today.strftime("%Y-%m-%d")
+        self.test = test
+        self.time = "12:00:00" if test else today.strftime("%H:%M:%S")
+        self.date = "2022-02-22" if test else today.strftime("%Y-%m-%d")
         self.output_file = os.path.join(
             Folders.results,
             Files.grid_output(
@@ -412,7 +414,7 @@ class GridSearch:
             return f"{duration/3600:.3f}h"
 
     def _store_result(self, name, grid, duration):
-        d_message = self._duration_message(duration)
+        d_message = "1s" if self.test else self._duration_message(duration)
         message = (
             f"v. {self.version}, Computed on {self.platform} on "
             f"{self.date} at {self.time} "
