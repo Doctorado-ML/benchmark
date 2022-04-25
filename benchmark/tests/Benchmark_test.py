@@ -80,7 +80,8 @@ class BenchmarkTest(unittest.TestCase):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        benchmark.exreport()
+        with patch("sys.stdout", new=StringIO()) as fake_out:
+            benchmark.exreport()
         self.assertFalse(os.path.exists(Files.exreport_pdf))
         self.assertFalse(os.path.exists(Folders.report))
 

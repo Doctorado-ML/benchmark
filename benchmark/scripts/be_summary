@@ -24,19 +24,10 @@ def parse_arguments():
         required=True,
         help="score name {accuracy, f1_micro, f1_macro, all}",
     )
-    ap.add_argument(
-        "-l",
-        "--list",
-        type=bool,
-        required=False,
-        default=False,
-        help="List all results",
-    )
     args = ap.parse_args()
     return (
         args.score,
         args.model,
-        args.list,
     )
 
 
@@ -44,7 +35,6 @@ if __name__ == "__main__":
     (
         score,
         model,
-        list_results,
     ) = parse_arguments()
     all_metrics = ["accuracy", "f1-macro", "f1-micro"]
     metrics = all_metrics if score == "all" else [score]
@@ -60,5 +50,3 @@ if __name__ == "__main__":
             summary.best_result(score=metric), title=f"BEST RESULT of {metric}"
         )
         summary.show_top(score=metric, n=10)
-    if list_results:
-        summary.list_results()

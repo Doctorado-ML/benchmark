@@ -8,6 +8,8 @@ from .Report_test import ReportTest
 from .Excel_test import ExcelTest
 from .SQL_test import SQLTest
 from .Benchmark_test import BenchmarkTest
+from .Summary_test import SummaryTest
+from .PairCheck_test import PairCheckTest
 
 all = [
     "UtilTest",
@@ -20,4 +22,6 @@ all = [
     "ExcelTest",
     "SQLTest",
     "BenchmarkTest",
+    "SummaryTest",
+    "PairCheckTest",
 ]
