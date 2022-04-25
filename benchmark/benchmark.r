@@ -1,9 +1,15 @@
 library(glue)
 args = commandArgs(trailingOnly=TRUE)
-if (length(args)!=2) {
-  stop("Only two arguments must be supplied (score & input_file).n", call.=FALSE)
+if (length(args)!=3) {
+  stop("Only two arguments must be supplied (score & input_file & visualize).n", call.=FALSE)
 }
 csv_file <- glue("{args[2]}.csv")
+visualize_c <- args[3]
+if (visualize_c == "1") {
+  visualize <- T
+} else {
+  visualize <- F
+}
 destination <- "exreport/"
 results <- read.csv(csv_file)
 library(exreport)
@@ -37,4 +43,6 @@ report <- exreportAdd(report, table2)
 # Now that we have finished adding elements to the report it is time to render it. We want to generate an HTML report, so we call the appropiate function, by default it renders and opens the report in your browser using a temporary file, but you can optionally specify a folder in which the report will be saved for future use.
 
 # Render the report:
-exreportRender(report, destination=destination, target = "html", visualize = T)
+if (visualize) {
+  exreportRender(report, destination=destination, target = "html", visualize = T)
+}

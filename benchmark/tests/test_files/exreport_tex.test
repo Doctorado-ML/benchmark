@@ -1,0 +1,15 @@
+\begin{sidewaystable}[ht]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\renewcommand{\tabcolsep}{0.07cm}
+\caption{Accuracy results (mean ± std) for all the algorithms and datasets}
+\label{table:datasets}
+\resizebox{0.95\textwidth}{!}{
+\begin {tabular} {{rlrrrccc}}\hline
+\# & Dataset & \#S & \#F & \#L & ODTE & RandomForest & STree\\
+\hline
+1 & balance-scale & 625 & 4 & 3 & 0.9635±0.025 & 0.8362±0.026 & \bfseries 0.9706±0.015 \\
+2 & balloons & 16 & 4 & 2 & 0.7850±0.246 & 0.6250±0.250 & \bfseries 0.8600±0.285 \\
+\hline
+\end{tabular}}
+\end{sidewaystable}

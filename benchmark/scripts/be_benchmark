@@ -34,7 +34,7 @@ def parse_arguments():
 
 
 (score, excel, tex_output) = parse_arguments()
-benchmark = Benchmark(score)
+benchmark = Benchmark(score=score, visualize=True)
 benchmark.compile_results()
 benchmark.save_results()
 benchmark.report(tex_output)

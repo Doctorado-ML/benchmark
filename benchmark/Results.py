@@ -589,12 +589,13 @@ class SQL(BaseReport):
 
 
 class Benchmark:
-    def __init__(self, score):
+    def __init__(self, score, visualize=True):
         self._score = score
         self._results = []
         self._models = []
         self._report = {}
         self._datasets = set()
+        self.visualize = visualize
 
     def get_result_file_name(self):
         return os.path.join(Folders.exreport, Files.exreport(self._score))
@@ -650,13 +651,10 @@ class Benchmark:
                     print(line)
 
         # Remove previous results
-        try:
+        if os.path.exists(Folders.report):
             shutil.rmtree(Folders.report)
+        if os.path.exists(Files.exreport_pdf):
             os.remove(Files.exreport_pdf)
-        except FileNotFoundError:
-            pass
-        except OSError as os_error:
-            print("Error: %s : %s" % (Folders.report, os_error.strerror))
         # Compute Friedman & Holm Tests
         fout = open(
             os.path.join(Folders.exreport, Files.exreport_output(self._score)),
@@ -666,16 +664,13 @@ class Benchmark:
             os.path.join(Folders.exreport, Files.exreport_err(self._score)),
             "w",
         )
-        print(
-            "*********************",
-            os.path.join(Folders.src(), Files.benchmark_r),
-        )
         result = subprocess.run(
             [
                 "Rscript",
                 os.path.join(Folders.src(), Files.benchmark_r),
                 self._score,
                 os.path.join(Folders.exreport, f"exreport_{self._score}"),
+                "1" if self.visualize else "0",
             ],
             stdout=fout,
             stderr=ferr,
@@ -714,7 +709,6 @@ class Benchmark:
             print("")
             if tex_output:
                 self.print_tex_line(num, dataset, scores)
-
         if tex_output:
             self.print_tex_footer()
         # Summary of result files used
@@ -984,7 +978,7 @@ class Benchmark:
 
         def exreport_output():
             file_name = os.path.join(
-                Folders.results, Files.exreport_output(self._score)
+                Folders.exreport, Files.exreport_output(self._score)
             )
             sheet = book.add_worksheet("Exreport")
             normal = book.add_format(

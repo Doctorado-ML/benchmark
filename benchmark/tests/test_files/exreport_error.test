@@ -1,0 +1,7 @@
+****************************************************************************************************
+Error computing benchmark
+****************************************************************************************************
+Error in dim(ordered) <- ns : 
+  dims [producto 1] no coincide con la longitud del objeto [0]
+Calls: testMultipleControl -> .doFriedmanTest -> <Anonymous> -> cast
+Ejecución interrumpida
