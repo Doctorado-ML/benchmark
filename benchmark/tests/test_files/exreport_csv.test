@@ -1,0 +1,7 @@
+classifier, dataset, accuracy, stdev, file_name
+ODTE, balance-scale, 0.96352, 0.024949741481626608, results/results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.json
+ODTE, balloons, 0.785, 0.2461311755051675, results/results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.json
+RandomForest, balance-scale, 0.83616, 0.02649630917694009, results/results_accuracy_RandomForest_iMac27_2022-01-14_12:39:30_0.json
+RandomForest, balloons, 0.625, 0.24958298553119898, results/results_accuracy_RandomForest_iMac27_2022-01-14_12:39:30_0.json
+STree, balance-scale, 0.97056, 0.015046806970251203, results/results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json
+STree, balloons, 0.86, 0.28501461950807594, results/results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json

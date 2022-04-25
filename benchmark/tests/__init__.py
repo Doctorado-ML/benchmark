@@ -7,6 +7,7 @@ from .GridSearch_test import GridSearchTest
 from .Report_test import ReportTest
 from .Excel_test import ExcelTest
 from .SQL_test import SQLTest
+from .Benchmark_test import BenchmarkTest
 
 all = [
     "UtilTest",
@@ -18,4 +19,5 @@ all = [
     "ReportTest",
     "ExcelTest",
     "SQLTest",
+    "BenchmarkTest",
 ]

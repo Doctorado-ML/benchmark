@@ -1,9 +1,9 @@
 library(glue)
 args = commandArgs(trailingOnly=TRUE)
-if (length(args)!=1) {
-  stop("Only one argument must be supplied (score).n", call.=FALSE)
+if (length(args)!=2) {
+  stop("Only two arguments must be supplied (score & input_file).n", call.=FALSE)
 }
-csv_file <- glue("results/exreport_{args[1]}.csv")
+csv_file <- glue("{args[2]}.csv")
 destination <- "exreport/"
 results <- read.csv(csv_file)
 library(exreport)

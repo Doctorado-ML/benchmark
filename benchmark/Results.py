@@ -597,7 +597,7 @@ class Benchmark:
         self._datasets = set()
 
     def get_result_file_name(self):
-        return os.path.join(Folders.results, Files.exreport(self._score))
+        return os.path.join(Folders.exreport, Files.exreport(self._score))
 
     def compile_results(self):
         summary = Summary()
@@ -644,7 +644,7 @@ class Benchmark:
             print("*" * length)
             print(message)
             print("*" * length)
-            with open(os.path.join(Folders.results, file)) as f:
+            with open(os.path.join(Folders.exreport, file)) as f:
                 data = f.read().splitlines()
                 for line in data:
                     print(line)
@@ -659,17 +659,23 @@ class Benchmark:
             print("Error: %s : %s" % (Folders.report, os_error.strerror))
         # Compute Friedman & Holm Tests
         fout = open(
-            os.path.join(Folders.results, Files.exreport_output(self._score)),
+            os.path.join(Folders.exreport, Files.exreport_output(self._score)),
             "w",
         )
         ferr = open(
-            os.path.join(Folders.results, Files.exreport_err(self._score)), "w"
+            os.path.join(Folders.exreport, Files.exreport_err(self._score)),
+            "w",
+        )
+        print(
+            "*********************",
+            os.path.join(Folders.src(), Files.benchmark_r),
         )
         result = subprocess.run(
             [
                 "Rscript",
                 os.path.join(Folders.src(), Files.benchmark_r),
                 self._score,
+                os.path.join(Folders.exreport, f"exreport_{self._score}"),
             ],
             stdout=fout,
             stderr=ferr,

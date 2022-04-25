@@ -1,0 +1,2 @@
+Error: Only one argument must be supplied (score).n
+Ejecución interrumpida
