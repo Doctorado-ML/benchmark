@@ -1,0 +1,4 @@
+Model                File                                                                   Score      Win Tie Lose
+==================== ====================================================================== ========== === === ====
+ODTE                 results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.json                    0.04341
+STree                results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json                  0.04544 [92m  0 [93m  0 [91m   2

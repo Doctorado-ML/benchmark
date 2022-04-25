@@ -2,8 +2,7 @@ import os
 import unittest
 from io import StringIO
 from unittest.mock import patch
-from ..Results import Summary
-from ..Utils import Symbols
+from ..Results import PairCheck
 
 
 class PairCheckTest(unittest.TestCase):
@@ -11,110 +10,54 @@ class PairCheckTest(unittest.TestCase):
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
         super().__init__(*args, **kwargs)
 
-    def test_summary_list_results_model(self):
-        report = Summary()
-        report.acquire()
+    def build_model(
+        self,
+        score="accuracy",
+        model1="STree",
+        model2="RandomForest",
+        win=False,
+        lose=False,
+    ):
+        return PairCheck(score, model1, model2, win, lose)
+
+    def test_pair_check(self):
+        report = self.build_model(model1="ODTE", model2="STree")
+        report.compute()
         with patch("sys.stdout", new=StringIO()) as fake_out:
-            report.list_results(model="STree")
+            report.report()
+        computed = fake_out.getvalue()
+        with open(os.path.join("test_files", "PairCheck.test"), "r") as f:
+            expected = f.read()
+        self.assertEqual(computed, expected)
+
+    def test_pair_check_win(self):
+        report = self.build_model(win=True)
+        report.compute()
+        with patch("sys.stdout", new=StringIO()) as fake_out:
+            report.report()
+        computed = fake_out.getvalue()
+        with open(os.path.join("test_files", "PairCheck_win.test"), "r") as f:
+            expected = f.read()
+        self.assertEqual(computed, expected)
+
+    def test_pair_check_lose(self):
+        report = self.build_model(lose=True)
+        report.compute()
+        with patch("sys.stdout", new=StringIO()) as fake_out:
+            report.report()
+        computed = fake_out.getvalue()
+        with open(os.path.join("test_files", "PairCheck_lose.test"), "r") as f:
+            expected = f.read()
+        self.assertEqual(computed, expected)
+
+    def test_pair_check_win_lose(self):
+        report = self.build_model(win=True, lose=True)
+        report.compute()
+        with patch("sys.stdout", new=StringIO()) as fake_out:
+            report.report()
         computed = fake_out.getvalue()
         with open(
-            os.path.join("test_files", "summary_list_model.test"), "r"
+            os.path.join("test_files", "PairCheck_win_lose.test"), "r"
         ) as f:
             expected = f.read()
         self.assertEqual(computed, expected)
-
-    def test_summary_list_results_score(self):
-        report = Summary()
-        report.acquire()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
-            report.list_results(score="accuracy")
-        computed = fake_out.getvalue()
-        with open(
-            os.path.join("test_files", "summary_list_score.test"), "r"
-        ) as f:
-            expected = f.read()
-        self.assertEqual(computed, expected)
-
-    def test_summary_list_results_n(self):
-        report = Summary()
-        report.acquire()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
-            report.list_results(score="accuracy", number=3)
-        computed = fake_out.getvalue()
-        with open(os.path.join("test_files", "summary_list_n.test"), "r") as f:
-            expected = f.read()
-        self.assertEqual(computed, expected)
-
-    def test_summary_list_hiden(self):
-        report = Summary(hidden=True)
-        report.acquire()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
-            report.list_results(score="accuracy")
-        computed = fake_out.getvalue()
-        with open(
-            os.path.join("test_files", "summary_list_hidden.test"), "r"
-        ) as f:
-            expected = f.read()
-        self.assertEqual(computed, expected)
-
-    def test_show_result_no_title(self):
-        report = Summary()
-        report.acquire()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
-            title = ""
-            best = report.best_result(
-                criterion="model", value="STree", score="accuracy"
-            )
-            report.show_result(data=best, title=title)
-        computed = fake_out.getvalue()
-        with open(
-            os.path.join("test_files", "summary_show_results.test"), "r"
-        ) as f:
-            expected = f.read()
-        self.assertEqual(computed, expected)
-
-    def test_show_result_title(self):
-        report = Summary()
-        report.acquire()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
-            title = "**Title**"
-            best = report.best_result(
-                criterion="model", value="STree", score="accuracy"
-            )
-            report.show_result(data=best, title=title)
-        computed = fake_out.getvalue()
-        with open(
-            os.path.join("test_files", "summary_show_results_title.test"), "r"
-        ) as f:
-            expected = f.read()
-        self.assertEqual(computed, expected)
-
-    def test_show_result_no_data(self):
-        report = Summary()
-        report.acquire()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
-            title = "**Test**"
-            report.show_result(data={}, title=title)
-        computed = fake_out.getvalue()
-        expected = f"** **Test** has No data **\n"
-        self.assertEqual(computed, expected)
-
-    def test_best_results_datasets(self):
-        report = Summary()
-        report.acquire()
-        computed = report.best_results_datasets()
-        expected = {
-            "balance-scale": (
-                0.83616,
-                {},
-                "results_accuracy_RandomForest_iMac27_2022-01-14_12:39:30_0.json",
-                "Test default paramters with RandomForest",
-            ),
-            "balloons": (
-                0.5566666666666668,
-                {"max_features": "auto", "splitter": "mutual"},
-                "results_accuracy_STree_macbook-pro_2021-11-01_19:17:07_0.json",
-                "default B",
-            ),
-        }
-        self.assertSequenceEqual(computed, expected)

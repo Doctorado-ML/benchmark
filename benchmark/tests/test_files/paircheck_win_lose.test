@@ -1,0 +1,8 @@
+Model                File                                                                   Score      Win Tie Lose
+==================== ====================================================================== ========== === === ====
+STree                results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json                  0.04544
+RandomForest         results_accuracy_RandomForest_iMac27_2022-01-14_12:39:30_0.json           0.03627 [92m  2 [93m  0 [91m   0
+[92mWinners:
+['balance-scale', 'balloons']
+[91mlosers:
+[]
