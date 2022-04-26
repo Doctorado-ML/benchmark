@@ -1252,6 +1252,7 @@ class PairCheck:
         self.score_b = report_b.score
         for result_a, result_b in zip(report_a.lines, report_b.lines):
             result = result_a["score"] - result_b["score"]
+
             if result > 0:
                 self.winners.append(result_a["dataset"])
             elif result < 0:

@@ -3,7 +3,6 @@ import unittest
 from io import StringIO
 from unittest.mock import patch
 from ..Results import Summary
-from ..Utils import Symbols
 
 
 class SummaryTest(unittest.TestCase):
@@ -232,3 +231,15 @@ class SummaryTest(unittest.TestCase):
             ),
         }
         self.assertSequenceEqual(computed, expected)
+
+    def test_show_top(self):
+        report = Summary()
+        report.acquire()
+        with patch("sys.stdout", new=StringIO()) as fake_out:
+            report.show_top()
+        computed = fake_out.getvalue()
+        with open(
+            os.path.join("test_files", "summary_show_top.test"), "r"
+        ) as f:
+            expected = f.read()
+        self.assertEqual(computed, expected)

@@ -41,7 +41,9 @@ class PairCheckTest(unittest.TestCase):
         self.assertEqual(computed, expected)
 
     def test_pair_check_lose(self):
-        report = self.build_model(lose=True)
+        report = self.build_model(
+            model1="RandomForest", model2="STree", lose=True
+        )
         report.compute()
         with patch("sys.stdout", new=StringIO()) as fake_out:
             report.report()
