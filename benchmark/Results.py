@@ -1252,13 +1252,15 @@ class PairCheck:
         self.score_b = report_b.score
         for result_a, result_b in zip(report_a.lines, report_b.lines):
             result = result_a["score"] - result_b["score"]
+            self._store_result(result, result_a["dataset"])
 
-            if result > 0:
-                self.winners.append(result_a["dataset"])
-            elif result < 0:
-                self.losers.append(result_a["dataset"])
-            else:
-                self.tie.append(result_a["dataset"])
+    def _store_result(self, result, dataset):
+        if result > 0:
+            self.winners.append(dataset)
+        elif result < 0:
+            self.losers.append(dataset)
+        else:
+            self.tie.append(dataset)
 
     def report(self):
         print(f"{'Model':<20} {'File':<70} {'Score':<10} Win Tie Lose")

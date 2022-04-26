@@ -63,3 +63,10 @@ class PairCheckTest(unittest.TestCase):
         ) as f:
             expected = f.read()
         self.assertEqual(computed, expected)
+
+    def test_pair_check_store_result(self):
+        report = self.build_model(win=True, lose=True)
+        report.compute()
+        report._store_result(0, "balloons")
+        report._store_result(1, "balloons")
+        report._store_result(-1, "balloons")
