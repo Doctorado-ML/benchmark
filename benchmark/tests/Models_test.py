@@ -64,12 +64,12 @@ class ModelTest(unittest.TestCase):
         test = {
             "STree": (11, 6, 4),
             "Wodt": (303, 152, 50),
-            "ODTE": (7.84, 4.42, 3.36),
+            "ODTE": (7.86, 4.43, 3.37),
             "Cart": (23, 12, 5),
             "SVC": (0, 0, 0),
             "RandomForest": (21.3, 11, 5.26),
             "ExtraTree": (0, 38, 0),
-            "AdaBoostStree": (12.25, 6.625, 4.75),
+            "AdaBoostStree": (12, 6.5, 4.6),
             "BaggingStree": (8.4, 4.7, 3.5),
             "BaggingWodt": (272, 136.5, 50),
         }
