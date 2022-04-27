@@ -103,13 +103,13 @@ class UtilTest(unittest.TestCase):
 
     def test_Files_open(self):
         self.assertIsNone(Files.open("xxx.xxx"))
-        cmd = (
+        command = (
             Files.cmd_open_macos
-            if sys.platform == "darwin"
+            if Files.is_exe(Files.cmd_open_macos)
             else Files.cmd_open_linux
         )
         self.assertSequenceEqual(
-            Files.open(__file__, test=True), [cmd, __file__]
+            Files.open(__file__, test=True), [command, __file__]
         )
 
     def test_Files_get_results(self):
