@@ -26,7 +26,7 @@ class PairCheckTest(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as fake_out:
             report.report()
         computed = fake_out.getvalue()
-        with open(os.path.join("test_files", "PairCheck.test"), "r") as f:
+        with open(os.path.join("test_files", "paircheck.test"), "r") as f:
             expected = f.read()
         self.assertEqual(computed, expected)
 
@@ -36,7 +36,7 @@ class PairCheckTest(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as fake_out:
             report.report()
         computed = fake_out.getvalue()
-        with open(os.path.join("test_files", "PairCheck_win.test"), "r") as f:
+        with open(os.path.join("test_files", "paircheck_win.test"), "r") as f:
             expected = f.read()
         self.assertEqual(computed, expected)
 
@@ -48,7 +48,7 @@ class PairCheckTest(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as fake_out:
             report.report()
         computed = fake_out.getvalue()
-        with open(os.path.join("test_files", "PairCheck_lose.test"), "r") as f:
+        with open(os.path.join("test_files", "paircheck_lose.test"), "r") as f:
             expected = f.read()
         self.assertEqual(computed, expected)
 
@@ -59,7 +59,7 @@ class PairCheckTest(unittest.TestCase):
             report.report()
         computed = fake_out.getvalue()
         with open(
-            os.path.join("test_files", "PairCheck_win_lose.test"), "r"
+            os.path.join("test_files", "paircheck_win_lose.test"), "r"
         ) as f:
             expected = f.read()
         self.assertEqual(computed, expected)
