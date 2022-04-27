@@ -69,7 +69,6 @@ class ModelTest(unittest.TestCase):
             "SVC": (0, 0, 0),
             "RandomForest": (21.3, 11, 5.26),
             "ExtraTree": (0, 38, 0),
-            "AdaBoostStree": (12, 6.5, 4.6),
             "BaggingStree": (8.4, 4.7, 3.5),
             "BaggingWodt": (272, 136.5, 50),
         }
