@@ -23,7 +23,8 @@ class SummaryTest(unittest.TestCase):
                 "date": "2021-09-30",
                 "time": "11:42:07",
                 "stratified": "0",
-                "file": "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json",
+                "file": "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0"
+                ".json",
                 "metric": 0.04544339345094904,
                 "duration": 624.2505249977112,
             },
@@ -35,7 +36,8 @@ class SummaryTest(unittest.TestCase):
                 "date": "2022-04-20",
                 "time": "10:52:20",
                 "stratified": "0",
-                "file": "results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.json",
+                "file": "results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0."
+                "json",
                 "metric": 0.04340676203831255,
                 "duration": 22591.471411943436,
             },
@@ -47,7 +49,8 @@ class SummaryTest(unittest.TestCase):
                 "date": "2021-10-27",
                 "time": "09:40:40",
                 "stratified": "0",
-                "file": "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.json",
+                "file": "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0."
+                "json",
                 "metric": 0.04158163842230773,
                 "duration": 3395.009148836136,
             },
@@ -59,7 +62,8 @@ class SummaryTest(unittest.TestCase):
                 "date": "2021-11-01",
                 "time": "19:17:07",
                 "stratified": "0",
-                "file": "results_accuracy_STree_macbook-pro_2021-11-01_19:17:07_0.json",
+                "file": "results_accuracy_STree_macbook-pro_2021-11-01_19:17:"
+                "07_0.json",
                 "metric": 0.03789928437296904,
                 "duration": 4115.042420864105,
             },
@@ -71,7 +75,8 @@ class SummaryTest(unittest.TestCase):
                 "date": "2022-01-14",
                 "time": "12:39:30",
                 "stratified": "0",
-                "file": "results_accuracy_RandomForest_iMac27_2022-01-14_12:39:30_0.json",
+                "file": "results_accuracy_RandomForest_iMac27_2022-01-14_12:39"
+                ":30_0.json",
                 "metric": 0.03627309062515771,
                 "duration": 272.7363500595093,
             },
@@ -93,7 +98,8 @@ class SummaryTest(unittest.TestCase):
                 "date": "2021-09-30",
                 "time": "11:42:07",
                 "stratified": "0",
-                "file": "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json",
+                "file": "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0"
+                ".json",
                 "metric": 0.04544339345094904,
                 "duration": 624.2505249977112,
             },
@@ -105,7 +111,8 @@ class SummaryTest(unittest.TestCase):
                 "date": "2021-10-27",
                 "time": "09:40:40",
                 "stratified": "0",
-                "file": "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.json",
+                "file": "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0"
+                ".json",
                 "metric": 0.04158163842230773,
                 "duration": 3395.009148836136,
             },
@@ -117,7 +124,8 @@ class SummaryTest(unittest.TestCase):
                 "date": "2021-11-01",
                 "time": "19:17:07",
                 "stratified": "0",
-                "file": "results_accuracy_STree_macbook-pro_2021-11-01_19:17:07_0.json",
+                "file": "results_accuracy_STree_macbook-pro_2021-11-01_19:17:"
+                "07_0.json",
                 "metric": 0.03789928437296904,
                 "duration": 4115.042420864105,
             },
@@ -209,7 +217,7 @@ class SummaryTest(unittest.TestCase):
             title = "**Test**"
             report.show_result(data={}, title=title)
         computed = fake_out.getvalue()
-        expected = f"** **Test** has No data **\n"
+        expected = "** **Test** has No data **\n"
         self.assertEqual(computed, expected)
 
     def test_best_results_datasets(self):
@@ -220,13 +228,15 @@ class SummaryTest(unittest.TestCase):
             "balance-scale": (
                 0.83616,
                 {},
-                "results_accuracy_RandomForest_iMac27_2022-01-14_12:39:30_0.json",
+                "results_accuracy_RandomForest_iMac27_2022-01-14_12:39:30_0."
+                "json",
                 "Test default paramters with RandomForest",
             ),
             "balloons": (
                 0.5566666666666668,
                 {"max_features": "auto", "splitter": "mutual"},
-                "results_accuracy_STree_macbook-pro_2021-11-01_19:17:07_0.json",
+                "results_accuracy_STree_macbook-pro_2021-11-01_19:17:07_0."
+                "json",
                 "default B",
             ),
         }
