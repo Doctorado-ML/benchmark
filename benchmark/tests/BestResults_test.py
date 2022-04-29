@@ -1,13 +1,9 @@
 import os
-import unittest
+from .TestBase import TestBase
 from ..Experiments import BestResults, Datasets
 
 
-class BestResultTest(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
-        super().__init__(*args, **kwargs)
-
+class BestResultTest(TestBase):
     def test_load(self):
         expected = {
             "balance-scale": [

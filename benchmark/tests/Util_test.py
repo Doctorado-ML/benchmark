@@ -1,11 +1,11 @@
 import os
 import sys
-import unittest
 import argparse
+from .TestBase import TestBase
 from ..Utils import Folders, Files, Symbols, TextColor, EnvData, EnvDefault
 
 
-class UtilTest(unittest.TestCase):
+class UtilTest(TestBase):
     def test_Folders(self):
         self.assertEqual("results", Folders.results)
         self.assertEqual("hidden_results", Folders.hidden_results)

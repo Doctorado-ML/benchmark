@@ -1,4 +1,3 @@
-import unittest
 import warnings
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.tree import DecisionTreeClassifier, ExtraTreeClassifier
@@ -12,10 +11,11 @@ from sklearn.datasets import load_wine
 from stree import Stree
 from wodt import Wodt
 from odte import Odte
+from .TestBase import TestBase
 from ..Models import Models
 
 
-class ModelTest(unittest.TestCase):
+class ModelTest(TestBase):
     def test_Models(self):
         test = {
             "STree": Stree,

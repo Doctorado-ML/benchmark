@@ -1,14 +1,10 @@
 import os
-import unittest
+from .TestBase import TestBase
 from ..Results import SQL
 from ..Utils import Folders
 
 
-class SQLTest(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
-        super().__init__(*args, **kwargs)
-
+class SQLTest(TestBase):
     def tearDown(self) -> None:
         files = [
             "results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.sql",
@@ -26,9 +22,4 @@ class SQLTest(unittest.TestCase):
         file_name = os.path.join(
             Folders.results, file_name.replace(".json", ".sql")
         )
-
-        with open(file_name, "r") as file:
-            computed = file.read()
-            with open(os.path.join("test_files", "sql.test")) as f_exp:
-                expected = f_exp.read()
-        self.assertEqual(computed, expected)
+        self.check_file_file(file_name, "sql.test")

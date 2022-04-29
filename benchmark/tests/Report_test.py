@@ -1,16 +1,11 @@
-import os
-import unittest
 from io import StringIO
 from unittest.mock import patch
+from .TestBase import TestBase
 from ..Results import Report, BaseReport, ReportBest
 from ..Utils import Symbols
 
 
-class ReportTest(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
-        super().__init__(*args, **kwargs)
-
+class ReportTest(TestBase):
     def test_BaseReport(self):
         with patch.multiple(BaseReport, __abstractmethods__=set()):
             file_name = (
@@ -27,22 +22,18 @@ class ReportTest(unittest.TestCase):
             file_name="results/results_accuracy_STree_iMac27_2021-09-30_11:"
             "42:07_0.json"
         )
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-            with open("test_files/report.test", "r") as f:
-                expected = f.read()
-            self.assertEqual(fake_out.getvalue(), expected)
+        self.check_output_file(fake_out, "report.test")
 
     def test_report_without_folder(self):
         report = Report(
             file_name="results_accuracy_STree_iMac27_2021-09-30_11:42:07_0"
             ".json"
         )
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-            with open("test_files/report.test", "r") as f:
-                expected = f.read()
-            self.assertEqual(fake_out.getvalue(), expected)
+        self.check_output_file(fake_out, "report.test")
 
     def test_report_compared(self):
         report = Report(
@@ -50,11 +41,9 @@ class ReportTest(unittest.TestCase):
             ".json",
             compare=True,
         )
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-            with open("test_files/report_compared.test", "r") as f:
-                expected = f.read()
-            self.assertEqual(fake_out.getvalue(), expected)
+        self.check_output_file(fake_out, "report_compared.test")
 
     def test_compute_status(self):
         file_name = "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.json"
@@ -62,7 +51,7 @@ class ReportTest(unittest.TestCase):
             file_name=file_name,
             compare=True,
         )
-        with patch("sys.stdout", new=StringIO()):
+        with patch(self.output, new=StringIO()):
             report.report()
         res = report._compute_status("balloons", 0.99)
         self.assertEqual(res, Symbols.better_best)
@@ -75,25 +64,18 @@ class ReportTest(unittest.TestCase):
 
     def test_report_best(self):
         report = ReportBest("accuracy", "STree", best=True, grid=False)
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-            with open("test_files/report_best.test", "r") as f:
-                expected = f.read()
-            self.assertEqual(fake_out.getvalue(), expected)
+        self.check_output_file(fake_out, "report_best.test")
 
     def test_report_grid(self):
         report = ReportBest("accuracy", "STree", best=False, grid=True)
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-            with open("test_files/report_grid.test", "r") as f:
-                expected = f.read()
-            self.assertEqual(fake_out.getvalue(), expected)
+        self.check_output_file(fake_out, "report_grid.test")
 
     def test_report_best_both(self):
         report = ReportBest("accuracy", "STree", best=True, grid=True)
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-            with open("test_files/report_best.test", "r") as f:
-                expected = f.read()
-
-            self.assertEqual(fake_out.getvalue(), expected)
+        self.check_output_file(fake_out, "report_best.test")

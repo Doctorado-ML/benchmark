@@ -1,15 +1,11 @@
 import os
-import unittest
 from io import StringIO
 from unittest.mock import patch
+from .TestBase import TestBase
 from ..Results import PairCheck
 
 
-class PairCheckTest(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
-        super().__init__(*args, **kwargs)
-
+class PairCheckTest(TestBase):
     def build_model(
         self,
         score="accuracy",
@@ -23,46 +19,35 @@ class PairCheckTest(unittest.TestCase):
     def test_pair_check(self):
         report = self.build_model(model1="ODTE", model2="STree")
         report.compute()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             report.report()
         computed = fake_out.getvalue()
-        with open(os.path.join("test_files", "paircheck.test"), "r") as f:
+        with open(os.path.join(self.test_files, "paircheck.test"), "r") as f:
             expected = f.read()
         self.assertEqual(computed, expected)
 
     def test_pair_check_win(self):
         report = self.build_model(win=True)
         report.compute()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        computed = fake_out.getvalue()
-        with open(os.path.join("test_files", "paircheck_win.test"), "r") as f:
-            expected = f.read()
-        self.assertEqual(computed, expected)
+        self.check_output_file(fake_out, "paircheck_win.test")
 
     def test_pair_check_lose(self):
         report = self.build_model(
             model1="RandomForest", model2="STree", lose=True
         )
         report.compute()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        computed = fake_out.getvalue()
-        with open(os.path.join("test_files", "paircheck_lose.test"), "r") as f:
-            expected = f.read()
-        self.assertEqual(computed, expected)
+        self.check_output_file(fake_out, "paircheck_lose.test")
 
     def test_pair_check_win_lose(self):
         report = self.build_model(win=True, lose=True)
         report.compute()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        computed = fake_out.getvalue()
-        with open(
-            os.path.join("test_files", "paircheck_win_lose.test"), "r"
-        ) as f:
-            expected = f.read()
-        self.assertEqual(computed, expected)
+        self.check_output_file(fake_out, "paircheck_win_lose.test")
 
     def test_pair_check_store_result(self):
         report = self.build_model(win=True, lose=True)

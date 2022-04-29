@@ -1,19 +1,14 @@
 import os
-import unittest
 import shutil
 from io import StringIO
 from unittest.mock import patch
 from openpyxl import load_workbook
+from .TestBase import TestBase
 from ..Utils import Folders, Files
 from ..Results import Benchmark
-from .Excel_test import ExcelTest
 
 
-class BenchmarkTest(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
-        super().__init__(*args, **kwargs)
-
+class BenchmarkTest(TestBase):
     def tearDown(self) -> None:
         benchmark = Benchmark("accuracy", visualize=False)
         files = [
@@ -41,29 +36,25 @@ class BenchmarkTest(unittest.TestCase):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        with open(benchmark.get_result_file_name()) as f:
-            computed = f.readlines()
-        with open(os.path.join("test_files", "exreport_csv.test")) as f_exp:
-            expected = f_exp.readlines()
-        self.assertEqual(computed, expected)
+        self.check_file_file(
+            benchmark.get_result_file_name(), "exreport_csv.test"
+        )
 
     def test_exreport_report(self):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             benchmark.report(tex_output=False)
-        with open(os.path.join("test_files", "exreport_report.test")) as f:
-            expected = f.read()
-        self.assertEqual(fake_out.getvalue(), expected)
+        self.check_output_file(fake_out, "exreport_report.test")
 
     def test_exreport(self):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             benchmark.exreport()
-        with open(os.path.join("test_files", "exreport.test")) as f:
+        with open(os.path.join(self.test_files, "exreport.test")) as f:
             expected_t = f.read()
         computed_t = fake_out.getvalue()
         computed_t = computed_t.split("\n")
@@ -80,7 +71,7 @@ class BenchmarkTest(unittest.TestCase):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        with patch("sys.stdout", new=StringIO()):
+        with patch(self.output, new=StringIO()):
             benchmark.exreport()
         self.assertFalse(os.path.exists(Files.exreport_pdf))
         self.assertFalse(os.path.exists(Folders.report))
@@ -89,43 +80,34 @@ class BenchmarkTest(unittest.TestCase):
         benchmark = Benchmark("unknown", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             benchmark.exreport()
-        computed = fake_out.getvalue()
-        with open(os.path.join("test_files", "exreport_error.test")) as f:
-            expected = f.read()
-        self.assertEqual(computed, expected)
+        self.check_output_file(fake_out, "exreport_error.test")
 
     def test_tex_output(self):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        with patch("sys.stdout", new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as fake_out:
             benchmark.report(tex_output=True)
-        with open(os.path.join("test_files", "exreport_report.test")) as f:
+        with open(os.path.join(self.test_files, "exreport_report.test")) as f:
             expected = f.read()
         self.assertEqual(fake_out.getvalue(), expected)
         self.assertTrue(os.path.exists(benchmark.get_tex_file()))
-        with open(benchmark.get_tex_file()) as f:
-            computed = f.read()
-        with open(os.path.join("test_files", "exreport_tex.test")) as f:
-            expected = f.read()
-        self.assertEqual(computed, expected)
+        self.check_file_file(benchmark.get_tex_file(), "exreport_tex.test")
 
     def test_excel_output(self):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        with patch("sys.stdout", new=StringIO()):
+        with patch(self.output, new=StringIO()):
             benchmark.exreport()
         benchmark.excel()
         file_name = benchmark.get_excel_file_name()
         book = load_workbook(file_name)
         for sheet_name in book.sheetnames:
             sheet = book[sheet_name]
-            ExcelTest.check_excel_sheet(
-                self, sheet, f"exreport_excel_{sheet_name}.test"
-            )
+            self.check_excel_sheet(sheet, f"exreport_excel_{sheet_name}.test")
             # ExcelTest.generate_excel_sheet(
             #     self, sheet, f"exreport_excel_{sheet_name}.test"
             # )

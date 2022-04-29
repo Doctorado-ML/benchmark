@@ -1,14 +1,12 @@
 import os
 import json
-import unittest
+from .TestBase import TestBase
 from ..Experiments import Experiment, Datasets
 
 
-class ExperimentTest(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+class ExperimentTest(TestBase):
+    def setUp(self):
         self.exp = self.build_exp()
-        super().__init__(*args, **kwargs)
 
     def build_exp(self, hyperparams=False, grid=False):
         params = {

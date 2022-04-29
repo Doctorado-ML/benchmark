@@ -1,14 +1,12 @@
 import os
 import json
-import unittest
+from .TestBase import TestBase
 from ..Experiments import GridSearch, Datasets
 
 
-class GridSearchTest(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+class GridSearchTest(TestBase):
+    def setUp(self):
         self.grid = self.build_exp()
-        super().__init__(*args, **kwargs)
 
     def tearDown(self) -> None:
         grid = self.build_exp()

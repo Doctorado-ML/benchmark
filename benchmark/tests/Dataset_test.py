@@ -1,20 +1,16 @@
-import os
 import shutil
-import unittest
-
+from .TestBase import TestBase
 from ..Experiments import Randomized, Datasets
 
 
-class DatasetTest(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+class DatasetTest(TestBase):
+    def setUp(self):
         self.datasets_values = {
             "balance-scale": (625, 4, 3),
             "balloons": (16, 4, 2),
             "iris": (150, 4, 3),
             "wine": (178, 13, 3),
         }
-        super().__init__(*args, **kwargs)
 
     def tearDown(self) -> None:
         self.set_env(".env.dist")
