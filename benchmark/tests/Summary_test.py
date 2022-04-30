@@ -148,7 +148,7 @@ class SummaryTest(TestBase):
             report.list_results(score="accuracy", number=3)
         self.check_output_file(fake_out, "summary_list_n.test")
 
-    def test_summary_list_hiden(self):
+    def test_summary_list_hidden(self):
         report = Summary(hidden=True)
         report.acquire()
         with patch(self.output, new=StringIO()) as fake_out:

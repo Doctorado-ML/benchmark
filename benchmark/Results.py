@@ -1069,15 +1069,14 @@ class Summary:
                 self.datasets[result] = report.lines
                 self.data.append(entry)
 
-    def list_results(
+    def get_results_criteria(
         self,
-        score=None,
-        model=None,
-        input_data=None,
-        sort_key="date",
-        number=0,
-    ) -> None:
-        """Print the list of results"""
+        score,
+        model,
+        input_data,
+        sort_key,
+        number,
+    ):
         data = self.data.copy() if input_data is None else input_data
         if score:
             data = [x for x in data if x["score"] == score]
@@ -1091,6 +1090,20 @@ class Summary:
         data = sorted(data, key=keys, reverse=True)
         if number > 0:
             data = data[:number]
+        return data
+
+    def list_results(
+        self,
+        score=None,
+        model=None,
+        input_data=None,
+        sort_key="date",
+        number=0,
+    ) -> None:
+        """Print the list of results"""
+        data = self.get_results_criteria(
+            score, model, input_data, sort_key, number
+        )
         max_file = max(len(x["file"]) for x in data)
         max_title = max(len(x["title"]) for x in data)
         if self.hidden:
