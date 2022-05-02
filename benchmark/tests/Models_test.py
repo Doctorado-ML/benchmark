@@ -11,6 +11,7 @@ from sklearn.datasets import load_wine
 from stree import Stree
 from wodt import Wodt
 from odte import Odte
+from xgboost import XGBClassifier
 from .TestBase import TestBase
 from ..Models import Models
 
@@ -25,6 +26,7 @@ class ModelTest(TestBase):
             "SVC": SVC,
             "RandomForest": RandomForestClassifier,
             "ExtraTree": ExtraTreeClassifier,
+            "XGBoost": XGBClassifier,
         }
         for key, value in test.items():
             self.assertIsInstance(Models.get_model(key), value)

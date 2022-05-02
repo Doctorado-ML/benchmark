@@ -5,3 +5,4 @@ mufs
 xlsxwriter
 openpyxl
 tqdm
+xgboost

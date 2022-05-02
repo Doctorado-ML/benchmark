@@ -9,6 +9,7 @@ from sklearn.svm import SVC
 from stree import Stree
 from wodt import Wodt
 from odte import Odte
+from xgboost import XGBClassifier
 
 
 class Models:
@@ -39,6 +40,8 @@ class Models:
             return BaggingClassifier(
                 base_estimator=clf, random_state=random_state
             )
+        if name == "XGBoost":
+            return XGBClassifier(random_state=random_state)
         if name == "AdaBoostStree":
             clf = Stree(
                 random_state=random_state,
@@ -77,7 +80,7 @@ class Models:
             leaves = mean([x.get_n_leaves() for x in result.estimators_])
             depth = mean([x.get_depth() for x in result.estimators_])
             nodes = mean([x.tree_.node_count for x in result.estimators_])
-        elif name == "SVC":
+        elif name == "SVC" or name == "XGBoost":
             nodes = leaves = depth = 0
         else:
             nodes, leaves = result.nodes_leaves()
