@@ -631,7 +631,10 @@ class Benchmark:
         # build Files.exreport
         result_file_name = self.get_result_file_name()
         with open(result_file_name, "w") as f:
-            f.write(f"classifier, dataset, {self._score}, stdev, file_name\n")
+            f.write(
+                f"classifier, dataset, {self._score.replace('-','')}, "
+                "stdev, file_name\n"
+            )
             for record in self._results:
                 f.write(
                     f"{record['model']}, {record['dataset']}, "
@@ -668,7 +671,7 @@ class Benchmark:
             [
                 "Rscript",
                 os.path.join(Folders.src(), Files.benchmark_r),
-                self._score,
+                self._score.replace("-", ""),
                 os.path.join(Folders.exreport, f"exreport_{self._score}"),
                 "1" if self.visualize else "0",
             ],
