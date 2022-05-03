@@ -14,7 +14,8 @@ def parse_arguments():
         action=EnvDefault,
         envvar="score",
         required=True,
-        help="score name {accuracy, f1_micro, f1_macro, all}",
+        help="score name {accuracy, f1-micro, f1-macro, f1-weighted, "
+        "roc-auc-ovr, all}",
     )
     args = ap.parse_args()
     return (args.score,)
@@ -22,7 +23,13 @@ def parse_arguments():
 
 (score,) = parse_arguments()
 
-all_metrics = ["accuracy", "f1-macro", "f1-micro"]
+all_metrics = [
+    "accuracy",
+    "f1-macro",
+    "f1-micro",
+    "f1-weighted",
+    "roc-auc-ovr",
+]
 
 metrics = all_metrics if score == "all" else [score]
 

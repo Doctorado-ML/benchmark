@@ -18,7 +18,8 @@ def parse_arguments():
         envvar="score",
         type=str,
         required=True,
-        help="score name {accuracy, f1_macro, ...}",
+        help="score name {accuracy, f1-micro, f1-macro, f1-weighted, "
+        "roc-auc-ovr, all}",
     )
     ap.add_argument(
         "-P",
