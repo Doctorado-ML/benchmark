@@ -465,7 +465,7 @@ class Excel(BaseReport):
             integer.set_bg_color(self.color2)
         self.sheet.write(self.row, col, result["dataset"], normal)
         self.sheet.write(self.row, col + 1, result["samples"], integer)
-        self.sheet.write(self.row, col + 2, result["features"], normal)
+        self.sheet.write(self.row, col + 2, result["features"], integer)
         self.sheet.write(self.row, col + 3, result["classes"], normal)
         self.sheet.write(self.row, col + 4, result["nodes"], normal)
         self.sheet.write(self.row, col + 5, result["leaves"], normal)
