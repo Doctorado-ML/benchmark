@@ -3,6 +3,13 @@ import subprocess
 import argparse
 
 BEST_ACCURACY_STREE = 40.282203
+ALL_METRICS = (
+    "accuracy",
+    "f1-macro",
+    "f1-micro",
+    "f1-weighted",
+    "roc-auc-ovr",
+)
 
 
 class Folders:

@@ -1,8 +1,9 @@
 #! /usr/bin/env python
 import os
 import argparse
+from benchmark.Experiments import Models
 from benchmark.Results import Summary
-from benchmark.Utils import Folders
+from benchmark.Utils import ALL_METRICS, Folders
 
 """List experiments of a model
 """
@@ -21,14 +22,18 @@ def parse_arguments():
         "--score",
         type=str,
         required=False,
-        help="score used in experiment",
+        choices=ALL_METRICS,
+        help="score name {accuracy, f1-macro, f1-weighted, roc-auc-ovr}",
     )
+    models_data = Models.define_models(0)
+    models = "{" + ", ".join(models_data) + "}"
     ap.add_argument(
         "-m",
         "--model",
         type=str,
         required=False,
-        help="model used in experiment",
+        choices=list(models_data),
+        help=f"model name: {models}",
     )
     ap.add_argument(
         "-k",

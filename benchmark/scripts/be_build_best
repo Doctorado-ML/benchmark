@@ -2,7 +2,7 @@
 import argparse
 from benchmark.Results import ReportBest
 from benchmark.Experiments import Datasets, BestResults
-from benchmark.Utils import EnvDefault
+from benchmark.Utils import ALL_METRICS, EnvDefault
 
 """Build a json file with the best results of a model and its hyperparameters
 """
@@ -17,6 +17,7 @@ def parse_arguments():
         envvar="score",
         type=str,
         required=True,
+        choices=ALL_METRICS,
         help="score name {accuracy, f1_macro, ...}",
     )
     ap.add_argument(

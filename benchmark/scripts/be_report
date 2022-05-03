@@ -3,7 +3,7 @@ import argparse
 import numpy as np
 from benchmark.Experiments import Datasets
 from benchmark.Results import Report, Excel, SQL, ReportBest
-from benchmark.Utils import Files, TextColor, EnvDefault
+from benchmark.Utils import ALL_METRICS, Files, TextColor, EnvDefault
 
 
 """Build report on screen of a result file, optionally generate excel and sql
@@ -72,6 +72,7 @@ def parse_arguments():
         envvar="score",
         type=str,
         required=True,
+        choices=ALL_METRICS,
         help="score name {accuracy, f1_macro, ...}",
     )
     args = ap.parse_args()

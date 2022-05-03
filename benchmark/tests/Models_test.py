@@ -2,6 +2,7 @@ import warnings
 from sklearn.exceptions import ConvergenceWarning
 from sklearn.tree import DecisionTreeClassifier, ExtraTreeClassifier
 from sklearn.ensemble import (
+    GradientBoostingClassifier,
     RandomForestClassifier,
     BaggingClassifier,
     AdaBoostClassifier,
@@ -27,6 +28,7 @@ class ModelTest(TestBase):
             "RandomForest": RandomForestClassifier,
             "ExtraTree": ExtraTreeClassifier,
             "XGBoost": XGBClassifier,
+            "GBC": GradientBoostingClassifier,
         }
         for key, value in test.items():
             self.assertIsInstance(Models.get_model(key), value)
@@ -64,19 +66,30 @@ class ModelTest(TestBase):
     def test_get_complexity(self):
         warnings.filterwarnings("ignore", category=ConvergenceWarning)
         test = {
-            "STree": (11, 6, 4),
-            "Wodt": (303, 152, 50),
-            "ODTE": (7.86, 4.43, 3.37),
-            "Cart": (23, 12, 5),
-            "SVC": (0, 0, 0),
-            "RandomForest": (21.3, 11, 5.26),
-            "ExtraTree": (0, 38, 0),
-            "BaggingStree": (8.4, 4.7, 3.5),
-            "BaggingWodt": (272, 136.5, 50),
+            "STree": ((11, 6, 4), 1.0),
+            "Wodt": ((303, 152, 50), 0.9382022471910112),
+            "ODTE": ((7.86, 4.43, 3.37), 1.0),
+            "Cart": ((23, 12, 5), 1.0),
+            "SVC": ((0, 0, 0), 0.7078651685393258),
+            "RandomForest": ((21.3, 11, 5.26), 1.0),
+            "ExtraTree": ((0, 38, 0), 1.0),
+            "BaggingStree": ((8.4, 4.7, 3.5), 1.0),
+            "BaggingWodt": ((272, 136.5, 50), 0.9101123595505618),
+            "AdaBoostStree": ((12.25, 6.625, 4.75), 1.0),
+            "XGBoost": ((0, 0, 0), 1.0),
+            "GBC": ((15, 8, 3), 1.0),
         }
         X, y = load_wine(return_X_y=True)
-        for key, value in test.items():
+        print("")
+        for key, (value, score_expected) in test.items():
             clf = Models.get_model(key, random_state=1)
             clf.fit(X, y)
-            # print(key, Models.get_complexity(key, clf))
+            score_computed = clf.score(X, y)
+            # print(
+            #     key,
+            #     Models.get_complexity(key, clf),
+            #     score_expected,
+            #     score_computed,
+            # )
             self.assertSequenceEqual(Models.get_complexity(key, clf), value)
+            self.assertEqual(score_computed, score_expected, key)

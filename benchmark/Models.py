@@ -4,6 +4,7 @@ from sklearn.ensemble import (
     RandomForestClassifier,
     BaggingClassifier,
     AdaBoostClassifier,
+    GradientBoostingClassifier,
 )
 from sklearn.svm import SVC
 from stree import Stree
@@ -14,50 +15,48 @@ from xgboost import XGBClassifier
 
 class Models:
     @staticmethod
-    def get_model(name, random_state=None):
-        if name == "STree":
-            return Stree(random_state=random_state)
-        if name == "Cart":
-            return DecisionTreeClassifier(random_state=random_state)
-        if name == "ExtraTree":
-            return ExtraTreeClassifier(random_state=random_state)
-        if name == "Wodt":
-            return Wodt(random_state=random_state)
-        if name == "SVC":
-            return SVC(random_state=random_state)
-        if name == "ODTE":
-            return Odte(
+    def define_models(random_state):
+        return {
+            "STree": Stree(random_state=random_state),
+            "Cart": DecisionTreeClassifier(random_state=random_state),
+            "ExtraTree": ExtraTreeClassifier(random_state=random_state),
+            "Wodt": Wodt(random_state=random_state),
+            "SVC": SVC(random_state=random_state),
+            "ODTE": Odte(
                 base_estimator=Stree(random_state=random_state),
                 random_state=random_state,
-            )
-        if name == "BaggingStree":
-            clf = Stree(random_state=random_state)
-            return BaggingClassifier(
-                base_estimator=clf, random_state=random_state
-            )
-        if name == "BaggingWodt":
-            clf = Wodt(random_state=random_state)
-            return BaggingClassifier(
-                base_estimator=clf, random_state=random_state
-            )
-        if name == "XGBoost":
-            return XGBClassifier(random_state=random_state)
-        if name == "AdaBoostStree":
-            clf = Stree(
+            ),
+            "BaggingStree": BaggingClassifier(
+                base_estimator=Stree(random_state=random_state),
                 random_state=random_state,
-            )
-            return AdaBoostClassifier(
-                base_estimator=clf,
+            ),
+            "BaggingWodt": BaggingClassifier(
+                base_estimator=Wodt(random_state=random_state),
+                random_state=random_state,
+            ),
+            "XGBoost": XGBClassifier(random_state=random_state),
+            "AdaBoostStree": AdaBoostClassifier(
+                base_estimator=Stree(
+                    random_state=random_state,
+                ),
                 algorithm="SAMME",
                 random_state=random_state,
-            )
-        if name == "RandomForest":
-            return RandomForestClassifier(random_state=random_state)
-        msg = f"No model recognized {name}"
-        if name in ("Stree", "stree"):
-            msg += ", did you mean STree?"
-        elif name in ("odte", "Odte"):
-            msg += ", did you mean ODTE?"
+            ),
+            "GBC": GradientBoostingClassifier(random_state=random_state),
+            "RandomForest": RandomForestClassifier(random_state=random_state),
+        }
+
+    @staticmethod
+    def get_model(name, random_state=None):
+        try:
+            models = Models.define_models(random_state)
+            return models[name]
+        except KeyError:
+            msg = f"No model recognized {name}"
+            if name in ("Stree", "stree"):
+                msg += ", did you mean STree?"
+            elif name in ("odte", "Odte"):
+                msg += ", did you mean ODTE?"
         raise ValueError(msg)
 
     @staticmethod
@@ -80,6 +79,10 @@ class Models:
             leaves = mean([x.get_n_leaves() for x in result.estimators_])
             depth = mean([x.get_depth() for x in result.estimators_])
             nodes = mean([x.tree_.node_count for x in result.estimators_])
+        elif name == "GBC":
+            leaves = mean([x[0].get_n_leaves() for x in result.estimators_])
+            depth = mean([x[0].get_depth() for x in result.estimators_])
+            nodes = mean([x[0].tree_.node_count for x in result.estimators_])
         elif name == "SVC" or name == "XGBoost":
             nodes = leaves = depth = 0
         else:

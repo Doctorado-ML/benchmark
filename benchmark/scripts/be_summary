@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import argparse
 from benchmark.Results import Summary
-from benchmark.Utils import EnvDefault
+from benchmark.Utils import EnvDefault, ALL_METRICS
 
 
 def parse_arguments():
@@ -22,6 +22,7 @@ def parse_arguments():
         action=EnvDefault,
         envvar="score",
         required=True,
+        choices=ALL_METRICS,
         help="score name {accuracy, f1_micro, f1_macro, all}",
     )
     args = ap.parse_args()

@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 import os
 import argparse
-from benchmark.Experiments import Experiment, Datasets
+from benchmark.Experiments import Experiment, Datasets, Models
 from benchmark.Results import Report
-from benchmark.Utils import EnvDefault
+from benchmark.Utils import EnvDefault, ALL_METRICS
 
 """Do experiment and build result file, optionally print report with results
 """
@@ -17,9 +17,9 @@ def parse_arguments():
         action=EnvDefault,
         envvar="score",
         type=str,
+        choices=ALL_METRICS,
         required=True,
-        help="score name {accuracy, f1-micro, f1-macro, f1-weighted, "
-        "roc-auc-ovr, all}",
+        help="score name {accuracy, f1-macro, f1-weighted, roc-auc-ovr}",
     )
     ap.add_argument(
         "-P",
@@ -30,12 +30,15 @@ def parse_arguments():
         required=True,
         help="Platform where the test is run",
     )
+    models_data = Models.define_models(0)
+    models = "{" + ", ".join(models_data) + "}"
     ap.add_argument(
         "-m",
         "--model",
         type=str,
         required=True,
-        help="model name",
+        choices=list(models_data),
+        help=f"model name: {models}",
     )
     ap.add_argument(
         "-n",
