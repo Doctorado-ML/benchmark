@@ -266,3 +266,8 @@ class UtilTest(TestBase):
         self.assertEqual(TextColor.ENDC, "\033[0m")
         self.assertEqual(TextColor.BOLD, "\033[1m")
         self.assertEqual(TextColor.UNDERLINE, "\033[4m")
+
+    def test_Arguments(self):
+        arguments = Arguments()
+        arg_list = ["score", "excel", "tex_output"]
+        arguments.set_arguments(arg_list)

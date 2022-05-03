@@ -1,6 +1,5 @@
 import os
 import subprocess
-import argparse
 
 BEST_ACCURACY_STREE = 40.282203
 ALL_METRICS = (
@@ -130,33 +129,6 @@ class Symbols:
     black_star = "\N{black star}"
     equal_best = check_mark
     better_best = black_star
-
-
-class EnvData:
-    @staticmethod
-    def load():
-        args = {}
-        with open(Files.dot_env) as f:
-            for line in f.read().splitlines():
-                if line == "" or line.startswith("#"):
-                    continue
-                key, value = line.split("=")
-                args[key] = value
-        return args
-
-
-class EnvDefault(argparse.Action):
-    # Thanks to https://stackoverflow.com/users/445507/russell-heilling
-    def __init__(self, envvar, required=True, default=None, **kwargs):
-        self._args = EnvData.load()
-        default = self._args[envvar]
-        required = False
-        super(EnvDefault, self).__init__(
-            default=default, required=required, **kwargs
-        )
-
-    def __call__(self, parser, namespace, values, option_string=None):
-        setattr(namespace, self.dest, values)
 
 
 class TextColor:

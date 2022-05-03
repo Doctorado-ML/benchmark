@@ -1,29 +1,17 @@
 #!/usr/bin/env python
-import argparse
 import json
 from benchmark.Results import Summary
-from benchmark.Utils import EnvDefault, ALL_METRICS
+from benchmark.Utils import ALL_METRICS, Arguments
 
 
-def parse_arguments():
-    ap = argparse.ArgumentParser()
-    ap.add_argument(
-        "-s",
-        "--score",
-        type=str,
-        action=EnvDefault,
-        envvar="score",
-        required=True,
-        choices=ALL_METRICS,
-        help="score name {accuracy, f1-macro, f1-weighted, roc-auc-ovr}",
-    )
-    args = ap.parse_args()
-    return (args.score,)
+arguments = Arguments()
+metrics = list(ALL_METRICS)
+metrics.append("all")
+arguments.xset("score", choices=metrics)
+args = arguments.parse()
 
 
-(score,) = parse_arguments()
-
-metrics = ALL_METRICS if score == "all" else [score]
+metrics = ALL_METRICS if args.score == "all" else [args.score]
 
 summary = Summary()
 summary.acquire()

@@ -13,7 +13,8 @@ from sklearn.model_selection import (
     GridSearchCV,
     cross_validate,
 )
-from .Utils import Folders, Files, EnvData
+from .Utils import Folders, Files
+from .Arguments import EnvData
 from .Models import Models
 
 
