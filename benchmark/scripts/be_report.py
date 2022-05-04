@@ -6,7 +6,7 @@ from benchmark.Utils import (
     Files,
     TextColor,
 )
-from benchmark.Models import Arguments
+from benchmark.Arguments import Arguments
 
 
 """Build report on screen of a result file, optionally generate excel and sql
@@ -41,7 +41,7 @@ def default_report():
         )
 
 
-if __name__ == "__main__":
+def main():
     arguments = Arguments()
     arguments.xset("file").xset("excel").xset("sql").xset("compare")
     arguments.xset("best").xset("grid").xset("model", required=False).xset(

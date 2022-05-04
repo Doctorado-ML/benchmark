@@ -2,7 +2,8 @@ import os
 import sys
 import argparse
 from .TestBase import TestBase
-from ..Utils import Folders, Files, Symbols, TextColor, EnvData, EnvDefault
+from ..Utils import Folders, Files, Symbols, TextColor
+from ..Arguments import EnvData, EnvDefault
 
 
 class UtilTest(TestBase):
@@ -266,8 +267,3 @@ class UtilTest(TestBase):
         self.assertEqual(TextColor.ENDC, "\033[0m")
         self.assertEqual(TextColor.BOLD, "\033[1m")
         self.assertEqual(TextColor.UNDERLINE, "\033[4m")
-
-    def test_Arguments(self):
-        arguments = Arguments()
-        arg_list = ["score", "excel", "tex_output"]
-        arguments.set_arguments(arg_list)

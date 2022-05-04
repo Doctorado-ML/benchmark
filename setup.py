@@ -59,5 +59,19 @@ setuptools.setup(
         "tqdm",
     ],
     zip_safe=False,
-    scripts=import_scripts(),
+    entry_points={
+        "console_scripts": [
+            "be_list=benchmark.scripts.be_list:main",
+            "be_report=benchmark.scripts.be_report:main",
+            "be_main=benchmark.scripts.be_main:main",
+            "be_benchmark=benchmark.scripts.be_benchmark:main",
+            "be_best=benchmark.scripts.be_best:main",
+            "be_build_best=benchmark.scripts.be_build_best:main",
+            "be_grid=benchmark.scripts.be_grid:main",
+            "be_pair_check=benchmark.scripts.be_pair_check:main",
+            "be_print_strees=benchmark.scripts.be_print_strees:main",
+            "be_repara=benchmark.scripts.be_repara:main",
+            "be_summary=benchmark.scripts.be_summary:main",
+        ],
+    },
 )

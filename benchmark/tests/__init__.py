@@ -24,4 +24,5 @@ all = [
     "BenchmarkTest",
     "SummaryTest",
     "PairCheckTest",
+    "be_list",
 ]

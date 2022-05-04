@@ -1,4 +1,3 @@
-import os
 import json
 from .TestBase import TestBase
 from ..Experiments import GridSearch, Datasets
@@ -32,8 +31,12 @@ class GridSearchTest(TestBase):
 
     def test_out_file_not_exits(self):
         file_name = self.grid.get_output_file()
-        if os.path.exists(file_name):
-            os.remove(file_name)
+        self.remove_files(
+            [
+                file_name,
+            ],
+            ".",
+        )
         _ = self.build_exp()
         # check the output file is initialized
         with open(file_name) as f:

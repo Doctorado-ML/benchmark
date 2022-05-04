@@ -10,6 +10,12 @@ class TestBase(unittest.TestCase):
         self.output = "sys.stdout"
         super().__init__(*args, **kwargs)
 
+    def remove_files(self, files, folder):
+        for file_name in files:
+            file_name = os.path.join(folder, file_name)
+            if os.path.exists(file_name):
+                os.remove(file_name)
+
     def generate_excel_sheet(self, sheet, file_name):
         with open(os.path.join(self.test_files, file_name), "w") as f:
             for row in range(1, sheet.max_row + 1):
