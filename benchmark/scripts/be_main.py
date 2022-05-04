@@ -2,7 +2,7 @@
 import os
 from benchmark.Experiments import Experiment, Datasets
 from benchmark.Results import Report
-from Arguments import Arguments
+from benchmark.Arguments import Arguments
 
 """Do experiment and build result file, optionally print report with results
 """
@@ -28,15 +28,14 @@ def main():
         grid_paramfile=args.grid_paramfile,
         progress_bar=not args.quiet,
         platform=args.platform,
-        title=args.experiment_title,
-        folds=args.folds,
+        title=args.title,
+        folds=args.n_folds,
     )
     job.do_experiment()
     if report:
         result_file = job.get_output_file()
         report = Report(result_file)
         report.report()
-
     if args.dataset is not None:
         print(f"Partial result file removed: {result_file}")
         os.remove(result_file)

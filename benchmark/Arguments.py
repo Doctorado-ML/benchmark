@@ -206,7 +206,16 @@ class Arguments:
                     "help": "Use best hyperparams file?",
                 },
             ],
-            "platform": [],
+            "platform": [
+                ("-P", "--platform"),
+                {
+                    "action": EnvDefault,
+                    "envvar": "platform",
+                    "type": str,
+                    "required": True,
+                    "help": "Platform where the test is run",
+                },
+            ],
             "quiet": [
                 ("-q", "--quiet"),
                 {
