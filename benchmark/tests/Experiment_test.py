@@ -1,4 +1,3 @@
-import os
 import json
 from .TestBase import TestBase
 from ..Experiments import Experiment, Datasets
@@ -25,8 +24,12 @@ class ExperimentTest(TestBase):
         return Experiment(**params)
 
     def tearDown(self) -> None:
-        if os.path.exists(self.exp.get_output_file()):
-            os.remove(self.exp.get_output_file())
+        self.remove_files(
+            [
+                self.exp.get_output_file(),
+            ],
+            ".",
+        )
         return super().tearDown()
 
     def test_build_hyperparams_file(self):

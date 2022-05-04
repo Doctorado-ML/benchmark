@@ -2,7 +2,8 @@ import os
 import sys
 import argparse
 from .TestBase import TestBase
-from ..Utils import Folders, Files, Symbols, TextColor, EnvData, EnvDefault
+from ..Utils import Folders, Files, Symbols, TextColor
+from ..Arguments import EnvData, EnvDefault
 
 
 class UtilTest(TestBase):

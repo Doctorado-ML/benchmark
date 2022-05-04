@@ -1,5 +1,4 @@
 import os
-import shutil
 from io import StringIO
 from unittest.mock import patch
 from openpyxl import load_workbook
@@ -22,14 +21,8 @@ class BenchmarkTest(TestBase):
             "Rplots.pdf",
             benchmark.get_tex_file(),
         ]
-        for file_name in files:
-            if os.path.exists(file_name):
-                os.remove(file_name)
-            file_name = os.path.join(Folders.exreport, file_name)
-            if os.path.exists(file_name):
-                os.remove(file_name)
-        if os.path.exists(Folders.report):
-            shutil.rmtree(Folders.report)
+        self.remove_files(files, Folders.exreport)
+        self.remove_files(files, ".")
         return super().tearDown()
 
     def test_csv(self):

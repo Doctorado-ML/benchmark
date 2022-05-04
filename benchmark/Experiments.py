@@ -13,8 +13,9 @@ from sklearn.model_selection import (
     GridSearchCV,
     cross_validate,
 )
-from .Utils import Folders, Files, EnvData
+from .Utils import Folders, Files
 from .Models import Models
+from .Arguments import EnvData
 
 
 class Randomized:

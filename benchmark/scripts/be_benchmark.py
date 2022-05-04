@@ -1,0 +1,20 @@
+#!/usr/bin/env python
+from benchmark.Results import Benchmark
+from benchmark.Utils import Files
+from benchmark.Arguments import Arguments
+
+
+def main():
+    arguments = Arguments()
+    arguments.xset("score").xset("excel").xset("tex_output")
+    ar = arguments.parse()
+    benchmark = Benchmark(score=ar.score, visualize=True)
+    benchmark.compile_results()
+    benchmark.save_results()
+    benchmark.report(ar.tex_output)
+    benchmark.exreport()
+    if ar.excel:
+        benchmark.excel()
+        Files.open(benchmark.get_excel_file_name())
+    if ar.tex_output:
+        print(f"File {benchmark.get_tex_file()} generated")

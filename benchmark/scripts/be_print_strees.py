@@ -1,42 +1,12 @@
 #!/usr/bin/env python
 import os
 import subprocess
-import argparse
 import json
 from stree import Stree
 from graphviz import Source
 from benchmark.Experiments import Datasets
 from benchmark.Utils import Files, Folders
-
-
-def parse_arguments():
-    ap = argparse.ArgumentParser()
-    ap.add_argument(
-        "-c",
-        "--color",
-        type=bool,
-        required=False,
-        default=False,
-        help="use colors for the tree",
-    )
-    ap.add_argument(
-        "-d",
-        "--dataset",
-        type=str,
-        required=False,
-        default="all",
-        help="dataset to print or all",
-    )
-    ap.add_argument(
-        "-q",
-        "--quiet",
-        type=bool,
-        required=False,
-        default=False,
-        help="don't print generated tree(s)",
-    )
-    args = ap.parse_args()
-    return (args.color, args.dataset, args.quiet)
+from Arguments import Arguments
 
 
 def compute_stree(X, y, random_state):
@@ -112,13 +82,15 @@ def print_stree(clf, dataset, X, y, color, quiet):
             subprocess.run([cmd_open, f"{file_name}.png"])
 
 
-if __name__ == "__main__":
-    (color, dataset_chosen, quiet) = parse_arguments()
+def main():
+    arguments = Arguments()
+    arguments.xset("color").xset("dataset", default="all").xset("quiet")
+    args = arguments.parse()
     hyperparameters = load_hyperparams("accuracy", "ODTE")
     random_state = 57
     dt = Datasets()
     for dataset in dt:
-        if dataset == dataset_chosen or dataset_chosen == "all":
+        if dataset == args.dataset or args.dataset == "all":
             X, y = dt.load(dataset)
             clf = Stree(random_state=random_state)
             hyperparams_dataset = hyperparam_filter(
@@ -126,4 +98,4 @@ if __name__ == "__main__":
             )
             clf.set_params(**hyperparams_dataset)
             clf.fit(X, y)
-            print_stree(clf, dataset, X, y, color, quiet)
+            print_stree(clf, dataset, X, y, args.color, args.quiet)

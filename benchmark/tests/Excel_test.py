@@ -13,10 +13,7 @@ class ExcelTest(TestBase):
             "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.xlsx",
             "results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.xlsx",
         ]
-        for file_name in files:
-            file_name = os.path.join(Folders.results, file_name)
-            if os.path.exists(file_name):
-                os.remove(file_name)
+        self.remove_files(files, Folders.results)
         return super().tearDown()
 
     def test_report_excel_compared(self):
