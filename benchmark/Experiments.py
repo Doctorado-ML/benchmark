@@ -14,8 +14,7 @@ from sklearn.model_selection import (
     cross_validate,
 )
 from .Utils import Folders, Files
-from .Arguments import EnvData
-from .Models import Models
+from .Models import Models, EnvData
 
 
 class Randomized:

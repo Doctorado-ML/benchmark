@@ -1,6 +1,6 @@
 from .Experiments import Experiment, Datasets, DatasetsSurcov, DatasetsTanveer
 from .Results import Report, Summary
-from .Arguments import EnvDefault
+from .Models import EnvDefault
 
 __author__ = "Ricardo Montañana Gómez"
 __copyright__ = "Copyright 2020-2022, Ricardo Montañana Gómez"
