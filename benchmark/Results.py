@@ -269,7 +269,9 @@ class Excel(BaseReport):
             self._compare_totals = {}
         if book is None:
             self.excel_file_name = self.file_name.replace(".json", ".xlsx")
-            self.book = xlsxwriter.Workbook(self.excel_file_name)
+            self.book = xlsxwriter.Workbook(
+                self.excel_file_name, {"nan_inf_to_errors": True}
+            )
             self.set_book_properties()
             self.close = True
         else:
@@ -782,7 +784,9 @@ class Benchmark:
         )
 
     def excel(self):
-        book = xlsxwriter.Workbook(self.get_excel_file_name())
+        book = xlsxwriter.Workbook(
+            self.get_excel_file_name(), {"nan_inf_to_errors": True}
+        )
         Excel.set_properties(book, "Experimentation summary")
         sheet = book.add_worksheet("Benchmark")
         normal = book.add_format({"font_size": 14, "border": 1})
