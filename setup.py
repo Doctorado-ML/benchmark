@@ -71,7 +71,6 @@ setuptools.setup(
             "be_grid=benchmark.scripts.be_grid:main",
             "be_pair_check=benchmark.scripts.be_pair_check:main",
             "be_print_strees=benchmark.scripts.be_print_strees:main",
-            "be_repara=benchmark.scripts.be_repara:main",
             "be_summary=benchmark.scripts.be_summary:main",
         ],
     },

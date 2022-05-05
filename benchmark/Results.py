@@ -1153,47 +1153,94 @@ class Summary:
 
     def show_result(self, data: dict, title: str = "") -> None:
         def whites(n: int) -> str:
-            return " " * n + "*"
+            return " " * n + color1 + "*"
 
         if data == {}:
             print(f"** {title} has No data **")
             return
+        color1 = TextColor.CYAN
+        color2 = TextColor.YELLOW
         file_name = data["file"]
         metric = data["metric"]
         result = StubReport(os.path.join(Folders.results, file_name))
         length = 81
-        print("*" * length)
+        print(color1 + "*" * length)
         if title != "":
-            print(f"*{title:^{length - 2}s}*")
+            print(
+                "*"
+                + color2
+                + TextColor.BOLD
+                + f"{title:^{length - 2}s}"
+                + TextColor.ENDC
+                + color1
+                + "*"
+            )
             print("*" + "-" * (length - 2) + "*")
         print("*" + whites(length - 2))
-        print(f"* {result.data['title']:^{length - 4}} *")
-        print("*" + whites(length - 2))
         print(
-            f"* Model: {result.data['model']:15s} "
-            f"Ver. {result.data['version']:10s} "
-            f"Score: {result.data['score_name']:10s} "
-            f"Metric: {metric:10.7f}" + whites(length - 78)
+            "* "
+            + color2
+            + f"{result.data['title']:^{length - 4}}"
+            + color1
+            + " *"
         )
         print("*" + whites(length - 2))
         print(
-            f"* Date : {result.data['date']:15s} Time: "
-            f"{result.data['time']:18s} Time Spent: "
-            f"{result.data['duration']:9,.2f} secs." + whites(length - 78)
+            "* Model: "
+            + color2
+            + f"{result.data['model']:15s} "
+            + color1
+            + "Ver. "
+            + color2
+            + f"{result.data['version']:10s} "
+            + color1
+            + "Score: "
+            + color2
+            + f"{result.data['score_name']:10s} "
+            + color1
+            + "Metric: "
+            + color2
+            + f"{metric:10.7f}"
+            + whites(length - 78)
+        )
+        print(color1 + "*" + whites(length - 2))
+        print(
+            "* Date : "
+            + color2
+            + f"{result.data['date']:15s}"
+            + color1
+            + " Time: "
+            + color2
+            + f"{result.data['time']:18s} "
+            + color1
+            + "Time Spent: "
+            + color2
+            + f"{result.data['duration']:9,.2f}"
+            + color1
+            + " secs."
+            + whites(length - 78)
         )
         seeds = str(result.data["seeds"])
         seeds_len = len(seeds)
         print(
-            f"* Seeds: {seeds:{seeds_len}s} Platform: "
-            f"{result.data['platform']:17s} " + whites(length - 79)
+            "* Seeds: "
+            + color2
+            + f"{seeds:{seeds_len}s} "
+            + color1
+            + "Platform: "
+            + color2
+            + f"{result.data['platform']:17s} "
+            + whites(length - 79)
         )
         print(
-            f"* Stratified: {str(result.data['stratified']):15s}"
+            "* Stratified: "
+            + color2
+            + f"{str(result.data['stratified']):15s}"
             + whites(length - 30)
         )
-        print(f"* {file_name:60s}" + whites(length - 63))
-        print("*" + whites(length - 2))
-        print("*" * length)
+        print("* " + color2 + f"{file_name:60s}" + whites(length - 63))
+        print(color1 + "*" + whites(length - 2))
+        print(color1 + "*" * length)
 
     def best_results(self, criterion=None, value=None, score="accuracy", n=10):
         # First filter the same score results (accuracy, f1, ...)
