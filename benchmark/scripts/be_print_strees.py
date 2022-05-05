@@ -6,7 +6,7 @@ from stree import Stree
 from graphviz import Source
 from benchmark.Experiments import Datasets
 from benchmark.Utils import Files, Folders
-from Arguments import Arguments
+from benchmark.Arguments import Arguments
 
 
 def compute_stree(X, y, random_state):

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from benchmark.Results import PairCheck
-from Arguments import Arguments
+from benchmark.Arguments import Arguments
 
 """Check best results of two models giving scores and win-tie-loose results
 """
@@ -15,8 +15,8 @@ def main():
         args.score,
         args.model1,
         args.model2,
-        args.win_results,
-        args.lose_results,
+        args.win,
+        args.lose,
     )
     pair_check.compute()
     pair_check.report()
