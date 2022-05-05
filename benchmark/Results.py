@@ -1124,7 +1124,7 @@ class Summary:
             color2 = TextColor.LINE2
         print(color1, end="")
         print(
-            f"{'Date':10s} {'File':{max_file}s} {'Score':7s} {'Time(h)':7s} "
+            f"{'Date':10s} {'File':{max_file}s} {'Score':8s} {'Time(h)':7s} "
             f"{'Title':s}"
         )
         print(

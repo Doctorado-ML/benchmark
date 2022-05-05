@@ -26,9 +26,11 @@ class EnvData:
 
 class EnvDefault(argparse.Action):
     # Thanks to https://stackoverflow.com/users/445507/russell-heilling
-    def __init__(self, envvar, required=True, default=None, **kwargs):
+    def __init__(
+        self, envvar, required=True, default=None, mandatory=False, **kwargs
+    ):
         self._args = EnvData.load()
-        if required:
+        if required and not mandatory:
             default = self._args[envvar]
             required = False
         super(EnvDefault, self).__init__(

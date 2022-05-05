@@ -2,9 +2,17 @@
 import os
 import json
 from benchmark.Utils import Files, Folders
+from benchmark.Arguments import Arguments
+
+"""Build sample grid input file for the model with data taken from the
+input grid used optimizing STree
+"""
 
 
 def main():
+    arguments = Arguments()
+    arguments.xset("model", mandatory=True).xset("score", mandatory=True)
+    args = arguments.parse()
     data = [
         '{"C": 1e4, "gamma": 0.1, "kernel": "rbf"}',
         '{"C": 7, "gamma": 0.14, "kernel": "rbf"}',
@@ -105,8 +113,8 @@ def main():
         output.append(results_tmp)
 
     # save results
-    file_name = Files.grid_input("accuracy", "ODTE")
+    file_name = Files.grid_input(args.score, args.model)
     file_output = os.path.join(Folders.results, file_name)
     with open(file_output, "w") as f:
         json.dump(output, f, indent=4)
-    print(f"Grid values saved to {file_output}")
+    print(f"Generated grid input file to {file_output}")

@@ -144,6 +144,7 @@ class BestResults:
             score=self.score_name, model=self.model
         )
         all_files = sorted(list(os.walk(Folders.results)))
+        found = False
         for root, _, files in tqdm(
             all_files, desc="files", disable=self.quiet
         ):
@@ -153,6 +154,9 @@ class BestResults:
                     with open(file_name) as fp:
                         data = json.load(fp)
                     self._process_datafile(results, data, name)
+                    found = True
+        if not found:
+            raise ValueError(f"No results found")
         # Build best results json file
         output = {}
         datasets = Datasets()
@@ -374,10 +378,6 @@ class GridSearch:
         self.grid_file = os.path.join(
             Folders.results, Files.grid_input(score_name, model_name)
         )
-        with open(self.grid_file) as f:
-            self.grid = json.load(f)
-        self.duration = 0
-        self._init_data()
 
     def get_output_file(self):
         return self.output_file
@@ -426,6 +426,10 @@ class GridSearch:
         self.results[name] = [score, hyperparameters, message]
 
     def do_gridsearch(self):
+        with open(self.grid_file) as f:
+            self.grid = json.load(f)
+        self.duration = 0
+        self._init_data()
         now = time.time()
         loop = tqdm(
             list(self.datasets),

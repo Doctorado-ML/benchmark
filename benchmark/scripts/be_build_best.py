@@ -13,7 +13,11 @@ def main():
     args = arguments.parse()
     datasets = Datasets()
     best = BestResults(args.score, args.model, datasets)
-    best.build()
-    if args.report:
-        report = ReportBest(args.score, args.model, best=True, grid=False)
-        report.report()
+    try:
+        best.build()
+    except ValueError:
+        print("** No results found **")
+    else:
+        if args.report:
+            report = ReportBest(args.score, args.model, best=True, grid=False)
+            report.report()

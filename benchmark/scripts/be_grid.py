@@ -8,9 +8,11 @@ from benchmark.Arguments import Arguments
 
 def main():
     arguments = Arguments()
-    arguments.xset("score").xset("platform").xset("model").xset("n_folds")
-    arguments.xset("quiet").xset("stratified").xset("dataset")
+    arguments.xset("score").xset("platform").xset("model")
+    arguments.xset("quiet").xset("stratified").xset("dataset").xset("n_folds")
     args = arguments.parse()
+    if not args.quiet:
+        print(f"Perform grid search with {args.model} model")
     job = GridSearch(
         score_name=args.score,
         model_name=args.model,
@@ -18,6 +20,10 @@ def main():
         datasets=Datasets(dataset_name=args.dataset),
         progress_bar=not args.quiet,
         platform=args.platform,
-        folds=args.folds,
+        folds=args.n_folds,
     )
-    job.do_gridsearch()
+    try:
+        job.do_gridsearch()
+    except FileNotFoundError:
+        print(f"** The grid input file [{job.grid_file}] could not be found")
+        print("")

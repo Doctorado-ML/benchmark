@@ -67,6 +67,7 @@ setuptools.setup(
             "be_benchmark=benchmark.scripts.be_benchmark:main",
             "be_best=benchmark.scripts.be_best:main",
             "be_build_best=benchmark.scripts.be_build_best:main",
+            "be_build_grid=benchmark.scripts.be_build_grid:main",
             "be_grid=benchmark.scripts.be_grid:main",
             "be_pair_check=benchmark.scripts.be_pair_check:main",
             "be_print_strees=benchmark.scripts.be_print_strees:main",
