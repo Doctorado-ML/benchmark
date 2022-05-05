@@ -1111,6 +1111,9 @@ class Summary:
         data = self.get_results_criteria(
             score, model, input_data, sort_key, number
         )
+        if data == []:
+            print("*No results found*")
+            exit(1)
         max_file = max(len(x["file"]) for x in data)
         max_title = max(len(x["title"]) for x in data)
         if self.hidden:
