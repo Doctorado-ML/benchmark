@@ -9,14 +9,15 @@ from benchmark.Arguments import Arguments
 
 def main():
     arguments = Arguments()
-    arguments.xset("score").xset("report").xset("model")
+    arguments.xset("score", mandatory=True).xset("report")
+    arguments.xset("model", mandatory=True)
     args = arguments.parse()
     datasets = Datasets()
     best = BestResults(args.score, args.model, datasets)
     try:
         best.build()
-    except ValueError:
-        print("** No results found **")
+    except ValueError as e:
+        print(e)
     else:
         if args.report:
             report = ReportBest(args.score, args.model, best=True, grid=False)

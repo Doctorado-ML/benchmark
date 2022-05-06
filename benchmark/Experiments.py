@@ -156,7 +156,7 @@ class BestResults:
                     self._process_datafile(results, data, name)
                     found = True
         if not found:
-            raise ValueError(f"No results found")
+            raise ValueError("** No results found **")
         # Build best results json file
         output = {}
         datasets = Datasets()

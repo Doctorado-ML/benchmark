@@ -37,7 +37,8 @@ class GridSearchTest(TestBase):
             ],
             ".",
         )
-        _ = self.build_exp()
+        grid = self.build_exp()
+        grid._init_data()
         # check the output file is initialized
         with open(file_name) as f:
             data = json.load(f)

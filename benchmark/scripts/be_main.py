@@ -10,10 +10,10 @@ from benchmark.Arguments import Arguments
 
 def main():
     arguments = Arguments()
-    arguments.xset("stratified").xset("score").xset("model").xset("dataset")
+    arguments.xset("stratified").xset("score").xset("model", mandatory=True)
     arguments.xset("n_folds").xset("platform").xset("quiet").xset("title")
     arguments.xset("hyperparameters").xset("paramfile").xset("report")
-    arguments.xset("grid_paramfile")
+    arguments.xset("grid_paramfile").xset("dataset")
     args = arguments.parse()
     report = args.report or args.dataset is not None
     if args.grid_paramfile:

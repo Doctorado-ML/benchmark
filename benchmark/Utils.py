@@ -9,6 +9,7 @@ class Folders:
     hidden_results = "hidden_results"
     exreport = "exreport"
     report = os.path.join(exreport, "exreport_output")
+    img = "img"
 
     @staticmethod
     def src():

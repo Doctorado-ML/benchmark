@@ -62,7 +62,6 @@ def add_color(source):
 
 
 def print_stree(clf, dataset, X, y, color, quiet):
-    output_folder = "img"
     samples, features = X.shape
     classes = max(y) + 1
     accuracy = clf.score(X, y)
@@ -72,7 +71,7 @@ def print_stree(clf, dataset, X, y, color, quiet):
     if color:
         dot_source = add_color(dot_source)
     grp = Source(dot_source)
-    file_name = os.path.join(output_folder, f"stree_{dataset}")
+    file_name = os.path.join(Folders.img, f"stree_{dataset}")
     grp.render(format="png", filename=f"{file_name}")
     os.remove(f"{file_name}")
     print(f"File {file_name}.png generated")

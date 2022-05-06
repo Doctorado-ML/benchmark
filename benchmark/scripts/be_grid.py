@@ -8,7 +8,7 @@ from benchmark.Arguments import Arguments
 
 def main():
     arguments = Arguments()
-    arguments.xset("score").xset("platform").xset("model")
+    arguments.xset("score").xset("platform").xset("model", mandatory=True)
     arguments.xset("quiet").xset("stratified").xset("dataset").xset("n_folds")
     args = arguments.parse()
     if not args.quiet:

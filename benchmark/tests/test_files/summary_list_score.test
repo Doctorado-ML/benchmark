@@ -1,4 +1,4 @@
-[94mDate       File                                                            Score   Time(h) Title
+[94mDate       File                                                            Score    Time(h) Title
 ========== =============================================================== ======== ======= ============================================
 [96m2022-04-20 results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.json           0.04341   6.275 Gridsearched hyperparams v022.1b random_init
 [94m2022-01-14 results_accuracy_RandomForest_iMac27_2022-01-14_12:39:30_0.json  0.03627   0.076 Test default paramters with RandomForest

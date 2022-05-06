@@ -521,6 +521,34 @@ class Excel(BaseReport):
             self.book.close()
 
 
+class ReportDatasets:
+    @staticmethod
+    def report():
+        data_sets = Datasets()
+        color_line = TextColor.LINE1
+        print(color_line, end="")
+        print(f"{'Dataset':30s} Samp. Feat. Cls Balance")
+        print("=" * 30 + " ===== ===== === " + "=" * 40)
+        for dataset in data_sets:
+            X, y = data_sets.load(dataset)
+            color_line = (
+                TextColor.LINE2
+                if color_line == TextColor.LINE1
+                else TextColor.LINE1
+            )
+            values, counts = np.unique(y, return_counts=True)
+            comp = ""
+            sep = ""
+            for count in counts:
+                comp += f"{sep}{count/sum(counts)*100:5.2f}%"
+                sep = "/ "
+            print(color_line, end="")
+            print(
+                f"{dataset:30s} {X.shape[0]:5,d} {X.shape[1]:5,d} "
+                f"{len(np.unique(y)):3d} {comp:40s}"
+            )
+
+
 class SQL(BaseReport):
     table_name = "results"
 
@@ -1112,8 +1140,7 @@ class Summary:
             score, model, input_data, sort_key, number
         )
         if data == []:
-            print("*No results found*")
-            exit(1)
+            raise ValueError("** No results found **")
         max_file = max(len(x["file"]) for x in data)
         max_title = max(len(x["title"]) for x in data)
         if self.hidden:
@@ -1285,11 +1312,14 @@ class Summary:
         return best_results
 
     def show_top(self, score="accuracy", n=10):
-        self.list_results(
-            score=score,
-            input_data=self.best_results(score=score, n=n),
-            sort_key="metric",
-        )
+        try:
+            self.list_results(
+                score=score,
+                input_data=self.best_results(score=score, n=n),
+                sort_key="metric",
+            )
+        except ValueError as e:
+            print(e)
 
 
 class PairCheck:
