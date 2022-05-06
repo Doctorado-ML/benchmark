@@ -14,10 +14,10 @@ class ArgumentsTest(TestBase):
     def test_build_hyperparams_file(self):
         expected_metrics = (
             "accuracy",
-            "f1_macro",
-            "f1_micro",
-            "f1_weighted",
-            "roc_auc_ovr",
+            "f1-macro",
+            "f1-micro",
+            "f1-weighted",
+            "roc-auc-ovr",
         )
         self.assertSequenceEqual(ALL_METRICS, expected_metrics)
 

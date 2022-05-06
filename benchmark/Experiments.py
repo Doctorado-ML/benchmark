@@ -70,7 +70,8 @@ class DatasetsSurcov:
         )
         data.dropna(axis=0, how="any", inplace=True)
         self.columns = data.columns
-        X = data.drop("class", axis=1).to_numpy()
+        col_list = ["class"]
+        X = data.drop(col_list, axis=1).to_numpy()
         y = data["class"].to_numpy()
         return X, y
 

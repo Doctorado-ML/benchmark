@@ -4,10 +4,10 @@ from .Utils import Files
 
 ALL_METRICS = (
     "accuracy",
-    "f1_macro",
-    "f1_micro",
-    "f1_weighted",
-    "roc_auc_ovr",
+    "f1-macro",
+    "f1-micro",
+    "f1-weighted",
+    "roc-auc-ovr",
 )
 
 

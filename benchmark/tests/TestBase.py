@@ -1,6 +1,12 @@
 import os
+import glob
+import pathlib
+import sys
 import csv
 import unittest
+from importlib import import_module
+from io import StringIO
+from unittest.mock import patch
 
 
 class TestBase(unittest.TestCase):
@@ -48,3 +54,24 @@ class TestBase(unittest.TestCase):
         with open(os.path.join(self.test_files, expected_file)) as f:
             expected = f.read()
         self.assertEqual(computed, expected)
+
+    def prepare_scripts_env(self):
+        self.scripts_folder = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "..", "scripts"
+        )
+        sys.path.append(self.scripts_folder)
+
+    def search_script(self, name):
+        py_files = glob.glob(os.path.join(self.scripts_folder, "*.py"))
+        for py_file in py_files:
+            module_name = pathlib.Path(py_file).stem
+            if name == module_name:
+                module = import_module(module_name)
+                return module
+
+    @patch("sys.stdout", new_callable=StringIO)
+    @patch("sys.stderr", new_callable=StringIO)
+    def execute_script(self, script, args, stderr, stdout):
+        module = self.search_script(script)
+        module.main(args)
+        return stdout, stderr
