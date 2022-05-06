@@ -10,8 +10,8 @@ from benchmark.Arguments import Arguments
 
 def main():
     arguments = Arguments()
-    arguments.xset("number").xset("model", required=False).xset("score")
-    arguments.xset("hidden").xset("nan").xset("key")
+    arguments.xset("number").xset("model", required=False).xset("key")
+    arguments.xset("hidden").xset("nan").xset("score", required=False)
     args = arguments.parse()
     data = Summary(hidden=args.hidden)
     data.acquire()

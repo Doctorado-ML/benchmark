@@ -1,7 +1,7 @@
 from io import StringIO
 from unittest.mock import patch
 from .TestBase import TestBase
-from ..Results import Report, BaseReport, ReportBest
+from ..Results import Report, BaseReport, ReportBest, ReportDatasets
 from ..Utils import Symbols
 
 
@@ -79,3 +79,9 @@ class ReportTest(TestBase):
         with patch(self.output, new=StringIO()) as fake_out:
             report.report()
         self.check_output_file(fake_out, "report_best.test")
+
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_report_datasets(self, mock_output):
+        report = ReportDatasets()
+        report.report()
+        self.check_output_file(mock_output, "report_datasets.test")

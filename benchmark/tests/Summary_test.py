@@ -215,3 +215,17 @@ class SummaryTest(TestBase):
         with patch(self.output, new=StringIO()) as fake_out:
             report.show_top()
         self.check_output_file(fake_out, "summary_show_top.test")
+
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_show_top_no_data(self, fake_out):
+        report = Summary()
+        report.acquire()
+        report.show_top(score="f1-macro")
+        self.assertEqual(fake_out.getvalue(), "** No results found **\n")
+
+    def test_no_data(self):
+        report = Summary()
+        report.acquire()
+        with self.assertRaises(ValueError) as msg:
+            report.list_results(score="f1-macro", model="STree")
+        self.assertEqual(str(msg.exception), "** No results found **")

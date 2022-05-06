@@ -62,3 +62,12 @@ class BestResultTest(TestBase):
             best.fill({}),
             {"balance-scale": (0.0, {}, ""), "balloons": (0.0, {}, "")},
         )
+
+    def test_build_error(self):
+        dt = Datasets()
+        model = "SVC"
+        best = BestResults(
+            score="accuracy", model=model, datasets=dt, quiet=True
+        )
+        with self.assertRaises(ValueError):
+            best.build()

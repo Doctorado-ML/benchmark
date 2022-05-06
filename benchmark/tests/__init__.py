@@ -10,6 +10,7 @@ from .SQL_test import SQLTest
 from .Benchmark_test import BenchmarkTest
 from .Summary_test import SummaryTest
 from .PairCheck_test import PairCheckTest
+from .Arguments_test import ArgumentsTest
 
 all = [
     "UtilTest",
@@ -24,5 +25,5 @@ all = [
     "BenchmarkTest",
     "SummaryTest",
     "PairCheckTest",
-    "be_list",
+    "ArgumentsTest",
 ]

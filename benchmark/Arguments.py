@@ -288,5 +288,5 @@ class Arguments:
         )
         return self
 
-    def parse(self):
-        return self.ap.parse_args()
+    def parse(self, args=None):
+        return self.ap.parse_args(args)
