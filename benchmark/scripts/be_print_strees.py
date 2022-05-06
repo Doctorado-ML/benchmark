@@ -81,10 +81,10 @@ def print_stree(clf, dataset, X, y, color, quiet):
             subprocess.run([cmd_open, f"{file_name}.png"])
 
 
-def main():
+def main(args_test=None):
     arguments = Arguments()
     arguments.xset("color").xset("dataset", default="all").xset("quiet")
-    args = arguments.parse()
+    args = arguments.parse(args_test)
     hyperparameters = load_hyperparams("accuracy", "ODTE")
     random_state = 57
     dt = Datasets()

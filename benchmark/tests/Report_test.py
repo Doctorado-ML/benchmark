@@ -1,3 +1,4 @@
+import os
 from io import StringIO
 from unittest.mock import patch
 from .TestBase import TestBase
@@ -8,9 +9,9 @@ from ..Utils import Symbols
 class ReportTest(TestBase):
     def test_BaseReport(self):
         with patch.multiple(BaseReport, __abstractmethods__=set()):
-            file_name = (
-                "results/results_accuracy_STree_iMac27_2021-09-30_11:"
-                "42:07_0.json"
+            file_name = os.path.join(
+                "results",
+                "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json",
             )
             a = BaseReport(file_name)
             self.assertIsNone(a.header())
@@ -19,12 +20,14 @@ class ReportTest(TestBase):
 
     def test_report_with_folder(self):
         report = Report(
-            file_name="results/results_accuracy_STree_iMac27_2021-09-30_11:"
-            "42:07_0.json"
+            file_name=os.path.join(
+                "results",
+                "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json",
+            )
         )
         with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        self.check_output_file(fake_out, "report.test")
+        self.check_output_file(fake_out, "report")
 
     def test_report_without_folder(self):
         report = Report(
@@ -33,7 +36,7 @@ class ReportTest(TestBase):
         )
         with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        self.check_output_file(fake_out, "report.test")
+        self.check_output_file(fake_out, "report")
 
     def test_report_compared(self):
         report = Report(
@@ -43,7 +46,7 @@ class ReportTest(TestBase):
         )
         with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        self.check_output_file(fake_out, "report_compared.test")
+        self.check_output_file(fake_out, "report_compared")
 
     def test_compute_status(self):
         file_name = "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.json"
@@ -66,22 +69,22 @@ class ReportTest(TestBase):
         report = ReportBest("accuracy", "STree", best=True, grid=False)
         with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        self.check_output_file(fake_out, "report_best.test")
+        self.check_output_file(fake_out, "report_best")
 
     def test_report_grid(self):
         report = ReportBest("accuracy", "STree", best=False, grid=True)
         with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        self.check_output_file(fake_out, "report_grid.test")
+        self.check_output_file(fake_out, "report_grid")
 
     def test_report_best_both(self):
         report = ReportBest("accuracy", "STree", best=True, grid=True)
         with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        self.check_output_file(fake_out, "report_best.test")
+        self.check_output_file(fake_out, "report_best")
 
     @patch("sys.stdout", new_callable=StringIO)
     def test_report_datasets(self, mock_output):
         report = ReportDatasets()
         report.report()
-        self.check_output_file(mock_output, "report_datasets.test")
+        self.check_output_file(mock_output, "report_datasets")

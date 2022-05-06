@@ -6,11 +6,11 @@ from benchmark.Arguments import Arguments
 """
 
 
-def main():
+def main(args_test=None):
     arguments = Arguments()
     arguments.xset("score").xset("platform").xset("model", mandatory=True)
     arguments.xset("quiet").xset("stratified").xset("dataset").xset("n_folds")
-    args = arguments.parse()
+    args = arguments.parse(args_test)
     if not args.quiet:
         print(f"Perform grid search with {args.model} model")
     job = GridSearch(

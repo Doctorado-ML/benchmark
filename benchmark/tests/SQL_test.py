@@ -19,4 +19,4 @@ class SQLTest(TestBase):
         file_name = os.path.join(
             Folders.results, file_name.replace(".json", ".sql")
         )
-        self.check_file_file(file_name, "sql.test")
+        self.check_file_file(file_name, "sql")

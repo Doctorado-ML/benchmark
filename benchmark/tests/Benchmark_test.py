@@ -29,9 +29,7 @@ class BenchmarkTest(TestBase):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        self.check_file_file(
-            benchmark.get_result_file_name(), "exreport_csv.test"
-        )
+        self.check_file_file(benchmark.get_result_file_name(), "exreport_csv")
 
     def test_exreport_report(self):
         benchmark = Benchmark("accuracy", visualize=False)
@@ -39,7 +37,7 @@ class BenchmarkTest(TestBase):
         benchmark.save_results()
         with patch(self.output, new=StringIO()) as fake_out:
             benchmark.report(tex_output=False)
-        self.check_output_file(fake_out, "exreport_report.test")
+        self.check_output_file(fake_out, "exreport_report")
 
     def test_exreport(self):
         benchmark = Benchmark("accuracy", visualize=False)
@@ -75,7 +73,7 @@ class BenchmarkTest(TestBase):
         benchmark.save_results()
         with patch(self.output, new=StringIO()) as fake_out:
             benchmark.exreport()
-        self.check_output_file(fake_out, "exreport_error.test")
+        self.check_output_file(fake_out, "exreport_error")
 
     def test_tex_output(self):
         benchmark = Benchmark("accuracy", visualize=False)
@@ -83,11 +81,9 @@ class BenchmarkTest(TestBase):
         benchmark.save_results()
         with patch(self.output, new=StringIO()) as fake_out:
             benchmark.report(tex_output=True)
-        with open(os.path.join(self.test_files, "exreport_report.test")) as f:
-            expected = f.read()
-        self.assertEqual(fake_out.getvalue(), expected)
+        self.check_output_file(fake_out, "exreport_report")
         self.assertTrue(os.path.exists(benchmark.get_tex_file()))
-        self.check_file_file(benchmark.get_tex_file(), "exreport_tex.test")
+        self.check_file_file(benchmark.get_tex_file(), "exreport_tex")
 
     def test_excel_output(self):
         benchmark = Benchmark("accuracy", visualize=False)
@@ -100,7 +96,7 @@ class BenchmarkTest(TestBase):
         book = load_workbook(file_name)
         for sheet_name in book.sheetnames:
             sheet = book[sheet_name]
-            self.check_excel_sheet(sheet, f"exreport_excel_{sheet_name}.test")
+            self.check_excel_sheet(sheet, f"exreport_excel_{sheet_name}")
             # ExcelTest.generate_excel_sheet(
-            #     self, sheet, f"exreport_excel_{sheet_name}.test"
+            #     self, sheet, f"exreport_excel_{sheet_name}"
             # )

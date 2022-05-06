@@ -31,6 +31,7 @@ class TestBase(unittest.TestCase):
                         print(f'{row};{col};"{value}"', file=f)
 
     def check_excel_sheet(self, sheet, file_name):
+        file_name += ".test"
         with open(os.path.join(self.test_files, file_name), "r") as f:
             expected = csv.reader(f, delimiter=";")
             for row, col, value in expected:
@@ -44,6 +45,7 @@ class TestBase(unittest.TestCase):
                 self.assertEqual(sheet.cell(int(row), int(col)).value, value)
 
     def check_output_file(self, output, file_name):
+        file_name += ".test"
         with open(os.path.join(self.test_files, file_name)) as f:
             expected = f.read()
         self.assertEqual(output.getvalue(), expected)
@@ -51,6 +53,7 @@ class TestBase(unittest.TestCase):
     def check_file_file(self, computed_file, expected_file):
         with open(computed_file) as f:
             computed = f.read()
+        expected_file += ".test"
         with open(os.path.join(self.test_files, expected_file)) as f:
             expected = f.read()
         self.assertEqual(computed, expected)

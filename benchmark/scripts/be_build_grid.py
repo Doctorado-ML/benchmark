@@ -9,10 +9,10 @@ input grid used optimizing STree
 """
 
 
-def main():
+def main(args_test=None):
     arguments = Arguments()
     arguments.xset("model", mandatory=True).xset("score", mandatory=True)
-    args = arguments.parse()
+    args = arguments.parse(args_test)
     data = [
         '{"C": 1e4, "gamma": 0.1, "kernel": "rbf"}',
         '{"C": 7, "gamma": 0.14, "kernel": "rbf"}',

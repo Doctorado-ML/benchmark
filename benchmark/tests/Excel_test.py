@@ -23,7 +23,7 @@ class ExcelTest(TestBase):
         file_output = report.get_file_name()
         book = load_workbook(file_output)
         sheet = book["STree"]
-        self.check_excel_sheet(sheet, "excel_compared.test")
+        self.check_excel_sheet(sheet, "excel_compared")
 
     def test_report_excel(self):
         file_name = "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json"
@@ -32,7 +32,7 @@ class ExcelTest(TestBase):
         file_output = report.get_file_name()
         book = load_workbook(file_output)
         sheet = book["STree"]
-        self.check_excel_sheet(sheet, "excel.test")
+        self.check_excel_sheet(sheet, "excel")
 
     def test_Excel_Add_sheet(self):
         file_name = "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.json"
@@ -48,6 +48,6 @@ class ExcelTest(TestBase):
         book.close()
         book = load_workbook(os.path.join(Folders.results, excel_file_name))
         sheet = book["STree"]
-        self.check_excel_sheet(sheet, "excel_add_STree.test")
+        self.check_excel_sheet(sheet, "excel_add_STree")
         sheet = book["ODTE"]
-        self.check_excel_sheet(sheet, "excel_add_ODTE.test")
+        self.check_excel_sheet(sheet, "excel_add_ODTE")

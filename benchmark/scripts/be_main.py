@@ -8,13 +8,13 @@ from benchmark.Arguments import Arguments
 """
 
 
-def main():
+def main(args_test=None):
     arguments = Arguments()
     arguments.xset("stratified").xset("score").xset("model", mandatory=True)
     arguments.xset("n_folds").xset("platform").xset("quiet").xset("title")
     arguments.xset("hyperparameters").xset("paramfile").xset("report")
     arguments.xset("grid_paramfile").xset("dataset")
-    args = arguments.parse()
+    args = arguments.parse(args_test)
     report = args.report or args.dataset is not None
     if args.grid_paramfile:
         args.paramfile = False

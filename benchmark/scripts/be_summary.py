@@ -3,12 +3,12 @@ from benchmark.Results import Summary
 from benchmark.Arguments import ALL_METRICS, Arguments
 
 
-def main():
+def main(args_test=None):
     arguments = Arguments()
     metrics = list(ALL_METRICS)
     metrics.append("all")
     arguments.xset("score", choices=metrics).xset("model", required=False)
-    args = arguments.parse()
+    args = arguments.parse(args_test)
     metrics = ALL_METRICS if args.score == "all" else [args.score]
     summary = Summary()
     summary.acquire()

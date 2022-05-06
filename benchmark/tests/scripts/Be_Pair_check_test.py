@@ -10,7 +10,7 @@ class BePairCheckTest(TestBase):
             "be_pair_check", ["-m1", "ODTE", "-m2", "STree"]
         )
         self.assertEqual(stderr.getvalue(), "")
-        self.check_output_file(stdout, "paircheck.test")
+        self.check_output_file(stdout, "paircheck")
 
     def test_be_pair_check_no_data_a(self):
         stdout, stderr = self.execute_script(

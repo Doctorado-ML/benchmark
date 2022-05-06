@@ -7,11 +7,11 @@ from benchmark.Arguments import Arguments
 """
 
 
-def main():
+def main(args_test=None):
     arguments = Arguments()
     arguments.xset("score", mandatory=True).xset("report")
     arguments.xset("model", mandatory=True)
-    args = arguments.parse()
+    args = arguments.parse(args_test)
     datasets = Datasets()
     best = BestResults(args.score, args.model, datasets)
     try:

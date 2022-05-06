@@ -1,14 +1,14 @@
 from ..TestBase import TestBase
 
 
-class ListTest(TestBase):
+class BeListTest(TestBase):
     def setUp(self):
         self.prepare_scripts_env()
 
     def test_be_list(self):
         stdout, stderr = self.execute_script("be_list", ["-m", "STree"])
         self.assertEqual(stderr.getvalue(), "")
-        self.check_output_file(stdout, "summary_list_model.test")
+        self.check_output_file(stdout, "summary_list_model")
 
     def test_be_list_no_data(self):
         stdout, stderr = self.execute_script(

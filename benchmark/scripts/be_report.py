@@ -10,13 +10,13 @@ If no argument is set, displays the datasets and its characteristics
 """
 
 
-def main():
+def main(args_test=None):
     arguments = Arguments()
     arguments.xset("file").xset("excel").xset("sql").xset("compare")
     arguments.xset("best").xset("grid").xset("model", required=False).xset(
         "score"
     )
-    args = arguments.parse()
+    args = arguments.parse(args_test)
     if args.grid:
         args.best = False
     if args.file is None and args.best is None:

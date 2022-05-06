@@ -21,14 +21,14 @@ class PairCheckTest(TestBase):
         report.compute()
         with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        self.check_output_file(fake_out, "paircheck.test")
+        self.check_output_file(fake_out, "paircheck")
 
     def test_pair_check_win(self):
         report = self.build_model(win=True)
         report.compute()
         with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        self.check_output_file(fake_out, "paircheck_win.test")
+        self.check_output_file(fake_out, "paircheck_win")
 
     def test_pair_check_lose(self):
         report = self.build_model(
@@ -37,14 +37,14 @@ class PairCheckTest(TestBase):
         report.compute()
         with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        self.check_output_file(fake_out, "paircheck_lose.test")
+        self.check_output_file(fake_out, "paircheck_lose")
 
     def test_pair_check_win_lose(self):
         report = self.build_model(win=True, lose=True)
         report.compute()
         with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        self.check_output_file(fake_out, "paircheck_win_lose.test")
+        self.check_output_file(fake_out, "paircheck_win_lose")
 
     def test_pair_check_store_result(self):
         report = self.build_model(win=True, lose=True)

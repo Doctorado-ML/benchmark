@@ -4,10 +4,10 @@ from benchmark.Utils import Files
 from benchmark.Arguments import Arguments
 
 
-def main():
+def main(args_test=None):
     arguments = Arguments()
     arguments.xset("score").xset("excel").xset("tex_output")
-    ar = arguments.parse()
+    ar = arguments.parse(args_test)
     benchmark = Benchmark(score=ar.score, visualize=True)
     benchmark.compile_results()
     benchmark.save_results()

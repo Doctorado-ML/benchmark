@@ -132,28 +132,28 @@ class SummaryTest(TestBase):
         report.acquire()
         with patch(self.output, new=StringIO()) as fake_out:
             report.list_results(model="STree")
-        self.check_output_file(fake_out, "summary_list_model.test")
+        self.check_output_file(fake_out, "summary_list_model")
 
     def test_summary_list_results_score(self):
         report = Summary()
         report.acquire()
         with patch(self.output, new=StringIO()) as fake_out:
             report.list_results(score="accuracy")
-        self.check_output_file(fake_out, "summary_list_score.test")
+        self.check_output_file(fake_out, "summary_list_score")
 
     def test_summary_list_results_n(self):
         report = Summary()
         report.acquire()
         with patch(self.output, new=StringIO()) as fake_out:
             report.list_results(score="accuracy", number=3)
-        self.check_output_file(fake_out, "summary_list_n.test")
+        self.check_output_file(fake_out, "summary_list_n")
 
     def test_summary_list_hidden(self):
         report = Summary(hidden=True)
         report.acquire()
         with patch(self.output, new=StringIO()) as fake_out:
             report.list_results(score="accuracy")
-        self.check_output_file(fake_out, "summary_list_hidden.test")
+        self.check_output_file(fake_out, "summary_list_hidden")
 
     def test_show_result_no_title(self):
         report = Summary()
@@ -164,7 +164,7 @@ class SummaryTest(TestBase):
                 criterion="model", value="STree", score="accuracy"
             )
             report.show_result(data=best, title=title)
-        self.check_output_file(fake_out, "summary_show_results.test")
+        self.check_output_file(fake_out, "summary_show_results")
 
     def test_show_result_title(self):
         report = Summary()
@@ -175,7 +175,7 @@ class SummaryTest(TestBase):
                 criterion="model", value="STree", score="accuracy"
             )
             report.show_result(data=best, title=title)
-        self.check_output_file(fake_out, "summary_show_results_title.test")
+        self.check_output_file(fake_out, "summary_show_results_title")
 
     def test_show_result_no_data(self):
         report = Summary()
@@ -214,7 +214,7 @@ class SummaryTest(TestBase):
         report.acquire()
         with patch(self.output, new=StringIO()) as fake_out:
             report.show_top()
-        self.check_output_file(fake_out, "summary_show_top.test")
+        self.check_output_file(fake_out, "summary_show_top")
 
     @patch("sys.stdout", new_callable=StringIO)
     def test_show_top_no_data(self, fake_out):
