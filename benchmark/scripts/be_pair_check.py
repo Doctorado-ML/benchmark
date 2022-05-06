@@ -6,11 +6,11 @@ from benchmark.Arguments import Arguments
 """
 
 
-def main():
+def main(argx=None):
     arguments = Arguments()
     arguments.xset("score").xset("win").xset("model1").xset("model2")
     arguments.xset("lose")
-    args = arguments.parse()
+    args = arguments.parse(argx)
     pair_check = PairCheck(
         args.score,
         args.model1,
@@ -18,5 +18,9 @@ def main():
         args.win,
         args.lose,
     )
-    pair_check.compute()
-    pair_check.report()
+    try:
+        pair_check.compute()
+    except ValueError as e:
+        print(str(e))
+    else:
+        pair_check.report()

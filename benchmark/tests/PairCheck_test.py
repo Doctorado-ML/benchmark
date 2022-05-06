@@ -21,10 +21,7 @@ class PairCheckTest(TestBase):
         report.compute()
         with patch(self.output, new=StringIO()) as fake_out:
             report.report()
-        computed = fake_out.getvalue()
-        with open(os.path.join(self.test_files, "paircheck.test"), "r") as f:
-            expected = f.read()
-        self.assertEqual(computed, expected)
+        self.check_output_file(fake_out, "paircheck.test")
 
     def test_pair_check_win(self):
         report = self.build_model(win=True)

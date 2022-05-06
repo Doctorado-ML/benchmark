@@ -11,6 +11,7 @@ from .Benchmark_test import BenchmarkTest
 from .Summary_test import SummaryTest
 from .PairCheck_test import PairCheckTest
 from .Arguments_test import ArgumentsTest
+from .Scripts_test import ScriptsTest
 
 all = [
     "UtilTest",
@@ -26,4 +27,5 @@ all = [
     "SummaryTest",
     "PairCheckTest",
     "ArgumentsTest",
+    "ScriptsTest",
 ]

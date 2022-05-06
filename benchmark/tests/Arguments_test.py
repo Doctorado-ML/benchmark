@@ -1,4 +1,3 @@
-from argparse import ArgumentError
 from io import StringIO
 from unittest.mock import patch
 from .TestBase import TestBase

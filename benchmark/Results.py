@@ -1277,6 +1277,8 @@ class Summary:
             if criterion is None or value is None
             else [x for x in haystack if x[criterion] == value]
         )
+        if haystack == []:
+            raise ValueError("** No results found **")
         return (
             sorted(
                 haystack,
