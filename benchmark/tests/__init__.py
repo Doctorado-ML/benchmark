@@ -14,6 +14,7 @@ from .Arguments_test import ArgumentsTest
 from .scripts.Be_Pair_check_test import BePairCheckTest
 from .scripts.Be_List_test import BeListTest
 from .scripts.Be_Report_test import BeReportTest
+from .scripts.Be_Summary_test import BeSummaryTest
 
 all = [
     "UtilTest",
@@ -32,4 +33,5 @@ all = [
     "BePairCheckTest",
     "BeListTest",
     "BeReportTest",
+    "BeSummaryTest",
 ]
