@@ -35,10 +35,10 @@ class BeGridTest(TestBase):
     def test_be_grid_(self):
         stdout, stderr = self.execute_script(
             "be_grid",
-            ["-m", "SVC", "-s", "accuracy", "--n_folds", "2", "-q", "1"],
+            ["-m", "SVC", "-s", "accuracy", "--n_folds", "2"],
         )
-        self.assertEqual(stderr.getvalue(), "")
-        self.assertEqual(stdout.getvalue(), "")
+        expected = "Perform grid search with SVC model\n"
+        self.assertTrue(stdout.getvalue().startswith(expected))
         name = Files.grid_output("accuracy", "SVC")
         file_name = os.path.join(Folders.results, name)
         with open(file_name, "r") as f:
