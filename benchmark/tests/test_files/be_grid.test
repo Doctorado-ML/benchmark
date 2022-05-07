@@ -1,0 +1,20 @@
+{
+    "balance-scale": [
+        0.9119999999999999,
+        {
+            "C": 1.0,
+            "kernel": "liblinear",
+            "multiclass_strategy": "ovr"
+        },
+        "v. 1.2.4, Computed on iMac27 on 2022-05-07 at 23:29:25 took 0.962s"
+    ],
+    "balloons": [
+        0.7,
+        {
+            "C": 1.0,
+            "kernel": "linear",
+            "multiclass_strategy": "ovr"
+        },
+        "v. 1.2.4, Computed on iMac27 on 2022-05-07 at 23:29:25 took 1.232s"
+    ]
+}

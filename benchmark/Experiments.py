@@ -450,7 +450,7 @@ class GridSearch:
             random_state=self.random_seeds[0],
             n_splits=self.folds,
         )
-        clf = Models.get_model(self.model_name)
+        clf = Models.get_model(self.model_name, self.random_seeds[0])
         self.version = clf.version() if hasattr(clf, "version") else "-"
         self._num_warnings = 0
         warnings.warn = self._warn
@@ -460,7 +460,7 @@ class GridSearch:
                 estimator=clf,
                 cv=kfold,
                 param_grid=self.grid,
-                scoring=self.score_name,
+                scoring=self.score_name.replace("-", "_"),
                 n_jobs=-1,
             )
             grid.fit(X, y)

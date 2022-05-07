@@ -111,7 +111,6 @@ def main(args_test=None):
                 t2 = sorted([x for x in value if isinstance(x, str)])
                 results_tmp[new_key] = t1 + t2
         output.append(results_tmp)
-
     # save results
     file_name = Files.grid_input(args.score, args.model)
     file_output = os.path.join(Folders.results, file_name)

@@ -21,7 +21,7 @@ class BeGridTest(TestBase):
             "Generated grid input file to results/grid_input_f1-macro_STree."
             "json\n",
         )
-        name = stdout.getvalue().split("/")[1].replace("\n", "")
+        name = File.grid_input("f1-macro", "STree")
         file_name = os.path.join(Folders.results, name)
         self.check_file_file(file_name, "be_build_grid")
 
@@ -31,3 +31,7 @@ class BeGridTest(TestBase):
             ["-m", "STree", "-s", "accuracy", "--n_folds", 2, "-q", "1"],
         )
         self.assertEqual(stderr.getvalue(), "")
+        self.assertEqual(stdout.getvalue(), "")
+        name = File.grid_output("accuracy", "STree")
+        file_name = os.path.join(Folders.results, name)
+        self.check_file_file(file_name, "be_grid")
