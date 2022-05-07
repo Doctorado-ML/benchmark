@@ -80,7 +80,6 @@ class ModelTest(TestBase):
             "GBC": ((15, 8, 3), 1.0),
         }
         X, y = load_wine(return_X_y=True)
-        print("")
         for key, (value, score_expected) in test.items():
             clf = Models.get_model(key, random_state=1)
             clf.fit(X, y)

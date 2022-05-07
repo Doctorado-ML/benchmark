@@ -26,4 +26,3 @@ def main(args_test=None):
         job.do_gridsearch()
     except FileNotFoundError:
         print(f"** The grid input file [{job.grid_file}] could not be found")
-        print("")
