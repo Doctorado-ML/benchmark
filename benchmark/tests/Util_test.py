@@ -129,7 +129,11 @@ class UtilTest(TestBase):
         )
         self.assertCountEqual(
             Files().get_all_results(hidden=True),
-            ["results_accuracy_STree_iMac27_2021-11-01_23:55:16_0.json"],
+            [
+                "results_accuracy_STree_iMac27_2021-11-01_23:55:16_0.json",
+                "results_accuracy_XGBoost_MacBookpro16_2022-05-04_11:00:35_"
+                "0.json",
+            ],
         )
 
     def test_Files_get_results_Error(self):

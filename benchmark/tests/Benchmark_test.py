@@ -35,19 +35,19 @@ class BenchmarkTest(TestBase):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        with patch(self.output, new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as stdout:
             benchmark.report(tex_output=False)
-        self.check_output_file(fake_out, "exreport_report")
+        self.check_output_file(stdout, "exreport_report")
 
     def test_exreport(self):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        with patch(self.output, new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as stdout:
             benchmark.exreport()
         with open(os.path.join(self.test_files, "exreport.test")) as f:
             expected_t = f.read()
-        computed_t = fake_out.getvalue()
+        computed_t = stdout.getvalue()
         computed_t = computed_t.split("\n")
         computed_t.pop(0)
         for computed, expected in zip(computed_t, expected_t.split("\n")):
@@ -71,17 +71,17 @@ class BenchmarkTest(TestBase):
         benchmark = Benchmark("unknown", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        with patch(self.output, new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as stdout:
             benchmark.exreport()
-        self.check_output_file(fake_out, "exreport_error")
+        self.check_output_file(stdout, "exreport_error")
 
     def test_tex_output(self):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
-        with patch(self.output, new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as stdout:
             benchmark.report(tex_output=True)
-        self.check_output_file(fake_out, "exreport_report")
+        self.check_output_file(stdout, "exreport_report")
         self.assertTrue(os.path.exists(benchmark.get_tex_file()))
         self.check_file_file(benchmark.get_tex_file(), "exreport_tex")
 

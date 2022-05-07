@@ -130,60 +130,60 @@ class SummaryTest(TestBase):
     def test_summary_list_results_model(self):
         report = Summary()
         report.acquire()
-        with patch(self.output, new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as stdout:
             report.list_results(model="STree")
-        self.check_output_file(fake_out, "summary_list_model")
+        self.check_output_file(stdout, "summary_list_model")
 
     def test_summary_list_results_score(self):
         report = Summary()
         report.acquire()
-        with patch(self.output, new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as stdout:
             report.list_results(score="accuracy")
-        self.check_output_file(fake_out, "summary_list_score")
+        self.check_output_file(stdout, "summary_list_score")
 
     def test_summary_list_results_n(self):
         report = Summary()
         report.acquire()
-        with patch(self.output, new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as stdout:
             report.list_results(score="accuracy", number=3)
-        self.check_output_file(fake_out, "summary_list_n")
+        self.check_output_file(stdout, "summary_list_n")
 
     def test_summary_list_hidden(self):
         report = Summary(hidden=True)
         report.acquire()
-        with patch(self.output, new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as stdout:
             report.list_results(score="accuracy")
-        self.check_output_file(fake_out, "summary_list_hidden")
+        self.check_output_file(stdout, "summary_list_hidden")
 
     def test_show_result_no_title(self):
         report = Summary()
         report.acquire()
-        with patch(self.output, new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as stdout:
             title = ""
             best = report.best_result(
                 criterion="model", value="STree", score="accuracy"
             )
             report.show_result(data=best, title=title)
-        self.check_output_file(fake_out, "summary_show_results")
+        self.check_output_file(stdout, "summary_show_results")
 
     def test_show_result_title(self):
         report = Summary()
         report.acquire()
-        with patch(self.output, new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as stdout:
             title = "**Title**"
             best = report.best_result(
                 criterion="model", value="STree", score="accuracy"
             )
             report.show_result(data=best, title=title)
-        self.check_output_file(fake_out, "summary_show_results_title")
+        self.check_output_file(stdout, "summary_show_results_title")
 
     def test_show_result_no_data(self):
         report = Summary()
         report.acquire()
-        with patch(self.output, new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as stdout:
             title = "**Test**"
             report.show_result(data={}, title=title)
-        computed = fake_out.getvalue()
+        computed = stdout.getvalue()
         expected = "** **Test** has No data **\n"
         self.assertEqual(computed, expected)
 
@@ -212,16 +212,16 @@ class SummaryTest(TestBase):
     def test_show_top(self):
         report = Summary()
         report.acquire()
-        with patch(self.output, new=StringIO()) as fake_out:
+        with patch(self.output, new=StringIO()) as stdout:
             report.show_top()
-        self.check_output_file(fake_out, "summary_show_top")
+        self.check_output_file(stdout, "summary_show_top")
 
     @patch("sys.stdout", new_callable=StringIO)
-    def test_show_top_no_data(self, fake_out):
+    def test_show_top_no_data(self, stdout):
         report = Summary()
         report.acquire()
         report.show_top(score="f1-macro")
-        self.assertEqual(fake_out.getvalue(), "** No results found **\n")
+        self.assertEqual(stdout.getvalue(), "** No results found **\n")
 
     def test_no_data(self):
         report = Summary()
