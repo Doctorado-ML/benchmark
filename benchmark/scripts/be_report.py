@@ -13,13 +13,14 @@ If no argument is set, displays the datasets and its characteristics
 def main(args_test=None):
     arguments = Arguments()
     arguments.xset("file").xset("excel").xset("sql").xset("compare")
-    arguments.xset("best").xset("grid").xset("model", required=False).xset(
-        "score"
-    )
+    arguments.xset("best").xset("grid").xset("model", required=False)
+    arguments.xset("score", required=False)
     args = arguments.parse(args_test)
+    if args.best:
+        args.grid = None
     if args.grid:
-        args.best = False
-    if args.file is None and args.best is None:
+        args.best = None
+    if args.file is None and args.best is None and args.grid is None:
         ReportDatasets.report()
     else:
         if args.best is not None or args.grid is not None:
@@ -29,9 +30,13 @@ def main(args_test=None):
             report = Report(args.file, args.compare)
             report.report()
             if args.excel:
-                excel = Excel(args.file, args.compare)
+                excel = Excel(
+                    file_name=args.file,
+                    compare=args.compare,
+                )
                 excel.report()
-                Files.open(excel.get_file_name())
+                is_test = args_test != None
+                Files.open(excel.get_file_name(), is_test)
             if args.sql:
                 sql = SQL(args.file)
                 sql.report()
