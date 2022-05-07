@@ -35,7 +35,7 @@ def main(args_test=None):
                     compare=args.compare,
                 )
                 excel.report()
-                is_test = args_test != None
+                is_test = args_test is not None
                 Files.open(excel.get_file_name(), is_test)
             if args.sql:
                 sql = SQL(args.file)
