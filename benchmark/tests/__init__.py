@@ -15,6 +15,7 @@ from .scripts.Be_Pair_check_test import BePairCheckTest
 from .scripts.Be_List_test import BeListTest
 from .scripts.Be_Report_test import BeReportTest
 from .scripts.Be_Summary_test import BeSummaryTest
+from .scripts.Be_Grid_test import BeGridTest
 
 all = [
     "UtilTest",
@@ -34,4 +35,5 @@ all = [
     "BeListTest",
     "BeReportTest",
     "BeSummaryTest",
+    "BeGridTest",
 ]
