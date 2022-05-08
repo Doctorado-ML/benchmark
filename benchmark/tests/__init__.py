@@ -19,6 +19,7 @@ from .scripts.Be_Grid_test import BeGridTest
 from .scripts.Be_Best_test import BeBestTest
 from .scripts.Be_Benchmark_test import BeBenchmarkTest
 from .scripts.Be_Main_test import BeMainTest
+from .scripts.Be_Print_Strees_test import BePrintStrees
 
 all = [
     "UtilTest",
@@ -42,4 +43,5 @@ all = [
     "BeBestTest",
     "BeBenchmarkTest",
     "BeMainTest",
+    "BePrintStrees",
 ]

@@ -58,6 +58,17 @@ class TestBase(unittest.TestCase):
             expected = f.read()
         self.assertEqual(computed, expected)
 
+    def check_output_lines(self, stdout, file_name, lines_to_compare):
+        with open(os.path.join(self.test_files, f"{file_name}.test")) as f:
+            expected = f.read()
+        computed_data = stdout.getvalue().splitlines()
+        n_line = 0
+        # compare only report lines without date, time, duration...
+        for expected, computed in zip(expected.splitlines(), computed_data):
+            if n_line in lines_to_compare:
+                self.assertEqual(computed, expected, n_line)
+            n_line += 1
+
     def prepare_scripts_env(self):
         self.scripts_folder = os.path.join(
             os.path.dirname(os.path.abspath(__file__)), "..", "scripts"

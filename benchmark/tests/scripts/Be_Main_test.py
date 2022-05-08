@@ -1,7 +1,5 @@
-import os
 from io import StringIO
 from unittest.mock import patch
-from ...Utils import Folders
 from ...Results import Report
 from ..TestBase import TestBase
 
@@ -15,17 +13,6 @@ class BeMainTest(TestBase):
     def tearDown(self) -> None:
         self.remove_files(self.files, ".")
         return super().tearDown()
-
-    def check_output_lines(self, stdout, file_name, lines_to_compare):
-        with open(os.path.join(self.test_files, f"{file_name}.test")) as f:
-            expected = f.read()
-        computed_data = stdout.getvalue().splitlines()
-        n_line = 0
-        # compare only report lines without date, time, duration...
-        for expected, computed in zip(expected.splitlines(), computed_data):
-            if n_line in lines_to_compare:
-                self.assertEqual(computed, expected, n_line)
-            n_line += 1
 
     def test_be_benchmark_dataset(self):
         stdout, _ = self.execute_script(
