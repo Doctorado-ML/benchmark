@@ -1,7 +1,9 @@
 ****************************************************************************************************
 Error computing benchmark
 ****************************************************************************************************
-Error in dim(ordered) <- ns : 
-  dims [producto 1] no coincide con la longitud del objeto [0]
-Calls: testMultipleControl -> .doFriedmanTest -> <Anonymous> -> cast
+Error in file(file, "rt") : no se puede abrir la conexión
+Calls: read.csv -> read.table -> file
+Además: Warning message:
+In file(file, "rt") :
+  no fue posible abrir el archivo 'exreport/exreport_unknown.csv': No such file or directory
 Ejecución interrumpida

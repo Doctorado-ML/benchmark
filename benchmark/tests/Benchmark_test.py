@@ -3,19 +3,19 @@ from io import StringIO
 from unittest.mock import patch
 from openpyxl import load_workbook
 from .TestBase import TestBase
-from ..Utils import Folders, Files
+from ..Utils import Folders, Files, NO_RESULTS
 from ..Results import Benchmark
 
 
 class BenchmarkTest(TestBase):
-    def tearDown(self):
+    def tearDown(self) -> None:
         benchmark = Benchmark("accuracy", visualize=False)
         files = []
         for score in ["accuracy", "unknown"]:
             files.append(Files.exreport(score))
             files.append(Files.exreport_output(score))
             files.append(Files.exreport_err(score))
-        files.append(Files.exreport_excel("accuracy"))
+        files.append(Files.exreport_excel(score))
         files.append(Files.exreport_pdf)
         files.append(Files.tex_output("accuracy"))
         self.remove_files(files, Folders.exreport)
@@ -65,20 +65,20 @@ class BenchmarkTest(TestBase):
         self.assertFalse(os.path.exists(Folders.report))
 
     def test_exreport_error(self):
-        benchmark = Benchmark("unknown", visualize=False)
+        benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()
         benchmark.save_results()
+        # Make Rscript exreport fail
+        benchmark._score = "unknown"
         with patch(self.output, new=StringIO()) as stdout:
             benchmark.exreport()
         self.check_output_file(stdout, "exreport_error")
 
     def test_exreport_no_data(self):
         benchmark = Benchmark("f1-weighted", visualize=False)
-        benchmark.compile_results()
-        benchmark.save_results()
-        with patch(self.output, new=StringIO()) as stdout:
-            benchmark.exreport()
-        self.check_output_file(stdout, "exreport_error")
+        with self.assertRaises(ValueError) as msg:
+            benchmark.compile_results()
+        self.assertEqual(str(msg.exception), NO_RESULTS)
 
     def test_tex_output(self):
         benchmark = Benchmark("accuracy", visualize=False)

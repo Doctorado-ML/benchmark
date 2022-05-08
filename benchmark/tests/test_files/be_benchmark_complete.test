@@ -1,0 +1,33 @@
+Dataset                            ODTE      RandomForest      STree     
+============================== ============= ============= ============= 
+balance-scale                  0.96352±0.025 0.83616±0.026 0.97056±0.015 
+balloons                       0.78500±0.246 0.62500±0.250 0.86000±0.285 
+
+Model                          File Name                                                                   Score
+============================== =========================================================================== ========
+             ODTE              results/results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.json               0.04341
+         RandomForest          results/results_accuracy_RandomForest_iMac27_2022-01-14_12:39:30_0.json      0.03627
+            STree              results/results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json             0.04544
+****************************************************************************************************
+Benchmark Ok
+****************************************************************************************************
+---------------------------------------------------------------------
+Friedman test, objetive maximize output variable accuracy. Obtained p-value: 1.3534e-01
+Chi squared with 2 degrees of freedom statistic: 4.0000
+Test accepted: p-value: 1.3534e-01 >= 0.0500
+---------------------------------------------------------------------
+Control post hoc test for output accuracy
+Adjust method: Holm
+
+Control method: STree
+p-values:
+           ODTE	0.3173
+   RandomForest	0.0910
+---------------------------------------------------------------------
+$testMultiple
+               classifier     pvalue rank win tie loss
+STree               STree         NA    1  NA  NA   NA
+ODTE                 ODTE 0.31731051    2   2   0    0
+RandomForest RandomForest 0.09100053    3   2   0    0
+
+File exreport/exreport_accuracy.tex generated

@@ -19,6 +19,6 @@ def main(args_test=None):
         benchmark.exreport()
         if args.excel:
             benchmark.excel()
-            Files.open(benchmark.get_excel_file_name())
+            Files.open(benchmark.get_excel_file_name(), test=args.quiet)
         if args.tex_output:
             print(f"File {benchmark.get_tex_file()} generated")

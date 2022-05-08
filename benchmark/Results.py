@@ -1,3 +1,4 @@
+from multiprocessing.sharedctypes import Value
 import os
 from operator import itemgetter
 import math
@@ -641,6 +642,8 @@ class Benchmark:
         summary = Summary()
         summary.acquire(given_score=self._score)
         self._models = summary.get_models()
+        if self._models == []:
+            raise ValueError(NO_RESULTS)
         for model in self._models:
             best = summary.best_result(
                 criterion="model", value=model, score=self._score
