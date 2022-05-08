@@ -92,7 +92,10 @@ class Datasets:
             self.data_sets = [dataset_name]
 
     def load(self, name):
-        return self.dataset.load(name)
+        try:
+            return self.dataset.load(name)
+        except FileNotFoundError:
+            raise ValueError(f"Unknown dataset: {name}")
 
     def __iter__(self) -> Diterator:
         return Diterator(self.data_sets)

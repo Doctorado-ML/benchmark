@@ -9,7 +9,6 @@ from ..Results import Benchmark
 
 class BenchmarkTest(TestBase):
     def tearDown(self) -> None:
-        benchmark = Benchmark("accuracy", visualize=False)
         files = []
         for score in ["accuracy", "unknown"]:
             files.append(Files.exreport(score))

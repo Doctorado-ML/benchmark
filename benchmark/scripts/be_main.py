@@ -31,13 +31,17 @@ def main(args_test=None):
         title=args.title,
         folds=args.n_folds,
     )
-    job.do_experiment()
-    if report:
-        result_file = job.get_output_file()
-        report = Report(result_file)
-        report.report()
-    if args.dataset is not None:
-        print(f"Partial result file removed: {result_file}")
-        os.remove(result_file)
+    try:
+        job.do_experiment()
+    except ValueError as e:
+        print(e)
     else:
-        print(f"Results in {job.get_output_file()}")
+        if report:
+            result_file = job.get_output_file()
+            report = Report(result_file)
+            report.report()
+        if args.dataset is not None:
+            print(f"Partial result file removed: {result_file}")
+            os.remove(result_file)
+        else:
+            print(f"Results in {job.get_output_file()}")

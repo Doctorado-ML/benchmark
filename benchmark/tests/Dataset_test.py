@@ -45,6 +45,18 @@ class DatasetTest(TestBase):
             self.assertSequenceEqual(computed, value)
         self.set_env(".env.dist")
 
+    def test_load_dataset(self):
+        dt = Datasets()
+        X, y = dt.load("balance-scale")
+        self.assertSequenceEqual(X.shape, (625, 4))
+        self.assertSequenceEqual(y.shape, (625,))
+
+    def test_load_unknown_dataset(self):
+        dt = Datasets()
+        with self.assertRaises(ValueError) as msg:
+            dt.load("unknown")
+        self.assertEqual(str(msg.exception), "Unknown dataset: unknown")
+
     def test_Datasets_subset(self):
         test = {
             ".env.dist": "balloons",
