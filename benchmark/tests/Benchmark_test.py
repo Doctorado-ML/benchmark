@@ -75,6 +75,14 @@ class BenchmarkTest(TestBase):
             benchmark.exreport()
         self.check_output_file(stdout, "exreport_error")
 
+    def test_exreport_no_data(self):
+        benchmark = Benchmark("f1-weighted", visualize=False)
+        benchmark.compile_results()
+        benchmark.save_results()
+        with patch(self.output, new=StringIO()) as stdout:
+            benchmark.exreport()
+        self.check_output_file(stdout, "exreport_error")
+
     def test_tex_output(self):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()

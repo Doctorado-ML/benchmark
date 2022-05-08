@@ -2,6 +2,7 @@ from io import StringIO
 from unittest.mock import patch
 from .TestBase import TestBase
 from ..Results import Summary
+from ..Utils import NO_RESULTS
 
 
 class SummaryTest(TestBase):
@@ -228,4 +229,4 @@ class SummaryTest(TestBase):
         report.acquire()
         with self.assertRaises(ValueError) as msg:
             report.list_results(score="f1-macro", model="STree")
-        self.assertEqual(str(msg.exception), "** No results found **")
+        self.assertEqual(str(msg.exception), NO_RESULTS)

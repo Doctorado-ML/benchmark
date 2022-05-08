@@ -8,7 +8,14 @@ import subprocess
 import xlsxwriter
 import numpy as np
 from .Experiments import Datasets, BestResults
-from .Utils import Folders, Files, Symbols, BEST_ACCURACY_STREE, TextColor
+from .Utils import (
+    Folders,
+    Files,
+    Symbols,
+    BEST_ACCURACY_STREE,
+    TextColor,
+    NO_RESULTS,
+)
 
 
 class BaseReport(abc.ABC):
@@ -1140,7 +1147,7 @@ class Summary:
             score, model, input_data, sort_key, number
         )
         if data == []:
-            raise ValueError("** No results found **")
+            raise ValueError(NO_RESULTS)
         max_file = max(len(x["file"]) for x in data)
         max_title = max(len(x["title"]) for x in data)
         if self.hidden:
@@ -1278,7 +1285,7 @@ class Summary:
             else [x for x in haystack if x[criterion] == value]
         )
         if haystack == []:
-            raise ValueError("** No results found **")
+            raise ValueError(NO_RESULTS)
         return (
             sorted(
                 haystack,

@@ -2,6 +2,7 @@ import os
 import subprocess
 
 BEST_ACCURACY_STREE = 40.282203
+NO_RESULTS = "** No results found **"
 
 
 class Folders:

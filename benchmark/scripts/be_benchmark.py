@@ -7,14 +7,18 @@ from benchmark.Arguments import Arguments
 def main(args_test=None):
     arguments = Arguments()
     arguments.xset("score").xset("excel").xset("tex_output")
-    ar = arguments.parse(args_test)
-    benchmark = Benchmark(score=ar.score, visualize=True)
-    benchmark.compile_results()
-    benchmark.save_results()
-    benchmark.report(ar.tex_output)
-    benchmark.exreport()
-    if ar.excel:
-        benchmark.excel()
-        Files.open(benchmark.get_excel_file_name())
-    if ar.tex_output:
-        print(f"File {benchmark.get_tex_file()} generated")
+    args = arguments.parse(args_test)
+    benchmark = Benchmark(score=args.score, visualize=True)
+    try:
+        benchmark.compile_results()
+    except ValueError as e:
+        print(e)
+    else:
+        benchmark.save_results()
+        benchmark.report(args.tex_output)
+        benchmark.exreport()
+        if args.excel:
+            benchmark.excel()
+            Files.open(benchmark.get_excel_file_name())
+        if args.tex_output:
+            print(f"File {benchmark.get_tex_file()} generated")

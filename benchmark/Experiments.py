@@ -13,7 +13,7 @@ from sklearn.model_selection import (
     GridSearchCV,
     cross_validate,
 )
-from .Utils import Folders, Files
+from .Utils import Folders, Files, NO_RESULTS
 from .Models import Models
 from .Arguments import EnvData
 
@@ -157,7 +157,7 @@ class BestResults:
                     self._process_datafile(results, data, name)
                     found = True
         if not found:
-            raise ValueError("** No results found **")
+            raise ValueError(NO_RESULTS)
         # Build best results json file
         output = {}
         datasets = Datasets()
