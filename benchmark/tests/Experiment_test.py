@@ -36,7 +36,7 @@ class ExperimentTest(TestBase):
         expected = {
             "balance-scale": [
                 0.98,
-                {"splitter": "iwss", "max_features": "auto"},
+                {"splitter": "best", "max_features": "auto"},
                 "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.json",
             ],
             "balloons": [

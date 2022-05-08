@@ -15,7 +15,7 @@
       "features": 4,
       "classes": 3,
       "hyperparameters": {
-        "splitter": "iwss",
+        "splitter": "best",
         "max_features": "auto"
       },
       "nodes": 11.08,
@@ -32,7 +32,7 @@
       "features": 4,
       "classes": 2,
       "hyperparameters": {
-        "splitter": "iwss",
+        "splitter": "best",
         "max_features": "auto"
       },
       "nodes": 4.12,
