@@ -6,9 +6,9 @@ from benchmark.Arguments import Arguments
 
 def main(args_test=None):
     arguments = Arguments()
-    arguments.xset("score").xset("excel").xset("tex_output")
+    arguments.xset("score").xset("excel").xset("tex_output").xset("quiet")
     args = arguments.parse(args_test)
-    benchmark = Benchmark(score=args.score, visualize=True)
+    benchmark = Benchmark(score=args.score, visualize=not args.quiet)
     try:
         benchmark.compile_results()
     except ValueError as e:

@@ -9,16 +9,28 @@ class BeBenchmarkTest(TestBase):
         self.prepare_scripts_env()
 
     def tearDown(self) -> None:
-        # self.remove_files(
-        #     [Files.best_results("accuracy", "ODTE")],
-        #     Folders.results,
-        # )
+        files = []
+        for score in ["accuracy", "unknown"]:
+            files.append(Files.exreport(score))
+            files.append(Files.exreport_output(score))
+            files.append(Files.exreport_err(score))
+
+        files.append(Files.exreport_excel("accuracy"))
+        files.append(Files.exreport_pdf)
+        files.append(Files.tex_output("accuracy"))
+        self.remove_files(files, Folders.exreport)
+        self.remove_files(files, ".")
         return super().tearDown()
 
     def test_be_benchmark(self):
-        # stdout, stderr = self.execute_script(
-        #     "be_benchmark", ["-s", "accuracy"]
-        # )
-        # self.assertEqual(stderr.getvalue(), "")
-        # self.check_output_file(stdout, "be_best_all")
-        pass
+        stdout, stderr = self.execute_script(
+            "be_benchmark", ["-s", "accuracy", "-q", "1", "-t", "1", "-x", "1"]
+        )
+        self.assertEqual(stderr.getvalue(), "")
+        # Check output
+        self.check_output_file(stdout, "exreport_report")
+        # Check csv file
+        file_name = os.path.join(Folders.exreport, Files.exreport("accuracy"))
+        self.check_file_file(file_name, "exreport_csv")
+        # Check tex file
+        # Check excel file

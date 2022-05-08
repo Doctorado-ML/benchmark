@@ -1,6 +1,6 @@
 import os
 import json
-from ...Utils import Folders, Files
+from ...Utils import Folders, Files, NO_RESULTS
 from ..TestBase import TestBase
 
 
@@ -24,7 +24,7 @@ class BeBestTest(TestBase):
         stdout, _ = self.execute_script(
             "be_build_best", ["-s", "accuracy", "-m", "SVC"]
         )
-        self.assertEqual(stdout.getvalue(), "** No results found **\n")
+        self.assertEqual(stdout.getvalue(), f"{NO_RESULTS}\n")
 
     def test_be_build_best(self):
         self.execute_script("be_build_best", ["-s", "accuracy", "-m", "ODTE"])

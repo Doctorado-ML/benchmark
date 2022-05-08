@@ -8,19 +8,16 @@ from ..Results import Benchmark
 
 
 class BenchmarkTest(TestBase):
-    def tearDown(self) -> None:
+    def tearDown(self):
         benchmark = Benchmark("accuracy", visualize=False)
-        files = [
-            "exreport_accuracy.csv",
-            "exreport_accuracy.txt",
-            "exreport_accuracy.xlsx",
-            "exreport_err_accuracy.txt",
-            "exreport_err_unknown.txt",
-            "exreport_unknown.csv",
-            "exreport_unknown.txt",
-            "Rplots.pdf",
-            benchmark.get_tex_file(),
-        ]
+        files = []
+        for score in ["accuracy", "unknown"]:
+            files.append(Files.exreport(score))
+            files.append(Files.exreport_output(score))
+            files.append(Files.exreport_err(score))
+        files.append(Files.exreport_excel("accuracy"))
+        files.append(Files.exreport_pdf)
+        files.append(Files.tex_output("accuracy"))
         self.remove_files(files, Folders.exreport)
         self.remove_files(files, ".")
         return super().tearDown()

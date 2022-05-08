@@ -1,4 +1,5 @@
 from ..TestBase import TestBase
+from ...Utils import NO_RESULTS
 
 
 class BePairCheckTest(TestBase):
@@ -17,11 +18,11 @@ class BePairCheckTest(TestBase):
             "be_pair_check", ["-m1", "SVC", "-m2", "ODTE"]
         )
         self.assertEqual(stderr.getvalue(), "")
-        self.assertEqual(stdout.getvalue(), "** No results found **\n")
+        self.assertEqual(stdout.getvalue(), f"{NO_RESULTS}\n")
 
     def test_be_pair_check_no_data_b(self):
         stdout, stderr = self.execute_script(
             "be_pair_check", ["-m1", "STree", "-m2", "SVC"]
         )
         self.assertEqual(stderr.getvalue(), "")
-        self.assertEqual(stdout.getvalue(), "** No results found **\n")
+        self.assertEqual(stdout.getvalue(), f"{NO_RESULTS}\n")
