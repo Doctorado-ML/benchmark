@@ -1,6 +1,7 @@
+import sys
 import argparse
 from .Experiments import Models
-from .Utils import Files
+from .Utils import Files, NO_ENV
 
 ALL_METRICS = (
     "accuracy",
@@ -15,13 +16,18 @@ class EnvData:
     @staticmethod
     def load():
         args = {}
-        with open(Files.dot_env) as f:
-            for line in f.read().splitlines():
-                if line == "" or line.startswith("#"):
-                    continue
-                key, value = line.split("=")
-                args[key] = value
-        return args
+        try:
+            with open(Files.dot_env) as f:
+                for line in f.read().splitlines():
+                    if line == "" or line.startswith("#"):
+                        continue
+                    key, value = line.split("=")
+                    args[key] = value
+        except FileNotFoundError:
+            print(NO_ENV, file=sys.stderr)
+            exit(1)
+        else:
+            return args
 
 
 class EnvDefault(argparse.Action):

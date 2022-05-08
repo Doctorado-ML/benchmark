@@ -1,7 +1,8 @@
+import os
 from io import StringIO
 from unittest.mock import patch
 from .TestBase import TestBase
-from ..Arguments import Arguments, ALL_METRICS
+from ..Arguments import Arguments, ALL_METRICS, NO_ENV
 
 
 class ArgumentsTest(TestBase):
@@ -65,23 +66,35 @@ class ArgumentsTest(TestBase):
         self.assertEqual(args.key, "metric")
 
     @patch("sys.stderr", new_callable=StringIO)
-    def test_xset_mandatory(self, mock_stderr):
+    def test_xset_mandatory(self, stderr):
         arguments = self.build_args()
         test_args = ["-n", "3", "-k", "date"]
         with self.assertRaises(SystemExit):
             arguments.parse(test_args)
         self.assertRegexpMatches(
-            mock_stderr.getvalue(),
+            stderr.getvalue(),
             r"error: the following arguments are required: -m/--model",
         )
 
     @patch("sys.stderr", new_callable=StringIO)
-    def test_xset_required(self, mock_stderr):
+    def test_xset_required(self, stderr):
         arguments = self.build_args()
         test_args = ["-n", "3", "-m", "SVC"]
         with self.assertRaises(SystemExit):
             arguments.parse(test_args)
         self.assertRegexpMatches(
-            mock_stderr.getvalue(),
+            stderr.getvalue(),
             r"error: the following arguments are required: -k/--key",
         )
+
+    @patch("sys.stderr", new_callable=StringIO)
+    def test_no_env(self, stderr):
+        path = os.getcwd()
+        os.chdir("..")
+        try:
+            self.build_args()
+        except SystemExit:
+            pass
+        finally:
+            os.chdir(path)
+        self.assertEqual(stderr.getvalue(), f"{NO_ENV}\n")

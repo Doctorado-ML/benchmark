@@ -3,6 +3,7 @@ import subprocess
 
 BEST_ACCURACY_STREE = 40.282203
 NO_RESULTS = "** No results found **"
+NO_ENV = "File .env not found"
 
 
 class Folders:

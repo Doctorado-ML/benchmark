@@ -44,3 +44,15 @@ class BeListTest(TestBase):
         stdout, stderr = self.execute_script("be_list", ["--nan", "1"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_no_nan")
+
+    def test_be_no_env(self):
+        path = os.getcwd()
+        os.chdir("..")
+        stderr = None
+        try:
+            _, stderr = self.execute_script("be_list", [])
+        except SystemExit as e:
+            self.assertEqual(e.code, 1)
+        finally:
+            os.chdir(path)
+        self.assertIsNone(stderr)
