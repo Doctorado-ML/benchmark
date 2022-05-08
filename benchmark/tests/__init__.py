@@ -16,6 +16,7 @@ from .scripts.Be_List_test import BeListTest
 from .scripts.Be_Report_test import BeReportTest
 from .scripts.Be_Summary_test import BeSummaryTest
 from .scripts.Be_Grid_test import BeGridTest
+from .scripts.Be_Best_test import BeBestTest
 
 all = [
     "UtilTest",
@@ -36,4 +37,5 @@ all = [
     "BeReportTest",
     "BeSummaryTest",
     "BeGridTest",
+    "BeBestTest",
 ]

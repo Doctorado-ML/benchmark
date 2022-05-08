@@ -60,7 +60,7 @@ class BeGridTest(TestBase):
         for key, value in expected_data.items():
             self.assertIn(key, computed_data)
             self.assertEqual(computed_data[key][0], value[0])
-            self.assertEqual(computed_data[key][1], value[1])
+            self.assertSequenceEqual(computed_data[key][1], value[1])
 
     def test_be_grid_no_input(self):
         stdout, stderr = self.execute_script(
