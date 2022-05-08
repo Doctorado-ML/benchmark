@@ -1,14 +1,19 @@
+import shutil
 from io import StringIO
 from unittest.mock import patch
 from ...Results import Report
+from ...Utils import Files
 from ..TestBase import TestBase
 
 
 class BePrintStrees(TestBase):
     def setUp(self):
         self.prepare_scripts_env()
+        source = Files.grid_output("accuracy", "STree")
+        target = Files.grid_output("accuracy", "STree")
+        shutil.copy(source, target)
         self.score = "accuracy"
-        self.files = []
+        self.files = [target]
 
     def tearDown(self) -> None:
         self.remove_files(self.files, ".")
