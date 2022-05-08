@@ -42,5 +42,5 @@
 8;9;"0.2756860130252853"
 8;10;"0.02120100021362305"
 8;11;"0.003526023309468471"
-8;12;"{'splitter': 'iwss', 'max_features': 'auto'}"
+8;12;"{'splitter': 'best', 'max_features': 'auto'}"
 10;1;"** Accuracy compared to stree_default (liblinear-ovr) .:  0.0416"
