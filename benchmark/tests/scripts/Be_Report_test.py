@@ -25,6 +25,11 @@ class BeReportTest(TestBase):
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "report")
 
+    def test_be_report_not_found(self):
+        stdout, stderr = self.execute_script("be_report", ["-f", "unknown"])
+        self.assertEqual(stderr.getvalue(), "")
+        self.assertEqual(stdout.getvalue(), "unknown does not exists!\n")
+
     def test_be_report_compare(self):
         file_name = "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json"
         stdout, stderr = self.execute_script(

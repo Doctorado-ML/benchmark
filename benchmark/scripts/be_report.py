@@ -27,16 +27,20 @@ def main(args_test=None):
             report = ReportBest(args.score, args.model, args.best, args.grid)
             report.report()
         else:
-            report = Report(args.file, args.compare)
-            report.report()
-            if args.excel:
-                excel = Excel(
-                    file_name=args.file,
-                    compare=args.compare,
-                )
-                excel.report()
-                is_test = args_test is not None
-                Files.open(excel.get_file_name(), is_test)
-            if args.sql:
-                sql = SQL(args.file)
-                sql.report()
+            try:
+                report = Report(args.file, args.compare)
+            except FileNotFoundError as e:
+                print(e)
+            else:
+                report.report()
+                if args.excel:
+                    excel = Excel(
+                        file_name=args.file,
+                        compare=args.compare,
+                    )
+                    excel.report()
+                    is_test = args_test is not None
+                    Files.open(excel.get_file_name(), is_test)
+                if args.sql:
+                    sql = SQL(args.file)
+                    sql.report()
