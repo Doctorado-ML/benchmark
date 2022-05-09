@@ -222,8 +222,11 @@ class Experiment:
             grid_file = os.path.join(
                 Folders.results, Files.grid_output(score_name, model_name)
             )
-            with open(grid_file) as f:
-                self.hyperparameters_dict = json.load(f)
+            try:
+                with open(grid_file) as f:
+                    self.hyperparameters_dict = json.load(f)
+            except FileNotFoundError:
+                raise ValueError(f"{grid_file} does not exist")
         else:
             self.hyperparameters_dict = hyper.fill(
                 dictionary=dictionary,

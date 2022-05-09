@@ -18,20 +18,20 @@ def main(args_test=None):
     report = args.report or args.dataset is not None
     if args.grid_paramfile:
         args.paramfile = False
-    job = Experiment(
-        score_name=args.score,
-        model_name=args.model,
-        stratified=args.stratified,
-        datasets=Datasets(dataset_name=args.dataset),
-        hyperparams_dict=args.hyperparameters,
-        hyperparams_file=args.paramfile,
-        grid_paramfile=args.grid_paramfile,
-        progress_bar=not args.quiet,
-        platform=args.platform,
-        title=args.title,
-        folds=args.n_folds,
-    )
     try:
+        job = Experiment(
+            score_name=args.score,
+            model_name=args.model,
+            stratified=args.stratified,
+            datasets=Datasets(dataset_name=args.dataset),
+            hyperparams_dict=args.hyperparameters,
+            hyperparams_file=args.paramfile,
+            grid_paramfile=args.grid_paramfile,
+            progress_bar=not args.quiet,
+            platform=args.platform,
+            title=args.title,
+            folds=args.n_folds,
+        )
         job.do_experiment()
     except ValueError as e:
         print(e)
