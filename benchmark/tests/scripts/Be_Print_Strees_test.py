@@ -12,12 +12,12 @@ class BePrintStrees(TestBase):
         self.datasets = ["balloons", "balance-scale"]
         self.expected = {
             "balloons": {
-                "color": "b2342cc27a4ab495970616346bedf73b",
-                "gray": "a9bc4d2041f2869a93164a548f6ad986",
+                "color": "107a73552a9ad66dee34a825d613a792",
+                "gray": "d2a1746459298e9a625f8c96264a6841",
             },
             "balance-scale": {
-                "color": "2e85d66de1ae838d01a3f327397a50c8",
-                "gray": "30f325134d4b5153c9e6ecbcae7b6d1f",
+                "color": "0ba25cfe6a64d01187dfd3106b0cea7a",
+                "gray": "ce51aa4680e73af44b93ca717621d728",
             },
         }
 
