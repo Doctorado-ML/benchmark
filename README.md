@@ -1,6 +1,6 @@
-![CI](https://github.com/Doctorado-ML/benchmark/workflows/CI/badge.svg)
+[![CI](https://github.com/Doctorado-ML/benchmark/actions/workflows/main.yml/badge.svg)](https://github.com/Doctorado-ML/benchmark/actions/workflows/main.yml)
+[![CodeQL](https://github.com/Doctorado-ML/benchmark/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/Doctorado-ML/benchmark/actions/workflows/codeql-analysis.yml)
 [![codecov](https://codecov.io/gh/doctorado-ml/benchmark/branch/master/graph/badge.svg)](https://codecov.io/gh/doctorado-ml/benchmark)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/Doctorado-ML/STree.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Doctorado-ML/STree/context:python)
 ![https://img.shields.io/badge/python-3.8%2B-blue](https://img.shields.io/badge/python-3.8%2B-brightgreen)
 # benchmark
 
