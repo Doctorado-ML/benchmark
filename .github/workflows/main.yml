@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix:
+      matrix:s
         os: [macos-latest, ubuntu-latest]
         python: ["3.10"]
 
@@ -21,6 +21,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python }}
+      # Allows install Wodt in dependencies.
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         # - name: Setup tmate session
         # uses: mxschmitt/action-tmate@v3
       - name: Install dependencies
