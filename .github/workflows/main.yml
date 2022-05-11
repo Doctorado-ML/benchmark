@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
-      matrix:s
+      matrix:
         os: [macos-latest, ubuntu-latest]
         python: ["3.10"]
 
