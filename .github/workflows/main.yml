@@ -28,11 +28,11 @@ jobs:
           pip install -q --upgrade codecov coverage black flake8
       - name: Lint
         run: |
-          black --check --diff stree
-          flake8 --count stree
+          black --check --diff benchmark
+          flake8 --count benchmark
       - name: Tests
         run: |
-          coverage run -m unittest -v stree.tests
+          coverage run -m unittest -v benchmark.tests
           coverage xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
