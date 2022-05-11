@@ -1,5 +1,4 @@
 import os
-import hashlib
 from ...Utils import Folders
 from ..TestBase import TestBase
 
