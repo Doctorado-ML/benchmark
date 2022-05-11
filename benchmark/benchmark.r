@@ -1,4 +1,5 @@
 library(glue)
+Sys.setenv(LANG = "en")
 args = commandArgs(trailingOnly=TRUE)
 if (length(args)!=3) {
   stop("Only two arguments must be supplied (score & input_file & visualize).n", call.=FALSE)

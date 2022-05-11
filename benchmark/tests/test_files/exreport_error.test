@@ -1,9 +1,9 @@
 ****************************************************************************************************
 Error computing benchmark
 ****************************************************************************************************
-Error in file(file, "rt") : no se puede abrir la conexión
+Error in file(file, "rt") : cannot open the connection
 Calls: read.csv -> read.table -> file
-Además: Warning message:
+In addition: Warning message:
 In file(file, "rt") :
-  no fue posible abrir el archivo 'exreport/exreport_unknown.csv': No such file or directory
-Ejecución interrumpida
+  cannot open file 'exreport/exreport_unknown.csv': No such file or directory
+Execution halted
