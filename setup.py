@@ -7,9 +7,8 @@ def readme():
         return f.read()
 
 
-def get_data(field):
+def get_data(field, file_name="__init__.py"):
     item = ""
-    file_name = "_version.py" if field == "version" else "__init__.py"
     with open(os.path.join("benchmark", file_name)) as f:
         for line in f.readlines():
             if line.startswith(f"__{field}__"):
@@ -21,17 +20,34 @@ def get_data(field):
     return item
 
 
-def import_scripts():
+def get_requirements():
+    with open("requirements.txt") as f:
+        return f.read().splitlines()
+
+
+def script_names():
+    scripts = [
+        "benchmark",
+        "best",
+        "build_best",
+        "build_grid",
+        "grid",
+        "list",
+        "main",
+        "pair_check",
+        "print_strees",
+        "report",
+        "summary",
+    ]
     result = []
-    names = os.listdir(os.path.join("benchmark", "scripts"))
-    for name in names:
-        result.append(os.path.join("benchmark", "scripts", name))
+    for script in scripts:
+        result.append(f"be_{script}=benchmark.scripts.be_{script}:main")
     return result
 
 
 setuptools.setup(
     name="benchmark",
-    version=get_data("version"),
+    version=get_data("version", "_version.py"),
     license=get_data("license"),
     description="Oblique decision tree with svm nodes",
     long_description=readme(),
@@ -46,32 +62,15 @@ setuptools.setup(
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: " + get_data("license"),
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Natural Language :: English",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
         "Intended Audience :: Science/Research",
     ],
-    install_requires=[
-        "scikit-learn",
-        "odte",
-        "pandas",
-        "mufs",
-        "xlsxwriter",
-        "tqdm",
-    ],
+    install_requires=get_requirements(),
     zip_safe=False,
     entry_points={
-        "console_scripts": [
-            "be_list=benchmark.scripts.be_list:main",
-            "be_report=benchmark.scripts.be_report:main",
-            "be_main=benchmark.scripts.be_main:main",
-            "be_benchmark=benchmark.scripts.be_benchmark:main",
-            "be_best=benchmark.scripts.be_best:main",
-            "be_build_best=benchmark.scripts.be_build_best:main",
-            "be_build_grid=benchmark.scripts.be_build_grid:main",
-            "be_grid=benchmark.scripts.be_grid:main",
-            "be_pair_check=benchmark.scripts.be_pair_check:main",
-            "be_print_strees=benchmark.scripts.be_print_strees:main",
-            "be_summary=benchmark.scripts.be_summary:main",
-        ],
+        "console_scripts": script_names(),
     },
 )
