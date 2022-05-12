@@ -1,6 +1,8 @@
 library(glue)
 Sys.setenv(LANG = "en")
-resoutput <- capture.output(Sys.setlocale("LC_MESSAGES", 'en_GB.UTF-8'))
+if (Sys.getlocale("LC_MESSAGES") == "es_ES.UTF-8") {
+  resoutput <- capture.output(Sys.setlocale("LC_MESSAGES", 'en_GB.UTF-8'))
+}
 args = commandArgs(trailingOnly=TRUE)
 if (length(args)!=3) {
   stop("Only two arguments must be supplied (score & input_file & visualize).n", call.=FALSE)
