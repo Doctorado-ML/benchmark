@@ -1,6 +1,9 @@
 [![CI](https://github.com/Doctorado-ML/benchmark/actions/workflows/main.yml/badge.svg)](https://github.com/Doctorado-ML/benchmark/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/Doctorado-ML/benchmark/branch/main/graph/badge.svg?token=ZRP937NDSG)](https://codecov.io/gh/Doctorado-ML/benchmark)
+[![Quality Gate Status](https://haystack.rmontanana.es:25000/api/project_badges/measure?project=benchmark&metric=alert_status&token=336a6e501988888543c3153baa91bad4b9914dd2)](http://haystack.local:25000/dashboard?id=benchmark)
+[![Technical Debt](https://haystack.rmontanana.es:25000/api/project_badges/measure?project=benchmark&metric=sqale_index&token=336a6e501988888543c3153baa91bad4b9914dd2)](http://haystack.local:25000/dashboard?id=benchmark)
 ![https://img.shields.io/badge/python-3.8%2B-blue](https://img.shields.io/badge/python-3.8%2B-brightgreen)
+
 # benchmark
 
 Benchmarking models
