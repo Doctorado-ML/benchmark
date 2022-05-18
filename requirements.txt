@@ -8,3 +8,4 @@ tqdm
 xgboost
 graphviz
 Wodt @ git+ssh://git@github.com/doctorado-ml/Wodt.git#egg=Wodt
+unittest-xml-reporting
