@@ -28,8 +28,9 @@ class DatasetsArff:
         file_name = os.path.join(self.folder(), self.dataset_names(name))
         data = arff.loadarff(file_name)
         df = pd.DataFrame(data[0])
+        df = df.dropna()
         X = df.drop(class_name, axis=1).to_numpy()
-        y = df[class_name].to_numpy()
+        y, _ = pd.factorize(df[class_name])
         return X, y
 
 
