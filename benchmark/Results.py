@@ -83,10 +83,10 @@ class BaseReport(abc.ABC):
 
 
 class Report(BaseReport):
-    header_lengths = [30, 5, 5, 3, 7, 7, 7, 15, 16, 15]
+    header_lengths = [30, 6, 5, 3, 7, 7, 7, 15, 16, 15]
     header_cols = [
         "Dataset",
-        "Samp",
+        "Sampl.",
         "Feat.",
         "Cls",
         "Nodes",
