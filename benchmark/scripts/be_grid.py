@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-from benchmark.Experiments import GridSearch, Datasets
+from benchmark.Experiments import GridSearch
+from benchmark.Datasets import Datasets
 from benchmark.Arguments import Arguments
 
 """Do experiment and build result file, optionally print report with results

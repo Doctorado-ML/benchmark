@@ -1,6 +1,7 @@
 import os
 from .TestBase import TestBase
-from ..Experiments import BestResults, Datasets
+from ..Experiments import BestResults
+from ..Datasets import Datasets
 
 
 class BestResultTest(TestBase):

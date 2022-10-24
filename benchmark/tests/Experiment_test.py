@@ -1,6 +1,7 @@
 import json
 from .TestBase import TestBase
-from ..Experiments import Experiment, Datasets
+from ..Experiments import Experiment
+from ..Datasets import Datasets
 
 
 class ExperimentTest(TestBase):

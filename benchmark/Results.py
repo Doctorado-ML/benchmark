@@ -7,7 +7,8 @@ import shutil
 import subprocess
 import xlsxwriter
 import numpy as np
-from .Experiments import Datasets, BestResults
+from .Experiments import BestResults
+from .Datasets import Datasets
 from .Utils import (
     Folders,
     Files,

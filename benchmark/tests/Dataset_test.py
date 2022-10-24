@@ -1,6 +1,7 @@
 import shutil
 from .TestBase import TestBase
-from ..Experiments import Randomized, Datasets
+from ..Experiments import Randomized
+from ..Datasets import Datasets
 
 
 class DatasetTest(TestBase):

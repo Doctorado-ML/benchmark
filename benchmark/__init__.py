@@ -1,4 +1,5 @@
-from .Experiments import Experiment, Datasets, DatasetsSurcov, DatasetsTanveer
+from .Datasets import Datasets, DatasetsSurcov, DatasetsTanveer
+from .Experiments import Experiment
 from .Results import Report, Summary
 
 __author__ = "Ricardo Montañana Gómez"
