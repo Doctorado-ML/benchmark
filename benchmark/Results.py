@@ -535,8 +535,8 @@ class ReportDatasets:
         data_sets = Datasets()
         color_line = TextColor.LINE1
         print(color_line, end="")
-        print(f"{'Dataset':30s} Samp. Feat. Cls Balance")
-        print("=" * 30 + " ===== ===== === " + "=" * 40)
+        print(f"{'Dataset':30s} Sampl. Feat. Cls Balance")
+        print("=" * 30 + " ===== ====== === " + "=" * 40)
         for dataset in data_sets:
             X, y = data_sets.load(dataset)
             color_line = (
@@ -552,7 +552,7 @@ class ReportDatasets:
                 sep = "/ "
             print(color_line, end="")
             print(
-                f"{dataset:30s} {X.shape[0]:5,d} {X.shape[1]:5,d} "
+                f"{dataset:30s} {X.shape[0]:6,d} {X.shape[1]:5,d} "
                 f"{len(np.unique(y)):3d} {comp:40s}"
             )
 
