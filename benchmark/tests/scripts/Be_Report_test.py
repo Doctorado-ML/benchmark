@@ -55,7 +55,16 @@ class BeReportTest(TestBase):
             "be_report", ["-s", "accuracy", "-m", "STree", "-g", "1"]
         )
         self.assertEqual(stderr.getvalue(), "")
-        self.check_output_file(stdout, "report_grid")
+        file_name = "report_grid.test"
+        with open(os.path.join(self.test_files, file_name)) as f:
+            expected = f.read().splitlines()
+        output_text = stdout.getvalue().splitlines()
+        # Compare replacing STree version
+        for line, index in zip(expected, range(len(expected))):
+            if "1.2.4" in line:
+                # replace STree version
+                line = self.replace_STree_version(line, output_text, index)
+            self.assertEqual(line, output_text[index])
 
     def test_be_report_best_both(self):
         stdout, stderr = self.execute_script(

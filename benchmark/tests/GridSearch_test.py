@@ -77,7 +77,9 @@ class GridSearchTest(TestBase):
                 "v. 1.2.4, Computed on Test on 2022-02-22 at 12:00:00 took 1s",
             ],
         }
-        self.assertSequenceEqual(data, expected)
+        for key, value in expected.items():
+            self.assertEqual(data[key][0], value[0])
+            self.assertDictEqual(data[key][1], value[1])
 
     def test_duration_message(self):
         expected = ["47.234s", "5.421m", "1.177h"]
