@@ -50,6 +50,11 @@ class TestBase(unittest.TestCase):
             expected = f.read()
         self.assertEqual(output.getvalue(), expected)
 
+    @staticmethod
+    def replace_STree_version(line, output, index):
+        idx = line.find("1.2.4")
+        return line.replace("1.2.4", output[index][idx : idx + 5])
+
     def check_file_file(self, computed_file, expected_file):
         with open(computed_file) as f:
             computed = f.read()
