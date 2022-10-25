@@ -46,7 +46,7 @@ jobs:
       - name: Lint
         run: |
           black --check --diff benchmark
-          flake8 --count benchmark
+          flake8 --count benchmark --ignore=E203
       - name: Tests
         run: |
           coverage run -m unittest -v benchmark.tests

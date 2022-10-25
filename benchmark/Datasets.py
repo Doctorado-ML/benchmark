@@ -80,7 +80,7 @@ class DatasetsSurcov:
 
 class Datasets:
     def __init__(self, dataset_name=None):
-        default_class = "class"
+
         envData = EnvData.load()
         class_name = getattr(
             __import__(__name__),
@@ -88,24 +88,32 @@ class Datasets:
         )
         self.dataset = class_name()
         self.class_names = []
-        if dataset_name is None:
-            file_name = os.path.join(self.dataset.folder(), Files.index)
-            with open(file_name) as f:
-                self.data_sets = f.read().splitlines()
-                self.class_names = [default_class] * len(self.data_sets)
-            if "," in self.data_sets[0]:
-                result = []
-                class_names = []
-                for data in self.data_sets:
-                    name, class_name = data.split(",")
-                    result.append(name)
-                    class_names.append(class_name)
-                self.data_sets = result
-                self.class_names = class_names
-
-        else:
+        self.load_names()
+        if dataset_name is not None:
+            try:
+                class_name = self.class_names[
+                    self.data_sets.index(dataset_name)
+                ]
+                self.class_names = [class_name]
+            except ValueError:
+                raise ValueError(f"Unknown dataset: {dataset_name}")
             self.data_sets = [dataset_name]
-            self.class_names = [default_class]
+
+    def load_names(self):
+        file_name = os.path.join(self.dataset.folder(), Files.index)
+        default_class = "class"
+        with open(file_name) as f:
+            self.data_sets = f.read().splitlines()
+            self.class_names = [default_class] * len(self.data_sets)
+        if "," in self.data_sets[0]:
+            result = []
+            class_names = []
+            for data in self.data_sets:
+                name, class_name = data.split(",")
+                result.append(name)
+                class_names.append(class_name)
+            self.data_sets = result
+            self.class_names = class_names
 
     def load(self, name):
         try:

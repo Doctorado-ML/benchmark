@@ -29,6 +29,7 @@ class DatasetTest(TestBase):
         test = {
             ".env.dist": ["balance-scale", "balloons"],
             ".env.surcov": ["iris", "wine"],
+            ".env.arff": ["iris", "wine"],
         }
         for key, value in test.items():
             self.set_env(key)
@@ -52,6 +53,11 @@ class DatasetTest(TestBase):
         self.assertSequenceEqual(X.shape, (625, 4))
         self.assertSequenceEqual(y.shape, (625,))
 
+    def test_create_with_unknown_dataset(self):
+        with self.assertRaises(ValueError) as msg:
+            Datasets("unknown")
+        self.assertEqual(str(msg.exception), "Unknown dataset: unknown")
+
     def test_load_unknown_dataset(self):
         dt = Datasets()
         with self.assertRaises(ValueError) as msg:
@@ -62,6 +68,7 @@ class DatasetTest(TestBase):
         test = {
             ".env.dist": "balloons",
             ".env.surcov": "wine",
+            ".env.arff": "iris",
         }
         for key, value in test.items():
             self.set_env(key)
