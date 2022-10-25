@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from benchmark.Results import ReportBest
-from benchmark.Experiments import Datasets, BestResults
+from benchmark.Experiments import BestResults
+from benchmark.Datasets import Datasets
 from benchmark.Arguments import Arguments
 
 """Build a json file with the best results of a model and its hyperparameters

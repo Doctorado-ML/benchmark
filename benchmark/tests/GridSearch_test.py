@@ -1,6 +1,7 @@
 import json
 from .TestBase import TestBase
-from ..Experiments import GridSearch, Datasets
+from ..Experiments import GridSearch
+from ..Datasets import Datasets
 
 
 class GridSearchTest(TestBase):

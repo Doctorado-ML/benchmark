@@ -7,15 +7,37 @@ import shutil
 import subprocess
 import xlsxwriter
 import numpy as np
-from .Experiments import Datasets, BestResults
+from .Experiments import BestResults
+from .Datasets import Datasets
+from .Arguments import EnvData, ALL_METRICS
 from .Utils import (
     Folders,
     Files,
     Symbols,
-    BEST_ACCURACY_STREE,
     TextColor,
     NO_RESULTS,
 )
+
+
+class BestResultsEver:
+    def __init__(self):
+        self.data = {}
+        for i in ["Tanveer", "Surcov", "Arff"]:
+            self.data[i] = {}
+            for metric in ALL_METRICS:
+                self.data[i][metric.replace("-", "_")] = ["self", 1.0]
+                self.data[i][metric] = ["self", 1.0]
+        self.data["Tanveer"]["accuracy"] = [
+            "STree_default (liblinear-ovr)",
+            40.282203,
+        ]
+        self.data["Arff"]["accuracy"] = [
+            "STree_default (linear-ovo)",
+            21.9765,
+        ]
+
+    def get_name_value(self, key, score):
+        return self.data[key][score]
 
 
 class BaseReport(abc.ABC):
@@ -29,7 +51,20 @@ class BaseReport(abc.ABC):
         with open(self.file_name) as f:
             self.data = json.load(f)
         self.best_acc_file = best_file
-        self.lines = self.data if best_file else self.data["results"]
+        if best_file:
+            self.lines = self.data
+        else:
+            self.lines = self.data["results"]
+            self.score_name = self.data["score_name"]
+        self.__compute_best_results_ever()
+
+    def __compute_best_results_ever(self):
+        args = EnvData.load()
+        key = args["source_data"]
+        best = BestResultsEver()
+        self.best_score_name, self.best_score_value = best.get_name_value(
+            key, self.score_name
+        )
 
     def _get_accuracy(self, item):
         return self.data[item][0] if self.best_acc_file else item["score"]
@@ -68,6 +103,12 @@ class BaseReport(abc.ABC):
         }
         return meaning[status]
 
+    def _get_best_accuracy(self):
+        return self.best_score_value
+
+    def _get_message_best_accuracy(self):
+        return f"{self.score_name} compared to {self.best_score_name} .:"
+
     @abc.abstractmethod
     def header(self) -> None:
         pass
@@ -82,10 +123,10 @@ class BaseReport(abc.ABC):
 
 
 class Report(BaseReport):
-    header_lengths = [30, 5, 5, 3, 7, 7, 7, 15, 16, 15]
+    header_lengths = [30, 6, 5, 3, 7, 7, 7, 15, 16, 15]
     header_cols = [
         "Dataset",
-        "Samp",
+        "Sampl.",
         "Feat.",
         "Cls",
         "Nodes",
@@ -187,8 +228,8 @@ class Report(BaseReport):
                     f" {key} {self._status_meaning(key)} .....: {value:2d}"
                 )
         self.header_line(
-            f" Accuracy compared to stree_default (liblinear-ovr) .: "
-            f"{accuracy/BEST_ACCURACY_STREE:7.4f}"
+            f" {self._get_message_best_accuracy()} "
+            f"{accuracy/self._get_best_accuracy():7.4f}"
         )
         self.header_line("*")
 
@@ -208,12 +249,12 @@ class ReportBest(BaseReport):
             if best
             else Files.grid_output(score, model)
         )
+        file_name = os.path.join(Folders.results, name)
         self.best = best
         self.grid = grid
-        file_name = os.path.join(Folders.results, name)
-        super().__init__(file_name, best_file=True)
         self.score_name = score
         self.model = model
+        super().__init__(file_name, best_file=True)
 
     def header_line(self, text: str) -> None:
         length = sum(self.header_lengths) + len(self.header_lengths) - 3
@@ -253,8 +294,8 @@ class ReportBest(BaseReport):
     def footer(self, accuracy):
         self.header_line("*")
         self.header_line(
-            f" Scores compared to stree_default accuracy (liblinear-ovr) .: "
-            f"{accuracy/BEST_ACCURACY_STREE:7.4f}"
+            f" {self._get_message_best_accuracy()} "
+            f"{accuracy/self._get_best_accuracy():7.4f}"
         )
         self.header_line("*")
 
@@ -508,8 +549,8 @@ class Excel(BaseReport):
                 self.sheet.write(self.row, 3, self._status_meaning(key), bold)
                 self.row += 1
         message = (
-            f"** Accuracy compared to stree_default (liblinear-ovr) .: "
-            f"{accuracy/BEST_ACCURACY_STREE:7.4f}"
+            f"** {self._get_message_best_accuracy()} "
+            f"{accuracy/self._get_best_accuracy():7.4f}"
         )
         bold = self.book.add_format({"bold": True, "font_size": 14})
         # set width of the hyperparams column with the maximum width
@@ -534,8 +575,8 @@ class ReportDatasets:
         data_sets = Datasets()
         color_line = TextColor.LINE1
         print(color_line, end="")
-        print(f"{'Dataset':30s} Samp. Feat. Cls Balance")
-        print("=" * 30 + " ===== ===== === " + "=" * 40)
+        print(f"{'Dataset':30s} Sampl. Feat. Cls Balance")
+        print("=" * 30 + " ===== ====== === " + "=" * 40)
         for dataset in data_sets:
             X, y = data_sets.load(dataset)
             color_line = (
@@ -551,7 +592,7 @@ class ReportDatasets:
                 sep = "/ "
             print(color_line, end="")
             print(
-                f"{dataset:30s} {X.shape[0]:5,d} {X.shape[1]:5,d} "
+                f"{dataset:30s} {X.shape[0]:6,d} {X.shape[1]:5,d} "
                 f"{len(np.unique(y)):3d} {comp:40s}"
             )
 
@@ -633,6 +674,13 @@ class Benchmark:
         self._report = {}
         self._datasets = set()
         self.visualize = visualize
+        self.__compute_best_results_ever()
+
+    def __compute_best_results_ever(self):
+        args = EnvData.load()
+        key = args["source_data"]
+        best = BestResultsEver()
+        _, self.best_score_value = best.get_name_value(key, self._score)
 
     def get_result_file_name(self):
         return os.path.join(Folders.exreport, Files.exreport(self._score))
@@ -970,7 +1018,7 @@ class Benchmark:
                 sheet.write_formula(
                     row,
                     col + 1,
-                    f"=sum({range_metric})/{BEST_ACCURACY_STREE}",
+                    f"=sum({range_metric})/{self.best_score_value}",
                     decimal_total,
                 )
                 range_rank = (
@@ -1062,7 +1110,7 @@ class StubReport(BaseReport):
 
     def footer(self, accuracy: float) -> None:
         self.accuracy = accuracy
-        self.score = accuracy / BEST_ACCURACY_STREE
+        self.score = accuracy / self._get_best_accuracy()
 
 
 class Summary:

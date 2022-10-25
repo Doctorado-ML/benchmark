@@ -45,4 +45,4 @@
 8;10;"0.07016648769378662"
 8;11;"0.002460508923990468"
 8;12;"{}"
-10;1;"** Accuracy compared to stree_default (liblinear-ovr) .:  0.0363"
+10;1;"** accuracy compared to STree_default (liblinear-ovr) .:  0.0363"

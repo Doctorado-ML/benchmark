@@ -1,6 +1,6 @@
 import sys
 import argparse
-from .Experiments import Models
+from .Models import Models
 from .Utils import Files, NO_ENV
 
 ALL_METRICS = (

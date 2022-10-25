@@ -7,5 +7,5 @@ Dataset                        Score    File/Message                            
 balance-scale                  0.919995 v. 1.2.4, Computed on Test on 2022-02-22 at 12:00:00 took 1s                 {'C': 1.0, 'kernel': 'liblinear', 'multiclass_strategy': 'ovr'} 
 balloons                       0.625000 v. 1.2.4, Computed on Test on 2022-02-22 at 12:00:00 took 1s                 {'C': 1.0, 'kernel': 'linear', 'multiclass_strategy': 'ovr'} 
 ******************************************************************************************************************************************************************
-* Scores compared to stree_default accuracy (liblinear-ovr) .:  0.0384                                                                                           *
+* accuracy compared to STree_default (liblinear-ovr) .:  0.0384                                                                                                  *
 ******************************************************************************************************************************************************************

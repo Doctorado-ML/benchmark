@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
-from benchmark.Experiments import Experiment, Datasets
+from benchmark.Experiments import Experiment
+from benchmark.Datasets import Datasets
 from benchmark.Results import Report
 from benchmark.Arguments import Arguments
 
