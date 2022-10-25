@@ -11,6 +11,6 @@ Dataset                        Sampl. Feat. Cls Nodes   Leaves  Depth   Score   
 [96mbalance-scale                      625     4   3   23.32   12.16    6.44 0.840160±0.0304  0.013745±0.0019 {'splitter': 'best', 'max_features': 'auto'} 
 [94mballoons                            16     4   2    3.00    2.00    2.00 0.860000±0.2850  0.000388±0.0000 {'C': 7, 'gamma': 0.1, 'kernel': 'rbf', 'max_iter': 10000.0, 'multiclass_strategy': 'ovr'} 
 [94m************************************************************************************************************************
-[94m* Accuracy compared to stree_default (liblinear-ovr) .:  0.0422                                                        *
+[94m* accuracy compared to STree_default (liblinear-ovr) .:  0.0422                                                        *
 [94m************************************************************************************************************************
 Results in results/results_accuracy_STree_iMac27_2022-05-09_00:15:25_0.json

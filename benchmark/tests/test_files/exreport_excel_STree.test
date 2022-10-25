@@ -45,4 +45,4 @@
 8;10;"0.0008541679382324218"
 8;11;"3.629469326417878e-05"
 8;12;"{'C': 7, 'gamma': 0.1, 'kernel': 'rbf', 'max_iter': 10000.0, 'multiclass_strategy': 'ovr'}"
-10;1;"** Accuracy compared to stree_default (liblinear-ovr) .:  0.0454"
+10;1;"** accuracy compared to STree_default (liblinear-ovr) .:  0.0454"

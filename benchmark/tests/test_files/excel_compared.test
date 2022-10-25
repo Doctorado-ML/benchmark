@@ -49,4 +49,4 @@
 11;2;"✔"
 11;3;1
 11;4;"Equal to best"
-13;1;"** Accuracy compared to stree_default (liblinear-ovr) .:  0.0454"
+13;1;"** accuracy compared to STree_default (liblinear-ovr) .:  0.0454"
