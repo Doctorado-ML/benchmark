@@ -33,7 +33,7 @@ class BestResultsEver:
         ]
         self.data["Arff"]["accuracy"] = [
             "STree_default (linear-ovo)",
-            21.9765,
+            22.063496,
         ]
 
     def get_name_value(self, key, score):
