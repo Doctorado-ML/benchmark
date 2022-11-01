@@ -16,7 +16,6 @@ from .Utils import (
     Symbols,
     TextColor,
     NO_RESULTS,
-    PYTHON_VERSION,
 )
 
 

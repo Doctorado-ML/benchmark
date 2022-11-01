@@ -178,6 +178,7 @@ class UtilTest(TestBase):
             "model": "ODTE",
             "stratified": "0",
             "source_data": "Tanveer",
+            "seeds": "[57, 31, 1714, 17, 23, 79, 83, 97, 7, 1]",
         }
         computed = EnvData().load()
         self.assertDictEqual(computed, expected)

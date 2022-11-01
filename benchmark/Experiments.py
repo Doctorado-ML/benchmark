@@ -16,10 +16,13 @@ from sklearn.model_selection import (
 from .Utils import Folders, Files, NO_RESULTS
 from .Datasets import Datasets
 from .Models import Models
+from .Arguments import EnvData
 
 
 class Randomized:
-    seeds = [57, 31, 1714, 17, 23, 79, 83, 97, 7, 1]
+    @staticmethod
+    def seeds():
+        return json.loads(EnvData.load()["seeds"])
 
 
 class BestResults:
@@ -155,7 +158,7 @@ class Experiment:
         self.platform = platform
         self.progress_bar = progress_bar
         self.folds = folds
-        self.random_seeds = Randomized.seeds
+        self.random_seeds = Randomized.seeds()
         self.results = []
         self.duration = 0
         self._init_experiment()
@@ -308,7 +311,7 @@ class GridSearch:
         self.progress_bar = progress_bar
         self.folds = folds
         self.platform = platform
-        self.random_seeds = Randomized.seeds
+        self.random_seeds = Randomized.seeds()
         self.grid_file = os.path.join(
             Folders.results, Files.grid_input(score_name, model_name)
         )
