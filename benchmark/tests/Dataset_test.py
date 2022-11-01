@@ -23,7 +23,12 @@ class DatasetTest(TestBase):
 
     def test_Randomized(self):
         expected = [57, 31, 1714, 17, 23, 79, 83, 97, 7, 1]
-        self.assertSequenceEqual(Randomized.seeds, expected)
+        self.assertSequenceEqual(Randomized.seeds(), expected)
+
+    def test_Randomized_3_seeds(self):
+        self.set_env(".env.arff")
+        expected = [271, 314, 171]
+        self.assertSequenceEqual(Randomized.seeds(), expected)
 
     def test_Datasets_iterator(self):
         test = {

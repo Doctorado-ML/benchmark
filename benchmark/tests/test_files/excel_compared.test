@@ -1,4 +1,4 @@
-1;1;" Report STree ver. 1.2.3 with 5 Folds cross validation and 10 random seeds. 2021-09-30 11:42:07"
+1;1;" STree ver. 1.2.3 Python ver. 3.11x with 5 Folds cross validation and 10 random seeds. 2021-09-30 11:42:07"
 2;1;" With gridsearched hyperparameters"
 3;1;" Score is accuracy"
 3;2;" Execution time"

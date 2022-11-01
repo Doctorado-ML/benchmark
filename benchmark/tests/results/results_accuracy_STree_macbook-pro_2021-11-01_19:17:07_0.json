@@ -1,6 +1,8 @@
 {
   "score_name": "accuracy",
   "model": "STree",
+  "language_version": "3.11x",
+  "language": "Python",
   "stratified": false,
   "folds": 5,
   "date": "2021-11-01",

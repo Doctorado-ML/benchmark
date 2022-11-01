@@ -1,6 +1,8 @@
 import os
+import sys
 import subprocess
 
+PYTHON_VERSION = "{}.{}".format(sys.version_info.major, sys.version_info.minor)
 NO_RESULTS = "** No results found **"
 NO_ENV = "File .env not found"
 

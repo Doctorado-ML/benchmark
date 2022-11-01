@@ -3,6 +3,8 @@
   "title": "Gridsearched hyperparams v022.1b random_init",
   "model": "ODTE",
   "version": "0.3.2",
+  "language_version": "3.11x",
+  "language": "Python",
   "stratified": false,
   "folds": 5,
   "date": "2022-04-20",

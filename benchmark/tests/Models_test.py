@@ -15,6 +15,8 @@ from odte import Odte
 from xgboost import XGBClassifier
 from .TestBase import TestBase
 from ..Models import Models
+import xgboost
+import sklearn
 
 
 class ModelTest(TestBase):
@@ -32,6 +34,38 @@ class ModelTest(TestBase):
         }
         for key, value in test.items():
             self.assertIsInstance(Models.get_model(key), value)
+
+    def test_Models_version(self):
+        def ver_stree():
+            return "1.2.3"
+
+        def ver_wodt():
+            return "h.j.k"
+
+        def ver_odte():
+            return "4.5.6"
+
+        test = {
+            "STree": [ver_stree, "1.2.3"],
+            "Wodt": [ver_wodt, "h.j.k"],
+            "ODTE": [ver_odte, "4.5.6"],
+            "RandomForest": [None, "7.8.9"],
+            "BaggingStree": [None, "x.y.z"],
+            "AdaBoostStree": [None, "w.x.z"],
+            "XGBoost": [None, "10.11.12"],
+        }
+        for key, value in test.items():
+            clf = Models.get_model(key)
+            if key in ["STree", "Wodt", "ODTE"]:
+                clf.version = value[0]
+            elif key == "XGBoost":
+                xgboost.__version__ = value[1]
+            else:
+                sklearn.__version__ = value[1]
+            self.assertEqual(Models.get_version(key, clf), value[1])
+
+    def test_bogus_Model_Version(self):
+        self.assertEqual(Models.get_version("unknown", None), "Error")
 
     def test_BaggingStree(self):
         clf = Models.get_model("BaggingStree")

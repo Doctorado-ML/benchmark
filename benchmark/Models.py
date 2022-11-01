@@ -11,6 +11,8 @@ from stree import Stree
 from wodt import Wodt
 from odte import Odte
 from xgboost import XGBClassifier
+import sklearn
+import xgboost
 
 
 class Models:
@@ -89,3 +91,15 @@ class Models:
             nodes, leaves = result.nodes_leaves()
             depth = result.depth_ if hasattr(result, "depth_") else 0
         return nodes, leaves, depth
+
+    @staticmethod
+    def get_version(name, clf):
+        if hasattr(clf, "version"):
+            return clf.version()
+        if name in ["Cart", "ExtraTree", "RandomForest", "GBC", "SVC"]:
+            return sklearn.__version__
+        elif name.startswith("Bagging") or name.startswith("AdaBoost"):
+            return sklearn.__version__
+        elif name == "XGBoost":
+            return xgboost.__version__
+        return "Error"

@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import random
 import warnings
@@ -15,10 +16,13 @@ from sklearn.model_selection import (
 from .Utils import Folders, Files, NO_RESULTS
 from .Datasets import Datasets
 from .Models import Models
+from .Arguments import EnvData
 
 
 class Randomized:
-    seeds = [57, 31, 1714, 17, 23, 79, 83, 97, 7, 1]
+    @staticmethod
+    def seeds():
+        return json.loads(EnvData.load()["seeds"])
 
 
 class BestResults:
@@ -154,13 +158,17 @@ class Experiment:
         self.platform = platform
         self.progress_bar = progress_bar
         self.folds = folds
-        self.random_seeds = Randomized.seeds
+        self.random_seeds = Randomized.seeds()
         self.results = []
         self.duration = 0
         self._init_experiment()
 
     def get_output_file(self):
         return self.output_file
+
+    @staticmethod
+    def get_python_version():
+        return "{}.{}".format(sys.version_info.major, sys.version_info.minor)
 
     def _build_classifier(self, random_state, hyperparameters):
         self.model = Models.get_model(self.model_name, random_state)
@@ -193,7 +201,7 @@ class Experiment:
                 shuffle=True, random_state=random_state, n_splits=self.folds
             )
             clf = self._build_classifier(random_state, hyperparameters)
-            self.version = clf.version() if hasattr(clf, "version") else "-"
+            self.version = Models.get_version(self.model_name, clf)
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore")
                 res = cross_validate(
@@ -243,6 +251,8 @@ class Experiment:
         output["duration"] = self.duration
         output["seeds"] = self.random_seeds
         output["platform"] = self.platform
+        output["language_version"] = self.get_python_version()
+        output["language"] = "Python"
         output["results"] = self.results
         with open(self.output_file, "w") as f:
             json.dump(output, f)
@@ -301,7 +311,7 @@ class GridSearch:
         self.progress_bar = progress_bar
         self.folds = folds
         self.platform = platform
-        self.random_seeds = Randomized.seeds
+        self.random_seeds = Randomized.seeds()
         self.grid_file = os.path.join(
             Folders.results, Files.grid_input(score_name, model_name)
         )
