@@ -16,6 +16,7 @@ from .Utils import (
     Symbols,
     TextColor,
     NO_RESULTS,
+    PYTHON_VERSION,
 )
 
 
@@ -196,7 +197,8 @@ class Report(BaseReport):
             self._compare_totals = {}
         self.header_line("*")
         self.header_line(
-            f" Report {self.data['model']} ver. {self.data['version']}"
+            f" {self.data['model']} ver. {self.data['version']}"
+            f" {self.data['language']} ver. {self.data['language_version']}"
             f" with {self.data['folds']} Folds "
             f"cross validation and {len(self.data['seeds'])} random seeds. "
             f"{self.data['date']} {self.data['time']}"
@@ -347,7 +349,8 @@ class Excel(BaseReport):
 
     def get_title(self):
         return (
-            f" Report {self.data['model']} ver. {self.data['version']}"
+            f" {self.data['model']} ver. {self.data['version']}"
+            f" {self.data['language']} ver. {self.data['language_version']}"
             f" with {self.data['folds']} Folds "
             f"cross validation and {len(self.data['seeds'])} random seeds. "
             f"{self.data['date']} {self.data['time']}"

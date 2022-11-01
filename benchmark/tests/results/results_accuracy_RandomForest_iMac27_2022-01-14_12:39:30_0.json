@@ -3,6 +3,8 @@
   "title": "Test default paramters with RandomForest",
   "model": "RandomForest",
   "version": "-",
+  "language_version": "3.11x",
+  "language": "Python",
   "stratified": false,
   "folds": 5,
   "date": "2022-01-14",

@@ -3,6 +3,8 @@
   "model": "STree",
   "stratified": false,
   "folds": 5,
+  "language_version": "3.11x",
+  "language": "Python",
   "date": "2021-09-30",
   "time": "11:42:07",
   "duration": 624.2505249977112,

@@ -4,6 +4,7 @@ from xlsxwriter import Workbook
 from .TestBase import TestBase
 from ..Results import Excel
 from ..Utils import Folders
+import benchmark.Utils
 
 
 class ExcelTest(TestBase):

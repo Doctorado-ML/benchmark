@@ -1,4 +1,5 @@
 import os
+import sys
 import json
 import random
 import warnings
@@ -162,6 +163,10 @@ class Experiment:
     def get_output_file(self):
         return self.output_file
 
+    @staticmethod
+    def get_python_version():
+        return "{}.{}".format(sys.version_info.major, sys.version_info.minor)
+
     def _build_classifier(self, random_state, hyperparameters):
         self.model = Models.get_model(self.model_name, random_state)
         clf = self.model
@@ -193,7 +198,7 @@ class Experiment:
                 shuffle=True, random_state=random_state, n_splits=self.folds
             )
             clf = self._build_classifier(random_state, hyperparameters)
-            self.version = clf.version() if hasattr(clf, "version") else "-"
+            self.version = Models.get_version(self.model_name, clf)
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore")
                 res = cross_validate(
@@ -243,6 +248,8 @@ class Experiment:
         output["duration"] = self.duration
         output["seeds"] = self.random_seeds
         output["platform"] = self.platform
+        output["language_version"] = self.get_python_version()
+        output["language"] = "Python"
         output["results"] = self.results
         with open(self.output_file, "w") as f:
             json.dump(output, f)
