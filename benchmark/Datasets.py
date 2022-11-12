@@ -3,7 +3,7 @@ import pandas as pd
 from scipy.io import arff
 from .Utils import Files
 from .Arguments import EnvData
-from mdlp import MDLP
+from mdlp.discretization import MDLP
 
 
 class Diterator:
@@ -93,6 +93,11 @@ class Datasets:
             __import__(__name__),
             f"Datasets{envData['source_data']}",
         )
+        self.load = (
+            self.load_discretized
+            if envData["discretize"] == "1"
+            else self.load_continuous
+        )
         self.dataset = class_name()
         self.class_names = []
         self._load_names()
@@ -128,27 +133,12 @@ class Datasets:
     def get_class_name(self):
         return self.dataset.class_name
 
-    def load(self, name, dataframe=False):
+    def load_continuous(self, name, dataframe=False):
         try:
             class_name = self.class_names[self.data_sets.index(name)]
             return self.dataset.load(name, class_name, dataframe)
         except (ValueError, FileNotFoundError):
             raise ValueError(f"Unknown dataset: {name}")
-
-    def __iter__(self) -> Diterator:
-        return Diterator(self.data_sets)
-
-
-class Discretizer(Datasets):
-    def __init__(self, dataset_name=None):
-        super().__init__(dataset_name)
-
-    def load(self, name, dataframe=False):
-        X, y = super().load(name)
-        X, y = self.discretize(X, y)
-        dataset = pd.DataFrame(X, columns=self.get_features())
-        dataset[self.get_class_name()] = y
-        return dataset if dataframe else X, y
 
     def discretize(self, X, y):
         """Supervised discretization with Fayyad and Irani's MDLP algorithm.
@@ -167,3 +157,13 @@ class Discretizer(Datasets):
         discretiz = MDLP()
         Xdisc = discretiz.fit_transform(X, y)
         return Xdisc.astype(int), y.astype(int)
+
+    def load_discretized(self, name, dataframe=False):
+        X, y = self.load_continuous(name)
+        X, y = self.discretize(X, y)
+        dataset = pd.DataFrame(X, columns=self.get_features())
+        dataset[self.get_class_name()] = y
+        return dataset if dataframe else X, y
+
+    def __iter__(self) -> Diterator:
+        return Diterator(self.data_sets)

@@ -2,7 +2,7 @@ pandas
 scikit-learn
 scipy
 odte
-mdlp
+mdlp-discretization
 mufs
 xlsxwriter
 openpyxl
