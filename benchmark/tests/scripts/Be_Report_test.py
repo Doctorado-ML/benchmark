@@ -1,6 +1,6 @@
 import os
 from openpyxl import load_workbook
-from ...Utils import Folders
+from ...Utils import Folders, Files
 from ..TestBase import TestBase
 
 
@@ -42,6 +42,15 @@ class BeReportTest(TestBase):
         stdout, stderr = self.execute_script("be_report", [])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "report_datasets")
+
+    def test_be_report_datasets_excel(self):
+        stdout, stderr = self.execute_script("be_report", ["-x", "1"])
+        self.assertEqual(stderr.getvalue(), "")
+        self.check_output_file(stdout, "report_datasets")
+        file_name = os.path.join(os.getcwd(), Files.datasets_report_excel)
+        book = load_workbook(file_name)
+        sheet = book["Datasets"]
+        self.check_excel_sheet(sheet, "exreport_excel_datasets")
 
     def test_be_report_best(self):
         stdout, stderr = self.execute_script(

@@ -580,7 +580,7 @@ class ReportDatasets:
     color2 = "#FDE9D9"
     color3 = "#B1A0C7"
 
-    def __init__(self, excel, book=None):
+    def __init__(self, excel=False, book=None):
         self.excel = excel
         self.env = EnvData().load()
         self.close = False
@@ -589,7 +589,7 @@ class ReportDatasets:
         if excel:
             self.max_length = 0
             if book is None:
-                self.excel_file_name = "ReportDatasets.xlsx"
+                self.excel_file_name = Files.datasets_report_excel
                 self.book = xlsxwriter.Workbook(
                     self.excel_file_name, {"nan_inf_to_errors": True}
                 )
@@ -728,6 +728,7 @@ class ReportDatasets:
         self.sheet.write(
             4, 4, f"{self.env['seeds']}", merge_format_subheader_left
         )
+        self.update_max_length(len(self.env["seeds"]) + 1)
         header_cols = [
             ("Dataset", 30),
             ("Samples", 10),
@@ -775,9 +776,12 @@ class ReportDatasets:
         self.sheet.write(self.row, col + 2, result.features, integer)
         self.sheet.write(self.row, col + 3, result.classes, normal)
         self.sheet.write(self.row, col + 4, result.balance, normal)
-        if len(result.balance) > self.max_length:
-            self.max_length = len(result.balance)
+        self.update_max_length(len(result.balance))
         self.row += 1
+
+    def update_max_length(self, value):
+        if value > self.max_length:
+            self.max_length = value
 
     def report(self):
         data_sets = Datasets()
@@ -789,7 +793,7 @@ class ReportDatasets:
             print(self.header_text)
             print("")
             print(f"{'Dataset':30s} Sampl. Feat. Cls Balance")
-            print("=" * 30 + " ===== ====== === " + "=" * 60)
+            print("=" * 30 + " ====== ===== === " + "=" * 60)
         for dataset in data_sets:
             attributes = data_sets.get_attributes(dataset)
             attributes.dataset = dataset
@@ -1255,8 +1259,7 @@ class Benchmark:
             sheet.merge_range(row, 0, row + 1, 0, "Model", merge_format)
             sheet.merge_range(row, 1, row + 1, 5, "File", merge_format)
             sheet.merge_range(row, 6, row + 1, 6, "Score", merge_format)
-            sheet.freeze_panes(6, 1)
-            sheet.hide_gridlines(2)
+            row += 1
             d_name = next(iter(self._datasets))
             for model in self._models:
                 file_name = self._report[model][d_name]["file_name"]
@@ -1280,7 +1283,10 @@ class Benchmark:
                 )
                 k = Excel(file_name=file_name, book=book)
                 k.report()
+            sheet.freeze_panes(6, 1)
+            sheet.hide_gridlines(2)
 
+        def add_datasets_sheet():
             # Add datasets sheet
             re = ReportDatasets(excel=True, book=book)
             re.report()
@@ -1311,6 +1317,7 @@ class Benchmark:
         footer()
         models_files()
         exreport_output()
+        add_datasets_sheet()
         book.close()
 
 
