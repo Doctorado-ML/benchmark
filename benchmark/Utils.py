@@ -27,6 +27,7 @@ class Files:
     exreport_pdf = "Rplots.pdf"
     benchmark_r = "benchmark.r"
     dot_env = ".env"
+    datasets_report_excel = "ReportDatasets.xlsx"
 
     @staticmethod
     def exreport_output(score):

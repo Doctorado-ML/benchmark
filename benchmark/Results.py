@@ -1,4 +1,5 @@
 import os
+import sys
 from operator import itemgetter
 import math
 import json
@@ -17,6 +18,7 @@ from .Utils import (
     TextColor,
     NO_RESULTS,
 )
+from ._version import __version__
 
 
 class BestResultsEver:
@@ -566,37 +568,251 @@ class Excel(BaseReport):
             self.sheet.set_row(c, 20)
         self.sheet.set_row(0, 25)
         self.sheet.freeze_panes(6, 1)
-        self.sheet.hide_gridlines()
+        self.sheet.hide_gridlines(2)
         if self.close:
             self.book.close()
 
 
 class ReportDatasets:
+    row = 6
+    # alternate lines colors
+    color1 = "#DCE6F1"
+    color2 = "#FDE9D9"
+    color3 = "#B1A0C7"
+
+    def __init__(self, excel=False, book=None):
+        self.excel = excel
+        self.env = EnvData().load()
+        self.close = False
+        self.output = True
+        self.header_text = f"Datasets used in benchmark ver. {__version__}"
+        if excel:
+            self.max_length = 0
+            if book is None:
+                self.excel_file_name = Files.datasets_report_excel
+                self.book = xlsxwriter.Workbook(
+                    self.excel_file_name, {"nan_inf_to_errors": True}
+                )
+                self.set_properties(self.get_title())
+                self.close = True
+            else:
+                self.book = book
+                self.output = False
+            self.sheet = self.book.add_worksheet("Datasets")
+
+    def set_properties(self, title):
+        self.book.set_properties(
+            {
+                "title": title,
+                "subject": "Machine learning results",
+                "author": "Ricardo Montañana Gómez",
+                "manager": "Dr. J. A. Gámez, Dr. J. M. Puerta",
+                "company": "UCLM",
+                "comments": "Created with Python and XlsxWriter",
+            }
+        )
+
     @staticmethod
-    def report():
+    def get_python_version():
+        return "{}.{}".format(sys.version_info.major, sys.version_info.minor)
+
+    def get_title(self):
+        return (
+            f" Benchmark ver. {__version__} - "
+            f" Python ver. {self.get_python_version()}"
+            f" with {self.env['n_folds']} Folds cross validation "
+            f" Discretization: {self.env['discretize']}  "
+            f"Stratification: {self.env['stratified']}"
+        )
+
+    def get_file_name(self):
+        return self.excel_file_name
+
+    def header(self):
+        merge_format = self.book.add_format(
+            {
+                "border": 1,
+                "bold": 1,
+                "align": "center",
+                "valign": "vcenter",
+                "font_size": 18,
+                "bg_color": self.color3,
+            }
+        )
+        merge_format_subheader = self.book.add_format(
+            {
+                "border": 1,
+                "bold": 1,
+                "align": "center",
+                "valign": "vcenter",
+                "font_size": 16,
+                "bg_color": self.color1,
+            }
+        )
+        merge_format_subheader_right = self.book.add_format(
+            {
+                "border": 1,
+                "bold": 1,
+                "align": "right",
+                "valign": "vcenter",
+                "font_size": 16,
+                "bg_color": self.color1,
+            }
+        )
+        merge_format_subheader_left = self.book.add_format(
+            {
+                "border": 1,
+                "bold": 1,
+                "align": "left",
+                "valign": "vcenter",
+                "font_size": 16,
+                "bg_color": self.color1,
+            }
+        )
+        self.sheet.merge_range(0, 0, 0, 4, self.header_text, merge_format)
+        self.sheet.merge_range(
+            1,
+            0,
+            4,
+            0,
+            f" Default score {self.env['score']}",
+            merge_format_subheader,
+        )
+        self.sheet.merge_range(
+            1,
+            1,
+            1,
+            3,
+            "Cross validation",
+            merge_format_subheader_right,
+        )
+        self.sheet.write(
+            1, 4, f"{self.env['n_folds']} Folds", merge_format_subheader_left
+        )
+        self.sheet.merge_range(
+            2,
+            1,
+            2,
+            3,
+            "Stratified",
+            merge_format_subheader_right,
+        )
+        self.sheet.write(
+            2,
+            4,
+            f"{'True' if self.env['stratified']=='1' else 'False'}",
+            merge_format_subheader_left,
+        )
+        self.sheet.merge_range(
+            3,
+            1,
+            3,
+            3,
+            "Discretized",
+            merge_format_subheader_right,
+        )
+        self.sheet.write(
+            3,
+            4,
+            f"{'True' if self.env['discretize']=='1' else 'False'}",
+            merge_format_subheader_left,
+        )
+        self.sheet.merge_range(
+            4,
+            1,
+            4,
+            3,
+            "Seeds",
+            merge_format_subheader_right,
+        )
+        self.sheet.write(
+            4, 4, f"{self.env['seeds']}", merge_format_subheader_left
+        )
+        self.update_max_length(len(self.env["seeds"]) + 1)
+        header_cols = [
+            ("Dataset", 30),
+            ("Samples", 10),
+            ("Features", 10),
+            ("Classes", 10),
+            ("Balance", 50),
+        ]
+        bold = self.book.add_format(
+            {
+                "bold": True,
+                "font_size": 14,
+                "bg_color": self.color3,
+                "border": 1,
+            }
+        )
+        i = 0
+        for item, length in header_cols:
+            self.sheet.write(5, i, item, bold)
+            self.sheet.set_column(i, i, length)
+            i += 1
+
+    def footer(self):
+        # set Balance column width to max length
+        self.sheet.set_column(4, 4, self.max_length)
+        self.sheet.freeze_panes(6, 1)
+        self.sheet.hide_gridlines(2)
+        if self.close:
+            self.book.close()
+
+    def print_line(self, result):
+        size_n = 14
+        integer = self.book.add_format(
+            {"num_format": "#,###", "font_size": size_n, "border": 1}
+        )
+        normal = self.book.add_format({"font_size": size_n, "border": 1})
+        col = 0
+        if self.row % 2 == 0:
+            normal.set_bg_color(self.color1)
+            integer.set_bg_color(self.color1)
+        else:
+            normal.set_bg_color(self.color2)
+            integer.set_bg_color(self.color2)
+        self.sheet.write(self.row, col, result.dataset, normal)
+        self.sheet.write(self.row, col + 1, result.samples, integer)
+        self.sheet.write(self.row, col + 2, result.features, integer)
+        self.sheet.write(self.row, col + 3, result.classes, normal)
+        self.sheet.write(self.row, col + 4, result.balance, normal)
+        self.update_max_length(len(result.balance))
+        self.row += 1
+
+    def update_max_length(self, value):
+        if value > self.max_length:
+            self.max_length = value
+
+    def report(self):
         data_sets = Datasets()
         color_line = TextColor.LINE1
-        print(color_line, end="")
-        print(f"{'Dataset':30s} Sampl. Feat. Cls Balance")
-        print("=" * 30 + " ===== ====== === " + "=" * 40)
+        if self.excel:
+            self.header()
+        if self.output:
+            print(color_line, end="")
+            print(self.header_text)
+            print("")
+            print(f"{'Dataset':30s} Sampl. Feat. Cls Balance")
+            print("=" * 30 + " ====== ===== === " + "=" * 60)
         for dataset in data_sets:
-            X, y = data_sets.load(dataset)
+            attributes = data_sets.get_attributes(dataset)
+            attributes.dataset = dataset
+            if self.excel:
+                self.print_line(attributes)
             color_line = (
                 TextColor.LINE2
                 if color_line == TextColor.LINE1
                 else TextColor.LINE1
             )
-            values, counts = np.unique(y, return_counts=True)
-            comp = ""
-            sep = ""
-            for count in counts:
-                comp += f"{sep}{count/sum(counts)*100:5.2f}%"
-                sep = "/ "
-            print(color_line, end="")
-            print(
-                f"{dataset:30s} {X.shape[0]:6,d} {X.shape[1]:5,d} "
-                f"{len(np.unique(y)):3d} {comp:40s}"
-            )
+            if self.output:
+                print(color_line, end="")
+                print(
+                    f"{dataset:30s} {attributes.samples:6,d} "
+                    f"{attributes.features:5,d} {attributes.classes:3d} "
+                    f"{attributes.balance:40s}"
+                )
+        if self.excel:
+            self.footer()
 
 
 class SQL(BaseReport):
@@ -1068,7 +1284,12 @@ class Benchmark:
                 k = Excel(file_name=file_name, book=book)
                 k.report()
             sheet.freeze_panes(6, 1)
-            sheet.hide_gridlines()
+            sheet.hide_gridlines(2)
+
+        def add_datasets_sheet():
+            # Add datasets sheet
+            re = ReportDatasets(excel=True, book=book)
+            re.report()
 
         def exreport_output():
             file_name = os.path.join(
@@ -1096,6 +1317,7 @@ class Benchmark:
         footer()
         models_files()
         exreport_output()
+        add_datasets_sheet()
         book.close()
 
 
