@@ -50,7 +50,7 @@ class BeReportTest(TestBase):
         file_name = os.path.join(os.getcwd(), Files.datasets_report_excel)
         book = load_workbook(file_name)
         sheet = book["Datasets"]
-        self.check_excel_sheet(sheet, "exreport_excel_datasets")
+        self.check_excel_sheet(sheet, "exreport_excel_Datasets")
 
     def test_be_report_best(self):
         stdout, stderr = self.execute_script(
