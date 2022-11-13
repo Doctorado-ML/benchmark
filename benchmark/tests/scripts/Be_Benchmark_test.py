@@ -2,6 +2,7 @@ import os
 from openpyxl import load_workbook
 from ...Utils import NO_RESULTS, Folders, Files
 from ..TestBase import TestBase
+from ..._version import __version__
 
 
 class BeBenchmarkTest(TestBase):
@@ -43,9 +44,19 @@ class BeBenchmarkTest(TestBase):
             Folders.exreport, Files.exreport_excel(self.score)
         )
         book = load_workbook(file_name)
+        replace = None
+        with_this = None
         for sheet_name in book.sheetnames:
             sheet = book[sheet_name]
-            self.check_excel_sheet(sheet, f"exreport_excel_{sheet_name}")
+            if sheet_name == "Datasets":
+                replace = self.benchmark_version
+                with_this = __version__
+            self.check_excel_sheet(
+                sheet,
+                f"exreport_excel_{sheet_name}",
+                replace=replace,
+                with_this=with_this,
+            )
 
     def test_be_benchmark_single(self):
         stdout, stderr = self.execute_script(

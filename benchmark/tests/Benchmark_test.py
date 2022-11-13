@@ -5,6 +5,7 @@ from openpyxl import load_workbook
 from .TestBase import TestBase
 from ..Utils import Folders, Files, NO_RESULTS
 from ..Results import Benchmark
+from .._version import __version__
 
 
 class BenchmarkTest(TestBase):
@@ -107,6 +108,16 @@ class BenchmarkTest(TestBase):
         benchmark.excel()
         file_name = benchmark.get_excel_file_name()
         book = load_workbook(file_name)
+        replace = None
+        with_this = None
         for sheet_name in book.sheetnames:
             sheet = book[sheet_name]
-            self.check_excel_sheet(sheet, f"exreport_excel_{sheet_name}")
+            if sheet_name == "Datasets":
+                replace = self.benchmark_version
+                with_this = __version__
+            self.check_excel_sheet(
+                sheet,
+                f"exreport_excel_{sheet_name}",
+                replace=replace,
+                with_this=with_this,
+            )

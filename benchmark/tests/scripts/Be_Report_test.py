@@ -2,6 +2,7 @@ import os
 from openpyxl import load_workbook
 from ...Utils import Folders, Files
 from ..TestBase import TestBase
+from ..._version import __version__
 
 
 class BeReportTest(TestBase):
@@ -14,6 +15,7 @@ class BeReportTest(TestBase):
             "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.xlsx",
         ]
         self.remove_files(files, Folders.results)
+        self.remove_files([Files.datasets_report_excel], os.getcwd())
         return super().tearDown()
 
     def test_be_report(self):
@@ -41,16 +43,37 @@ class BeReportTest(TestBase):
     def test_be_report_datatsets(self):
         stdout, stderr = self.execute_script("be_report", [])
         self.assertEqual(stderr.getvalue(), "")
-        self.check_output_file(stdout, "report_datasets")
+        file_name = f"report_datasets{self.ext}"
+        with open(os.path.join(self.test_files, file_name)) as f:
+            expected = f.read()
+        output_text = stdout.getvalue().splitlines()
+        for line, index in zip(expected.splitlines(), range(len(expected))):
+            if self.benchmark_version in line:
+                # replace benchmark version
+                line = self.replace_benchmark_version(line, output_text, index)
+            self.assertEqual(line, output_text[index])
 
     def test_be_report_datasets_excel(self):
         stdout, stderr = self.execute_script("be_report", ["-x", "1"])
         self.assertEqual(stderr.getvalue(), "")
-        self.check_output_file(stdout, "report_datasets")
+        file_name = f"report_datasets{self.ext}"
+        with open(os.path.join(self.test_files, file_name)) as f:
+            expected = f.read()
+        output_text = stdout.getvalue().splitlines()
+        for line, index in zip(expected.splitlines(), range(len(expected))):
+            if self.benchmark_version in line:
+                # replace benchmark version
+                line = self.replace_benchmark_version(line, output_text, index)
+            self.assertEqual(line, output_text[index])
         file_name = os.path.join(os.getcwd(), Files.datasets_report_excel)
         book = load_workbook(file_name)
         sheet = book["Datasets"]
-        self.check_excel_sheet(sheet, "exreport_excel_Datasets")
+        self.check_excel_sheet(
+            sheet,
+            "exreport_excel_Datasets",
+            replace=self.benchmark_version,
+            with_this=__version__,
+        )
 
     def test_be_report_best(self):
         stdout, stderr = self.execute_script(

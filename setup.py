@@ -49,15 +49,14 @@ setuptools.setup(
     name="benchmark",
     version=get_data("version", "_version.py"),
     license=get_data("license"),
-    description="Oblique decision tree with svm nodes",
+    description="Benchmark of models with different datasets",
     long_description=readme(),
     long_description_content_type="text/markdown",
     packages=setuptools.find_packages(),
     url="https://github.com/Doctorado-ML/benchmark",
     author=get_data("author"),
     author_email=get_data("author_email"),
-    keywords="scikit-learn oblique-classifier oblique-decision-tree decision-\
-    tree svm svc",
+    keywords="scikit-learn benchmark",
     classifiers=[
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: " + get_data("license"),

@@ -15,6 +15,8 @@ class TestBase(unittest.TestCase):
         self.test_files = "test_files"
         self.output = "sys.stdout"
         self.ext = ".test"
+        self.benchmark_version = "0.2.0"
+        self.stree_version = "1.2.4"
         super().__init__(*args, **kwargs)
 
     def remove_files(self, files, folder):
@@ -31,7 +33,9 @@ class TestBase(unittest.TestCase):
                     if value is not None:
                         print(f'{row};{col};"{value}"', file=f)
 
-    def check_excel_sheet(self, sheet, file_name):
+    def check_excel_sheet(
+        self, sheet, file_name, replace=None, with_this=None
+    ):
         file_name += self.ext
         with open(os.path.join(self.test_files, file_name), "r") as f:
             expected = csv.reader(f, delimiter=";")
@@ -43,6 +47,9 @@ class TestBase(unittest.TestCase):
                         value = float(value)
                     except ValueError:
                         pass
+                if replace is not None and isinstance(value, str):
+                    if replace in value:
+                        value = value.replace(replace, with_this)
                 self.assertEqual(sheet.cell(int(row), int(col)).value, value)
 
     def check_output_file(self, output, file_name):
@@ -51,10 +58,15 @@ class TestBase(unittest.TestCase):
             expected = f.read()
         self.assertEqual(output.getvalue(), expected)
 
-    @staticmethod
-    def replace_STree_version(line, output, index):
-        idx = line.find("1.2.4")
-        return line.replace("1.2.4", output[index][idx : idx + 5])
+    def replace_STree_version(self, line, output, index):
+        idx = line.find(self.stree_version)
+        return line.replace(self.stree_version, output[index][idx : idx + 5])
+
+    def replace_benchmark_version(self, line, output, index):
+        idx = line.find(self.benchmark_version)
+        return line.replace(
+            self.benchmark_version, output[index][idx : idx + 5]
+        )
 
     def check_file_file(self, computed_file, expected_file):
         with open(computed_file) as f:

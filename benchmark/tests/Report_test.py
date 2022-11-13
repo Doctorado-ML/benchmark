@@ -4,6 +4,7 @@ from unittest.mock import patch
 from .TestBase import TestBase
 from ..Results import Report, BaseReport, ReportBest, ReportDatasets
 from ..Utils import Symbols
+from .._version import __version__
 
 
 class ReportTest(TestBase):
@@ -81,7 +82,7 @@ class ReportTest(TestBase):
         output_text = stdout.getvalue().splitlines()
         # Compare replacing STree version
         for line, index in zip(expected, range(len(expected))):
-            if "1.2.4" in line:
+            if self.stree_version in line:
                 # replace STree version
                 line = self.replace_STree_version(line, output_text, index)
 
@@ -97,4 +98,12 @@ class ReportTest(TestBase):
     def test_report_datasets(self, mock_output):
         report = ReportDatasets()
         report.report()
-        self.check_output_file(mock_output, "report_datasets")
+        file_name = f"report_datasets{self.ext}"
+        with open(os.path.join(self.test_files, file_name)) as f:
+            expected = f.read()
+        output_text = mock_output.getvalue().splitlines()
+        for line, index in zip(expected.splitlines(), range(len(expected))):
+            if self.benchmark_version in line:
+                # replace benchmark version
+                line = self.replace_benchmark_version(line, output_text, index)
+            self.assertEqual(line, output_text[index])
