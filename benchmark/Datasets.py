@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import numpy as np
 from scipy.io import arff
 from .Utils import Files
 from .Arguments import EnvData
@@ -40,9 +41,6 @@ class DatasetsArff:
 
 
 class DatasetsTanveer:
-    def __init__(self, discretized):
-        self.discretized = discretized
-
     @staticmethod
     def dataset_names(name):
         return f"{name}_R.dat"
@@ -126,6 +124,24 @@ class Datasets:
                 class_names.append(class_name)
             self.data_sets = result
             self.class_names = class_names
+
+    def get_attributes(self, name):
+        class Attributes:
+            pass
+
+        X, y = self.load_continuous(name)
+        attr = Attributes()
+        values, counts = np.unique(y, return_counts=True)
+        comp = ""
+        sep = ""
+        for count in counts:
+            comp += f"{sep}{count/sum(counts)*100:5.2f}%"
+            sep = "/ "
+        attr.balance = comp
+        attr.classes = len(np.unique(y))
+        attr.samples = X.shape[0]
+        attr.features = X.shape[1]
+        return attr
 
     def get_features(self):
         return self.dataset.features

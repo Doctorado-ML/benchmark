@@ -21,7 +21,11 @@ def main(args_test=None):
     if args.grid:
         args.best = None
     if args.file is None and args.best is None and args.grid is None:
-        ReportDatasets.report()
+        report = ReportDatasets(args.excel)
+        report.report()
+        if args.excel:
+            is_test = args_test is not None
+            Files.open(report.get_file_name(), is_test)
     else:
         if args.best is not None or args.grid is not None:
             report = ReportBest(args.score, args.model, args.best, args.grid)
