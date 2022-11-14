@@ -4,7 +4,6 @@ from unittest.mock import patch
 from .TestBase import TestBase
 from ..Results import Report, BaseReport, ReportBest, ReportDatasets
 from ..Utils import Symbols
-from .._version import __version__
 
 
 class ReportTest(TestBase):
