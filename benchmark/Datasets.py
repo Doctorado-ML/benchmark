@@ -26,7 +26,7 @@ class DatasetsArff:
     def folder():
         return "datasets"
 
-    def load(self, name, class_name, dataframe):
+    def load(self, name, class_name):
         file_name = os.path.join(self.folder(), self.dataset_names(name))
         data = arff.loadarff(file_name)
         df = pd.DataFrame(data[0])
@@ -35,9 +35,8 @@ class DatasetsArff:
         self.features = X.columns
         self.class_name = class_name
         y, _ = pd.factorize(df[class_name])
-        df[class_name] = y
         X = X.to_numpy()
-        return df if dataframe else (X, y)
+        return X, y
 
 
 class DatasetsTanveer:
@@ -149,10 +148,10 @@ class Datasets:
     def get_class_name(self):
         return self.dataset.class_name
 
-    def load_continuous(self, name, dataframe=False):
+    def load_continuous(self, name):
         try:
             class_name = self.class_names[self.data_sets.index(name)]
-            return self.dataset.load(name, class_name, dataframe)
+            return self.dataset.load(name, class_name)
         except (ValueError, FileNotFoundError):
             raise ValueError(f"Unknown dataset: {name}")
 
@@ -170,16 +169,18 @@ class Datasets:
         -------
         tuple (X, y) of numpy.ndarray
         """
-        discretiz = MDLP()
+        discretiz = MDLP(random_state=17, dtype=np.int32)
         Xdisc = discretiz.fit_transform(X, y)
-        return Xdisc.astype(int), y.astype(int)
+        return Xdisc
 
     def load_discretized(self, name, dataframe=False):
-        X, y = self.load_continuous(name)
-        X, y = self.discretize(X, y)
-        dataset = pd.DataFrame(X, columns=self.get_features())
-        dataset[self.get_class_name()] = y
-        return dataset if dataframe else X, y
+        X, yd = self.load_continuous(name)
+        Xd = self.discretize(X, yd)
+        dataset = pd.DataFrame(Xd, columns=self.get_features())
+        dataset[self.get_class_name()] = yd
+        if dataframe:
+            return dataset
+        return Xd, yd
 
     def __iter__(self) -> Diterator:
         return Diterator(self.data_sets)

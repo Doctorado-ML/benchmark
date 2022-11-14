@@ -30,6 +30,19 @@ class DatasetTest(TestBase):
         expected = [271, 314, 171]
         self.assertSequenceEqual(Randomized.seeds(), expected)
 
+    def test_load_dataframe(self):
+        self.set_env(".env.arff")
+        dt = Datasets()
+        X, y = dt.load_discretized("iris", dataframe=False)
+        dataset = dt.load_discretized("iris", dataframe=True)
+        class_name = dt.get_class_name()
+        features = dt.get_features()
+        self.assertListEqual(y.tolist(), dataset[class_name].tolist())
+        for i in range(len(features)):
+            self.assertListEqual(
+                X[:, i].tolist(), dataset[features[i]].tolist()
+            )
+
     def test_Datasets_iterator(self):
         test = {
             ".env.dist": ["balance-scale", "balloons"],
