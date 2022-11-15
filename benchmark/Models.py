@@ -8,7 +8,7 @@ from sklearn.ensemble import (
 )
 from sklearn.svm import SVC
 from stree import Stree
-from bayesclass import TAN
+from bayesclass import TAN, KDB
 from wodt import Wodt
 from odte import Odte
 from xgboost import XGBClassifier
@@ -22,6 +22,7 @@ class Models:
         return {
             "STree": Stree(random_state=random_state),
             "TAN": TAN(random_state=random_state),
+            "KDB": KDB(k=3),
             "Cart": DecisionTreeClassifier(random_state=random_state),
             "ExtraTree": ExtraTreeClassifier(random_state=random_state),
             "Wodt": Wodt(random_state=random_state),
