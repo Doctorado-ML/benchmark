@@ -31,31 +31,31 @@ def main(args_test=None):
                 Files.open(Files.be_list_excel, is_test)
     except ValueError as e:
         print(e)
-    else:
-        if args.nan:
-            results_nan = []
-            results = data.get_results_criteria(
-                score=args.score,
-                model=args.model,
-                input_data=None,
-                sort_key=args.key,
-                number=args.number,
+        return
+    if args.nan:
+        results_nan = []
+        results = data.get_results_criteria(
+            score=args.score,
+            model=args.model,
+            input_data=None,
+            sort_key=args.key,
+            number=args.number,
+        )
+        for result in results:
+            if result["metric"] != result["metric"]:
+                results_nan.append(result)
+        if results_nan != []:
+            print(
+                "\n"
+                + "*" * 30
+                + " Results with nan moved to hidden "
+                + "*" * 30
             )
-            for result in results:
-                if result["metric"] != result["metric"]:
-                    results_nan.append(result)
-            if results_nan != []:
-                print(
-                    "\n"
-                    + "*" * 30
-                    + " Results with nan moved to hidden "
-                    + "*" * 30
+            data.data_filtered = []
+            data.list_results(input_data=results_nan)
+            for result in results_nan:
+                name = result["file"]
+                os.rename(
+                    os.path.join(Folders.results, name),
+                    os.path.join(Folders.hidden_results, name),
                 )
-                data.data_filtered = []
-                data.list_results(input_data=results_nan)
-                for result in results_nan:
-                    name = result["file"]
-                    os.rename(
-                        os.path.join(Folders.results, name),
-                        os.path.join(Folders.hidden_results, name),
-                    )
