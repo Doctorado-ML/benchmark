@@ -1,4 +1,4 @@
-[92m #  Date       File                                                             Score     Time(h) Title
+[92m #  Date       File                                                             Score    Time(h) Title
 === ========== ================================================================ ======== ======= =======================
 [93m  0 2022-05-04 results_accuracy_XGBoost_MacBookpro16_2022-05-04_11:00:35_0.json      nan   3.091 Default hyperparameters
 [92m  1 2021-11-01 results_accuracy_STree_iMac27_2021-11-01_23:55:16_0.json          0.97446   0.098 default

@@ -1,4 +1,4 @@
-[94m #  Date       File                                                            Score     Time(h) Title
+[94m #  Date       File                                                            Score    Time(h) Title
 === ========== =============================================================== ======== ======= ============================================
 [96m  0 2021-09-30 results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json         0.04544   0.173 With gridsearched hyperparameters
 [94m  1 2022-04-20 results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.json           0.04341   6.275 Gridsearched hyperparams v022.1b random_init

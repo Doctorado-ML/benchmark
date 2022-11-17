@@ -1450,7 +1450,7 @@ class Summary:
         print(color1, end="")
         print(
             f" #  {'Date':10s} {'File':{max_file}s} {'Score':8s} "
-            f" {'Time(h)':7s} {'Title':s}"
+            f"{'Time(h)':7s} {'Title':s}"
         )
         print(
             "===",
