@@ -130,7 +130,7 @@ class BaseReport(abc.ABC):
 
 
 class Report(BaseReport):
-    header_lengths = [30, 6, 5, 3, 7, 7, 7, 15, 16, 15]
+    header_lengths = [30, 6, 5, 3, 7, 7, 7, 15, 17, 15]
     header_cols = [
         "Dataset",
         "Sampl.",
@@ -189,7 +189,7 @@ class Report(BaseReport):
         )
         i += 1
         print(
-            f"{result['time']:9.6f}±{result['time_std']:6.4f} ",
+            f"{result['time']:10.6f}±{result['time_std']:6.4f} ",
             end="",
         )
         i += 1
@@ -1490,7 +1490,7 @@ class Summary:
                 "again, number to report): ",
                 end="",
             )
-            num = self.get_input()
+            num = get_input()
             if num == "n":
                 return
             if num == "r":
