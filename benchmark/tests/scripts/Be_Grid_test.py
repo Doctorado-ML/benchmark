@@ -4,6 +4,10 @@ from ...Utils import Folders, Files
 from ..TestBase import TestBase
 
 
+def get_test():
+    return "hola"
+
+
 class BeGridTest(TestBase):
     def setUp(self):
         self.prepare_scripts_env()

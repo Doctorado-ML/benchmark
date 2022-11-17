@@ -24,9 +24,11 @@ def main(args_test=None):
             number=args.number,
         )
         is_test = args_test is not None
-        data.manage_results(args.excel, is_test)
-        if args.excel:
-            Files.open(Files.be_list_excel, is_test)
+        if not args.nan:
+            excel_generated = data.manage_results(args.excel, is_test)
+            if args.excel and excel_generated:
+                print(f"Generated file: {Files.be_list_excel}")
+                Files.open(Files.be_list_excel, is_test)
     except ValueError as e:
         print(e)
     else:

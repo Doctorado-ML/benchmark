@@ -22,8 +22,8 @@ from .Utils import (
 from ._version import __version__
 
 
-def get_input():
-    return input()
+def get_input(is_test):
+    return "test" if is_test else input()
 
 
 class BestResultsEver:
@@ -1477,31 +1477,29 @@ class Summary:
             )
         )
 
-    def manage_results(self, excel, isTest):
+    def manage_results(self, excel, is_test):
+        """Manage results showed in the summary
+        return True if excel file is created False otherwise
+        """
         num = ""
-        first = True
         book = None
-        while True and not isTest:
-            if not first:
-                print(f"Invalid option {num}. Try again!")
-                first = False
+        while True:
             print(
                 "Which result do you want to report? (q to quit, r to list "
                 "again, number to report): ",
                 end="",
             )
-            num = get_input()
-            if num == "n":
-                return
+            num = get_input(is_test)
             if num == "r":
                 self.list_results()
             if num == "q":
                 if excel:
                     if book is not None:
                         book.close()
-                return
+                        return True
+                return False
             if num.isdigit() and int(num) < len(self.data) and int(num) >= 0:
-                rep = Report(self.data[int(num)]["file"], self.hidden)
+                rep = Report(self.data_filtered[int(num)]["file"], self.hidden)
                 rep.report()
                 if excel and not self.hidden:
                     if book is None:
@@ -1510,10 +1508,13 @@ class Summary:
                             file_name, {"nan_inf_to_errors": True}
                         )
                     excel = Excel(
-                        file_name=self.data[int(num)]["file"],
+                        file_name=self.data_filtered[int(num)]["file"],
                         book=book,
                     )
                     excel.report()
+            else:
+                if num not in ("r", "q"):
+                    print(f"Invalid option {num}. Try again!")
 
     def show_result(self, data: dict, title: str = "") -> None:
         def whites(n: int) -> str:
