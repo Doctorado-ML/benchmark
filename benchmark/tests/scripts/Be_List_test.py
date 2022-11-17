@@ -1,5 +1,7 @@
 import os
+from unittest.mock import patch
 from ...Utils import Folders, NO_RESULTS
+from ...Results import Summary
 from ..TestBase import TestBase
 
 
@@ -7,6 +9,7 @@ class BeListTest(TestBase):
     def setUp(self):
         self.prepare_scripts_env()
 
+    # @patch("...Results.get_input()", return_value="n")
     def test_be_list(self):
         stdout, stderr = self.execute_script("be_list", ["-m", "STree"])
         self.assertEqual(stderr.getvalue(), "")

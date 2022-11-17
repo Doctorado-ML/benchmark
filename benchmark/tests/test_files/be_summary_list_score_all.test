@@ -26,13 +26,13 @@
 * [93mresults_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json                      [96m*
 [96m*                                                                               [96m*
 [96m*********************************************************************************
-[94mDate       File                                                            Score    Time(h) Title
-========== =============================================================== ======== ======= ============================================
-[96m2021-09-30 results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json         0.04544   0.173 With gridsearched hyperparameters
-[94m2022-04-20 results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.json           0.04341   6.275 Gridsearched hyperparams v022.1b random_init
-[96m2021-10-27 results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.json         0.04158   0.943 default A
-[94m2021-11-01 results_accuracy_STree_macbook-pro_2021-11-01_19:17:07_0.json    0.03790   1.143 default B
-[96m2022-01-14 results_accuracy_RandomForest_iMac27_2022-01-14_12:39:30_0.json  0.03627   0.076 Test default paramters with RandomForest
+[94m #  Date       File                                                            Score     Time(h) Title
+=== ========== =============================================================== ======== ======= ============================================
+[96m  0 2021-09-30 results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json         0.04544   0.173 With gridsearched hyperparameters
+[94m  1 2022-04-20 results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.json           0.04341   6.275 Gridsearched hyperparams v022.1b random_init
+[96m  2 2021-10-27 results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.json         0.04158   0.943 default A
+[94m  3 2021-11-01 results_accuracy_STree_macbook-pro_2021-11-01_19:17:07_0.json    0.03790   1.143 default B
+[96m  4 2022-01-14 results_accuracy_RandomForest_iMac27_2022-01-14_12:39:30_0.json  0.03627   0.076 Test default paramters with RandomForest
 ** No results found **
 ** No results found **
 ** No results found **

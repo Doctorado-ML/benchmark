@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 import os
 from benchmark.Results import Summary
-from benchmark.Utils import Folders
+from benchmark.Utils import Folders, Files
 from benchmark.Arguments import Arguments
 
 """List experiments of a model
@@ -12,6 +12,7 @@ def main(args_test=None):
     arguments = Arguments()
     arguments.xset("number").xset("model", required=False).xset("key")
     arguments.xset("hidden").xset("nan").xset("score", required=False)
+    arguments.xset("excel")
     args = arguments.parse(args_test)
     data = Summary(hidden=args.hidden)
     data.acquire()
@@ -22,6 +23,10 @@ def main(args_test=None):
             sort_key=args.key,
             number=args.number,
         )
+        is_test = args_test is not None
+        data.manage_results(args.excel, is_test)
+        if args.excel:
+            Files.open(Files.be_list_excel, is_test)
     except ValueError as e:
         print(e)
     else:
@@ -44,6 +49,7 @@ def main(args_test=None):
                     + " Results with nan moved to hidden "
                     + "*" * 30
                 )
+                data.data_filtered = []
                 data.list_results(input_data=results_nan)
                 for result in results_nan:
                     name = result["file"]
