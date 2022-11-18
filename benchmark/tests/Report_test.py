@@ -2,11 +2,14 @@ import os
 from io import StringIO
 from unittest.mock import patch
 from .TestBase import TestBase
-from ..Results import Report, BaseReport, ReportBest, ReportDatasets
+from ..Results import Report, BaseReport, ReportBest, ReportDatasets, get_input
 from ..Utils import Symbols
 
 
 class ReportTest(TestBase):
+    def test_get_input(self):
+        self.assertEqual(get_input(is_test=True), "test")
+
     def test_BaseReport(self):
         with patch.multiple(BaseReport, __abstractmethods__=set()):
             file_name = os.path.join(

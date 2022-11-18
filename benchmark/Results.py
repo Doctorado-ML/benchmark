@@ -7,6 +7,7 @@ import abc
 import shutil
 import subprocess
 import xlsxwriter
+from xlsxwriter.exceptions import DuplicateWorksheetName
 import numpy as np
 from .Experiments import BestResults
 from .Datasets import Datasets
@@ -19,6 +20,10 @@ from .Utils import (
     NO_RESULTS,
 )
 from ._version import __version__
+
+
+def get_input(is_test):
+    return "test" if is_test else input()
 
 
 class BestResultsEver:
@@ -125,7 +130,7 @@ class BaseReport(abc.ABC):
 
 
 class Report(BaseReport):
-    header_lengths = [30, 6, 5, 3, 7, 7, 7, 15, 16, 15]
+    header_lengths = [30, 6, 5, 3, 7, 7, 7, 15, 17, 15]
     header_cols = [
         "Dataset",
         "Sampl.",
@@ -184,7 +189,7 @@ class Report(BaseReport):
         )
         i += 1
         print(
-            f"{result['time']:9.6f}±{result['time_std']:6.4f} ",
+            f"{result['time']:10.6f}±{result['time_std']:6.4f} ",
             end="",
         )
         i += 1
@@ -328,7 +333,17 @@ class Excel(BaseReport):
         else:
             self.book = book
             self.close = False
-        self.sheet = self.book.add_worksheet(self.data["model"])
+        suffix = ""
+        num = 1
+        while True:
+            try:
+                self.sheet = self.book.add_worksheet(
+                    self.data["model"] + suffix
+                )
+                break
+            except DuplicateWorksheetName:
+                num += 1
+                suffix = str(num)
         self.max_hyper_width = 0
         self.col_hyperparams = 0
 
@@ -1341,6 +1356,7 @@ class Summary:
     def __init__(self, hidden=False) -> None:
         self.results = Files().get_all_results(hidden=hidden)
         self.data = []
+        self.data_filtered = []
         self.datasets = {}
         self.models = set()
         self.hidden = hidden
@@ -1417,13 +1433,14 @@ class Summary:
         number=0,
     ) -> None:
         """Print the list of results"""
-        data = self.get_results_criteria(
-            score, model, input_data, sort_key, number
-        )
-        if data == []:
+        if self.data_filtered == []:
+            self.data_filtered = self.get_results_criteria(
+                score, model, input_data, sort_key, number
+            )
+        if self.data_filtered == []:
             raise ValueError(NO_RESULTS)
-        max_file = max(len(x["file"]) for x in data)
-        max_title = max(len(x["title"]) for x in data)
+        max_file = max(len(x["file"]) for x in self.data_filtered)
+        max_title = max(len(x["title"]) for x in self.data_filtered)
         if self.hidden:
             color1 = TextColor.GREEN
             color2 = TextColor.YELLOW
@@ -1432,10 +1449,11 @@ class Summary:
             color2 = TextColor.LINE2
         print(color1, end="")
         print(
-            f"{'Date':10s} {'File':{max_file}s} {'Score':8s} {'Time(h)':7s} "
-            f"{'Title':s}"
+            f" #  {'Date':10s} {'File':{max_file}s} {'Score':8s} "
+            f"{'Time(h)':7s} {'Title':s}"
         )
         print(
+            "===",
             "=" * 10
             + " "
             + "=" * max_file
@@ -1444,20 +1462,59 @@ class Summary:
             + " "
             + "=" * 7
             + " "
-            + "=" * max_title
+            + "=" * max_title,
         )
         print(
             "\n".join(
                 [
-                    (color2 if n % 2 == 0 else color1)
-                    + f"{x['date']} {x['file']:{max_file}s} "
+                    (color2 if n % 2 == 0 else color1) + f"{n:3d} "
+                    f"{x['date']} {x['file']:{max_file}s} "
                     f"{x['metric']:8.5f} "
                     f"{x['duration']/3600:7.3f} "
                     f"{x['title']}"
-                    for n, x in enumerate(data)
+                    for n, x in enumerate(self.data_filtered)
                 ]
             )
         )
+
+    def manage_results(self, excel, is_test):
+        """Manage results showed in the summary
+        return True if excel file is created False otherwise
+        """
+        num = ""
+        book = None
+        while True:
+            print(
+                "Which result do you want to report? (q to quit, r to list "
+                "again, number to report): ",
+                end="",
+            )
+            num = get_input(is_test)
+            if num == "r":
+                self.list_results()
+            if num == "q":
+                if excel:
+                    if book is not None:
+                        book.close()
+                        return True
+                return False
+            if num.isdigit() and int(num) < len(self.data) and int(num) >= 0:
+                rep = Report(self.data_filtered[int(num)]["file"], self.hidden)
+                rep.report()
+                if excel and not self.hidden:
+                    if book is None:
+                        file_name = Files.be_list_excel
+                        book = xlsxwriter.Workbook(
+                            file_name, {"nan_inf_to_errors": True}
+                        )
+                    excel = Excel(
+                        file_name=self.data_filtered[int(num)]["file"],
+                        book=book,
+                    )
+                    excel.report()
+            else:
+                if num not in ("r", "q"):
+                    print(f"Invalid option {num}. Try again!")
 
     def show_result(self, data: dict, title: str = "") -> None:
         def whites(n: int) -> str:

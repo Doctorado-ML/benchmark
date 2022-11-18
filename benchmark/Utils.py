@@ -28,6 +28,7 @@ class Files:
     benchmark_r = "benchmark.r"
     dot_env = ".env"
     datasets_report_excel = "ReportDatasets.xlsx"
+    be_list_excel = "some_results.xlsx"
 
     @staticmethod
     def exreport_output(score):
