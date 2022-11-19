@@ -29,9 +29,7 @@ class BeListTest(TestBase):
 
     @patch("benchmark.Results.get_input", side_effect=iter(["q"]))
     def test_be_list_report_excel_none(self, input_data):
-        stdout, stderr = self.execute_script(
-            "be_list", ["-m", "STree", "-x", "1"]
-        )
+        stdout, stderr = self.execute_script("be_list", ["-m", "STree", "-x"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_model")
 
@@ -43,9 +41,7 @@ class BeListTest(TestBase):
 
     @patch("benchmark.Results.get_input", side_effect=iter(["2", "q"]))
     def test_be_list_report_excel(self, input_data):
-        stdout, stderr = self.execute_script(
-            "be_list", ["-m", "STree", "-x", "1"]
-        )
+        stdout, stderr = self.execute_script("be_list", ["-m", "STree", "-x"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_report_excel")
         book = load_workbook(Files.be_list_excel)
@@ -54,9 +50,7 @@ class BeListTest(TestBase):
 
     @patch("benchmark.Results.get_input", side_effect=iter(["2", "1", "q"]))
     def test_be_list_report_excel_twice(self, input_data):
-        stdout, stderr = self.execute_script(
-            "be_list", ["-m", "STree", "-x", "1"]
-        )
+        stdout, stderr = self.execute_script("be_list", ["-m", "STree", "-x"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_report_excel_2")
         book = load_workbook(Files.be_list_excel)
@@ -87,7 +81,7 @@ class BeListTest(TestBase):
         swap_files(Folders.hidden_results, Folders.results, file_name)
         try:
             # list and move nan result to hidden
-            stdout, stderr = self.execute_script("be_list", ["--nan", "1"])
+            stdout, stderr = self.execute_script("be_list", ["--nan"])
             self.assertEqual(stderr.getvalue(), "")
             self.check_output_file(stdout, "be_list_nan")
         except Exception:
@@ -97,7 +91,7 @@ class BeListTest(TestBase):
 
     @patch("benchmark.Results.get_input", return_value="q")
     def test_be_list_nan_no_nan(self, input_data):
-        stdout, stderr = self.execute_script("be_list", ["--nan", "1"])
+        stdout, stderr = self.execute_script("be_list", ["--nan"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_no_nan")
 

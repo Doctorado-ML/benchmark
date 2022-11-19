@@ -25,7 +25,7 @@ class BeBenchmarkTest(TestBase):
 
     def test_be_benchmark_complete(self):
         stdout, stderr = self.execute_script(
-            "be_benchmark", ["-s", self.score, "-q", "1", "-t", "1", "-x", "1"]
+            "be_benchmark", ["-s", self.score, "-q", "-t", "-x"]
         )
         self.assertEqual(stderr.getvalue(), "")
         # Check output
@@ -60,7 +60,7 @@ class BeBenchmarkTest(TestBase):
 
     def test_be_benchmark_single(self):
         stdout, stderr = self.execute_script(
-            "be_benchmark", ["-s", self.score, "-q", "1"]
+            "be_benchmark", ["-s", self.score, "-q"]
         )
         self.assertEqual(stderr.getvalue(), "")
         # Check output

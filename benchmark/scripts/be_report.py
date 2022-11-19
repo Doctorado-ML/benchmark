@@ -17,17 +17,17 @@ def main(args_test=None):
     arguments.xset("score", required=False)
     args = arguments.parse(args_test)
     if args.best:
-        args.grid = None
+        args.grid = False
     if args.grid:
-        args.best = None
-    if args.file is None and args.best is None and args.grid is None:
+        args.best = False
+    if args.file is None and not args.best and not args.grid:
         report = ReportDatasets(args.excel)
         report.report()
         if args.excel:
             is_test = args_test is not None
             Files.open(report.get_file_name(), is_test)
     else:
-        if args.best is not None or args.grid is not None:
+        if args.best or args.grid:
             report = ReportBest(args.score, args.model, args.best, args.grid)
             report.report()
         else:

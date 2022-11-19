@@ -35,7 +35,7 @@ class BeReportTest(TestBase):
     def test_be_report_compare(self):
         file_name = "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json"
         stdout, stderr = self.execute_script(
-            "be_report", ["-f", file_name, "-c", "1"]
+            "be_report", ["-f", file_name, "-c"]
         )
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "report_compared")
@@ -54,7 +54,7 @@ class BeReportTest(TestBase):
             self.assertEqual(line, output_text[index])
 
     def test_be_report_datasets_excel(self):
-        stdout, stderr = self.execute_script("be_report", ["-x", "1"])
+        stdout, stderr = self.execute_script("be_report", ["-x"])
         self.assertEqual(stderr.getvalue(), "")
         file_name = f"report_datasets{self.ext}"
         with open(os.path.join(self.test_files, file_name)) as f:
@@ -77,14 +77,14 @@ class BeReportTest(TestBase):
 
     def test_be_report_best(self):
         stdout, stderr = self.execute_script(
-            "be_report", ["-s", "accuracy", "-m", "STree", "-b", "1"]
+            "be_report", ["-s", "accuracy", "-m", "STree", "-b"]
         )
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "report_best")
 
     def test_be_report_grid(self):
         stdout, stderr = self.execute_script(
-            "be_report", ["-s", "accuracy", "-m", "STree", "-g", "1"]
+            "be_report", ["-s", "accuracy", "-m", "STree", "-g"]
         )
         self.assertEqual(stderr.getvalue(), "")
         file_name = "report_grid.test"
@@ -101,7 +101,7 @@ class BeReportTest(TestBase):
     def test_be_report_best_both(self):
         stdout, stderr = self.execute_script(
             "be_report",
-            ["-s", "accuracy", "-m", "STree", "-b", "1", "-g", "1"],
+            ["-s", "accuracy", "-m", "STree", "-b", "-g"],
         )
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "report_best")
@@ -110,7 +110,7 @@ class BeReportTest(TestBase):
         file_name = "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json"
         stdout, stderr = self.execute_script(
             "be_report",
-            ["-f", file_name, "-x", "1", "-c", "1"],
+            ["-f", file_name, "-x", "-c"],
         )
         file_name = os.path.join(
             Folders.results, file_name.replace(".json", ".xlsx")
@@ -125,7 +125,7 @@ class BeReportTest(TestBase):
         file_name = "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json"
         stdout, stderr = self.execute_script(
             "be_report",
-            ["-f", file_name, "-x", "1"],
+            ["-f", file_name, "-x"],
         )
         file_name = os.path.join(
             Folders.results, file_name.replace(".json", ".xlsx")
@@ -140,7 +140,7 @@ class BeReportTest(TestBase):
         file_name = "results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.json"
         stdout, stderr = self.execute_script(
             "be_report",
-            ["-f", file_name, "-q", "1"],
+            ["-f", file_name, "-q"],
         )
         file_name = os.path.join(
             Folders.results, file_name.replace(".json", ".sql")

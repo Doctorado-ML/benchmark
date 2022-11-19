@@ -30,7 +30,7 @@ class BeMainTest(TestBase):
     def test_be_main_complete(self):
         stdout, _ = self.execute_script(
             "be_main",
-            ["-s", self.score, "-m", "STree", "--title", "test", "-r", "1"],
+            ["-s", self.score, "-m", "STree", "--title", "test", "-r"],
         )
         # keep the report name to delete it after
         report_name = stdout.getvalue().splitlines()[-1].split("in ")[1]
@@ -67,9 +67,7 @@ class BeMainTest(TestBase):
                 "--title",
                 "test",
                 "-f",
-                "1",
                 "-r",
-                "1",
             ],
         )
         # keep the report name to delete it after
@@ -91,9 +89,7 @@ class BeMainTest(TestBase):
                 "--title",
                 "test",
                 "-f",
-                "1",
                 "-r",
-                "1",
             ],
         )
         self.assertEqual(stderr.getvalue(), "")
@@ -117,9 +113,7 @@ class BeMainTest(TestBase):
                 "--title",
                 "test",
                 "-g",
-                "1",
                 "-r",
-                "1",
             ],
         )
         self.assertEqual(stderr.getvalue(), "")
@@ -142,9 +136,7 @@ class BeMainTest(TestBase):
                 "--title",
                 "test",
                 "-g",
-                "1",
                 "-r",
-                "1",
             ],
         )
         # keep the report name to delete it after

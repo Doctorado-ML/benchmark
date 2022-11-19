@@ -14,7 +14,10 @@ def main(args_test=None):
     arguments.xset("stratified").xset("score").xset("model", mandatory=True)
     arguments.xset("n_folds").xset("platform").xset("quiet").xset("title")
     arguments.xset("hyperparameters").xset("paramfile").xset("report")
-    arguments.xset("grid_paramfile").xset("dataset")
+    arguments.xset("grid_paramfile")
+    arguments.xset(
+        "dataset", overrides="title", const="Test with only one dataset"
+    )
     args = arguments.parse(args_test)
     report = args.report or args.dataset is not None
     if args.grid_paramfile:

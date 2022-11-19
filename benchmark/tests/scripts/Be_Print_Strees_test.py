@@ -18,7 +18,7 @@ class BePrintStrees(TestBase):
         for name in self.datasets:
             stdout, _ = self.execute_script(
                 "be_print_strees",
-                ["-d", name, "-q", "1"],
+                ["-d", name, "-q"],
             )
             file_name = os.path.join(Folders.img, f"stree_{name}.png")
             self.files.append(file_name)
@@ -33,7 +33,7 @@ class BePrintStrees(TestBase):
         for name in self.datasets:
             stdout, _ = self.execute_script(
                 "be_print_strees",
-                ["-d", name, "-q", "1", "-c", "1"],
+                ["-d", name, "-q", "-c"],
             )
             file_name = os.path.join(Folders.img, f"stree_{name}.png")
             self.files.append(file_name)
