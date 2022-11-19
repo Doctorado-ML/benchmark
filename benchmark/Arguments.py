@@ -48,9 +48,9 @@ class EnvDefault(argparse.Action):
         setattr(namespace, self.dest, values)
 
 
-class Arguments:
+class Arguments(argparse.ArgumentParser):
     def __init__(self):
-        self.ap = argparse.ArgumentParser()
+        super().__init__()
         models_data = Models.define_models(random_state=0)
         self._overrides = {}
         self.parameters = {
@@ -303,7 +303,7 @@ class Arguments:
         if "overrides" in kwargs:
             self._overrides[names[0]] = (kwargs["overrides"], kwargs["const"])
             del kwargs["overrides"]
-        self.ap.add_argument(
+        self.add_argument(
             *names,
             **{**parameters, **kwargs},
         )
@@ -315,4 +315,4 @@ class Arguments:
                 args = sys.argv[1:]
             if key in args:
                 args.extend((f"--{dest_key}", value))
-        return self.ap.parse_args(args)
+        return super().parse_args(args)
