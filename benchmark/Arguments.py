@@ -49,10 +49,11 @@ class EnvDefault(argparse.Action):
 
 
 class Arguments(argparse.ArgumentParser):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         models_data = Models.define_models(random_state=0)
         self._overrides = {}
+        self._subparser = None
         self.parameters = {
             "best": [
                 ("-b", "--best"),
@@ -98,19 +99,6 @@ class Arguments(argparse.ArgumentParser):
                     "action": "store_true",
                     "default": False,
                     "help": "Generate Excel File",
-                },
-            ],
-            "file": [
-                ("-f", "--file"),
-                {"type": str, "required": False, "help": "Result file"},
-            ],
-            "grid": [
-                ("-g", "--grid"),
-                {
-                    "action": "store_true",
-                    "required": False,
-                    "default": False,
-                    "help": "grid results of model",
                 },
             ],
             "grid_paramfile": [
@@ -308,6 +296,23 @@ class Arguments(argparse.ArgumentParser):
             **{**parameters, **kwargs},
         )
         return self
+
+    def add_subparser(
+        self, dest="subcommand", help_text="help for subcommand"
+    ):
+        self._subparser = self.add_subparsers(dest=dest, help=help_text)
+
+    def add_subparsers_options(self, subparser, arguments):
+        command, help_text = subparser
+        parser = self._subparser.add_parser(command, help=help_text)
+        for name, args in arguments:
+            try:
+                names, parameters = self.parameters[name]
+            except KeyError:
+                names = (name,)
+                parameters = {}
+            # Order of args is important
+            parser.add_argument(*names, **{**args, **parameters})
 
     def parse(self, args=None):
         for key, (dest_key, value) in self._overrides.items():

@@ -24,13 +24,10 @@ class ArgumentsTest(TestBase):
 
     def test_parameters(self):
         expected_parameters = {
-            "best": ("-b", "--best"),
             "color": ("-c", "--color"),
             "compare": ("-c", "--compare"),
             "dataset": ("-d", "--dataset"),
             "excel": ("-x", "--excel"),
-            "file": ("-f", "--file"),
-            "grid": ("-g", "--grid"),
             "grid_paramfile": ("-g", "--grid_paramfile"),
             "hidden": ("--hidden",),
             "hyperparameters": ("-p", "--hyperparameters"),

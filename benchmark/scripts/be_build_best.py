@@ -21,5 +21,5 @@ def main(args_test=None):
         print(e)
     else:
         if args.report:
-            report = ReportBest(args.score, args.model, best=True, grid=False)
+            report = ReportBest(args.score, args.model, best=True)
             report.report()

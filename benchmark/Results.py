@@ -251,7 +251,7 @@ class ReportBest(BaseReport):
         "Hyperparameters",
     ]
 
-    def __init__(self, score, model, best, grid):
+    def __init__(self, score, model, best):
         name = (
             Files.best_results(score, model)
             if best
@@ -259,7 +259,6 @@ class ReportBest(BaseReport):
         )
         file_name = os.path.join(Folders.results, name)
         self.best = best
-        self.grid = grid
         self.score_name = score
         self.model = model
         super().__init__(file_name, best_file=True)

@@ -1,5 +1,7 @@
 import os
 from openpyxl import load_workbook
+from io import StringIO
+from unittest.mock import patch
 from ...Utils import Folders, Files
 from ..TestBase import TestBase
 from ..._version import __version__
@@ -23,25 +25,25 @@ class BeReportTest(TestBase):
             "results",
             "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json",
         )
-        stdout, stderr = self.execute_script("be_report", ["-f", file_name])
+        stdout, stderr = self.execute_script("be_report", ["file", file_name])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "report")
 
     def test_be_report_not_found(self):
-        stdout, stderr = self.execute_script("be_report", ["-f", "unknown"])
+        stdout, stderr = self.execute_script("be_report", ["file", "unknown"])
         self.assertEqual(stderr.getvalue(), "")
         self.assertEqual(stdout.getvalue(), "unknown does not exists!\n")
 
     def test_be_report_compare(self):
         file_name = "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json"
         stdout, stderr = self.execute_script(
-            "be_report", ["-f", file_name, "-c"]
+            "be_report", ["file", file_name, "-c"]
         )
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "report_compared")
 
     def test_be_report_datatsets(self):
-        stdout, stderr = self.execute_script("be_report", [])
+        stdout, stderr = self.execute_script("be_report", ["datasets"])
         self.assertEqual(stderr.getvalue(), "")
         file_name = f"report_datasets{self.ext}"
         with open(os.path.join(self.test_files, file_name)) as f:
@@ -54,7 +56,7 @@ class BeReportTest(TestBase):
             self.assertEqual(line, output_text[index])
 
     def test_be_report_datasets_excel(self):
-        stdout, stderr = self.execute_script("be_report", ["-x"])
+        stdout, stderr = self.execute_script("be_report", ["datasets", "-x"])
         self.assertEqual(stderr.getvalue(), "")
         file_name = f"report_datasets{self.ext}"
         with open(os.path.join(self.test_files, file_name)) as f:
@@ -77,14 +79,14 @@ class BeReportTest(TestBase):
 
     def test_be_report_best(self):
         stdout, stderr = self.execute_script(
-            "be_report", ["-s", "accuracy", "-m", "STree", "-b"]
+            "be_report", ["best", "-s", "accuracy", "-m", "STree"]
         )
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "report_best")
 
     def test_be_report_grid(self):
         stdout, stderr = self.execute_script(
-            "be_report", ["-s", "accuracy", "-m", "STree", "-g"]
+            "be_report", ["grid", "-s", "accuracy", "-m", "STree"]
         )
         self.assertEqual(stderr.getvalue(), "")
         file_name = "report_grid.test"
@@ -98,19 +100,24 @@ class BeReportTest(TestBase):
                 line = self.replace_STree_version(line, output_text, index)
             self.assertEqual(line, output_text[index])
 
-    def test_be_report_best_both(self):
-        stdout, stderr = self.execute_script(
-            "be_report",
-            ["-s", "accuracy", "-m", "STree", "-b", "-g"],
+    @patch("sys.stderr", new_callable=StringIO)
+    def test_be_report_unknown_subcommand(self, stderr):
+        with self.assertRaises(SystemExit) as msg:
+            module = self.search_script("be_report")
+            module.main(["unknown", "accuracy", "-m", "STree"])
+        self.assertEqual(msg.exception.code, 2)
+        self.assertEqual(
+            stderr.getvalue(),
+            "usage: be_report [-h] {best,grid,file,datasets} ...\n"
+            "be_report: error: argument subcommand: invalid choice: "
+            "'unknown' (choose from 'best', 'grid', 'file', 'datasets')\n",
         )
-        self.assertEqual(stderr.getvalue(), "")
-        self.check_output_file(stdout, "report_best")
 
     def test_be_report_excel_compared(self):
         file_name = "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json"
         stdout, stderr = self.execute_script(
             "be_report",
-            ["-f", file_name, "-x", "-c"],
+            ["file", file_name, "-x", "-c"],
         )
         file_name = os.path.join(
             Folders.results, file_name.replace(".json", ".xlsx")
@@ -125,7 +132,7 @@ class BeReportTest(TestBase):
         file_name = "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json"
         stdout, stderr = self.execute_script(
             "be_report",
-            ["-f", file_name, "-x"],
+            ["file", file_name, "-x"],
         )
         file_name = os.path.join(
             Folders.results, file_name.replace(".json", ".xlsx")
@@ -140,7 +147,7 @@ class BeReportTest(TestBase):
         file_name = "results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.json"
         stdout, stderr = self.execute_script(
             "be_report",
-            ["-f", file_name, "-q"],
+            ["file", file_name, "-q"],
         )
         file_name = os.path.join(
             Folders.results, file_name.replace(".json", ".sql")

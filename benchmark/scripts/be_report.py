@@ -11,40 +11,71 @@ If no argument is set, displays the datasets and its characteristics
 
 
 def main(args_test=None):
-    arguments = Arguments()
-    arguments.xset("file").xset("excel").xset("sql").xset("compare")
-    arguments.xset("best").xset("grid").xset("model", required=False)
-    arguments.xset("score", required=False)
+    arguments = Arguments(prog="be_report")
+    arguments.add_subparser()
+    arguments.add_subparsers_options(
+        (
+            "best",
+            "Report best results obtained by any model/score. "
+            "See be_build_best",
+        ),
+        [
+            ("model", dict(required=False)),
+            ("score", dict(required=False)),
+        ],
+    )
+    arguments.add_subparsers_options(
+        (
+            "grid",
+            "Report grid results obtained by any model/score. "
+            "See be_build_grid",
+        ),
+        [
+            ("model", dict(required=False)),
+            ("score", dict(required=False)),
+        ],
+    )
+    arguments.add_subparsers_options(
+        ("file", "Report file results"),
+        [
+            ("file_name", {}),
+            ("excel", {}),
+            ("sql", {}),
+            ("compare", {}),
+        ],
+    )
+    arguments.add_subparsers_options(
+        ("datasets", "Report datasets information"),
+        [
+            ("excel", {}),
+        ],
+    )
     args = arguments.parse(args_test)
-    if args.best:
-        args.grid = False
-    if args.grid:
-        args.best = False
-    if args.file is None and not args.best and not args.grid:
+    if args.subcommand == "best" or args.subcommand == "grid":
+        best = args.subcommand == "best"
+        report = ReportBest(args.score, args.model, best)
+        report.report()
+    elif args.subcommand == "file":
+        try:
+            report = Report(args.file_name, args.compare)
+            report.report()
+        except FileNotFoundError as e:
+            print(e)
+            return
+        if args.sql:
+            sql = SQL(args.file_name)
+            sql.report()
+        if args.excel:
+            excel = Excel(
+                file_name=args.file_name,
+                compare=args.compare,
+            )
+            excel.report()
+            is_test = args_test is not None
+            Files.open(excel.get_file_name(), is_test)
+    else:
         report = ReportDatasets(args.excel)
         report.report()
         if args.excel:
             is_test = args_test is not None
             Files.open(report.get_file_name(), is_test)
-    else:
-        if args.best or args.grid:
-            report = ReportBest(args.score, args.model, args.best, args.grid)
-            report.report()
-        else:
-            try:
-                report = Report(args.file, args.compare)
-            except FileNotFoundError as e:
-                print(e)
-            else:
-                report.report()
-                if args.excel:
-                    excel = Excel(
-                        file_name=args.file,
-                        compare=args.compare,
-                    )
-                    excel.report()
-                    is_test = args_test is not None
-                    Files.open(excel.get_file_name(), is_test)
-                if args.sql:
-                    sql = SQL(args.file)
-                    sql.report()
