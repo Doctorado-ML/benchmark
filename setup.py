@@ -38,6 +38,7 @@ def script_names():
         "print_strees",
         "report",
         "summary",
+        "init_project",
     ]
     result = []
     for script in scripts:
