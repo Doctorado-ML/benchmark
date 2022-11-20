@@ -55,13 +55,13 @@ class Arguments(argparse.ArgumentParser):
         self._overrides = {}
         self._subparser = None
         self.parameters = {
-            "best": [
-                ("-b", "--best"),
+            "best_paramfile": [
+                ("-b", "--best_paramfile"),
                 {
-                    "required": False,
                     "action": "store_true",
+                    "required": False,
                     "default": False,
-                    "help": "best results of models",
+                    "help": "Use best hyperparams file?",
                 },
             ],
             "color": [
@@ -107,7 +107,7 @@ class Arguments(argparse.ArgumentParser):
                     "required": False,
                     "action": "store_true",
                     "default": False,
-                    "help": "Use best hyperparams file?",
+                    "help": "Use grid output hyperparams file?",
                 },
             ],
             "hidden": [
@@ -196,15 +196,6 @@ class Arguments(argparse.ArgumentParser):
                     "type": int,
                     "required": True,
                     "help": "number of folds",
-                },
-            ],
-            "paramfile": [
-                ("-f", "--paramfile"),
-                {
-                    "action": "store_true",
-                    "required": False,
-                    "default": False,
-                    "help": "Use best hyperparams file?",
                 },
             ],
             "platform": [
@@ -313,6 +304,12 @@ class Arguments(argparse.ArgumentParser):
                 parameters = {}
             # Order of args is important
             parser.add_argument(*names, **{**args, **parameters})
+
+    def add_exclusive(self, hyperparameters, required=False):
+        group = self.add_mutually_exclusive_group(required=required)
+        for name in hyperparameters:
+            names, parameters = self.parameters[name]
+            group.add_argument(*names, **parameters)
 
     def parse(self, args=None):
         for key, (dest_key, value) in self._overrides.items():

@@ -10,18 +10,20 @@ from benchmark.Arguments import Arguments
 
 
 def main(args_test=None):
-    arguments = Arguments()
+    arguments = Arguments(prog="be_main")
     arguments.xset("stratified").xset("score").xset("model", mandatory=True)
     arguments.xset("n_folds").xset("platform").xset("quiet").xset("title")
-    arguments.xset("hyperparameters").xset("paramfile").xset("report")
-    arguments.xset("grid_paramfile")
+    arguments.xset("report")
+    arguments.add_exclusive(
+        ["grid_paramfile", "best_paramfile", "hyperparameters"]
+    )
     arguments.xset(
         "dataset", overrides="title", const="Test with only one dataset"
     )
     args = arguments.parse(args_test)
     report = args.report or args.dataset is not None
     if args.grid_paramfile:
-        args.paramfile = False
+        args.best_paramfile = False
     try:
         job = Experiment(
             score_name=args.score,
@@ -29,7 +31,7 @@ def main(args_test=None):
             stratified=args.stratified,
             datasets=Datasets(dataset_name=args.dataset),
             hyperparams_dict=args.hyperparameters,
-            hyperparams_file=args.paramfile,
+            hyperparams_file=args.best_paramfile,
             grid_paramfile=args.grid_paramfile,
             progress_bar=not args.quiet,
             platform=args.platform,

@@ -24,6 +24,7 @@ class ArgumentsTest(TestBase):
 
     def test_parameters(self):
         expected_parameters = {
+            "best_paramfile": ("-b", "--best_paramfile"),
             "color": ("-c", "--color"),
             "compare": ("-c", "--compare"),
             "dataset": ("-d", "--dataset"),
@@ -39,7 +40,6 @@ class ArgumentsTest(TestBase):
             "nan": ("--nan",),
             "number": ("-n", "--number"),
             "n_folds": ("-n", "--n_folds"),
-            "paramfile": ("-f", "--paramfile"),
             "platform": ("-P", "--platform"),
             "quiet": ("-q", "--quiet"),
             "report": ("-r", "--report"),
