@@ -9,12 +9,12 @@ from benchmark.Arguments import Arguments
 
 
 def main(args_test=None):
-    arguments = Arguments()
+    arguments = Arguments(prog="be_list")
     arguments.xset("number").xset("model", required=False).xset("key")
-    arguments.xset("hidden").xset("nan").xset("score", required=False)
-    arguments.xset("excel")
+    arguments.add_exclusive(["hidden", "nan"])
+    arguments.xset("score", required=False).xset("compare").xset("excel")
     args = arguments.parse(args_test)
-    data = Summary(hidden=args.hidden)
+    data = Summary(hidden=args.hidden, compare=args.compare)
     data.acquire()
     try:
         data.list_results(
@@ -24,11 +24,10 @@ def main(args_test=None):
             number=args.number,
         )
         is_test = args_test is not None
-        if not args.nan:
-            excel_generated = data.manage_results(args.excel, is_test)
-            if args.excel and excel_generated:
-                print(f"Generated file: {Files.be_list_excel}")
-                Files.open(Files.be_list_excel, is_test)
+        excel_generated = data.manage_results(args.excel, is_test)
+        if args.excel and excel_generated:
+            print(f"Generated file: {Files.be_list_excel}")
+            Files.open(Files.be_list_excel, is_test)
     except ValueError as e:
         print(e)
         return

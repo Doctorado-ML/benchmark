@@ -5,7 +5,7 @@ from benchmark.Arguments import Arguments
 
 
 def main(args_test=None):
-    arguments = Arguments()
+    arguments = Arguments(prog="be_benchmark")
     arguments.xset("score").xset("excel").xset("tex_output").xset("quiet")
     args = arguments.parse(args_test)
     benchmark = Benchmark(score=args.score, visualize=not args.quiet)

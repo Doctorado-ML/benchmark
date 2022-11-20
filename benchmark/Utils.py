@@ -113,7 +113,8 @@ class Files:
         if os.path.isdir(result_path):
             files_list = os.listdir(result_path)
         else:
-            raise ValueError(f"{result_path} does not exist")
+            os.makedirs(result_path)
+            files_list = []
         result = []
         prefix, suffix = self.results_suffixes()
         for result_file in files_list:

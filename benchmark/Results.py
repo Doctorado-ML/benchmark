@@ -1352,13 +1352,14 @@ class StubReport(BaseReport):
 
 
 class Summary:
-    def __init__(self, hidden=False) -> None:
+    def __init__(self, hidden=False, compare=False) -> None:
         self.results = Files().get_all_results(hidden=hidden)
         self.data = []
         self.data_filtered = []
         self.datasets = {}
         self.models = set()
         self.hidden = hidden
+        self.compare = compare
 
     def get_models(self):
         return sorted(self.models)
@@ -1498,17 +1499,24 @@ class Summary:
                         return True
                 return False
             if num.isdigit() and int(num) < len(self.data) and int(num) >= 0:
-                rep = Report(self.data_filtered[int(num)]["file"], self.hidden)
+                path = (
+                    Folders.hidden_results if self.hidden else Folders.results
+                )
+                file_name_result = os.path.join(
+                    path, self.data_filtered[int(num)]["file"]
+                )
+                rep = Report(file_name_result, compare=self.compare)
                 rep.report()
-                if excel and not self.hidden:
+                if excel:
                     if book is None:
                         file_name = Files.be_list_excel
                         book = xlsxwriter.Workbook(
                             file_name, {"nan_inf_to_errors": True}
                         )
                     excel = Excel(
-                        file_name=self.data_filtered[int(num)]["file"],
+                        file_name=file_name_result,
                         book=book,
+                        compare=self.compare,
                     )
                     excel.report()
             else:
