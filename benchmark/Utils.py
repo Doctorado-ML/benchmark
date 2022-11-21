@@ -113,8 +113,7 @@ class Files:
         if os.path.isdir(result_path):
             files_list = os.listdir(result_path)
         else:
-            os.makedirs(result_path)
-            files_list = []
+            raise ValueError(f"{result_path} does not exist")
         result = []
         prefix, suffix = self.results_suffixes()
         for result_file in files_list:
@@ -147,3 +146,7 @@ class TextColor:
     ENDC = "\033[0m"
     BOLD = "\033[1m"
     UNDERLINE = "\033[4m"
+    WHITE = "\033[97m"
+    GREY = "\033[90m"
+    BLACK = "\033[90m"
+    DEFAULT = "\033[99m"

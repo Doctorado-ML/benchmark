@@ -1,7 +1,6 @@
 #! /usr/bin/env python
-import os
 from benchmark.Results import Summary
-from benchmark.Utils import Folders, Files
+from benchmark.Utils import Files
 from benchmark.Arguments import Arguments
 
 """List experiments of a model
@@ -9,10 +8,10 @@ from benchmark.Arguments import Arguments
 
 
 def main(args_test=None):
+    is_test = args_test is not None
     arguments = Arguments(prog="be_list")
     arguments.xset("number").xset("model", required=False).xset("key")
-    arguments.add_exclusive(["hidden", "nan"])
-    arguments.xset("score", required=False).xset("compare").xset("excel")
+    arguments.xset("score", required=False).xset("compare").xset("hidden")
     args = arguments.parse(args_test)
     data = Summary(hidden=args.hidden, compare=args.compare)
     data.acquire()
@@ -23,38 +22,10 @@ def main(args_test=None):
             sort_key=args.key,
             number=args.number,
         )
-        is_test = args_test is not None
-        excel_generated = data.manage_results(args.excel, is_test)
-        if args.excel and excel_generated:
-            print(f"Generated file: {Files.be_list_excel}")
-            Files.open(Files.be_list_excel, is_test)
     except ValueError as e:
         print(e)
         return
-    if args.nan:
-        results_nan = []
-        results = data.get_results_criteria(
-            score=args.score,
-            model=args.model,
-            input_data=None,
-            sort_key=args.key,
-            number=args.number,
-        )
-        for result in results:
-            if result["metric"] != result["metric"]:
-                results_nan.append(result)
-        if results_nan != []:
-            print(
-                "\n"
-                + "*" * 30
-                + " Results with nan moved to hidden "
-                + "*" * 30
-            )
-            data.data_filtered = []
-            data.list_results(input_data=results_nan)
-            for result in results_nan:
-                name = result["file"]
-                os.rename(
-                    os.path.join(Folders.results, name),
-                    os.path.join(Folders.hidden_results, name),
-                )
+    excel_generated = data.manage_results(is_test=is_test)
+    if excel_generated:
+        print(f"Generated file: {Files.be_list_excel}")
+        Files.open(Files.be_list_excel, is_test)

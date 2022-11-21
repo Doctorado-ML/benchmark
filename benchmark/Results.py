@@ -1,6 +1,7 @@
 import os
 import sys
 from operator import itemgetter
+from types import SimpleNamespace
 import math
 import json
 import abc
@@ -22,8 +23,8 @@ from .Utils import (
 from ._version import __version__
 
 
-def get_input(is_test):
-    return "test" if is_test else input()
+def get_input(is_test=False, message=""):
+    return "test" if is_test else input(message)
 
 
 class BestResultsEver:
@@ -1402,18 +1403,15 @@ class Summary:
                 self.data.append(entry)
 
     def get_results_criteria(
-        self,
-        score,
-        model,
-        input_data,
-        sort_key,
-        number,
+        self, score, model, input_data, sort_key, number, nan=False
     ):
         data = self.data.copy() if input_data is None else input_data
         if score:
             data = [x for x in data if x["score"] == score]
         if model:
             data = [x for x in data if x["model"] == model]
+        if nan:
+            data = [x for x in data if x["metric"] != x["metric"]]
         keys = (
             itemgetter(sort_key, "time")
             if sort_key == "date"
@@ -1431,11 +1429,12 @@ class Summary:
         input_data=None,
         sort_key="date",
         number=0,
+        nan=False,
     ) -> None:
         """Print the list of results"""
         if self.data_filtered == []:
             self.data_filtered = self.get_results_criteria(
-                score, model, input_data, sort_key, number
+                score, model, input_data, sort_key, number, nan=nan
             )
         if self.data_filtered == []:
             raise ValueError(NO_RESULTS)
@@ -1477,37 +1476,79 @@ class Summary:
             )
         )
 
-    def manage_results(self, excel, is_test):
+    def manage_results(self, is_test):
         """Manage results showed in the summary
         return True if excel file is created False otherwise
         """
-        num = ""
-        book = None
-        while True:
-            print(
-                "Which result do you want to report? (q to quit, r to list "
-                "again, number to report): ",
-                end="",
+
+        def process_file(num, command, path):
+            num = int(num)
+            name = self.data_filtered[num]["file"]
+            file_name_result = os.path.join(path, name)
+            verb1, verb2 = (
+                ("delete", "Deleting")
+                if command == cmd.delete
+                else (
+                    "hide",
+                    "Hiding",
+                )
             )
-            num = get_input(is_test)
-            if num == "r":
+            conf_message = (
+                TextColor.RED
+                + f"Are you sure to {verb1} {file_name_result} (y/n)? "
+            )
+            confirm = get_input(message=conf_message, is_test=is_test)
+            if confirm == "y":
+                print(TextColor.YELLOW + f"{verb2} {file_name_result}")
+                if command == cmd.delete:
+                    os.unlink(file_name_result)
+                else:
+                    os.rename(
+                        os.path.join(Folders.results, name),
+                        os.path.join(Folders.hidden_results, name),
+                    )
+                self.data_filtered.pop(num)
+                get_input(message="Press enter to continue")
                 self.list_results()
-            if num == "q":
-                if excel:
+
+        cmd = SimpleNamespace(quit="q", relist="r", delete="d", excel="e")
+        if not self.hidden:
+            cmd.hide = "h"
+        message = (
+            TextColor.ENDC
+            + f"Choose option {str(cmd).replace('namespace', '')}: "
+        )
+        path = Folders.hidden_results if self.hidden else Folders.results
+        book = None
+        max_value = len(self.data)
+        while True:
+            match get_input(message=message, is_test=is_test).split():
+                case [cmd.relist]:
+                    self.list_results()
+                case [cmd.quit]:
                     if book is not None:
                         book.close()
                         return True
-                return False
-            if num.isdigit() and int(num) < len(self.data) and int(num) >= 0:
-                path = (
-                    Folders.hidden_results if self.hidden else Folders.results
-                )
-                file_name_result = os.path.join(
-                    path, self.data_filtered[int(num)]["file"]
-                )
-                rep = Report(file_name_result, compare=self.compare)
-                rep.report()
-                if excel:
+                    return False
+                case [
+                    cmd.hide,
+                    num,
+                ] if not self.hidden and num.isdigit() and int(
+                    num
+                ) < max_value:
+                    process_file(num, path=path, command=cmd.hide)
+
+                case [cmd.delete, num] if num.isdigit() and int(
+                    num
+                ) < max_value:
+                    process_file(num=num, path=path, command=cmd.delete)
+                case [cmd.excel, num] if num.isdigit() and int(
+                    num
+                ) < max_value:
+                    # Add to excel file result #num
+                    file_name_result = os.path.join(
+                        path, self.data_filtered[num]["file"]
+                    )
                     if book is None:
                         file_name = Files.be_list_excel
                         book = xlsxwriter.Workbook(
@@ -1519,9 +1560,16 @@ class Summary:
                         compare=self.compare,
                     )
                     excel.report()
-            else:
-                if num not in ("r", "q"):
-                    print(f"Invalid option {num}. Try again!")
+                    print(f"Added {file_name_result} to {Files.be_list_excel}")
+                case [num] if num.isdigit() and int(num) < max_value:
+                    # Report the result #num
+                    file_name_result = os.path.join(
+                        path, self.data_filtered[num]["file"]
+                    )
+                    rep = Report(file_name_result, compare=self.compare)
+                    rep.report()
+                case _:
+                    print("Invalid option. Try again!")
 
     def show_result(self, data: dict, title: str = "") -> None:
         def whites(n: int) -> str:
