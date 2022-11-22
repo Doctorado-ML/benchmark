@@ -1,4 +1,5 @@
 import os
+from types import SimpleNamespace
 import pandas as pd
 import numpy as np
 from scipy.io import arff
@@ -132,11 +133,10 @@ class Datasets:
         return [class_name], [dataset_name]
 
     def get_attributes(self, name):
-        class Attributes:
-            pass
-
-        X, y = self.load_continuous(name)
-        attr = Attributes()
+        tmp = self.discretize
+        self.discretize = False
+        X, y = self.load(name)
+        attr = SimpleNamespace()
         values, counts = np.unique(y, return_counts=True)
         comp = ""
         sep = ""
@@ -147,6 +147,7 @@ class Datasets:
         attr.classes = len(np.unique(y))
         attr.samples = X.shape[0]
         attr.features = X.shape[1]
+        self.discretize = tmp
         return attr
 
     def get_features(self):

@@ -51,31 +51,34 @@ def main(args_test=None):
         ],
     )
     args = arguments.parse(args_test)
-    if args.subcommand == "best" or args.subcommand == "grid":
-        best = args.subcommand == "best"
-        report = ReportBest(args.score, args.model, best)
-        report.report()
-    elif args.subcommand == "file":
-        try:
-            report = Report(args.file_name, args.compare)
+    match args.subcommand:
+        case "best" | "grid":
+            best = args.subcommand == "best"
+            report = ReportBest(args.score, args.model, best)
             report.report()
-        except FileNotFoundError as e:
-            print(e)
-            return
-        if args.sql:
-            sql = SQL(args.file_name)
-            sql.report()
-        if args.excel:
-            excel = Excel(
-                file_name=args.file_name,
-                compare=args.compare,
-            )
-            excel.report()
-            is_test = args_test is not None
-            Files.open(excel.get_file_name(), is_test)
-    else:
-        report = ReportDatasets(args.excel)
-        report.report()
-        if args.excel:
-            is_test = args_test is not None
-            Files.open(report.get_file_name(), is_test)
+        case "file":
+            try:
+                report = Report(args.file_name, args.compare)
+                report.report()
+            except FileNotFoundError as e:
+                print(e)
+                return
+            if args.sql:
+                sql = SQL(args.file_name)
+                sql.report()
+            if args.excel:
+                excel = Excel(
+                    file_name=args.file_name,
+                    compare=args.compare,
+                )
+                excel.report()
+                is_test = args_test is not None
+                Files.open(excel.get_file_name(), is_test)
+        case "datasets":
+            report = ReportDatasets(args.excel)
+            report.report()
+            if args.excel:
+                is_test = args_test is not None
+                Files.open(report.get_file_name(), is_test)
+        case _:
+            arguments.parse(["-h"])
