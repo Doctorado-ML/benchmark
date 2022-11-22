@@ -1511,9 +1511,9 @@ class Summary:
                 get_input(message="Press enter to continue")
                 self.list_results()
 
-        cmd = SimpleNamespace(quit="q", relist="r", delete="d", excel="e")
-        if not self.hidden:
-            cmd.hide = "h"
+        cmd = SimpleNamespace(
+            quit="q", relist="r", delete="d", hide="h", excel="e"
+        )
         message = (
             TextColor.ENDC
             + f"Choose option {str(cmd).replace('namespace', '')}: "
@@ -1530,14 +1530,11 @@ class Summary:
                         book.close()
                         return True
                     return False
-                case [
-                    cmd.hide,
-                    num,
-                ] if not self.hidden and num.isdigit() and int(
-                    num
-                ) < max_value:
-                    process_file(num, path=path, command=cmd.hide)
-
+                case [cmd.hide, num] if num.isdigit() and int(num) < max_value:
+                    if self.hidden:
+                        print("Already hidden")
+                    else:
+                        process_file(num, path=path, command=cmd.hide)
                 case [cmd.delete, num] if num.isdigit() and int(
                     num
                 ) < max_value:
@@ -1546,6 +1543,7 @@ class Summary:
                     num
                 ) < max_value:
                     # Add to excel file result #num
+                    num = int(num)
                     file_name_result = os.path.join(
                         path, self.data_filtered[num]["file"]
                     )
@@ -1563,6 +1561,7 @@ class Summary:
                     print(f"Added {file_name_result} to {Files.be_list_excel}")
                 case [num] if num.isdigit() and int(num) < max_value:
                     # Report the result #num
+                    num = int(num)
                     file_name_result = os.path.join(
                         path, self.data_filtered[num]["file"]
                     )
