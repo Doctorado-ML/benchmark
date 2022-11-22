@@ -249,7 +249,7 @@ class Arguments(argparse.ArgumentParser):
                 {
                     "action": EnvDefault,
                     "envvar": "stratified",
-                    "required": False,
+                    "required": True,
                     "help": "Stratified",
                 },
             ],
