@@ -5,12 +5,13 @@ from benchmark.Arguments import Arguments
 
 
 """Build report on screen of a result file, optionally generate excel and sql
-file, and can compare results of report with best results obtained by model
+file, and can compare results of report wibth best results obtained by model
 If no argument is set, displays the datasets and its characteristics
 """
 
 
 def main(args_test=None):
+    is_test = args_test is not None
     arguments = Arguments(prog="be_report")
     arguments.add_subparser()
     arguments.add_subparsers_options(
@@ -72,13 +73,11 @@ def main(args_test=None):
                     compare=args.compare,
                 )
                 excel.report()
-                is_test = args_test is not None
                 Files.open(excel.get_file_name(), is_test)
         case "datasets":
             report = ReportDatasets(args.excel)
             report.report()
             if args.excel:
-                is_test = args_test is not None
                 Files.open(report.get_file_name(), is_test)
         case _:
-            arguments.parse(["-h"])
+            arguments.print_help()

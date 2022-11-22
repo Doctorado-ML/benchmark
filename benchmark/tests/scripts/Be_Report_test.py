@@ -104,14 +104,14 @@ class BeReportTest(TestBase):
     def test_be_report_unknown_subcommand(self, stderr):
         with self.assertRaises(SystemExit) as msg:
             module = self.search_script("be_report")
-            module.main(["unknown", "accuracy", "-m", "STree"])
+            module.main(["unknown"])
         self.assertEqual(msg.exception.code, 2)
-        self.assertEqual(
-            stderr.getvalue(),
-            "usage: be_report [-h] {best,grid,file,datasets} ...\n"
-            "be_report: error: argument subcommand: invalid choice: "
-            "'unknown' (choose from 'best', 'grid', 'file', 'datasets')\n",
-        )
+        self.check_output_file(stderr, "report_unknown_subcommand")
+
+    def test_be_report_without_subcommand(self):
+        stdout, stderr = self.execute_script("be_report", "")
+        self.assertEqual(stderr.getvalue(), "")
+        self.check_output_file(stdout, "report_without_subcommand")
 
     def test_be_report_excel_compared(self):
         file_name = "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json"

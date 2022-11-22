@@ -176,7 +176,7 @@ class Arguments(argparse.ArgumentParser):
                     "action": "store_true",
                     "required": False,
                     "default": False,
-                    "help": "Move nan results to hidden folder",
+                    "help": "List nan results to hidden folder",
                 },
             ],
             "number": [

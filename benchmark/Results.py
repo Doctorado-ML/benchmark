@@ -23,7 +23,7 @@ from .Utils import (
 from ._version import __version__
 
 
-def get_input(is_test=False, message=""):
+def get_input(message="", is_test=False):
     return "test" if is_test else input(message)
 
 
@@ -1476,7 +1476,7 @@ class Summary:
             )
         )
 
-    def manage_results(self, is_test):
+    def manage_results(self):
         """Manage results showed in the summary
         return True if excel file is created False otherwise
         """
@@ -1497,7 +1497,7 @@ class Summary:
                 TextColor.RED
                 + f"Are you sure to {verb1} {file_name_result} (y/n)? "
             )
-            confirm = get_input(message=conf_message, is_test=is_test)
+            confirm = get_input(message=conf_message)
             if confirm == "y":
                 print(TextColor.YELLOW + f"{verb2} {file_name_result}")
                 if command == cmd.delete:
@@ -1522,7 +1522,7 @@ class Summary:
         book = None
         max_value = len(self.data)
         while True:
-            match get_input(message=message, is_test=is_test).split():
+            match get_input(message=message).split():
                 case [cmd.relist]:
                     self.list_results()
                 case [cmd.quit]:

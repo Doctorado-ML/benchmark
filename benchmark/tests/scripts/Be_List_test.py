@@ -1,4 +1,5 @@
 import os
+import shutil
 from unittest.mock import patch
 from openpyxl import load_workbook
 from ...Utils import Folders, Files, NO_RESULTS
@@ -63,7 +64,35 @@ class BeListTest(TestBase):
         self.assertEqual(stderr.getvalue(), "")
         self.assertEqual(stdout.getvalue(), f"{NO_RESULTS}\n")
 
-    @patch("benchmark.Results.get_input", side_effect=iter(["h 0", "y", "q"]))
+    @patch(
+        "benchmark.Results.get_input", side_effect=iter(["d 0", "y", "", "q"])
+    )
+    # @patch("benchmark.Results.get_input", side_effect=iter(["q"]))
+    def test_be_list_delete(self, input_data):
+        def copy_files(source_folder, target_folder, file_name):
+            source = os.path.join(source_folder, file_name)
+            target = os.path.join(target_folder, file_name)
+            shutil.copyfile(source, target)
+
+        file_name = (
+            "results_accuracy_XGBoost_MacBookpro16_2022-05-04_11:00:"
+            "35_0.json"
+        )
+        # move nan result from hidden to results
+        copy_files(Folders.hidden_results, Folders.results, file_name)
+        try:
+            # list and delete result
+            stdout, stderr = self.execute_script("be_list", "")
+            self.assertEqual(stderr.getvalue(), "")
+            self.check_output_file(stdout, "be_list_delete")
+        except Exception:
+            # delete the result copied if be_list couldn't
+            os.unlink(os.path.join(Folders.results, file_name))
+            self.fail("test_be_list_delete() should not raise exception")
+
+    @patch(
+        "benchmark.Results.get_input", side_effect=iter(["h 0", "y", "", "q"])
+    )
     def test_be_list_hide(self, input_data):
         def swap_files(source_folder, target_folder, file_name):
             source = os.path.join(source_folder, file_name)
@@ -78,20 +107,37 @@ class BeListTest(TestBase):
         swap_files(Folders.hidden_results, Folders.results, file_name)
         try:
             # list and move nan result to hidden again
-            stdout, stderr = self.execute_script("be_list", [])
+            stdout, stderr = self.execute_script("be_list", "")
             self.assertEqual(stderr.getvalue(), "")
-            print(stdout.getvalue())
-            # self.check_output_file(stdout, "be_list_nan")
+            self.check_output_file(stdout, "be_list_hide")
         except Exception:
-            # move back nan result file if be_list couldn't
+            # delete the result copied if be_list couldn't
             swap_files(Folders.results, Folders.hidden_results, file_name)
             self.fail("test_be_list_hide() should not raise exception")
 
-    @patch("benchmark.Results.get_input", return_value="q")
-    def test_be_list_nan_no_nan(self, input_data):
-        stdout, stderr = self.execute_script("be_list", ["--nan"])
+    @patch("benchmark.Results.get_input", side_effect=iter(["h 0", "q"]))
+    def test_be_list_already_hidden(self, input_data):
+        stdout, stderr = self.execute_script("be_list", ["--hidden"])
         self.assertEqual(stderr.getvalue(), "")
-        self.check_output_file(stdout, "be_list_no_nan")
+        self.check_output_file(stdout, "be_list_already_hidden")
+
+    @patch("benchmark.Results.get_input", side_effect=iter(["h 0", "n", "q"]))
+    def test_be_list_dont_hide(self, input_data):
+        stdout, stderr = self.execute_script("be_list", "")
+        self.assertEqual(stderr.getvalue(), "")
+        self.check_output_file(stdout, "be_list_default")
+
+    @patch("benchmark.Results.get_input", side_effect=iter(["q"]))
+    def test_be_list_hidden_nan(self, input_data):
+        stdout, stderr = self.execute_script("be_list", ["--hidden", "--nan"])
+        self.assertEqual(stderr.getvalue(), "")
+        self.check_output_file(stdout, "be_list_hidden_nan")
+
+    @patch("benchmark.Results.get_input", side_effect=iter(["q"]))
+    def test_be_list_hidden(self, input_data):
+        stdout, stderr = self.execute_script("be_list", ["--hidden"])
+        self.assertEqual(stderr.getvalue(), "")
+        self.check_output_file(stdout, "be_list_hidden")
 
     def test_be_no_env(self):
         path = os.getcwd()
