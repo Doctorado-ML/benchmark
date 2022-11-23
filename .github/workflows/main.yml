@@ -43,7 +43,7 @@ jobs:
           pip install -q --upgrade pip
           pip install -q -r requirements.txt
           pip install -q --upgrade codecov coverage black flake8 flit
-          git clone git://git@github.com/doctorado-ml/bayesclass.git
+          git clone https://github.com/Doctorado-ML/bayesclass.git
           cd bayesclass
           flit install -s
       - name: Lint
