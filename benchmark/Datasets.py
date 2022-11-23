@@ -1,4 +1,5 @@
 import os
+from types import SimpleNamespace
 import pandas as pd
 import numpy as np
 from scipy.io import arff
@@ -31,6 +32,7 @@ class DatasetsArff:
         data = arff.loadarff(file_name)
         df = pd.DataFrame(data[0])
         df.dropna(axis=0, how="any", inplace=True)
+        self.dataset = df
         X = df.drop(class_name, axis=1)
         self.features = X.columns
         self.class_name = class_name
@@ -55,8 +57,12 @@ class DatasetsTanveer:
             sep="\t",
             index_col=0,
         )
-        X = data.drop("clase", axis=1).to_numpy()
+        X = data.drop("clase", axis=1)
+        self.features = X.columns
+        X = X.to_numpy()
         y = data["clase"].to_numpy()
+        self.dataset = data
+        self.class_name = "clase"
         return X, y
 
 
@@ -77,8 +83,11 @@ class DatasetsSurcov:
         )
         data.dropna(axis=0, how="any", inplace=True)
         self.columns = data.columns
-        col_list = ["class"]
-        X = data.drop(col_list, axis=1).to_numpy()
+        X = data.drop(["class"], axis=1)
+        self.features = X.columns
+        self.class_name = "class"
+        self.dataset = data
+        X = X.to_numpy()
         y = data["class"].to_numpy()
         return X, y
 
@@ -86,50 +95,48 @@ class DatasetsSurcov:
 class Datasets:
     def __init__(self, dataset_name=None):
         envData = EnvData.load()
-        class_name = getattr(
+        # DatasetsSurcov, DatasetsTanveer, DatasetsArff,...
+        source_name = getattr(
             __import__(__name__),
             f"Datasets{envData['source_data']}",
         )
-        self.load = (
-            self.load_discretized
-            if envData["discretize"] == "1"
-            else self.load_continuous
-        )
-        self.dataset = class_name()
+        self.discretize = envData["discretize"] == "1"
+        self.dataset = source_name()
         self.class_names = []
-        self._load_names()
-        if dataset_name is not None:
-            try:
-                class_name = self.class_names[
-                    self.data_sets.index(dataset_name)
-                ]
-                self.class_names = [class_name]
-            except ValueError:
-                raise ValueError(f"Unknown dataset: {dataset_name}")
-            self.data_sets = [dataset_name]
+        self.data_sets = []
+        # initialize self.class_names & self.data_sets
+        class_names, sets = self._init_names(dataset_name)
+        self.class_names = class_names
+        self.data_sets = sets
 
-    def _load_names(self):
+    def _init_names(self, dataset_name):
         file_name = os.path.join(self.dataset.folder(), Files.index)
         default_class = "class"
         with open(file_name) as f:
-            self.data_sets = f.read().splitlines()
-            self.class_names = [default_class] * len(self.data_sets)
-        if "," in self.data_sets[0]:
+            sets = f.read().splitlines()
+            class_names = [default_class] * len(sets)
+        if "," in sets[0]:
             result = []
             class_names = []
-            for data in self.data_sets:
+            for data in sets:
                 name, class_name = data.split(",")
                 result.append(name)
                 class_names.append(class_name)
-            self.data_sets = result
-            self.class_names = class_names
+            sets = result
+        # Set as dataset list the dataset passed as argument
+        if dataset_name is None:
+            return class_names, sets
+        try:
+            class_name = class_names[sets.index(dataset_name)]
+        except ValueError:
+            raise ValueError(f"Unknown dataset: {dataset_name}")
+        return [class_name], [dataset_name]
 
     def get_attributes(self, name):
-        class Attributes:
-            pass
-
-        X, y = self.load_continuous(name)
-        attr = Attributes()
+        tmp = self.discretize
+        self.discretize = False
+        X, y = self.load(name)
+        attr = SimpleNamespace()
         values, counts = np.unique(y, return_counts=True)
         comp = ""
         sep = ""
@@ -140,6 +147,7 @@ class Datasets:
         attr.classes = len(np.unique(y))
         attr.samples = X.shape[0]
         attr.features = X.shape[1]
+        self.discretize = tmp
         return attr
 
     def get_features(self):
@@ -148,14 +156,25 @@ class Datasets:
     def get_class_name(self):
         return self.dataset.class_name
 
-    def load_continuous(self, name):
+    def get_dataset(self):
+        return self.dataset.dataset
+
+    def load(self, name, dataframe=False):
         try:
             class_name = self.class_names[self.data_sets.index(name)]
-            return self.dataset.load(name, class_name)
+            X, y = self.dataset.load(name, class_name)
+            if self.discretize:
+                X = self.discretize_dataset(X, y)
+                dataset = pd.DataFrame(X, columns=self.get_features())
+                dataset[self.get_class_name()] = y
+                self.dataset.dataset = dataset
+            if dataframe:
+                return self.get_dataset()
+            return X, y
         except (ValueError, FileNotFoundError):
             raise ValueError(f"Unknown dataset: {name}")
 
-    def discretize(self, X, y):
+    def discretize_dataset(self, X, y):
         """Supervised discretization with Fayyad and Irani's MDLP algorithm.
 
         Parameters
@@ -172,15 +191,6 @@ class Datasets:
         discretiz = MDLP(random_state=17, dtype=np.int32)
         Xdisc = discretiz.fit_transform(X, y)
         return Xdisc
-
-    def load_discretized(self, name, dataframe=False):
-        X, yd = self.load_continuous(name)
-        Xd = self.discretize(X, yd)
-        dataset = pd.DataFrame(Xd, columns=self.get_features())
-        dataset[self.get_class_name()] = yd
-        if dataframe:
-            return dataset
-        return Xd, yd
 
     def __iter__(self) -> Diterator:
         return Diterator(self.data_sets)

@@ -5,46 +5,79 @@ from benchmark.Arguments import Arguments
 
 
 """Build report on screen of a result file, optionally generate excel and sql
-file, and can compare results of report with best results obtained by model
+file, and can compare results of report wibth best results obtained by model
 If no argument is set, displays the datasets and its characteristics
 """
 
 
 def main(args_test=None):
-    arguments = Arguments()
-    arguments.xset("file").xset("excel").xset("sql").xset("compare")
-    arguments.xset("best").xset("grid").xset("model", required=False)
-    arguments.xset("score", required=False)
+    is_test = args_test is not None
+    arguments = Arguments(prog="be_report")
+    arguments.add_subparser()
+    arguments.add_subparsers_options(
+        (
+            "best",
+            "Report best results obtained by any model/score. "
+            "See be_build_best",
+        ),
+        [
+            ("model", dict(required=False)),
+            ("score", dict(required=False)),
+        ],
+    )
+    arguments.add_subparsers_options(
+        (
+            "grid",
+            "Report grid results obtained by any model/score. "
+            "See be_build_grid",
+        ),
+        [
+            ("model", dict(required=False)),
+            ("score", dict(required=False)),
+        ],
+    )
+    arguments.add_subparsers_options(
+        ("file", "Report file results"),
+        [
+            ("file_name", {}),
+            ("excel", {}),
+            ("sql", {}),
+            ("compare", {}),
+        ],
+    )
+    arguments.add_subparsers_options(
+        ("datasets", "Report datasets information"),
+        [
+            ("excel", {}),
+        ],
+    )
     args = arguments.parse(args_test)
-    if args.best:
-        args.grid = None
-    if args.grid:
-        args.best = None
-    if args.file is None and args.best is None and args.grid is None:
-        report = ReportDatasets(args.excel)
-        report.report()
-        if args.excel:
-            is_test = args_test is not None
-            Files.open(report.get_file_name(), is_test)
-    else:
-        if args.best is not None or args.grid is not None:
-            report = ReportBest(args.score, args.model, args.best, args.grid)
+    match args.subcommand:
+        case "best" | "grid":
+            best = args.subcommand == "best"
+            report = ReportBest(args.score, args.model, best)
             report.report()
-        else:
+        case "file":
             try:
-                report = Report(args.file, args.compare)
+                report = Report(args.file_name, args.compare)
+                report.report()
             except FileNotFoundError as e:
                 print(e)
-            else:
-                report.report()
-                if args.excel:
-                    excel = Excel(
-                        file_name=args.file,
-                        compare=args.compare,
-                    )
-                    excel.report()
-                    is_test = args_test is not None
-                    Files.open(excel.get_file_name(), is_test)
-                if args.sql:
-                    sql = SQL(args.file)
-                    sql.report()
+                return
+            if args.sql:
+                sql = SQL(args.file_name)
+                sql.report()
+            if args.excel:
+                excel = Excel(
+                    file_name=args.file_name,
+                    compare=args.compare,
+                )
+                excel.report()
+                Files.open(excel.get_file_name(), is_test)
+        case "datasets":
+            report = ReportDatasets(args.excel)
+            report.report()
+            if args.excel:
+                Files.open(report.get_file_name(), is_test)
+        case _:
+            arguments.print_help()

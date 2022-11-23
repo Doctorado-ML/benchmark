@@ -146,3 +146,7 @@ class TextColor:
     ENDC = "\033[0m"
     BOLD = "\033[1m"
     UNDERLINE = "\033[4m"
+    WHITE = "\033[97m"
+    GREY = "\033[90m"
+    BLACK = "\033[90m"
+    DEFAULT = "\033[99m"

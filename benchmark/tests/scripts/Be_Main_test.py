@@ -1,4 +1,5 @@
 import os
+import json
 from io import StringIO
 from unittest.mock import patch
 from ...Results import Report
@@ -30,7 +31,7 @@ class BeMainTest(TestBase):
     def test_be_main_complete(self):
         stdout, _ = self.execute_script(
             "be_main",
-            ["-s", self.score, "-m", "STree", "--title", "test", "-r", "1"],
+            ["-s", self.score, "-m", "STree", "--title", "test", "-r"],
         )
         # keep the report name to delete it after
         report_name = stdout.getvalue().splitlines()[-1].split("in ")[1]
@@ -66,10 +67,8 @@ class BeMainTest(TestBase):
                 "STree",
                 "--title",
                 "test",
-                "-f",
-                "1",
+                "-b",
                 "-r",
-                "1",
             ],
         )
         # keep the report name to delete it after
@@ -78,6 +77,48 @@ class BeMainTest(TestBase):
         self.check_output_lines(
             stdout, "be_main_best", [0, 2, 3, 5, 6, 7, 8, 9, 12, 13, 14]
         )
+
+    @patch("sys.stdout", new_callable=StringIO)
+    @patch("sys.stderr", new_callable=StringIO)
+    def test_be_main_incompatible_params(self, stdout, stderr):
+        m1 = (
+            "be_main: error: argument -b/--best_paramfile: not allowed with "
+            "argument -p/--hyperparameters"
+        )
+        m2 = (
+            "be_main: error: argument -g/--grid_paramfile: not allowed with "
+            "argument -p/--hyperparameters"
+        )
+        m3 = (
+            "be_main: error: argument -g/--grid_paramfile: not allowed with "
+            "argument -p/--hyperparameters"
+        )
+        m4 = m1
+        p0 = [
+            "-s",
+            self.score,
+            "-m",
+            "SVC",
+            "--title",
+            "test",
+        ]
+        pset = json.dumps(dict(C=17))
+        p1 = p0.copy()
+        p1.extend(["-p", pset, "-b"])
+        p2 = p0.copy()
+        p2.extend(["-p", pset, "-g"])
+        p3 = p0.copy()
+        p3.extend(["-p", pset, "-g", "-b"])
+        p4 = p0.copy()
+        p4.extend(["-b", "-g"])
+        parameters = [(p1, m1), (p2, m2), (p3, m3), (p4, m4)]
+        for parameter, message in parameters:
+            with self.assertRaises(SystemExit) as msg:
+                module = self.search_script("be_main")
+                module.main(parameter)
+            self.assertEqual(msg.exception.code, 2)
+            self.assertEqual(stderr.getvalue(), "")
+            self.assertRegexpMatches(stdout.getvalue(), message)
 
     def test_be_main_best_params_non_existent(self):
         model = "GBC"
@@ -90,10 +131,8 @@ class BeMainTest(TestBase):
                 model,
                 "--title",
                 "test",
-                "-f",
-                "1",
+                "-b",
                 "-r",
-                "1",
             ],
         )
         self.assertEqual(stderr.getvalue(), "")
@@ -117,9 +156,7 @@ class BeMainTest(TestBase):
                 "--title",
                 "test",
                 "-g",
-                "1",
                 "-r",
-                "1",
             ],
         )
         self.assertEqual(stderr.getvalue(), "")
@@ -142,9 +179,7 @@ class BeMainTest(TestBase):
                 "--title",
                 "test",
                 "-g",
-                "1",
                 "-r",
-                "1",
             ],
         )
         # keep the report name to delete it after

@@ -24,13 +24,11 @@ class ArgumentsTest(TestBase):
 
     def test_parameters(self):
         expected_parameters = {
-            "best": ("-b", "--best"),
+            "best_paramfile": ("-b", "--best_paramfile"),
             "color": ("-c", "--color"),
             "compare": ("-c", "--compare"),
             "dataset": ("-d", "--dataset"),
             "excel": ("-x", "--excel"),
-            "file": ("-f", "--file"),
-            "grid": ("-g", "--grid"),
             "grid_paramfile": ("-g", "--grid_paramfile"),
             "hidden": ("--hidden",),
             "hyperparameters": ("-p", "--hyperparameters"),
@@ -42,7 +40,6 @@ class ArgumentsTest(TestBase):
             "nan": ("--nan",),
             "number": ("-n", "--number"),
             "n_folds": ("-n", "--n_folds"),
-            "paramfile": ("-f", "--paramfile"),
             "platform": ("-P", "--platform"),
             "quiet": ("-q", "--quiet"),
             "report": ("-r", "--report"),
@@ -98,3 +95,27 @@ class ArgumentsTest(TestBase):
         finally:
             os.chdir(path)
         self.assertEqual(stderr.getvalue(), f"{NO_ENV}\n")
+
+    @patch("sys.stderr", new_callable=StringIO)
+    def test_overrides(self, stderr):
+        arguments = self.build_args()
+        arguments.xset("title")
+        arguments.xset("dataset", overrides="title", const="sample text")
+        test_args = ["-n", "3", "-m", "SVC", "-k", "1", "-d", "dataset"]
+        args = arguments.parse(test_args)
+        self.assertEqual(stderr.getvalue(), "")
+        self.assertEqual(args.title, "sample text")
+
+    @patch("sys.stderr", new_callable=StringIO)
+    def test_overrides_no_args(self, stderr):
+        arguments = self.build_args()
+        arguments.xset("title")
+        arguments.xset("dataset", overrides="title", const="sample text")
+        test_args = None
+        with self.assertRaises(SystemExit):
+            arguments.parse(test_args)
+        self.assertRegexpMatches(
+            stderr.getvalue(),
+            r"error: the following arguments are required: -m/--model, "
+            "-k/--key, --title",
+        )

@@ -36,6 +36,7 @@ class EnvDefault(argparse.Action):
         self, envvar, required=True, default=None, mandatory=False, **kwargs
     ):
         self._args = EnvData.load()
+        self._overrides = {}
         if required and not mandatory:
             default = self._args[envvar]
             required = False
@@ -47,24 +48,27 @@ class EnvDefault(argparse.Action):
         setattr(namespace, self.dest, values)
 
 
-class Arguments:
-    def __init__(self):
-        self.ap = argparse.ArgumentParser()
+class Arguments(argparse.ArgumentParser):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         models_data = Models.define_models(random_state=0)
+        self._overrides = {}
+        self._subparser = None
         self.parameters = {
-            "best": [
-                ("-b", "--best"),
+            "best_paramfile": [
+                ("-b", "--best_paramfile"),
                 {
-                    "type": str,
+                    "action": "store_true",
                     "required": False,
-                    "help": "best results of models",
+                    "default": False,
+                    "help": "Use best hyperparams file?",
                 },
             ],
             "color": [
                 ("-c", "--color"),
                 {
-                    "type": bool,
                     "required": False,
+                    "action": "store_true",
                     "default": False,
                     "help": "use colors for the tree",
                 },
@@ -72,8 +76,9 @@ class Arguments:
             "compare": [
                 ("-c", "--compare"),
                 {
-                    "type": bool,
+                    "action": "store_true",
                     "required": False,
+                    "default": False,
                     "help": "Compare accuracy with best results",
                 },
             ],
@@ -81,6 +86,8 @@ class Arguments:
                 ("-d", "--dataset"),
                 {
                     "type": str,
+                    "envvar": "dataset",  # for compatiblity with EnvDefault
+                    "action": EnvDefault,
                     "required": False,
                     "help": "dataset to work with",
                 },
@@ -88,38 +95,26 @@ class Arguments:
             "excel": [
                 ("-x", "--excel"),
                 {
-                    "type": bool,
                     "required": False,
+                    "action": "store_true",
                     "default": False,
                     "help": "Generate Excel File",
-                },
-            ],
-            "file": [
-                ("-f", "--file"),
-                {"type": str, "required": False, "help": "Result file"},
-            ],
-            "grid": [
-                ("-g", "--grid"),
-                {
-                    "type": str,
-                    "required": False,
-                    "help": "grid results of model",
                 },
             ],
             "grid_paramfile": [
                 ("-g", "--grid_paramfile"),
                 {
-                    "type": bool,
                     "required": False,
+                    "action": "store_true",
                     "default": False,
-                    "help": "Use best hyperparams file?",
+                    "help": "Use grid output hyperparams file?",
                 },
             ],
             "hidden": [
                 ("--hidden",),
                 {
-                    "type": str,
                     "required": False,
+                    "action": "store_true",
                     "default": False,
                     "help": "Show hidden results",
                 },
@@ -140,8 +135,8 @@ class Arguments:
             "lose": [
                 ("-l", "--lose"),
                 {
-                    "type": bool,
                     "default": False,
+                    "action": "store_true",
                     "required": False,
                     "help": "show lose results",
                 },
@@ -178,9 +173,10 @@ class Arguments:
             "nan": [
                 ("--nan",),
                 {
-                    "type": bool,
+                    "action": "store_true",
                     "required": False,
-                    "help": "Move nan results to hidden folder",
+                    "default": False,
+                    "help": "List nan results to hidden folder",
                 },
             ],
             "number": [
@@ -202,15 +198,6 @@ class Arguments:
                     "help": "number of folds",
                 },
             ],
-            "paramfile": [
-                ("-f", "--paramfile"),
-                {
-                    "type": bool,
-                    "required": False,
-                    "default": False,
-                    "help": "Use best hyperparams file?",
-                },
-            ],
             "platform": [
                 ("-P", "--platform"),
                 {
@@ -224,7 +211,7 @@ class Arguments:
             "quiet": [
                 ("-q", "--quiet"),
                 {
-                    "type": bool,
+                    "action": "store_true",
                     "required": False,
                     "default": False,
                 },
@@ -232,7 +219,7 @@ class Arguments:
             "report": [
                 ("-r", "--report"),
                 {
-                    "type": bool,
+                    "action": "store_true",
                     "default": False,
                     "required": False,
                     "help": "Report results",
@@ -250,14 +237,18 @@ class Arguments:
             ],
             "sql": [
                 ("-q", "--sql"),
-                {"type": bool, "required": False, "help": "Generate SQL File"},
+                {
+                    "required": False,
+                    "action": "store_true",
+                    "default": False,
+                    "help": "Generate SQL File",
+                },
             ],
             "stratified": [
                 ("-t", "--stratified"),
                 {
                     "action": EnvDefault,
                     "envvar": "stratified",
-                    "type": str,
                     "required": True,
                     "help": "Stratified",
                 },
@@ -265,8 +256,8 @@ class Arguments:
             "tex_output": [
                 ("-t", "--tex-output"),
                 {
-                    "type": bool,
                     "required": False,
+                    "action": "store_true",
                     "default": False,
                     "help": "Generate Tex file with the table",
                 },
@@ -278,8 +269,8 @@ class Arguments:
             "win": [
                 ("-w", "--win"),
                 {
-                    "type": bool,
                     "default": False,
+                    "action": "store_true",
                     "required": False,
                     "help": "show win results",
                 },
@@ -287,12 +278,43 @@ class Arguments:
         }
 
     def xset(self, *arg_name, **kwargs):
-        names, default = self.parameters[arg_name[0]]
-        self.ap.add_argument(
+        names, parameters = self.parameters[arg_name[0]]
+        if "overrides" in kwargs:
+            self._overrides[names[0]] = (kwargs["overrides"], kwargs["const"])
+            del kwargs["overrides"]
+        self.add_argument(
             *names,
-            **{**default, **kwargs},
+            **{**parameters, **kwargs},
         )
         return self
 
+    def add_subparser(
+        self, dest="subcommand", help_text="help for subcommand"
+    ):
+        self._subparser = self.add_subparsers(dest=dest, help=help_text)
+
+    def add_subparsers_options(self, subparser, arguments):
+        command, help_text = subparser
+        parser = self._subparser.add_parser(command, help=help_text)
+        for name, args in arguments:
+            try:
+                names, parameters = self.parameters[name]
+            except KeyError:
+                names = (name,)
+                parameters = {}
+            # Order of args is important
+            parser.add_argument(*names, **{**args, **parameters})
+
+    def add_exclusive(self, hyperparameters, required=False):
+        group = self.add_mutually_exclusive_group(required=required)
+        for name in hyperparameters:
+            names, parameters = self.parameters[name]
+            group.add_argument(*names, **parameters)
+
     def parse(self, args=None):
-        return self.ap.parse_args(args)
+        for key, (dest_key, value) in self._overrides.items():
+            if args is None:
+                args = sys.argv[1:]
+            if key in args:
+                args.extend((f"--{dest_key}", value))
+        return super().parse_args(args)

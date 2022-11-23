@@ -1,0 +1,2 @@
+usage: be_init_project [-h] project_name
+be_init_project: error: the following arguments are required: project_name

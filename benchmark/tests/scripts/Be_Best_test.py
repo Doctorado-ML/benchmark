@@ -67,7 +67,7 @@ class BeBestTest(TestBase):
 
     def test_be_build_best_report(self):
         stdout, _ = self.execute_script(
-            "be_build_best", ["-s", "accuracy", "-m", "ODTE", "-r", "1"]
+            "be_build_best", ["-s", "accuracy", "-m", "ODTE", "-r"]
         )
         expected_data = {
             "balance-scale": [

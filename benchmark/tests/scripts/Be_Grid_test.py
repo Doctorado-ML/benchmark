@@ -69,7 +69,7 @@ class BeGridTest(TestBase):
     def test_be_grid_no_input(self):
         stdout, stderr = self.execute_script(
             "be_grid",
-            ["-m", "ODTE", "-s", "f1-weighted", "-q", "1"],
+            ["-m", "ODTE", "-s", "f1-weighted", "-q"],
         )
         self.assertEqual(stderr.getvalue(), "")
         grid_file = os.path.join(

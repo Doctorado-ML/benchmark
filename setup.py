@@ -38,6 +38,7 @@ def script_names():
         "print_strees",
         "report",
         "summary",
+        "init_project",
     ]
     result = []
     for script in scripts:
@@ -60,8 +61,6 @@ setuptools.setup(
     classifiers=[
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: " + get_data("license"),
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Natural Language :: English",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",

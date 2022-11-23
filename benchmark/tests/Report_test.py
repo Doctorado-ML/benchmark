@@ -69,13 +69,13 @@ class ReportTest(TestBase):
             _ = Report("unknown_file")
 
     def test_report_best(self):
-        report = ReportBest("accuracy", "STree", best=True, grid=False)
+        report = ReportBest("accuracy", "STree", best=True)
         with patch(self.output, new=StringIO()) as stdout:
             report.report()
         self.check_output_file(stdout, "report_best")
 
     def test_report_grid(self):
-        report = ReportBest("accuracy", "STree", best=False, grid=True)
+        report = ReportBest("accuracy", "STree", best=False)
         with patch(self.output, new=StringIO()) as stdout:
             report.report()
         file_name = "report_grid.test"
@@ -89,12 +89,6 @@ class ReportTest(TestBase):
                 line = self.replace_STree_version(line, output_text, index)
 
             self.assertEqual(line, output_text[index])
-
-    def test_report_best_both(self):
-        report = ReportBest("accuracy", "STree", best=True, grid=True)
-        with patch(self.output, new=StringIO()) as stdout:
-            report.report()
-        self.check_output_file(stdout, "report_best")
 
     @patch("sys.stdout", new_callable=StringIO)
     def test_report_datasets(self, mock_output):

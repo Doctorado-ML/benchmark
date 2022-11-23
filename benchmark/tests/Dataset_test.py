@@ -33,8 +33,8 @@ class DatasetTest(TestBase):
     def test_load_dataframe(self):
         self.set_env(".env.arff")
         dt = Datasets()
-        X, y = dt.load_discretized("iris", dataframe=False)
-        dataset = dt.load_discretized("iris", dataframe=True)
+        X, y = dt.load("iris", dataframe=False)
+        dataset = dt.load("iris", dataframe=True)
         class_name = dt.get_class_name()
         features = dt.get_features()
         self.assertListEqual(y.tolist(), dataset[class_name].tolist())
