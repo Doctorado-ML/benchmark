@@ -13,17 +13,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        python: ["3.10", "3.11"]
+        python: ["3.10"]
 
     steps:
       - uses: actions/checkout@v3
-      # - name: Setup upterm session
-      #   uses: lhotari/action-upterm@v1
-      #   with:
-      #     ## limits ssh access and adds the ssh public key for the user which triggered the workflow
-      #     limit-access-to-actor: true
-      #     ## limits ssh access and adds the ssh public keys of the listed GitHub users
-      #     limit-access-to-users: rmontanana
       - name: Set up Python ${{ matrix.python }}
         uses: actions/setup-python@v2
         with:
@@ -49,10 +42,8 @@ jobs:
         run: |
           pip install -q --upgrade pip
           pip install -q -r requirements.txt
-          pip install -q --upgrade codecov coverage black flake8 flit
+          pip install -q --upgrade codecov coverage black flake8
           git clone https://github.com/Doctorado-ML/bayesclass.git
-          cd bayesclass
-          flit install -s
       - name: Lint
         run: |
           black --check --diff benchmark
