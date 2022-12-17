@@ -2,10 +2,11 @@ import os
 from types import SimpleNamespace
 import pandas as pd
 import numpy as np
+import json
 from scipy.io import arff
 from .Utils import Files
 from .Arguments import EnvData
-from mdlp.discretization import MDLP
+from fimdlp.mdlp import FImdlp
 
 
 class Diterator:
@@ -112,6 +113,7 @@ class Datasets:
     def _init_names(self, dataset_name):
         file_name = os.path.join(self.dataset.folder(), Files.index)
         default_class = "class"
+        self.continuous_features = {}
         with open(file_name) as f:
             sets = f.read().splitlines()
             class_names = [default_class] * len(sets)
@@ -119,10 +121,14 @@ class Datasets:
             result = []
             class_names = []
             for data in sets:
-                name, class_name = data.split(",")
+                name, class_name, features = data.split(",", 2)
                 result.append(name)
                 class_names.append(class_name)
+                self.continuous_features[name] = features
             sets = result
+        else:
+            for name in sets:
+                self.continuous_features[name] = None
         # Set as dataset list the dataset passed as argument
         if dataset_name is None:
             return class_names, sets
@@ -137,6 +143,7 @@ class Datasets:
         self.discretize = False
         X, y = self.load(name)
         attr = SimpleNamespace()
+        attr.dataset = name
         values, counts = np.unique(y, return_counts=True)
         comp = ""
         sep = ""
@@ -147,11 +154,15 @@ class Datasets:
         attr.classes = len(np.unique(y))
         attr.samples = X.shape[0]
         attr.features = X.shape[1]
+        attr.cont_features = len(self.get_continuous_features())
         self.discretize = tmp
         return attr
 
     def get_features(self):
         return self.dataset.features
+
+    def get_continuous_features(self):
+        return self.continuous_features_dataset
 
     def get_class_name(self):
         return self.dataset.class_name
@@ -160,9 +171,16 @@ class Datasets:
         return self.dataset.dataset
 
     def load(self, name, dataframe=False):
+        def get_range_features(X, name):
+            c_features = self.continuous_features[name]
+            if c_features.strip() == "all":
+                return list(range(X.shape[1]))
+            return json.loads(c_features)
+
         try:
             class_name = self.class_names[self.data_sets.index(name)]
             X, y = self.dataset.load(name, class_name)
+            self.continuous_features_dataset = get_range_features(X, name)
             if self.discretize:
                 X = self.discretize_dataset(X, y)
                 dataset = pd.DataFrame(X, columns=self.get_features())
@@ -188,7 +206,7 @@ class Datasets:
         -------
         tuple (X, y) of numpy.ndarray
         """
-        discretiz = MDLP(random_state=17, dtype=np.int32)
+        discretiz = FImdlp(proposal=False)
         Xdisc = discretiz.fit_transform(X, y)
         return Xdisc
 

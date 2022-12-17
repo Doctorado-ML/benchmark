@@ -684,7 +684,7 @@ class ReportDatasets:
                 "bg_color": self.color1,
             }
         )
-        self.sheet.merge_range(0, 0, 0, 4, self.header_text, merge_format)
+        self.sheet.merge_range(0, 0, 0, 5, self.header_text, merge_format)
         self.sheet.merge_range(
             1,
             0,
@@ -697,24 +697,24 @@ class ReportDatasets:
             1,
             1,
             1,
-            3,
+            4,
             "Cross validation",
             merge_format_subheader_right,
         )
         self.sheet.write(
-            1, 4, f"{self.env['n_folds']} Folds", merge_format_subheader_left
+            1, 5, f"{self.env['n_folds']} Folds", merge_format_subheader_left
         )
         self.sheet.merge_range(
             2,
             1,
             2,
-            3,
+            4,
             "Stratified",
             merge_format_subheader_right,
         )
         self.sheet.write(
             2,
-            4,
+            5,
             f"{'True' if self.env['stratified']=='1' else 'False'}",
             merge_format_subheader_left,
         )
@@ -722,13 +722,13 @@ class ReportDatasets:
             3,
             1,
             3,
-            3,
+            4,
             "Discretized",
             merge_format_subheader_right,
         )
         self.sheet.write(
             3,
-            4,
+            5,
             f"{'True' if self.env['discretize']=='1' else 'False'}",
             merge_format_subheader_left,
         )
@@ -736,18 +736,19 @@ class ReportDatasets:
             4,
             1,
             4,
-            3,
+            4,
             "Seeds",
             merge_format_subheader_right,
         )
         self.sheet.write(
-            4, 4, f"{self.env['seeds']}", merge_format_subheader_left
+            4, 5, f"{self.env['seeds']}", merge_format_subheader_left
         )
         self.update_max_length(len(self.env["seeds"]) + 1)
         header_cols = [
             ("Dataset", 30),
             ("Samples", 10),
             ("Features", 10),
+            ("Continuous", 10),
             ("Classes", 10),
             ("Balance", 50),
         ]
@@ -767,7 +768,7 @@ class ReportDatasets:
 
     def footer(self):
         # set Balance column width to max length
-        self.sheet.set_column(4, 4, self.max_length)
+        self.sheet.set_column(5, 5, self.max_length)
         self.sheet.freeze_panes(6, 1)
         self.sheet.hide_gridlines(2)
         if self.close:
@@ -789,8 +790,9 @@ class ReportDatasets:
         self.sheet.write(self.row, col, result.dataset, normal)
         self.sheet.write(self.row, col + 1, result.samples, integer)
         self.sheet.write(self.row, col + 2, result.features, integer)
-        self.sheet.write(self.row, col + 3, result.classes, normal)
-        self.sheet.write(self.row, col + 4, result.balance, normal)
+        self.sheet.write(self.row, col + 3, result.cont_features, integer)
+        self.sheet.write(self.row, col + 4, result.classes, normal)
+        self.sheet.write(self.row, col + 5, result.balance, normal)
         self.update_max_length(len(result.balance))
         self.row += 1
 
@@ -807,11 +809,11 @@ class ReportDatasets:
             print(color_line, end="")
             print(self.header_text)
             print("")
-            print(f"{'Dataset':30s} Sampl. Feat. Cls Balance")
-            print("=" * 30 + " ====== ===== === " + "=" * 60)
+            print(f"{'Dataset':30s} Sampl. Feat. Cont Cls Balance")
+            print("=" * 30 + " ====== ===== ==== === " + "=" * 60)
         for dataset in data_sets:
             attributes = data_sets.get_attributes(dataset)
-            attributes.dataset = dataset
+
             if self.excel:
                 self.print_line(attributes)
             color_line = (
@@ -823,8 +825,8 @@ class ReportDatasets:
                 print(color_line, end="")
                 print(
                     f"{dataset:30s} {attributes.samples:6,d} "
-                    f"{attributes.features:5,d} {attributes.classes:3d} "
-                    f"{attributes.balance:40s}"
+                    f"{attributes.features:5,d} {attributes.cont_features:4,d}"
+                    f" {attributes.classes:3d} {attributes.balance:40s}"
                 )
         if self.excel:
             self.footer()
