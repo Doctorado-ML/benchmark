@@ -206,7 +206,7 @@ class Datasets:
         -------
         tuple (X, y) of numpy.ndarray
         """
-        discretiz = FImdlp(proposal=False)
+        discretiz = FImdlp(algorithm=0)
         Xdisc = discretiz.fit_transform(X, y)
         return Xdisc
 
