@@ -35,7 +35,7 @@ class DatasetsArff:
         df.dropna(axis=0, how="any", inplace=True)
         self.dataset = df
         X = df.drop(class_name, axis=1)
-        self.features = X.columns
+        self.features = X.columns.to_list()
         self.class_name = class_name
         y, _ = pd.factorize(df[class_name])
         X = X.to_numpy()
@@ -103,12 +103,11 @@ class Datasets:
         )
         self.discretize = envData["discretize"] == "1"
         self.dataset = source_name()
-        self.class_names = []
-        self.data_sets = []
         # initialize self.class_names & self.data_sets
         class_names, sets = self._init_names(dataset_name)
         self.class_names = class_names
         self.data_sets = sets
+        self.states = {}  # states of discretized variables
 
     def _init_names(self, dataset_name):
         file_name = os.path.join(self.dataset.folder(), Files.index)
@@ -161,6 +160,9 @@ class Datasets:
     def get_features(self):
         return self.dataset.features
 
+    def get_states(self, name):
+        return self.states[name] if name in self.states else None
+
     def get_continuous_features(self):
         return self.continuous_features_dataset
 
@@ -169,6 +171,12 @@ class Datasets:
 
     def get_dataset(self):
         return self.dataset.dataset
+
+    def build_states(self, name, X):
+        features = self.get_features()
+        self.states[name] = {
+            features[i]: np.unique(X[:, i]).tolist() for i in range(X.shape[1])
+        }
 
     def load(self, name, dataframe=False):
         def get_range_features(X, name):
@@ -183,6 +191,7 @@ class Datasets:
             self.continuous_features_dataset = get_range_features(X, name)
             if self.discretize:
                 X = self.discretize_dataset(X, y)
+                self.build_states(name, X)
                 dataset = pd.DataFrame(X, columns=self.get_features())
                 dataset[self.get_class_name()] = y
                 self.dataset.dataset = dataset

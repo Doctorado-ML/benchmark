@@ -123,6 +123,15 @@ class Arguments(argparse.ArgumentParser):
                 ("-p", "--hyperparameters"),
                 {"type": str, "required": False, "default": "{}"},
             ],
+            "ignore_nan": [
+                ("--ignore-nan",),
+                {
+                    "action": EnvDefault,
+                    "envvar": "ignore_nan",
+                    "required": True,
+                    "help": "Ignore nan results",
+                },
+            ],
             "key": [
                 ("-k", "--key"),
                 {

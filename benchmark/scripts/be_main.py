@@ -13,7 +13,7 @@ def main(args_test=None):
     arguments = Arguments(prog="be_main")
     arguments.xset("stratified").xset("score").xset("model", mandatory=True)
     arguments.xset("n_folds").xset("platform").xset("quiet").xset("title")
-    arguments.xset("report")
+    arguments.xset("report").xset("ignore_nan")
     arguments.add_exclusive(
         ["grid_paramfile", "best_paramfile", "hyperparameters"]
     )
@@ -35,6 +35,7 @@ def main(args_test=None):
             grid_paramfile=args.grid_paramfile,
             progress_bar=not args.quiet,
             platform=args.platform,
+            ignore_nan=args.ignore_nan,
             title=args.title,
             folds=args.n_folds,
         )
