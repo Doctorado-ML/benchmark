@@ -22,7 +22,7 @@ class Models:
         return {
             "STree": Stree(random_state=random_state),
             "TAN": TAN(random_state=random_state),
-            "KDB": KDB(k=3),
+            "KDB": KDB(k=2),
             "AODE": AODE(random_state=random_state),
             "Cart": DecisionTreeClassifier(random_state=random_state),
             "ExtraTree": ExtraTreeClassifier(random_state=random_state),

@@ -216,8 +216,7 @@ class Datasets:
         tuple (X, y) of numpy.ndarray
         """
         discretiz = FImdlp(algorithm=0)
-        Xdisc = discretiz.fit_transform(X, y)
-        return Xdisc
+        return discretiz.fit_transform(X, y)
 
     def __iter__(self) -> Diterator:
         return Diterator(self.data_sets)
