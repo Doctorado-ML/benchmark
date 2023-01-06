@@ -1,4 +1,6 @@
 import json
+from io import StringIO
+from unittest.mock import patch
 from .TestBase import TestBase
 from ..Experiments import Experiment
 from ..Datasets import Datasets
@@ -8,7 +10,9 @@ class ExperimentTest(TestBase):
     def setUp(self):
         self.exp = self.build_exp()
 
-    def build_exp(self, hyperparams=False, grid=False, model="STree"):
+    def build_exp(
+        self, hyperparams=False, grid=False, model="STree", ignore_nan=False
+    ):
         params = {
             "score_name": "accuracy",
             "model_name": model,
@@ -21,7 +25,7 @@ class ExperimentTest(TestBase):
             "title": "Test",
             "progress_bar": False,
             "folds": 2,
-            "ignore_nan": False,
+            "ignore_nan": ignore_nan,
         }
         return Experiment(**params)
 
@@ -157,3 +161,15 @@ class ExperimentTest(TestBase):
             self.assertEqual(computed["state_names"][key], value)
         for feature in expected["features"]:
             self.assertIn(feature, computed["features"])
+
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_experiment_with_nan_not_ignored(self, mock_output):
+        exp = self.build_exp(model="Mock")
+        self.assertRaises(ValueError, exp.do_experiment)
+        output_text = mock_output.getvalue().splitlines()
+        expected = "[      nan 0.8974359]"
+        self.assertEqual(expected, output_text[0])
+
+    def test_experiment_with_nan_ignored(self):
+        self.exp = self.build_exp(model="Mock", ignore_nan=True)
+        self.exp.do_experiment()

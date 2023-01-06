@@ -15,6 +15,19 @@ from xgboost import XGBClassifier
 import sklearn
 import xgboost
 
+import random
+
+
+class MockModel(SVC):
+    # Only used for testing
+    def predict(self, X):
+        if random.random() < 0.1:
+            return [float("NaN")] * len(X)
+        return super().predict(X)
+
+    def nodes_leaves(self):
+        return 0, 0
+
 
 class Models:
     @staticmethod
@@ -50,6 +63,7 @@ class Models:
             ),
             "GBC": GradientBoostingClassifier(random_state=random_state),
             "RandomForest": RandomForestClassifier(random_state=random_state),
+            "Mock": MockModel(random_state=random_state),
         }
 
     @staticmethod

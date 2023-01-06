@@ -227,14 +227,11 @@ class Experiment:
                 if not self.ignore_nan:
                     print(res["test_score"])
                     raise ValueError("NaN in results")
-                results = []
-                for item in res["test_score"]:
-                    if not np.isnan(item):
-                        results.append(item)
+                results = res["test_score"][~np.isnan(res["test_score"])]
             else:
                 results = res["test_score"]
-            self.scores.append(results)
-            self.times.append(res["fit_time"])
+            self.scores.extend(results)
+            self.times.extend(res["fit_time"])
             for result_item in res["estimator"]:
                 nodes_item, leaves_item, depth_item = Models.get_complexity(
                     self.model_name, result_item
