@@ -8,10 +8,10 @@ class ExperimentTest(TestBase):
     def setUp(self):
         self.exp = self.build_exp()
 
-    def build_exp(self, hyperparams=False, grid=False):
+    def build_exp(self, hyperparams=False, grid=False, model="STree"):
         params = {
             "score_name": "accuracy",
-            "model_name": "STree",
+            "model_name": model,
             "stratified": "0",
             "datasets": Datasets(),
             "hyperparams_dict": "{}",
@@ -21,6 +21,7 @@ class ExperimentTest(TestBase):
             "title": "Test",
             "progress_bar": False,
             "folds": 2,
+            "ignore_nan": False,
         }
         return Experiment(**params)
 
@@ -31,6 +32,7 @@ class ExperimentTest(TestBase):
             ],
             ".",
         )
+        self.set_env(".env.dist")
         return super().tearDown()
 
     def test_build_hyperparams_file(self):
@@ -89,7 +91,7 @@ class ExperimentTest(TestBase):
     def test_exception_n_fold_crossval(self):
         self.exp.do_experiment()
         with self.assertRaises(ValueError):
-            self.exp._n_fold_crossval([], [], {})
+            self.exp._n_fold_crossval("", [], [], {})
 
     def test_do_experiment(self):
         self.exp.do_experiment()
@@ -131,3 +133,27 @@ class ExperimentTest(TestBase):
         ):
             for key, value in expected_result.items():
                 self.assertEqual(computed_result[key], value)
+
+    def test_build_fit_parameters(self):
+        self.set_env(".env.arff")
+        expected = {
+            "state_names": {
+                "sepallength": [0, 1, 2],
+                "sepalwidth": [0, 1, 3, 4],
+                "petallength": [0, 1, 2, 3],
+                "petalwidth": [0, 1, 2, 3],
+            },
+            "features": [
+                "sepallength",
+                "sepalwidth",
+                "petallength",
+                "petalwidth",
+            ],
+        }
+        exp = self.build_exp(model="TAN")
+        X, y = exp.datasets.load("iris")
+        computed = exp._build_fit_params("iris")
+        for key, value in expected["state_names"].items():
+            self.assertEqual(computed["state_names"][key], value)
+        for feature in expected["features"]:
+            self.assertIn(feature, computed["features"])

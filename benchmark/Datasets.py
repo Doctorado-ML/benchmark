@@ -28,6 +28,12 @@ class DatasetsArff:
     def folder():
         return "datasets"
 
+    @staticmethod
+    def get_range_features(X, c_features):
+        if c_features.strip() == "all":
+            return list(range(X.shape[1]))
+        return json.loads(c_features)
+
     def load(self, name, class_name):
         file_name = os.path.join(self.folder(), self.dataset_names(name))
         data = arff.loadarff(file_name)
@@ -50,6 +56,10 @@ class DatasetsTanveer:
     @staticmethod
     def folder():
         return "data"
+
+    @staticmethod
+    def get_range_features(X, name):
+        return []
 
     def load(self, name, *args):
         file_name = os.path.join(self.folder(), self.dataset_names(name))
@@ -75,6 +85,10 @@ class DatasetsSurcov:
     @staticmethod
     def folder():
         return "datasets"
+
+    @staticmethod
+    def get_range_features(X, name):
+        return []
 
     def load(self, name, *args):
         file_name = os.path.join(self.folder(), self.dataset_names(name))
@@ -179,16 +193,13 @@ class Datasets:
         }
 
     def load(self, name, dataframe=False):
-        def get_range_features(X, name):
-            c_features = self.continuous_features[name]
-            if c_features.strip() == "all":
-                return list(range(X.shape[1]))
-            return json.loads(c_features)
 
         try:
             class_name = self.class_names[self.data_sets.index(name)]
             X, y = self.dataset.load(name, class_name)
-            self.continuous_features_dataset = get_range_features(X, name)
+            self.continuous_features_dataset = self.dataset.get_range_features(
+                X, self.continuous_features[name]
+            )
             if self.discretize:
                 X = self.discretize_dataset(X, y)
                 self.build_states(name, X)

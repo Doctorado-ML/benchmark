@@ -180,6 +180,7 @@ class UtilTest(TestBase):
             "source_data": "Tanveer",
             "seeds": "[57, 31, 1714, 17, 23, 79, 83, 97, 7, 1]",
             "discretize": "0",
+            "ignore_nan": "0",
         }
         computed = EnvData().load()
         self.assertDictEqual(computed, expected)
@@ -191,8 +192,16 @@ class UtilTest(TestBase):
             "n_folds": 5,
             "model": "STree",
             "stratified": "0",
+            "ignore_nan": "0",
         }
         ap = argparse.ArgumentParser()
+        ap.add_argument(
+            "--ignore-nan",
+            action=EnvDefault,
+            envvar="ignore_nan",
+            required=True,
+            help="Ignore nan results",
+        )
         ap.add_argument(
             "-s",
             "--score",
