@@ -28,6 +28,11 @@ class MockModel(SVC):
     def nodes_leaves(self):
         return 0, 0
 
+    def fit(self, X, y, **kwargs):
+        kwargs.pop("state_names", None)
+        kwargs.pop("features", None)
+        return super().fit(X, y, **kwargs)
+
 
 class Models:
     @staticmethod

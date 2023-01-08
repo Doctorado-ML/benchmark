@@ -126,9 +126,9 @@ class Arguments(argparse.ArgumentParser):
             "ignore_nan": [
                 ("--ignore-nan",),
                 {
-                    "action": EnvDefault,
-                    "envvar": "ignore_nan",
-                    "required": True,
+                    "default": False,
+                    "action": "store_true",
+                    "required": False,
                     "help": "Ignore nan results",
                 },
             ],
