@@ -47,20 +47,20 @@ class Models:
             "Wodt": Wodt(random_state=random_state),
             "SVC": SVC(random_state=random_state),
             "ODTE": Odte(
-                base_estimator=Stree(random_state=random_state),
+                estimator=Stree(random_state=random_state),
                 random_state=random_state,
             ),
             "BaggingStree": BaggingClassifier(
-                base_estimator=Stree(random_state=random_state),
+                estimator=Stree(random_state=random_state),
                 random_state=random_state,
             ),
             "BaggingWodt": BaggingClassifier(
-                base_estimator=Wodt(random_state=random_state),
+                estimator=Wodt(random_state=random_state),
                 random_state=random_state,
             ),
             "XGBoost": XGBClassifier(random_state=random_state),
             "AdaBoostStree": AdaBoostClassifier(
-                base_estimator=Stree(
+                estimator=Stree(
                     random_state=random_state,
                 ),
                 algorithm="SAMME",

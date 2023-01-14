@@ -193,7 +193,6 @@ class Datasets:
         }
 
     def load(self, name, dataframe=False):
-
         try:
             class_name = self.class_names[self.data_sets.index(name)]
             X, y = self.dataset.load(name, class_name)
