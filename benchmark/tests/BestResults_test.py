@@ -18,7 +18,7 @@ class BestResultTest(TestBase):
                     "C": 7,
                     "gamma": 0.1,
                     "kernel": "rbf",
-                    "max_iter": 10000.0,
+                    "max_iter": 10000,
                     "multiclass_strategy": "ovr",
                 },
                 "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json",

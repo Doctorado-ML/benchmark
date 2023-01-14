@@ -46,7 +46,7 @@ def main(args_test=None):
         '{"C": 7, "gamma": 0.1, "kernel": "rbf", "multiclass_strategy": '
         '"ovr"}',
         '{"C": 5, "kernel": "rbf", "gamma": "auto"}',
-        '{"C": 0.05, "max_iter": 10000.0, "kernel": "liblinear", '
+        '{"C": 0.05, "max_iter": 10000, "kernel": "liblinear", '
         '"multiclass_strategy": "ovr"}',
         '{"C":0.0275, "kernel": "liblinear", "multiclass_strategy": "ovr"}',
         '{"C": 7, "gamma": 10.0, "kernel": "rbf", "multiclass_strategy": '
@@ -97,7 +97,7 @@ def main(args_test=None):
     for item in results:
         results_tmp = {"n_jobs": [-1], "n_estimators": [100]}
         for key, value in results[item].items():
-            new_key = f"base_estimator__{key}"
+            new_key = f"estimator__{key}"
             try:
                 results_tmp[new_key] = sorted(value)
             except TypeError:
@@ -111,6 +111,7 @@ def main(args_test=None):
                 t2 = sorted([x for x in value if isinstance(x, str)])
                 results_tmp[new_key] = t1 + t2
         output.append(results_tmp)
+
     # save results
     file_name = Files.grid_input(args.score, args.model)
     file_output = os.path.join(Folders.results, file_name)
