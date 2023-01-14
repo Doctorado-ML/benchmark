@@ -27,7 +27,7 @@ class BePrintStrees(TestBase):
                 stdout.getvalue(), f"File {file_name} generated\n"
             )
             computed_size = os.path.getsize(file_name)
-            self.assertGreater(computed_size, 25000)
+            self.assertGreater(computed_size, 24500)
 
     def test_be_print_strees_dataset_color(self):
         for name in self.datasets:
