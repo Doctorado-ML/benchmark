@@ -15,6 +15,24 @@ from xgboost import XGBClassifier
 import sklearn
 import xgboost
 
+import random
+
+
+class MockModel(SVC):
+    # Only used for testing
+    def predict(self, X):
+        if random.random() < 0.1:
+            return [float("NaN")] * len(X)
+        return super().predict(X)
+
+    def nodes_leaves(self):
+        return 0, 0
+
+    def fit(self, X, y, **kwargs):
+        kwargs.pop("state_names", None)
+        kwargs.pop("features", None)
+        return super().fit(X, y, **kwargs)
+
 
 class Models:
     @staticmethod
@@ -22,27 +40,27 @@ class Models:
         return {
             "STree": Stree(random_state=random_state),
             "TAN": TAN(random_state=random_state),
-            "KDB": KDB(k=3),
+            "KDB": KDB(k=2),
             "AODE": AODE(random_state=random_state),
             "Cart": DecisionTreeClassifier(random_state=random_state),
             "ExtraTree": ExtraTreeClassifier(random_state=random_state),
             "Wodt": Wodt(random_state=random_state),
             "SVC": SVC(random_state=random_state),
             "ODTE": Odte(
-                base_estimator=Stree(random_state=random_state),
+                estimator=Stree(random_state=random_state),
                 random_state=random_state,
             ),
             "BaggingStree": BaggingClassifier(
-                base_estimator=Stree(random_state=random_state),
+                estimator=Stree(random_state=random_state),
                 random_state=random_state,
             ),
             "BaggingWodt": BaggingClassifier(
-                base_estimator=Wodt(random_state=random_state),
+                estimator=Wodt(random_state=random_state),
                 random_state=random_state,
             ),
             "XGBoost": XGBClassifier(random_state=random_state),
             "AdaBoostStree": AdaBoostClassifier(
-                base_estimator=Stree(
+                estimator=Stree(
                     random_state=random_state,
                 ),
                 algorithm="SAMME",
@@ -50,6 +68,7 @@ class Models:
             ),
             "GBC": GradientBoostingClassifier(random_state=random_state),
             "RandomForest": RandomForestClassifier(random_state=random_state),
+            "Mock": MockModel(random_state=random_state),
         }
 
     @staticmethod

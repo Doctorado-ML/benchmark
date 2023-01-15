@@ -112,6 +112,7 @@ class Experiment:
         platform,
         title,
         progress_bar=True,
+        ignore_nan=True,
         folds=5,
     ):
         today = datetime.now()
@@ -131,6 +132,7 @@ class Experiment:
         self.score_name = score_name
         self.model_name = model_name
         self.title = title
+        self.ignore_nan = ignore_nan
         self.stratified = stratified == "1"
         self.stratified_class = StratifiedKFold if self.stratified else KFold
         self.datasets = datasets
@@ -184,7 +186,14 @@ class Experiment:
         self.leaves = []
         self.depths = []
 
-    def _n_fold_crossval(self, X, y, hyperparameters):
+    def _build_fit_params(self, name):
+        states = self.datasets.get_states(name)
+        if states is None:
+            return None
+        features = self.datasets.get_features()
+        return {"state_names": states, "features": features}
+
+    def _n_fold_crossval(self, name, X, y, hyperparameters):
         if self.scores != []:
             raise ValueError("Must init experiment before!")
         loop = tqdm(
@@ -201,6 +210,7 @@ class Experiment:
                 shuffle=True, random_state=random_state, n_splits=self.folds
             )
             clf = self._build_classifier(random_state, hyperparameters)
+            fit_params = self._build_fit_params(name)
             self.version = Models.get_version(self.model_name, clf)
             with warnings.catch_warnings():
                 warnings.filterwarnings("ignore")
@@ -209,11 +219,19 @@ class Experiment:
                     X,
                     y,
                     cv=kfold,
+                    fit_params=fit_params,
                     return_estimator=True,
                     scoring=self.score_name,
                 )
-            self.scores.append(res["test_score"])
-            self.times.append(res["fit_time"])
+            if np.isnan(res["test_score"]).any():
+                if not self.ignore_nan:
+                    print(res["test_score"])
+                    raise ValueError("NaN in results")
+                results = res["test_score"][~np.isnan(res["test_score"])]
+            else:
+                results = res["test_score"]
+            self.scores.extend(results)
+            self.times.extend(res["fit_time"])
             for result_item in res["estimator"]:
                 nodes_item, leaves_item, depth_item = Models.get_complexity(
                     self.model_name, result_item
@@ -273,7 +291,7 @@ class Experiment:
             n_classes = len(np.unique(y))
             hyperparameters = self.hyperparameters_dict[name][1]
             self._init_experiment()
-            self._n_fold_crossval(X, y, hyperparameters)
+            self._n_fold_crossval(name, X, y, hyperparameters)
             self._add_results(name, hyperparameters, samp, feat, n_classes)
             self._output_results()
         self.duration = time.time() - now

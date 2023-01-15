@@ -32,7 +32,7 @@
 7;10;0.0150468069702512
 7;11;0.01404867172241211
 7;12;0.002026269126958884
-7;13;"{'C': 10000.0, 'gamma': 0.1, 'kernel': 'rbf', 'max_iter': 10000.0, 'multiclass_strategy': 'ovr'}"
+7;13;"{'C': 10000, 'gamma': 0.1, 'kernel': 'rbf', 'max_iter': 10000, 'multiclass_strategy': 'ovr'}"
 8;1;"balloons"
 8;2;16
 8;3;4
@@ -45,7 +45,7 @@
 8;10;0.2850146195080759
 8;11;0.0008541679382324218
 8;12;3.629469326417878e-05
-8;13;"{'C': 7, 'gamma': 0.1, 'kernel': 'rbf', 'max_iter': 10000.0, 'multiclass_strategy': 'ovr'}"
+8;13;"{'C': 7, 'gamma': 0.1, 'kernel': 'rbf', 'max_iter': 10000, 'multiclass_strategy': 'ovr'}"
 11;2;"✔"
 11;3;1
 11;4;"Equal to best"

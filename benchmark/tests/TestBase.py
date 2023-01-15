@@ -4,6 +4,7 @@ import pathlib
 import sys
 import csv
 import unittest
+import shutil
 from importlib import import_module
 from io import StringIO
 from unittest.mock import patch
@@ -18,6 +19,10 @@ class TestBase(unittest.TestCase):
         self.benchmark_version = "0.2.0"
         self.stree_version = "1.2.4"
         super().__init__(*args, **kwargs)
+
+    @staticmethod
+    def set_env(env):
+        shutil.copy(env, ".env")
 
     def remove_files(self, files, folder):
         for file_name in files:

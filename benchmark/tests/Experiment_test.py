@@ -1,4 +1,6 @@
 import json
+from io import StringIO
+from unittest.mock import patch
 from .TestBase import TestBase
 from ..Experiments import Experiment
 from ..Datasets import Datasets
@@ -8,10 +10,12 @@ class ExperimentTest(TestBase):
     def setUp(self):
         self.exp = self.build_exp()
 
-    def build_exp(self, hyperparams=False, grid=False):
+    def build_exp(
+        self, hyperparams=False, grid=False, model="STree", ignore_nan=False
+    ):
         params = {
             "score_name": "accuracy",
-            "model_name": "STree",
+            "model_name": model,
             "stratified": "0",
             "datasets": Datasets(),
             "hyperparams_dict": "{}",
@@ -21,6 +25,7 @@ class ExperimentTest(TestBase):
             "title": "Test",
             "progress_bar": False,
             "folds": 2,
+            "ignore_nan": ignore_nan,
         }
         return Experiment(**params)
 
@@ -31,6 +36,7 @@ class ExperimentTest(TestBase):
             ],
             ".",
         )
+        self.set_env(".env.dist")
         return super().tearDown()
 
     def test_build_hyperparams_file(self):
@@ -46,7 +52,7 @@ class ExperimentTest(TestBase):
                     "C": 7,
                     "gamma": 0.1,
                     "kernel": "rbf",
-                    "max_iter": 10000.0,
+                    "max_iter": 10000,
                     "multiclass_strategy": "ovr",
                 },
                 "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json",
@@ -89,7 +95,7 @@ class ExperimentTest(TestBase):
     def test_exception_n_fold_crossval(self):
         self.exp.do_experiment()
         with self.assertRaises(ValueError):
-            self.exp._n_fold_crossval([], [], {})
+            self.exp._n_fold_crossval("", [], [], {})
 
     def test_do_experiment(self):
         self.exp.do_experiment()
@@ -131,3 +137,39 @@ class ExperimentTest(TestBase):
         ):
             for key, value in expected_result.items():
                 self.assertEqual(computed_result[key], value)
+
+    def test_build_fit_parameters(self):
+        self.set_env(".env.arff")
+        expected = {
+            "state_names": {
+                "sepallength": [0, 1, 2],
+                "sepalwidth": [0, 1, 3, 4],
+                "petallength": [0, 1, 2, 3],
+                "petalwidth": [0, 1, 2, 3],
+            },
+            "features": [
+                "sepallength",
+                "sepalwidth",
+                "petallength",
+                "petalwidth",
+            ],
+        }
+        exp = self.build_exp(model="TAN")
+        X, y = exp.datasets.load("iris")
+        computed = exp._build_fit_params("iris")
+        for key, value in expected["state_names"].items():
+            self.assertEqual(computed["state_names"][key], value)
+        for feature in expected["features"]:
+            self.assertIn(feature, computed["features"])
+
+    @patch("sys.stdout", new_callable=StringIO)
+    def test_experiment_with_nan_not_ignored(self, mock_output):
+        exp = self.build_exp(model="Mock")
+        self.assertRaises(ValueError, exp.do_experiment)
+        output_text = mock_output.getvalue().splitlines()
+        expected = "[      nan 0.8974359]"
+        self.assertEqual(expected, output_text[0])
+
+    def test_experiment_with_nan_ignored(self):
+        self.exp = self.build_exp(model="Mock", ignore_nan=True)
+        self.exp.do_experiment()

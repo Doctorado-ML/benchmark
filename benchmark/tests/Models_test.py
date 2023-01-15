@@ -70,19 +70,19 @@ class ModelTest(TestBase):
     def test_BaggingStree(self):
         clf = Models.get_model("BaggingStree")
         self.assertIsInstance(clf, BaggingClassifier)
-        clf_base = clf.base_estimator
+        clf_base = clf.estimator
         self.assertIsInstance(clf_base, Stree)
 
     def test_BaggingWodt(self):
         clf = Models.get_model("BaggingWodt")
         self.assertIsInstance(clf, BaggingClassifier)
-        clf_base = clf.base_estimator
+        clf_base = clf.estimator
         self.assertIsInstance(clf_base, Wodt)
 
     def test_AdaBoostStree(self):
         clf = Models.get_model("AdaBoostStree")
         self.assertIsInstance(clf, AdaBoostClassifier)
-        clf_base = clf.base_estimator
+        clf_base = clf.estimator
         self.assertIsInstance(clf_base, Stree)
 
     def test_unknown_classifier(self):

@@ -1,4 +1,3 @@
-import shutil
 from .TestBase import TestBase
 from ..Experiments import Randomized
 from ..Datasets import Datasets
@@ -16,10 +15,6 @@ class DatasetTest(TestBase):
     def tearDown(self) -> None:
         self.set_env(".env.dist")
         return super().tearDown()
-
-    @staticmethod
-    def set_env(env):
-        shutil.copy(env, ".env")
 
     def test_Randomized(self):
         expected = [57, 31, 1714, 17, 23, 79, 83, 97, 7, 1]
