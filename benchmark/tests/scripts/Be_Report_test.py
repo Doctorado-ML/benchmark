@@ -111,7 +111,16 @@ class BeReportTest(TestBase):
     def test_be_report_without_subcommand(self):
         stdout, stderr = self.execute_script("be_report", "")
         self.assertEqual(stderr.getvalue(), "")
-        self.check_output_file(stdout, "report_without_subcommand")
+        self.maxDiff = None
+        # Can't use check_output_file because of the width of the console
+        # output is different in different environments
+        file_name = "report_without_subcommand" + self.ext
+        with open(os.path.join(self.test_files, file_name)) as f:
+            expected = f.read()
+        if expected == stdout.getvalue():
+            self.assertEqual(stdout.getvalue(), expected)
+        else:
+            self.check_output_file(stdout, "report_without_subcommand2")
 
     def test_be_report_excel_compared(self):
         file_name = "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json"

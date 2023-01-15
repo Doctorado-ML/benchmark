@@ -1,0 +1,14 @@
+usage: be_report [-h] {best,grid,file,datasets} ...
+
+positional arguments:
+  {best,grid,file,datasets}
+                        help for subcommand
+    best                Report best results obtained by any model/score. See
+                        be_build_best
+    grid                Report grid results obtained by any model/score. See
+                        be_build_grid
+    file                Report file results
+    datasets            Report datasets information
+
+options:
+  -h, --help            show this help message and exit
