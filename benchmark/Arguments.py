@@ -92,6 +92,17 @@ class Arguments(argparse.ArgumentParser):
                     "help": "dataset to work with",
                 },
             ],
+            "discretize": [
+                ("--discretize",),
+                {
+                    "action": EnvDefault,
+                    "envvar": "discretize",
+                    "required": True,
+                    "help": "Discretize dataset",
+                    "const": "1",
+                    "nargs": "?",
+                },
+            ],
             "excel": [
                 ("-x", "--excel"),
                 {
@@ -260,6 +271,8 @@ class Arguments(argparse.ArgumentParser):
                     "envvar": "stratified",
                     "required": True,
                     "help": "Stratified",
+                    "const": "1",
+                    "nargs": "?",
                 },
             ],
             "tex_output": [

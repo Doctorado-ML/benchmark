@@ -13,7 +13,7 @@ def main(args_test=None):
     arguments = Arguments(prog="be_main")
     arguments.xset("stratified").xset("score").xset("model", mandatory=True)
     arguments.xset("n_folds").xset("platform").xset("quiet").xset("title")
-    arguments.xset("report").xset("ignore_nan")
+    arguments.xset("report").xset("ignore_nan").xset("discretize")
     arguments.add_exclusive(
         ["grid_paramfile", "best_paramfile", "hyperparameters"]
     )
@@ -29,7 +29,9 @@ def main(args_test=None):
             score_name=args.score,
             model_name=args.model,
             stratified=args.stratified,
-            datasets=Datasets(dataset_name=args.dataset),
+            datasets=Datasets(
+                dataset_name=args.dataset, discretize=args.discretize
+            ),
             hyperparams_dict=args.hyperparameters,
             hyperparams_file=args.best_paramfile,
             grid_paramfile=args.grid_paramfile,
