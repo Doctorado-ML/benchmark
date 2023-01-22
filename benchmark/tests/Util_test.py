@@ -180,6 +180,9 @@ class UtilTest(TestBase):
             "source_data": "Tanveer",
             "seeds": "[57, 31, 1714, 17, 23, 79, 83, 97, 7, 1]",
             "discretize": "0",
+            "nodes": "Nodes",
+            "leaves": "Leaves",
+            "depth": "Depth",
         }
         computed = EnvData().load()
         self.assertDictEqual(computed, expected)

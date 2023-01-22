@@ -65,6 +65,11 @@ class BaseReport(abc.ABC):
             self.lines = self.data["results"]
             self.score_name = self.data["score_name"]
         self.__compute_best_results_ever()
+        # Set the labels for nodes, leaves, depth
+        env_data = EnvData.load()
+        self.nodes_label = env_data["nodes"]
+        self.leaves_label = env_data["leaves"]
+        self.depth_label = env_data["depth"]
 
     def __compute_best_results_ever(self):
         args = EnvData.load()
@@ -132,23 +137,23 @@ class BaseReport(abc.ABC):
 
 class Report(BaseReport):
     header_lengths = [30, 6, 5, 3, 7, 7, 7, 15, 17, 15]
-    header_cols = [
-        "Dataset",
-        "Sampl.",
-        "Feat.",
-        "Cls",
-        "Nodes",
-        "Leaves",
-        "Depth",
-        "Score",
-        "Time",
-        "Hyperparameters",
-    ]
 
     def __init__(self, file_name: str, compare: bool = False):
         super().__init__(file_name)
         self.nline = 0
         self.compare = compare
+        self.header_cols = [
+            "Dataset",
+            "Sampl.",
+            "Feat.",
+            "Cls",
+            self.nodes_label,
+            self.leaves_label,
+            self.depth_label,
+            "Score",
+            "Time",
+            "Hyperparameters",
+        ]
 
     def header_line(self, text: str) -> None:
         print(TextColor.LINE1, end="")
@@ -489,9 +494,9 @@ class Excel(BaseReport):
             ("Samples", 10),
             ("Features", 7),
             ("Classes", 7),
-            ("Nodes", 7),
-            ("Leaves", 7),
-            ("Depth", 7),
+            (self.nodes_label, 7),
+            (self.leaves_label, 7),
+            (self.depth_label, 7),
             ("Score", 12),
             ("Score Std.", 12),
             ("Time", 12),

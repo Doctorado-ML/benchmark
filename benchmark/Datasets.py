@@ -109,14 +109,14 @@ class DatasetsSurcov:
 
 class Datasets:
     def __init__(self, dataset_name=None, discretize=None):
-        envData = EnvData.load()
+        env_data = EnvData.load()
         # DatasetsSurcov, DatasetsTanveer, DatasetsArff,...
         source_name = getattr(
             __import__(__name__),
-            f"Datasets{envData['source_data']}",
+            f"Datasets{env_data['source_data']}",
         )
         self.discretize = (
-            envData["discretize"] == "1"
+            env_data["discretize"] == "1"
             if discretize is None
             else discretize == "1"
         )
