@@ -113,8 +113,10 @@ class Experiment:
         title,
         progress_bar=True,
         ignore_nan=True,
+        fit_features=None,
         folds=5,
     ):
+        env_data = EnvData.load()
         today = datetime.now()
         self.time = today.strftime("%H:%M:%S")
         self.date = today.strftime("%Y-%m-%d")
@@ -134,6 +136,11 @@ class Experiment:
         self.title = title
         self.ignore_nan = ignore_nan
         self.stratified = stratified == "1"
+        self.fit_features = (
+            env_data["fit_features"] == "1"
+            if fit_features is None
+            else fit_features == "1"
+        )
         self.stratified_class = StratifiedKFold if self.stratified else KFold
         self.datasets = datasets
         dictionary = json.loads(hyperparams_dict)
@@ -187,11 +194,14 @@ class Experiment:
         self.depths = []
 
     def _build_fit_params(self, name):
+        if not self.fit_features:
+            return None
+        res = dict(features=self.datasets.get_features())
         states = self.datasets.get_states(name)
         if states is None:
-            return None
-        features = self.datasets.get_features()
-        return {"state_names": states, "features": features}
+            return res
+        res["state_names"] = states
+        return res
 
     def _n_fold_crossval(self, name, X, y, hyperparameters):
         if self.scores != []:

@@ -112,6 +112,17 @@ class Arguments(argparse.ArgumentParser):
                     "help": "Generate Excel File",
                 },
             ],
+            "fit_features": [
+                ("--fit_features",),
+                {
+                    "action": EnvDefault,
+                    "envvar": "fit_features",
+                    "required": True,
+                    "help": "Include features in fit call",
+                    "const": "1",
+                    "nargs": "?",
+                },
+            ],
             "grid_paramfile": [
                 ("-g", "--grid_paramfile"),
                 {
