@@ -196,7 +196,10 @@ class Experiment:
     def _build_fit_params(self, name):
         if not self.fit_features:
             return None
-        res = dict(features=self.datasets.get_features())
+        res = dict(
+            features=self.datasets.get_features(),
+            class_name=self.datasets.get_class_name(),
+        )
         states = self.datasets.get_states(name)
         if states is None:
             return res
