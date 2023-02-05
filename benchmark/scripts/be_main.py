@@ -42,6 +42,7 @@ def main(args_test=None):
             title=args.title,
             folds=args.n_folds,
             fit_features=args.fit_features,
+            discretize=args.discretize,
         )
         job.do_experiment()
     except ValueError as e:

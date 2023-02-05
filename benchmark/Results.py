@@ -218,7 +218,8 @@ class Report(BaseReport):
         self.header_line(f" {self.data['title']}")
         self.header_line(
             f" Random seeds: {self.data['seeds']} Stratified: "
-            f"{self.data['stratified']}"
+            f"{self.data['stratified']}  Discretized: "
+            f"{self.data['discretized']}"
         )
         hours = self.data["duration"] / 3600
         self.header_line(
@@ -485,8 +486,14 @@ class Excel(BaseReport):
             3,
             9,
             3,
-            11,
+            10,
             f"Stratified: {self.data['stratified']}",
+            merge_format_subheader_left,
+        )
+        self.sheet.write(
+            3,
+            11,
+            f"Discretized: {self.data['discretized']}",
             merge_format_subheader_left,
         )
         header_cols = [

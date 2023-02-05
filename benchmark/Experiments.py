@@ -114,6 +114,7 @@ class Experiment:
         progress_bar=True,
         ignore_nan=True,
         fit_features=None,
+        discretize=None,
         folds=5,
     ):
         env_data = EnvData.load()
@@ -136,6 +137,11 @@ class Experiment:
         self.title = title
         self.ignore_nan = ignore_nan
         self.stratified = stratified == "1"
+        self.discretize = (
+            env_data["discretize"] == "1"
+            if discretize is None
+            else discretize == "1"
+        )
         self.fit_features = (
             env_data["fit_features"] == "1"
             if fit_features is None
@@ -276,6 +282,7 @@ class Experiment:
         output["model"] = self.model_name
         output["version"] = self.version
         output["stratified"] = self.stratified
+        output["discretized"] = self.discretize
         output["folds"] = self.folds
         output["date"] = self.date
         output["time"] = self.time
