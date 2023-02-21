@@ -240,7 +240,7 @@ class Experiment:
                     cv=kfold,
                     fit_params=fit_params,
                     return_estimator=True,
-                    scoring=self.score_name,
+                    scoring=self.score_name.replace("-", "_"),
                 )
             if np.isnan(res["test_score"]).any():
                 if not self.ignore_nan:

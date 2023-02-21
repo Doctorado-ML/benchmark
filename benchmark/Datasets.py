@@ -229,7 +229,7 @@ class Datasets:
         -------
         tuple (X, y) of numpy.ndarray
         """
-        discretiz = FImdlp(algorithm=0)
+        discretiz = FImdlp()
         return discretiz.fit_transform(X, y)
 
     def __iter__(self) -> Diterator:

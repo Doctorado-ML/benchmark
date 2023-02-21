@@ -143,9 +143,9 @@ class ExperimentTest(TestBase):
         expected = {
             "state_names": {
                 "sepallength": [0, 1, 2],
-                "sepalwidth": [0, 1, 3, 4],
+                "sepalwidth": [0, 1, 2, 3, 4, 5],
                 "petallength": [0, 1, 2, 3],
-                "petalwidth": [0, 1, 2, 3],
+                "petalwidth": [0, 1, 2],
             },
             "features": [
                 "sepallength",
@@ -161,6 +161,9 @@ class ExperimentTest(TestBase):
             self.assertEqual(computed["state_names"][key], value)
         for feature in expected["features"]:
             self.assertIn(feature, computed["features"])
+        # Ask for states of a dataset that does not exist
+        computed = exp._build_fit_params("not_existing")
+        self.assertTrue("states" not in computed)
 
     @patch("sys.stdout", new_callable=StringIO)
     def test_experiment_with_nan_not_ignored(self, mock_output):

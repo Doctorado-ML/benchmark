@@ -1,7 +1,7 @@
 [94m*************************************************************************************************************************
 [94m* STree ver. 1.2.4 Python ver. 3.11x with 5 Folds cross validation and 10 random seeds. 2022-05-08 20:14:43             *
 [94m* test                                                                                                                  *
-[94m* Random seeds: [57, 31, 1714, 17, 23, 79, 83, 97, 7, 1] Stratified: False                                              *
+[94m* Random seeds: [57, 31, 1714, 17, 23, 79, 83, 97, 7, 1] Stratified: False  Discretized: False                          *
 [94m* Execution took    0.48 seconds,   0.00 hours, on iMac27                                                               *
 [94m* Score is accuracy                                                                                                     *
 [94m*************************************************************************************************************************

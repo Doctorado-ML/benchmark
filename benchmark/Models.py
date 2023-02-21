@@ -8,7 +8,7 @@ from sklearn.ensemble import (
 )
 from sklearn.svm import SVC
 from stree import Stree
-from bayesclass.clfs import TAN, KDB, AODE, KDBNew, TANNew
+from bayesclass.clfs import TAN, KDB, AODE, KDBNew, TANNew, AODENew
 from wodt import Wodt
 from odte import Odte
 from xgboost import XGBClassifier
