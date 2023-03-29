@@ -43,6 +43,7 @@ class Models:
             "KDB": KDB(k=2),
             "TANNew": TANNew(random_state=random_state),
             "KDBNew": KDBNew(k=2),
+            "AODENew": AODENew(random_state=random_state),
             "AODE": AODE(random_state=random_state),
             "Cart": DecisionTreeClassifier(random_state=random_state),
             "ExtraTree": ExtraTreeClassifier(random_state=random_state),
