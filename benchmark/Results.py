@@ -1534,7 +1534,7 @@ class Summary:
         )
         path = Folders.hidden_results if self.hidden else Folders.results
         book = None
-        max_value = len(self.data)
+        max_value = len(self.data_filtered)
         while True:
             match get_input(message=message).split():
                 case [cmd.relist]:
