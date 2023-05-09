@@ -814,18 +814,20 @@ class ReportDatasets:
 
     def report(self):
         data_sets = Datasets()
+        max_len = max(
+            [len(data_sets.get_attributes(data).balance) for data in data_sets]
+        )
         color_line = TextColor.LINE1
-        if self.excel:
-            self.header()
         if self.output:
             print(color_line, end="")
             print(self.header_text)
             print("")
             print(f"{'Dataset':30s} Sampl. Feat. Cont Cls Balance")
-            print("=" * 30 + " ====== ===== ==== === " + "=" * 60)
+            print("=" * 30 + " ====== ===== ==== === " + "=" * max_len)
+        if self.excel:
+            self.header()
         for dataset in data_sets:
             attributes = data_sets.get_attributes(dataset)
-
             if self.excel:
                 self.print_line(attributes)
             color_line = (

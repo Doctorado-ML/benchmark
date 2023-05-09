@@ -165,7 +165,7 @@ class Datasets:
         comp = ""
         sep = ""
         for count in counts:
-            comp += f"{sep}{count/sum(counts)*100:5.2f}%"
+            comp += f"{sep}{count/sum(counts)*100:5.2f}% ({count}) "
             sep = "/ "
         attr.balance = comp
         attr.classes = len(np.unique(y))

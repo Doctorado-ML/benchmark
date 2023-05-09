@@ -87,7 +87,6 @@ class ReportTest(TestBase):
             if self.stree_version in line:
                 # replace STree version
                 line = self.replace_STree_version(line, output_text, index)
-
             self.assertEqual(line, output_text[index])
 
     @patch("sys.stdout", new_callable=StringIO)
