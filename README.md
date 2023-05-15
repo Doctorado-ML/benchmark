@@ -34,7 +34,7 @@ be_report -b STree
 
 ```python
 # Datasets list
-be_report
+be_report datasets
 # Report of given experiment
 be_report -f results/results_STree_iMac27_2021-09-22_17:13:02.json
 # Report of given experiment building excel file and compare with best results
