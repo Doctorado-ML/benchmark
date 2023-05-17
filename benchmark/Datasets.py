@@ -133,6 +133,7 @@ class Datasets:
         self.continuous_features = {}
         with open(file_name) as f:
             sets = f.read().splitlines()
+            sets = [x for x in sets if not x.startswith("#")]
             class_names = [default_class] * len(sets)
         if "," in sets[0]:
             result = []
