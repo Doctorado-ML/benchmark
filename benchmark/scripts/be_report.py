@@ -1,7 +1,9 @@
 #!/usr/bin/env python
+import os
 from benchmark.Results import Report, Excel, SQL, ReportBest, ReportDatasets
-from benchmark.Utils import Files
+from benchmark.Utils import Files, Folders
 from benchmark.Arguments import Arguments
+from pathlib import Path
 
 
 """Build report on screen of a result file, optionally generate excel and sql
@@ -69,11 +71,13 @@ def main(args_test=None):
                 sql.report()
             if args.excel:
                 excel = Excel(
-                    file_name=args.file_name,
+                    file_name=Path(args.file_name).name,
                     compare=args.compare,
                 )
                 excel.report()
-                Files.open(excel.get_file_name(), is_test)
+                Files.open(
+                    os.path.join(Folders.excel, excel.get_file_name()), is_test
+                )
         case "datasets":
             report = ReportDatasets(args.excel)
             report.report()

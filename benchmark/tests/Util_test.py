@@ -11,6 +11,8 @@ class UtilTest(TestBase):
         self.assertEqual("results", Folders.results)
         self.assertEqual("hidden_results", Folders.hidden_results)
         self.assertEqual("exreport", Folders.exreport)
+        self.assertEqual("excel", Folders.excel)
+        self.assertEqual("img", Folders.img)
         self.assertEqual(
             os.path.join(Folders.exreport, "exreport_output"), Folders.report
         )

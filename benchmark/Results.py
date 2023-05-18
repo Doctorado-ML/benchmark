@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 from operator import itemgetter
 from types import SimpleNamespace
 import math
@@ -330,9 +331,12 @@ class Excel(BaseReport):
             )
             self._compare_totals = {}
         if book is None:
-            self.excel_file_name = self.file_name.replace(".json", ".xlsx")
+            self.excel_file_name = Path(self.file_name).name.replace(
+                Files.report_ext, ".xlsx"
+            )
             self.book = xlsxwriter.Workbook(
-                self.excel_file_name, {"nan_inf_to_errors": True}
+                os.path.join(Folders.excel, self.excel_file_name),
+                {"nan_inf_to_errors": True},
             )
             self.set_book_properties()
             self.close = True
@@ -616,7 +620,9 @@ class ReportDatasets:
         if excel:
             self.max_length = 0
             if book is None:
-                self.excel_file_name = Files.datasets_report_excel
+                self.excel_file_name = os.path.join(
+                    Folders.excel, Files.datasets_report_excel
+                )
                 self.book = xlsxwriter.Workbook(
                     self.excel_file_name, {"nan_inf_to_errors": True}
                 )
@@ -1113,9 +1119,7 @@ class Benchmark:
             f.write("\\hline\n\\end{tabular}}\n\\end{sidewaystable}\n")
 
     def get_excel_file_name(self):
-        return os.path.join(
-            Folders.exreport, Files.exreport_excel(self._score)
-        )
+        return os.path.join(Folders.excel, Files.exreport_excel(self._score))
 
     def excel(self):
         book = xlsxwriter.Workbook(
@@ -1564,7 +1568,9 @@ class Summary:
                         path, self.data_filtered[num]["file"]
                     )
                     if book is None:
-                        file_name = Files.be_list_excel
+                        file_name = os.path.join(
+                            Folders.excel, Files.be_list_excel
+                        )
                         book = xlsxwriter.Workbook(
                             file_name, {"nan_inf_to_errors": True}
                         )

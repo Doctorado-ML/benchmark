@@ -15,10 +15,10 @@ class BenchmarkTest(TestBase):
             files.append(Files.exreport(score))
             files.append(Files.exreport_output(score))
             files.append(Files.exreport_err(score))
-        files.append(Files.exreport_excel(score))
         files.append(Files.exreport_pdf)
         files.append(Files.tex_output("accuracy"))
         self.remove_files(files, Folders.exreport)
+        self.remove_files([Files.exreport_excel("accuracy")], Folders.excel)
         self.remove_files(files, ".")
         return super().tearDown()
 

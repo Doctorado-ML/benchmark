@@ -39,7 +39,7 @@ class BeListTest(TestBase):
         stdout, stderr = self.execute_script("be_list", ["-m", "STree"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_report_excel")
-        book = load_workbook(Files.be_list_excel)
+        book = load_workbook(os.path.join(Folders.excel, Files.be_list_excel))
         sheet = book["STree"]
         self.check_excel_sheet(sheet, "excel")
 
@@ -50,7 +50,7 @@ class BeListTest(TestBase):
         stdout, stderr = self.execute_script("be_list", ["-m", "STree"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_report_excel_2")
-        book = load_workbook(Files.be_list_excel)
+        book = load_workbook(os.path.join(Folders.excel, Files.be_list_excel))
         sheet = book["STree"]
         self.check_excel_sheet(sheet, "excel")
         sheet = book["STree2"]

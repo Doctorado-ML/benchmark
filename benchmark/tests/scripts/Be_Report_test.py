@@ -17,7 +17,10 @@ class BeReportTest(TestBase):
             "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.xlsx",
         ]
         self.remove_files(files, Folders.results)
-        self.remove_files([Files.datasets_report_excel], os.getcwd())
+        self.remove_files(
+            [Files.datasets_report_excel],
+            os.path.join(os.getcwd(), Folders.excel),
+        )
         return super().tearDown()
 
     def test_be_report(self):
@@ -67,7 +70,9 @@ class BeReportTest(TestBase):
                 # replace benchmark version
                 line = self.replace_benchmark_version(line, output_text, index)
             self.assertEqual(line, output_text[index])
-        file_name = os.path.join(os.getcwd(), Files.datasets_report_excel)
+        file_name = os.path.join(
+            os.getcwd(), Folders.excel, Files.datasets_report_excel
+        )
         book = load_workbook(file_name)
         sheet = book["Datasets"]
         self.check_excel_sheet(
@@ -129,7 +134,7 @@ class BeReportTest(TestBase):
             ["file", file_name, "-x", "-c"],
         )
         file_name = os.path.join(
-            Folders.results, file_name.replace(".json", ".xlsx")
+            Folders.excel, file_name.replace(Files.report_ext, ".xlsx")
         )
         book = load_workbook(file_name)
         sheet = book["STree"]
@@ -144,7 +149,7 @@ class BeReportTest(TestBase):
             ["file", file_name, "-x"],
         )
         file_name = os.path.join(
-            Folders.results, file_name.replace(".json", ".xlsx")
+            Folders.excel, file_name.replace(".json", ".xlsx")
         )
         book = load_workbook(file_name)
         sheet = book["STree"]

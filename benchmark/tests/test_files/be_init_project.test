@@ -4,6 +4,7 @@ Creating folder test_project/hidden_results
 Creating folder test_project/exreport
 Creating folder test_project/exreport/exreport_output
 Creating folder test_project/img
+Creating folder test_project/excel
 Done!
 Please, edit .env file with your settings and add a datasets folder
 with an all.txt file with the datasets you want to use.

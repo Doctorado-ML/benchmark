@@ -1,6 +1,7 @@
 #! /usr/bin/env python
+import os
 from benchmark.Results import Summary
-from benchmark.Utils import Files
+from benchmark.Utils import Files, Folders
 from benchmark.Arguments import Arguments
 
 """List experiments of a model
@@ -28,5 +29,6 @@ def main(args_test=None):
         return
     excel_generated = data.manage_results()
     if excel_generated:
-        print(f"Generated file: {Files.be_list_excel}")
-        Files.open(Files.be_list_excel, test=args_test is not None)
+        name = os.path.join(Folders.excel, Files.be_list_excel)
+        print(f"Generated file: {name}")
+        Files.open(name, test=args_test is not None)

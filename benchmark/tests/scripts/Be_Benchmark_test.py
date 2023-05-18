@@ -16,10 +16,10 @@ class BeBenchmarkTest(TestBase):
             files.append(Files.exreport(score))
             files.append(Files.exreport_output(score))
             files.append(Files.exreport_err(score))
-        files.append(Files.exreport_excel(self.score))
         files.append(Files.exreport_pdf)
         files.append(Files.tex_output(self.score))
         self.remove_files(files, Folders.exreport)
+        self.remove_files([Files.exreport_excel(self.score)], Folders.excel)
         self.remove_files(files, ".")
         return super().tearDown()
 
@@ -41,7 +41,7 @@ class BeBenchmarkTest(TestBase):
         self.check_file_file(file_name, "exreport_tex")
         # Check excel file
         file_name = os.path.join(
-            Folders.exreport, Files.exreport_excel(self.score)
+            Folders.excel, Files.exreport_excel(self.score)
         )
         book = load_workbook(file_name)
         replace = None

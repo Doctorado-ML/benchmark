@@ -13,6 +13,7 @@ class Folders:
     exreport = "exreport"
     report = os.path.join(exreport, "exreport_output")
     img = "img"
+    excel = "excel"
 
     @staticmethod
     def src():

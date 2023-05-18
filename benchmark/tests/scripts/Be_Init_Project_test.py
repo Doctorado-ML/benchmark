@@ -33,6 +33,7 @@ class BeInitProjectTest(TestBase):
             Folders.exreport,
             Folders.report,
             Folders.img,
+            Folders.excel,
         ]
         for folder in expected:
             self.assertIsFolder(os.path.join(test_project, folder))
