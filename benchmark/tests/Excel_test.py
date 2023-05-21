@@ -3,7 +3,7 @@ from openpyxl import load_workbook
 from xlsxwriter import Workbook
 from .TestBase import TestBase
 from ..ResultsFiles import Excel
-from ..Utils import Folders
+from ..Utils import Folders, Files
 
 
 class ExcelTest(TestBase):
@@ -36,7 +36,7 @@ class ExcelTest(TestBase):
 
     def test_Excel_Add_sheet(self):
         file_name = "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.json"
-        excel_file_name = file_name.replace(".json", ".xlsx")
+        excel_file_name = file_name.replace(Files.report_ext, ".xlsx")
         book = Workbook(os.path.join(Folders.excel, excel_file_name))
         excel = Excel(file_name=file_name, book=book)
         excel.report()

@@ -39,12 +39,14 @@ class BeListTest(TestBase):
         stdout, stderr = self.execute_script("be_list", ["-m", "STree"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_report_excel")
+
         book = load_workbook(os.path.join(Folders.excel, Files.be_list_excel))
         sheet = book["STree"]
         self.check_excel_sheet(sheet, "excel")
 
     @patch(
-        "benchmark.Results.get_input", side_effect=iter(["e 2", "e 1", "q"])
+        "benchmark.Results.get_input",
+        side_effect=iter(["e 2", "e 1", "q"]),
     )
     def test_be_list_report_excel_twice(self, input_data):
         stdout, stderr = self.execute_script("be_list", ["-m", "STree"])
@@ -65,9 +67,10 @@ class BeListTest(TestBase):
         self.assertEqual(stdout.getvalue(), f"{NO_RESULTS}\n")
 
     @patch(
-        "benchmark.Results.get_input", side_effect=iter(["d 0", "y", "", "q"])
+        "benchmark.Results.get_input",
+        side_effect=iter(["d 0", "y", "", "q"]),
     )
-    # @patch("benchmark.Results.get_input", side_effect=iter(["q"]))
+    # @patch("benchmark.ResultsBase.get_input", side_effect=iter(["q"]))
     def test_be_list_delete(self, input_data):
         def copy_files(source_folder, target_folder, file_name):
             source = os.path.join(source_folder, file_name)
@@ -91,7 +94,8 @@ class BeListTest(TestBase):
             self.fail("test_be_list_delete() should not raise exception")
 
     @patch(
-        "benchmark.Results.get_input", side_effect=iter(["h 0", "y", "", "q"])
+        "benchmark.Results.get_input",
+        side_effect=iter(["h 0", "y", "", "q"]),
     )
     def test_be_list_hide(self, input_data):
         def swap_files(source_folder, target_folder, file_name):

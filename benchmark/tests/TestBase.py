@@ -31,6 +31,7 @@ class TestBase(unittest.TestCase):
                 os.remove(file_name)
 
     def generate_excel_sheet(self, sheet, file_name):
+        file_name += self.ext
         with open(os.path.join(self.test_files, file_name), "w") as f:
             for row in range(1, sheet.max_row + 1):
                 for col in range(1, sheet.max_column + 1):

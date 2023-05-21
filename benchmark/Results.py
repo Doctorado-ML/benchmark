@@ -6,7 +6,7 @@ from types import SimpleNamespace
 import xlsxwriter
 
 from .Datasets import Datasets
-from .ResultsBase import BaseReport, StubReport
+from .ResultsBase import BaseReport, StubReport, get_input
 from .ResultsFiles import Excel
 from .Utils import NO_RESULTS, Files, Folders, TextColor
 

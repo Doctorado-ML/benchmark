@@ -13,7 +13,6 @@ class BeReportTest(TestBase):
 
     def tearDown(self) -> None:
         files = [
-            "results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.sql",
             "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.xlsx",
         ]
         self.remove_files(files, Folders.results)
@@ -21,6 +20,10 @@ class BeReportTest(TestBase):
             [Files.datasets_report_excel],
             os.path.join(os.getcwd(), Folders.excel),
         )
+        files = [
+            "results_accuracy_ODTE_Galgo_2022-04-20_10:52:20_0.sql",
+        ]
+        self.remove_files(files, Folders.sql)
         return super().tearDown()
 
     def test_be_report(self):
@@ -37,7 +40,7 @@ class BeReportTest(TestBase):
         self.assertEqual(stderr.getvalue(), "")
         self.assertEqual(stdout.getvalue(), "unknown does not exists!\n")
 
-    def test_be_report_compare(self):
+    def test_be_report_compared(self):
         file_name = "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json"
         stdout, stderr = self.execute_script(
             "be_report", ["file", file_name, "-c"]
@@ -149,7 +152,7 @@ class BeReportTest(TestBase):
             ["file", file_name, "-x"],
         )
         file_name = os.path.join(
-            Folders.excel, file_name.replace(".json", ".xlsx")
+            Folders.excel, file_name.replace(Files.report_ext, ".xlsx")
         )
         book = load_workbook(file_name)
         sheet = book["STree"]
@@ -164,7 +167,7 @@ class BeReportTest(TestBase):
             ["file", file_name, "-q"],
         )
         file_name = os.path.join(
-            Folders.results, file_name.replace(".json", ".sql")
+            Folders.sql, file_name.replace(Files.report_ext, ".sql")
         )
         self.check_file_file(file_name, "sql")
         self.assertEqual(stderr.getvalue(), "")
