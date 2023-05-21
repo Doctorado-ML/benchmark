@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
-from benchmark.Results import Report, Excel, SQL, ReportBest, ReportDatasets
+from benchmark.Results import Report, ReportBest
+from benchmark.ResultsFiles import Excel, SQLFile, ReportDatasets
 from benchmark.Utils import Files, Folders
 from benchmark.Arguments import Arguments
 from pathlib import Path
@@ -67,7 +68,7 @@ def main(args_test=None):
                 print(e)
                 return
             if args.sql:
-                sql = SQL(args.file_name)
+                sql = SQLFile(args.file_name)
                 sql.report()
             if args.excel:
                 excel = Excel(

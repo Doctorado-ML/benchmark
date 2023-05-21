@@ -186,6 +186,7 @@ class UtilTest(TestBase):
             "leaves": "Leaves",
             "depth": "Depth",
             "fit_features": "0",
+            "margin": "0.1",
         }
         computed = EnvData().load()
         self.assertDictEqual(computed, expected)

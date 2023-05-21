@@ -4,7 +4,7 @@ from unittest.mock import patch
 from openpyxl import load_workbook
 from .TestBase import TestBase
 from ..Utils import Folders, Files, NO_RESULTS
-from ..Results import Benchmark
+from ..ResultsFiles import Benchmark
 from .._version import __version__
 
 

@@ -2,7 +2,7 @@ import os
 from openpyxl import load_workbook
 from xlsxwriter import Workbook
 from .TestBase import TestBase
-from ..Results import Excel
+from ..ResultsFiles import Excel
 from ..Utils import Folders
 
 

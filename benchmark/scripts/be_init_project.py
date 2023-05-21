@@ -16,6 +16,8 @@ def main(args_test=None):
     folders.append(os.path.join(args.project_name, Folders.report))
     folders.append(os.path.join(args.project_name, Folders.img))
     folders.append(os.path.join(args.project_name, Folders.excel))
+    folders.append(os.path.join(args.project_name, Folders.sql))
+
     try:
         for folder in folders:
             print(f"Creating folder {folder}")

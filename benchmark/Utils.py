@@ -14,6 +14,7 @@ class Folders:
     report = os.path.join(exreport, "exreport_output")
     img = "img"
     excel = "excel"
+    sql = "sql"
 
     @staticmethod
     def src():
@@ -127,6 +128,9 @@ class Symbols:
     check_mark = "\N{heavy check mark}"
     exclamation = "\N{heavy exclamation mark symbol}"
     black_star = "\N{black star}"
+    cross = "\N{Ballot X}"
+    upward_arrow = "\N{Black-feathered north east arrow}"
+    down_arrow = "\N{downwards black arrow}"
     equal_best = check_mark
     better_best = black_star
 

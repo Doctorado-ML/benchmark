@@ -163,16 +163,18 @@ class Datasets:
         attr = SimpleNamespace()
         attr.dataset = name
         values, counts = np.unique(y, return_counts=True)
-        comp = ""
-        sep = ""
-        for count in counts:
-            comp += f"{sep}{count/sum(counts)*100:5.2f}% ({count}) "
-            sep = "/ "
-        attr.balance = comp
-        attr.classes = len(np.unique(y))
+        attr.classes = len(values)
         attr.samples = X.shape[0]
         attr.features = X.shape[1]
         attr.cont_features = len(self.get_continuous_features())
+        attr.distribution = {}
+        comp = ""
+        sep = ""
+        for value, count in zip(values, counts):
+            comp += f"{sep}{count/sum(counts)*100:5.2f}% ({count}) "
+            sep = "/ "
+            attr.distribution[value.item()] = count / sum(counts)
+        attr.balance = comp
         self.discretize = tmp
         return attr
 

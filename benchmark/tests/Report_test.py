@@ -2,7 +2,9 @@ import os
 from io import StringIO
 from unittest.mock import patch
 from .TestBase import TestBase
-from ..Results import Report, BaseReport, ReportBest, ReportDatasets, get_input
+from ..Results import Report, ReportBest
+from ..ResultsFiles import ReportDatasets
+from ..ResultsBase import BaseReport, get_input
 from ..Utils import Symbols
 
 
