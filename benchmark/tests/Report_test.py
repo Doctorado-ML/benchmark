@@ -66,6 +66,27 @@ class ReportTest(TestBase):
         self.assertEqual(res, Symbols.better_best)
         res = report._compute_status("balloons", 1.0)
         self.assertEqual(res, Symbols.better_best)
+        report = Report(file_name=file_name)
+        with patch(self.output, new=StringIO()):
+            report.report()
+        res = report._compute_status("balloons", 0.99)
+        self.assertEqual(res, Symbols.upward_arrow)
+        report.margin = 0.9
+        res = report._compute_status("balloons", 0.99)
+        self.assertEqual(res, Symbols.cross)
+
+    def test_reportbase_compute_status(self):
+        with patch.multiple(BaseReport, __abstractmethods__=set()):
+            file_name = os.path.join(
+                "results",
+                "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json",
+            )
+            temp = BaseReport(file_name)
+            temp.compare = False
+            temp._compare_totals = {}
+            temp.score_name = "f1"
+            res = temp._compute_status("balloons", 0.99)
+            self.assertEqual(res, " ")
 
     def test_report_file_not_found(self):
         with self.assertRaises(FileNotFoundError):

@@ -143,6 +143,12 @@ class BeListTest(TestBase):
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_hidden")
 
+    @patch("benchmark.Manager.get_input", side_effect=iter(["0", "q"]))
+    def test_be_list_compare(self, input_data):
+        stdout, stderr = self.execute_script("be_list", ["--compare"])
+        self.assertEqual(stderr.getvalue(), "")
+        self.check_output_file(stdout, "be_list_compare_fault")
+
     def test_be_no_env(self):
         path = os.getcwd()
         os.chdir("..")
