@@ -90,15 +90,6 @@ class BenchmarkTest(TestBase):
         self.assertTrue(os.path.exists(benchmark.get_tex_file()))
         self.check_file_file(benchmark.get_tex_file(), "exreport_tex")
 
-    @staticmethod
-    def generate_excel_sheet(test, sheet, file_name):
-        with open(os.path.join("test_files", file_name), "w") as f:
-            for row in range(1, sheet.max_row + 1):
-                for col in range(1, sheet.max_column + 1):
-                    value = sheet.cell(row=row, column=col).value
-                    if value is not None:
-                        print(f'{row};{col};"{value}"', file=f)
-
     def test_excel_output(self):
         benchmark = Benchmark("accuracy", visualize=False)
         benchmark.compile_results()

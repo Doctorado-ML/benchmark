@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from benchmark.Results import Benchmark
+from benchmark.ResultsFiles import Benchmark
 from benchmark.Utils import Files
 from benchmark.Arguments import Arguments
 

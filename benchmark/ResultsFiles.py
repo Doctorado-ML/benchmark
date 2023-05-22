@@ -12,7 +12,7 @@ from xlsxwriter.exceptions import DuplicateWorksheetName
 from ._version import __version__
 from .Arguments import EnvData
 from .Datasets import Datasets
-from .ResultsBase import BaseReport
+from .ResultsBase import BaseReport, BestResultsEver, Summary, StubReport
 from .Utils import NO_RESULTS, Files, Folders, TextColor
 
 

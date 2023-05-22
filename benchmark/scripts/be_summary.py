@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from benchmark.Results import Summary
+from benchmark.ResultsBase import Summary
 from benchmark.Arguments import ALL_METRICS, Arguments
 
 

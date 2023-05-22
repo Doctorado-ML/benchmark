@@ -10,31 +10,31 @@ class BeListTest(TestBase):
     def setUp(self):
         self.prepare_scripts_env()
 
-    @patch("benchmark.Results.get_input", return_value="q")
+    @patch("benchmark.Manager.get_input", return_value="q")
     def test_be_list(self, input_data):
         stdout, stderr = self.execute_script("be_list", ["-m", "STree"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_model")
 
-    @patch("benchmark.Results.get_input", side_effect=iter(["x", "q"]))
+    @patch("benchmark.Manager.get_input", side_effect=iter(["x", "q"]))
     def test_be_list_invalid_option(self, input_data):
         stdout, stderr = self.execute_script("be_list", ["-m", "STree"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_model_invalid")
 
-    @patch("benchmark.Results.get_input", side_effect=iter(["0", "q"]))
+    @patch("benchmark.Manager.get_input", side_effect=iter(["0", "q"]))
     def test_be_list_report(self, input_data):
         stdout, stderr = self.execute_script("be_list", ["-m", "STree"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_report")
 
-    @patch("benchmark.Results.get_input", side_effect=iter(["r", "q"]))
+    @patch("benchmark.Manager.get_input", side_effect=iter(["r", "q"]))
     def test_be_list_twice(self, input_data):
         stdout, stderr = self.execute_script("be_list", ["-m", "STree"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_model_2")
 
-    @patch("benchmark.Results.get_input", side_effect=iter(["e 2", "q"]))
+    @patch("benchmark.Manager.get_input", side_effect=iter(["e 2", "q"]))
     def test_be_list_report_excel(self, input_data):
         stdout, stderr = self.execute_script("be_list", ["-m", "STree"])
         self.assertEqual(stderr.getvalue(), "")
@@ -45,7 +45,7 @@ class BeListTest(TestBase):
         self.check_excel_sheet(sheet, "excel")
 
     @patch(
-        "benchmark.Results.get_input",
+        "benchmark.Manager.get_input",
         side_effect=iter(["e 2", "e 1", "q"]),
     )
     def test_be_list_report_excel_twice(self, input_data):
@@ -58,7 +58,7 @@ class BeListTest(TestBase):
         sheet = book["STree2"]
         self.check_excel_sheet(sheet, "excel2")
 
-    @patch("benchmark.Results.get_input", return_value="q")
+    @patch("benchmark.Manager.get_input", return_value="q")
     def test_be_list_no_data(self, input_data):
         stdout, stderr = self.execute_script(
             "be_list", ["-m", "Wodt", "-s", "f1-macro"]
@@ -67,7 +67,7 @@ class BeListTest(TestBase):
         self.assertEqual(stdout.getvalue(), f"{NO_RESULTS}\n")
 
     @patch(
-        "benchmark.Results.get_input",
+        "benchmark.Manager.get_input",
         side_effect=iter(["d 0", "y", "", "q"]),
     )
     # @patch("benchmark.ResultsBase.get_input", side_effect=iter(["q"]))
@@ -94,7 +94,7 @@ class BeListTest(TestBase):
             self.fail("test_be_list_delete() should not raise exception")
 
     @patch(
-        "benchmark.Results.get_input",
+        "benchmark.Manager.get_input",
         side_effect=iter(["h 0", "y", "", "q"]),
     )
     def test_be_list_hide(self, input_data):
@@ -119,25 +119,25 @@ class BeListTest(TestBase):
             swap_files(Folders.results, Folders.hidden_results, file_name)
             self.fail("test_be_list_hide() should not raise exception")
 
-    @patch("benchmark.Results.get_input", side_effect=iter(["h 0", "q"]))
+    @patch("benchmark.Manager.get_input", side_effect=iter(["h 0", "q"]))
     def test_be_list_already_hidden(self, input_data):
         stdout, stderr = self.execute_script("be_list", ["--hidden"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_already_hidden")
 
-    @patch("benchmark.Results.get_input", side_effect=iter(["h 0", "n", "q"]))
+    @patch("benchmark.Manager.get_input", side_effect=iter(["h 0", "n", "q"]))
     def test_be_list_dont_hide(self, input_data):
         stdout, stderr = self.execute_script("be_list", "")
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_default")
 
-    @patch("benchmark.Results.get_input", side_effect=iter(["q"]))
+    @patch("benchmark.Manager.get_input", side_effect=iter(["q"]))
     def test_be_list_hidden_nan(self, input_data):
         stdout, stderr = self.execute_script("be_list", ["--hidden", "--nan"])
         self.assertEqual(stderr.getvalue(), "")
         self.check_output_file(stdout, "be_list_hidden_nan")
 
-    @patch("benchmark.Results.get_input", side_effect=iter(["q"]))
+    @patch("benchmark.Manager.get_input", side_effect=iter(["q"]))
     def test_be_list_hidden(self, input_data):
         stdout, stderr = self.execute_script("be_list", ["--hidden"])
         self.assertEqual(stderr.getvalue(), "")

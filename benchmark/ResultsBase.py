@@ -1,16 +1,16 @@
 import abc
 import json
+import math
 import os
+from operator import itemgetter
 
+from benchmark.Datasets import Datasets
+from benchmark.Utils import NO_RESULTS, Files, Folders, TextColor
 
 from .Arguments import ALL_METRICS, EnvData
 from .Datasets import Datasets
 from .Experiments import BestResults
 from .Utils import Folders, Symbols
-
-
-def get_input(message="", is_test=False):
-    return "test" if is_test else input(message)
 
 
 class BestResultsEver:
@@ -161,3 +161,273 @@ class StubReport(BaseReport):
     def footer(self, accuracy: float) -> None:
         self.accuracy = accuracy
         self.score = accuracy / self._get_best_accuracy()
+
+
+class Summary:
+    def __init__(self, hidden=False, compare=False) -> None:
+        self.results = Files().get_all_results(hidden=hidden)
+        self.data = []
+        self.data_filtered = []
+        self.datasets = {}
+        self.models = set()
+        self.hidden = hidden
+        self.compare = compare
+
+    def get_models(self):
+        return sorted(self.models)
+
+    def acquire(self, given_score="any") -> None:
+        """Get all results"""
+        for result in self.results:
+            (
+                score,
+                model,
+                platform,
+                date,
+                time,
+                stratified,
+            ) = Files().split_file_name(result)
+            if given_score in ("any", score):
+                self.models.add(model)
+                report = StubReport(
+                    os.path.join(
+                        Folders.hidden_results
+                        if self.hidden
+                        else Folders.results,
+                        result,
+                    )
+                )
+                report.report()
+                entry = dict(
+                    score=score,
+                    model=model,
+                    title=report.title,
+                    platform=platform,
+                    date=date,
+                    time=time,
+                    stratified=stratified,
+                    file=result,
+                    metric=report.score,
+                    duration=report.duration,
+                )
+                self.datasets[result] = report.lines
+                self.data.append(entry)
+
+    def get_results_criteria(
+        self, score, model, input_data, sort_key, number, nan=False
+    ):
+        data = self.data.copy() if input_data is None else input_data
+        if score:
+            data = [x for x in data if x["score"] == score]
+        if model:
+            data = [x for x in data if x["model"] == model]
+        if nan:
+            data = [x for x in data if x["metric"] != x["metric"]]
+        keys = (
+            itemgetter(sort_key, "time")
+            if sort_key == "date"
+            else itemgetter(sort_key, "date", "time")
+        )
+        data = sorted(data, key=keys, reverse=True)
+        if number > 0:
+            data = data[:number]
+        return data
+
+    def list_results(
+        self,
+        score=None,
+        model=None,
+        input_data=None,
+        sort_key="date",
+        number=0,
+        nan=False,
+    ) -> None:
+        """Print the list of results"""
+        if self.data_filtered == []:
+            self.data_filtered = self.get_results_criteria(
+                score, model, input_data, sort_key, number, nan=nan
+            )
+        if self.data_filtered == []:
+            raise ValueError(NO_RESULTS)
+        max_file = max(len(x["file"]) for x in self.data_filtered)
+        max_title = max(len(x["title"]) for x in self.data_filtered)
+        if self.hidden:
+            color1 = TextColor.GREEN
+            color2 = TextColor.YELLOW
+        else:
+            color1 = TextColor.LINE1
+            color2 = TextColor.LINE2
+        print(color1, end="")
+        print(
+            f" #  {'Date':10s} {'File':{max_file}s} {'Score':8s} "
+            f"{'Time(h)':7s} {'Title':s}"
+        )
+        print(
+            "===",
+            "=" * 10
+            + " "
+            + "=" * max_file
+            + " "
+            + "=" * 8
+            + " "
+            + "=" * 7
+            + " "
+            + "=" * max_title,
+        )
+        print(
+            "\n".join(
+                [
+                    (color2 if n % 2 == 0 else color1) + f"{n:3d} "
+                    f"{x['date']} {x['file']:{max_file}s} "
+                    f"{x['metric']:8.5f} "
+                    f"{x['duration']/3600:7.3f} "
+                    f"{x['title']}"
+                    for n, x in enumerate(self.data_filtered)
+                ]
+            )
+        )
+
+    def show_result(self, data: dict, title: str = "") -> None:
+        def whites(n: int) -> str:
+            return " " * n + color1 + "*"
+
+        if data == {}:
+            print(f"** {title} has No data **")
+            return
+        color1 = TextColor.CYAN
+        color2 = TextColor.YELLOW
+        file_name = data["file"]
+        metric = data["metric"]
+        result = StubReport(os.path.join(Folders.results, file_name))
+        length = 81
+        print(color1 + "*" * length)
+        if title != "":
+            print(
+                "*"
+                + color2
+                + TextColor.BOLD
+                + f"{title:^{length - 2}s}"
+                + TextColor.ENDC
+                + color1
+                + "*"
+            )
+            print("*" + "-" * (length - 2) + "*")
+        print("*" + whites(length - 2))
+        print(
+            "* "
+            + color2
+            + f"{result.data['title']:^{length - 4}}"
+            + color1
+            + " *"
+        )
+        print("*" + whites(length - 2))
+        print(
+            "* Model: "
+            + color2
+            + f"{result.data['model']:15s} "
+            + color1
+            + "Ver. "
+            + color2
+            + f"{result.data['version']:10s} "
+            + color1
+            + "Score: "
+            + color2
+            + f"{result.data['score_name']:10s} "
+            + color1
+            + "Metric: "
+            + color2
+            + f"{metric:10.7f}"
+            + whites(length - 78)
+        )
+        print(color1 + "*" + whites(length - 2))
+        print(
+            "* Date : "
+            + color2
+            + f"{result.data['date']:15s}"
+            + color1
+            + " Time: "
+            + color2
+            + f"{result.data['time']:18s} "
+            + color1
+            + "Time Spent: "
+            + color2
+            + f"{result.data['duration']:9,.2f}"
+            + color1
+            + " secs."
+            + whites(length - 78)
+        )
+        seeds = str(result.data["seeds"])
+        seeds_len = len(seeds)
+        print(
+            "* Seeds: "
+            + color2
+            + f"{seeds:{seeds_len}s} "
+            + color1
+            + "Platform: "
+            + color2
+            + f"{result.data['platform']:17s} "
+            + whites(length - 79)
+        )
+        print(
+            "* Stratified: "
+            + color2
+            + f"{str(result.data['stratified']):15s}"
+            + whites(length - 30)
+        )
+        print("* " + color2 + f"{file_name:60s}" + whites(length - 63))
+        print(color1 + "*" + whites(length - 2))
+        print(color1 + "*" * length)
+
+    def best_results(self, criterion=None, value=None, score="accuracy", n=10):
+        # First filter the same score results (accuracy, f1, ...)
+        haystack = [x for x in self.data if x["score"] == score]
+        haystack = (
+            haystack
+            if criterion is None or value is None
+            else [x for x in haystack if x[criterion] == value]
+        )
+        if haystack == []:
+            raise ValueError(NO_RESULTS)
+        return (
+            sorted(
+                haystack,
+                key=lambda x: -1.0 if math.isnan(x["metric"]) else x["metric"],
+                reverse=True,
+            )[:n]
+            if len(haystack) > 0
+            else {}
+        )
+
+    def best_result(
+        self, criterion=None, value=None, score="accuracy"
+    ) -> dict:
+        return self.best_results(criterion, value, score)[0]
+
+    def best_results_datasets(self, score="accuracy") -> dict:
+        """Get the best results for each dataset"""
+        dt = Datasets()
+        best_results = {}
+        for dataset in dt:
+            best_results[dataset] = (1, "", "", "")
+        haystack = [x for x in self.data if x["score"] == score]
+        # Search for the best results for each dataset
+        for entry in haystack:
+            for dataset in self.datasets[entry["file"]]:
+                if dataset["score"] < best_results[dataset["dataset"]][0]:
+                    best_results[dataset["dataset"]] = (
+                        dataset["score"],
+                        dataset["hyperparameters"],
+                        entry["file"],
+                        entry["title"],
+                    )
+        return best_results
+
+    def show_top(self, score="accuracy", n=10):
+        try:
+            self.list_results(
+                score=score,
+                input_data=self.best_results(score=score, n=n),
+                sort_key="metric",
+            )
+        except ValueError as e:
+            print(e)

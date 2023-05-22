@@ -1,3 +1,4 @@
+from .ResultsBase import Summary
 from .Datasets import (
     Datasets,
     DatasetsSurcov,
@@ -5,7 +6,7 @@ from .Datasets import (
     DatasetsArff,
 )
 from .Experiments import Experiment
-from .Results import Report, Summary
+from .Results import Report
 from ._version import __version__
 
 __author__ = "Ricardo Montañana Gómez"

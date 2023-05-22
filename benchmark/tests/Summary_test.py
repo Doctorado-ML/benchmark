@@ -1,7 +1,7 @@
 from io import StringIO
 from unittest.mock import patch
 from .TestBase import TestBase
-from ..Results import Summary
+from ..ResultsBase import Summary
 from ..Utils import NO_RESULTS
 
 

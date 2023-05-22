@@ -25,7 +25,7 @@ class BeMainTest(TestBase):
         self.check_output_lines(
             stdout=stdout,
             file_name="be_main_dataset",
-            lines_to_compare=[0, 2, 3, 5, 6, 7, 8, 9, 11, 12, 13],
+            lines_to_compare=[0, 2, 3, 5, 6, 7, 8, 9, 11, 12, 13, 14],
         )
 
     def test_be_main_complete(self):
@@ -37,7 +37,9 @@ class BeMainTest(TestBase):
         report_name = stdout.getvalue().splitlines()[-1].split("in ")[1]
         self.files.append(report_name)
         self.check_output_lines(
-            stdout, "be_main_complete", [0, 2, 3, 5, 6, 7, 8, 9, 12, 13, 14]
+            stdout,
+            "be_main_complete",
+            [0, 2, 3, 5, 6, 7, 8, 9, 12, 13, 14, 15],
         )
 
     def test_be_main_no_report(self):

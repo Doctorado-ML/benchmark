@@ -1,8 +1,9 @@
 #! /usr/bin/env python
 import os
-from benchmark.Results import Summary
+from benchmark.ResultsBase import Summary
 from benchmark.Utils import Files, Folders
 from benchmark.Arguments import Arguments
+from benchmark.Manager import Manage
 
 """List experiments of a model
 """
@@ -27,7 +28,8 @@ def main(args_test=None):
     except ValueError as e:
         print(e)
         return
-    excel_generated = data.manage_results()
+    manager = Manage(data)
+    excel_generated = manager.manage_results()
     if excel_generated:
         name = os.path.join(Folders.excel, Files.be_list_excel)
         print(f"Generated file: {name}")
