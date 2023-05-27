@@ -118,7 +118,7 @@ class UtilTest(TestBase):
     def test_Files_get_results(self):
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
         self.assertCountEqual(
-            Files().get_all_results(hidden=False),
+            Files.get_all_results(hidden=False),
             [
                 "results_accuracy_STree_iMac27_2021-10-27_09:40:40_0.json",
                 "results_accuracy_STree_iMac27_2021-09-30_11:42:07_0.json",
@@ -130,7 +130,7 @@ class UtilTest(TestBase):
             ],
         )
         self.assertCountEqual(
-            Files().get_all_results(hidden=True),
+            Files.get_all_results(hidden=True),
             [
                 "results_accuracy_STree_iMac27_2021-11-01_23:55:16_0.json",
                 "results_accuracy_XGBoost_MacBookpro16_2022-05-04_11:00:35_"
@@ -143,7 +143,7 @@ class UtilTest(TestBase):
         # check with results
         os.rename(Folders.results, f"{Folders.results}.test")
         try:
-            Files().get_all_results(hidden=False)
+            Files.get_all_results(hidden=False)
         except ValueError:
             pass
         else:
@@ -153,7 +153,7 @@ class UtilTest(TestBase):
         # check with hidden_results
         os.rename(Folders.hidden_results, f"{Folders.hidden_results}.test")
         try:
-            Files().get_all_results(hidden=True)
+            Files.get_all_results(hidden=True)
         except ValueError:
             pass
         else:

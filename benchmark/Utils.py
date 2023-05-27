@@ -108,7 +108,8 @@ class Files:
             )
         return None
 
-    def get_all_results(self, hidden) -> list[str]:
+    @staticmethod
+    def get_all_results(hidden) -> list[str]:
         result_path = os.path.join(
             ".", Folders.hidden_results if hidden else Folders.results
         )
@@ -117,7 +118,7 @@ class Files:
         else:
             raise ValueError(f"{result_path} does not exist")
         result = []
-        prefix, suffix = self.results_suffixes()
+        prefix, suffix = Files.results_suffixes()
         for result_file in files_list:
             if result_file.startswith(prefix) and result_file.endswith(suffix):
                 result.append(result_file)

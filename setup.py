@@ -39,6 +39,7 @@ def script_names():
         "report",
         "summary",
         "init_project",
+        "flask",
     ]
     result = []
     for script in scripts:

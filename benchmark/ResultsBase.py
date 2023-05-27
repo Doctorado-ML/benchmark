@@ -52,10 +52,11 @@ class BaseReport(abc.ABC):
             self.score_name = self.data["score_name"]
         self.__load_env_data()
         self.__compute_best_results_ever()
+        self._compare_totals = {}
 
     def __load_env_data(self):
         # Set the labels for nodes, leaves, depth
-        env_data = EnvData.load()
+        env_data = EnvData().load()
         self.nodes_label = env_data["nodes"]
         self.leaves_label = env_data["leaves"]
         self.depth_label = env_data["depth"]
@@ -149,6 +150,7 @@ class BaseReport(abc.ABC):
 
 class StubReport(BaseReport):
     def __init__(self, file_name):
+        self.compare = False
         super().__init__(file_name=file_name, best_file=False)
 
     def print_line(self, line) -> None:
@@ -165,7 +167,7 @@ class StubReport(BaseReport):
 
 class Summary:
     def __init__(self, hidden=False, compare=False) -> None:
-        self.results = Files().get_all_results(hidden=hidden)
+        self.results = Files.get_all_results(hidden=hidden)
         self.data = []
         self.data_filtered = []
         self.datasets = {}

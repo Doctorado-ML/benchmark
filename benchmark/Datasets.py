@@ -109,7 +109,7 @@ class DatasetsSurcov:
 
 class Datasets:
     def __init__(self, dataset_name=None, discretize=None):
-        env_data = EnvData.load()
+        env_data = EnvData().load()
         # DatasetsSurcov, DatasetsTanveer, DatasetsArff,...
         source_name = getattr(
             __import__(__name__),

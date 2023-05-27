@@ -620,7 +620,7 @@ class Benchmark:
         self.__compute_best_results_ever()
 
     def __compute_best_results_ever(self):
-        args = EnvData.load()
+        args = EnvData().load()
         key = args["source_data"]
         best = BestResultsEver()
         _, self.best_score_value = best.get_name_value(key, self._score)

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Benchmark Results</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <style>
+        body {
+            font-family: Courier;
+        }
+
+        .tag {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title is-1 has-text-centered">Benchmark Results</h1>
+        <button class="button is-primary is-small" onclick="location.href='/config/{{ framework }}';">Use {{ framework
+            }}</button>
+        {% set table_class = "table is-striped is-hoverable cell-border" %}
+        {% set button_pre = '<span class="tag is-link is-normal" type="button" onclick="showFile(\'' %}
+        {% set button_post = '\')">View</span>' %}
+        {% include "partials/table_select.html" %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var table = $('#file-table').DataTable({
+                "paging": true,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "select.items": "row",
+                "columnDefs": [{
+                    "targets": 6,
+                    "orderable": false
+                }]
+            });
+            $('#file-table tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('is-selected')) {
+                    $(this).removeClass('is-selected');
+                } else {
+                    table.$('tr.is-selected').removeClass('is-selected');
+                    $(this).addClass('is-selected');
+                }
+            });
+        });
+        function showFile(selectedFile) {
+            var form = $('<form action="/show" method="post">' +
+                '<input type="hidden" name="selected-file" value="' + selectedFile + '" />' +
+                '</form>');
+            $('body').append(form);
+            form.submit();
+        }
+    </script>
+</body>
+
+</html>

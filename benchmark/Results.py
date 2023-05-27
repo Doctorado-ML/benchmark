@@ -71,7 +71,6 @@ class Report(BaseReport):
             self._load_best_results(
                 self.data["score_name"], self.data["model"]
             )
-        self._compare_totals = {}
         self.header_line("*")
         self.header_line(
             f" {self.data['model']} ver. {self.data['version']}"
