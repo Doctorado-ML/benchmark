@@ -84,6 +84,7 @@
               <button class="delete" onclick="location.href='/index';"></button>
               Total score: {{ "%.6f" % (data.results | sum(attribute="score")) }}
             </b></h2>
+            <h2>Number of files: {{ data.results | length }}</h2>
         </div>
     </section>
   </div>

@@ -2,7 +2,7 @@
 import os
 import json
 import webbrowser
-from benchmark.Utils import Files, Folders, Symbols
+from benchmark.Utils import Files, Folders
 from benchmark.Arguments import Arguments, EnvData
 from benchmark.ResultsBase import StubReport
 from flask import Flask
@@ -13,7 +13,6 @@ from flask import render_template, request, redirect, url_for
 app = Flask(__name__)
 FRAMEWORK = "framework"
 FRAMEWORKS = "frameworks"
-HIDDEN = "hidden"
 
 
 def process_data(file_name, data):
@@ -35,14 +34,23 @@ def process_data(file_name, data):
 @app.route("/")
 def index():
     # Get a list of files in a directory
-    files = Files.get_all_results(hidden=app.config[HIDDEN])
+    files = {}
+    names = Files.get_all_results(hidden=False)
+    for name in names:
+        report = StubReport(os.path.join(Folders.results, name))
+        report.report()
+        files[name] = {
+            "duration": report.duration,
+            "score": report.score,
+            "title": report.title,
+        }
     candidate = app.config[FRAMEWORKS].copy()
     candidate.remove(app.config[FRAMEWORK])
     return render_template(
-        f"select.html",
+        "select.html",
         files=files,
-        framework=candidate[0],
-        used_framework=app.config[FRAMEWORK],
+        candidate=candidate[0],
+        framework=app.config[FRAMEWORK],
     )
 
 
@@ -53,10 +61,10 @@ def show():
         data = json.load(f)
     summary = process_data(selected_file, data)
     return render_template(
-        f"report.html",
+        "report.html",
         data=data,
         summary=summary,
-        used_framework=app.config[FRAMEWORK],
+        framework=app.config[FRAMEWORK],
     )
 
 
@@ -74,13 +82,13 @@ def config(framework):
 
 
 def main(args_test=None):
-    arguments = Arguments(prog="be_flask")
-    arguments.xset("model", required=False)
-    arguments.xset("score", required=False).xset("compare").xset("hidden")
-    arguments.xset("nan")
-    args = arguments.parse(args_test)
-    app.config[FRAMEWORK] = EnvData().load()[FRAMEWORK]
-    app.config[HIDDEN] = args.hidden
+    # arguments = Arguments(prog="be_flask")
+    # arguments.xset("model", required=False)
+    # arguments.xset("score", required=False).xset("compare")
+    # arguments.xset("nan")
+    # args = arguments.parse(args_test)
+    config = EnvData().load()
+    app.config[FRAMEWORK] = config[FRAMEWORK]
     app.config[FRAMEWORKS] = ["bootstrap", "bulma"]
     webbrowser.open_new("http://127.0.0.1:1234/")
     app.run(port=1234)

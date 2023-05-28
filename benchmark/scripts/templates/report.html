@@ -1,11 +1,7 @@
 {% set title = "Report Viewer" %}
-{% if used_framework == "bootstrap" %}
-  {% extends "base_bootstrap.html" %}
-{% else %}
-  {% extends "base_bulma.html" %}
-{% endif%}
+{% extends "base.html" %}
 {% block content%}
-  {% if used_framework == "bootstrap" %}
+  {% if framework == "bootstrap" %}
     {% set center = "text-center" %}
     {% set right = "text-end" %}
    {% include "partials/table_report_bootstrap.html" %}

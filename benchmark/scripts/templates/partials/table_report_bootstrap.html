@@ -78,6 +78,7 @@
           <h7><b>
               Total score: {{ "%.6f" % (data.results | sum(attribute="score")) }}
             </b></h7>
+            <h7>Number of files: {{ data.results | length }}</h7>
         </div>
     </section>
   </div>
