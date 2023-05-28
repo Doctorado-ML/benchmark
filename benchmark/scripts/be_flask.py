@@ -2,9 +2,11 @@
 import os
 import json
 import webbrowser
+import xlsxwriter
 from benchmark.Utils import Files, Folders
 from benchmark.Arguments import Arguments, EnvData
 from benchmark.ResultsBase import StubReport
+from benchmark.ResultsFiles import Excel
 from flask import Flask
 from flask import render_template, request, redirect, url_for
 
@@ -13,6 +15,8 @@ from flask import render_template, request, redirect, url_for
 app = Flask(__name__)
 FRAMEWORK = "framework"
 FRAMEWORKS = "frameworks"
+COMPARE = "compare"
+TEST = "test"
 
 
 def process_data(file_name, data):
@@ -68,6 +72,34 @@ def show():
     )
 
 
+@app.route("/excel", methods=["post"])
+def excel():
+    if request.is_json:
+        selected_files = request.json
+    else:
+        selected_files = request.form["selected-files"]
+    book = None
+    for file_name in selected_files:
+        file_name_result = os.path.join(Folders.results, file_name)
+        if book is None:
+            file_excel = os.path.join(Folders.excel, Files.be_list_excel)
+            book = xlsxwriter.Workbook(file_excel, {"nan_inf_to_errors": True})
+        excel = Excel(
+            file_name=file_name_result,
+            book=book,
+            compare=app.config[COMPARE],
+        )
+        excel.report()
+    if book is not None:
+        book.close()
+    Files.open(file_excel, test=app.config[TEST])
+    return (
+        json.dumps({"success": True, "file": Files.be_list_excel}),
+        200,
+        {"ContentType": "application/json"},
+    )
+
+
 @app.route("/config/<framework>")
 def config(framework):
     if not framework in app.config[FRAMEWORKS]:
@@ -82,14 +114,15 @@ def config(framework):
 
 
 def main(args_test=None):
-    # arguments = Arguments(prog="be_flask")
-    # arguments.xset("model", required=False)
-    # arguments.xset("score", required=False).xset("compare")
-    # arguments.xset("nan")
-    # args = arguments.parse(args_test)
+    arguments = Arguments(prog="be_flask")
+    arguments.xset("model", required=False)
+    arguments.xset("score", required=False).xset("compare")
+    args = arguments.parse(args_test)
     config = EnvData().load()
     app.config[FRAMEWORK] = config[FRAMEWORK]
+    app.config[COMPARE] = args.compare
     app.config[FRAMEWORKS] = ["bootstrap", "bulma"]
+    app.config[TEST] = args_test is not None
     webbrowser.open_new("http://127.0.0.1:1234/")
     app.run(port=1234)
 

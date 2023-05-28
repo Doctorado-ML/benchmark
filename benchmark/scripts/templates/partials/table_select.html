@@ -27,6 +27,7 @@
                 <td>{{ "%.6f" % data["score"] }}</td>
                 <td>
                     {{ button_pre | safe }}{{ file }}{{ button_post | safe }}
+                    <input type="checkbox" class="{{ checkbox_class }}" name="selected_files" value="{{ file }}">
                 </td>
             </tr>
         {% endfor %}

@@ -1,8 +1,9 @@
 <div class="container">
     <h1 class="{{ h1_class }}"><b>Benchmark Results</b></h1>
-    <button class="{{ button_class }}" onclick="location.href='/config/{{ candidate }}';">Use {{ candidate
+    <button class="{{ button_class }}" onclick="location.href='/config/{{ candidate }}'">Use {{ candidate
         }}</button>
     {% include "partials/table_select.html" %}
+    <input type="button" class="{{ button_class }}" onclick="excel()" value="Excel">
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
