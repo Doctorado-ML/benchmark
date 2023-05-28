@@ -39,9 +39,10 @@ def index():
     candidate = app.config[FRAMEWORKS].copy()
     candidate.remove(app.config[FRAMEWORK])
     return render_template(
-        f"select_{app.config[FRAMEWORK]}.html",
+        f"select.html",
         files=files,
         framework=candidate[0],
+        used_framework=app.config[FRAMEWORK],
     )
 
 
@@ -52,7 +53,10 @@ def show():
         data = json.load(f)
     summary = process_data(selected_file, data)
     return render_template(
-        f"report_{app.config[FRAMEWORK]}.html", data=data, summary=summary
+        f"report.html",
+        data=data,
+        summary=summary,
+        used_framework=app.config[FRAMEWORK],
     )
 
 

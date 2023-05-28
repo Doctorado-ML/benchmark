@@ -1,0 +1,30 @@
+<script>
+    $(document).ready(function () {
+        var table = $('#file-table').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "select.items": "row",
+            "columnDefs": [{
+                "targets": 6,
+                "orderable": false
+            }]
+        });
+        $('#file-table tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('{{ selected }}')) {
+                $(this).removeClass('{{ selected }}');
+            } else {
+                table.$('tr.{{ selected }}').removeClass('{{ selected }}');
+                $(this).addClass('{{ selected }}');
+            }
+        });
+    });
+    function showFile(selectedFile) {
+        var form = $('<form action="/show" method="post">' +
+            '<input type="hidden" name="selected-file" value="' + selectedFile + '" />' +
+            '</form>');
+        $('body').append(form);
+        form.submit();
+    }
+</script>

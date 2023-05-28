@@ -1,0 +1,22 @@
+{% set title = "Benchmark Results" %}
+{% if used_framework == "bootstrap" %}
+    {% extends "base_bootstrap.html" %}
+    {% set button_class = "btn btn-primary bt-sm" %}
+    {% set h1_class = "text-center" %}
+    {% set table_class = "table table-striped table-hover" %}
+    {% set button_pre = '<button class="btn btn-primary btn-sm"
+                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                            onclick="showFile(\''%}
+    {% set button_post =  '\')">View</button>' %}
+{% else %}
+    {% extends "base_bulma.html" %}
+    {% set button_class = "button is-primary is-small" %}
+    {% set h1_class = "title is-1 has-text-centered" %}
+    {% set table_class = "table is-striped is-hoverable cell-border" %}
+    {% set button_pre = '<span class="tag is-link is-normal" type="button" onclick="showFile(\'' %}
+    {% set button_post = '\')">View</span>' %}
+    {% set selected = "is-selected" %}
+{% endif %}
+{% block content %}
+    {% include "partials/table_select_design.html" %}
+{% endblock %}
