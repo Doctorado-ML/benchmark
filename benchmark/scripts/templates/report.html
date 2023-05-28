@@ -4,10 +4,12 @@
   {% if framework == "bootstrap" %}
     {% set center = "text-center" %}
     {% set right = "text-end" %}
-   {% include "partials/table_report_bootstrap.html" %}
+    {% set button = "btn btn-primary" %}
+    {% include "partials/table_report_bootstrap.html" %}
   {% else %}
     {% set center = "has-text-centered" %}
     {% set right = "has-text-right" %}
+    {% set button = "button is-primary" %}
     {% include "partials/table_report_bulma.html" %}
   {% endif %}
 {% endblock %}

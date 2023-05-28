@@ -85,6 +85,9 @@
               Total score: {{ "%.6f" % (data.results | sum(attribute="score")) }}
             </b></h2>
             <h2>Number of files: {{ data.results | length }}</h2>
+            <div>
+              <input type="button", class="{{ button }}", value="Excel", onclick="excelFile()">
+            </div>
         </div>
     </section>
   </div>

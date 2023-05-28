@@ -67,6 +67,7 @@ def show():
     return render_template(
         "report.html",
         data=data,
+        file=selected_file,
         summary=summary,
         framework=app.config[FRAMEWORK],
     )
