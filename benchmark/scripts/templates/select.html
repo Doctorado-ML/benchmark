@@ -7,7 +7,7 @@
   {% set button_pre = '<button class="btn btn-primary btn-sm"
                           style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
                           onclick="showFile(\''%}
-  {% set button_post =  '\')">View</button>' %}
+  {% set button_post =  '\')"><i class="mdi mdi-eye"></i></button>' %}
   {% set selected = "selected" %}
   {% set tag_class = "badge bg-primary bg-small" %}
   {% set frbutton_position = "float-left" %}
@@ -20,9 +20,11 @@
   {% set h1_class = "title is-1 has-text-centered" %}
   {% set table_class = "table is-striped is-hoverable cell-border is-bordered" %}
   {% set button_pre = '<span class="tag is-link is-normal" type="button" onclick="showFile(\'' %}
-  {% set button_post = '\')">View</span>' %}
+  {% set button_post = '\')"><i class="mdi mdi-eye"></i></span>' %}
   {% set selected = "is-selected" %}
   {% set align_right = "text-end" %}
+  {% set level = "level" %}
+  {% set tag_class = "tag is-primary is-small" %}
   {% set container = "container is-fluid" %}
 {% endif %}
 {% block content %}
@@ -39,3 +41,5 @@
     {% include "partials/js_select.js" %}
   </script>
 {% endblock %}
+
+  
