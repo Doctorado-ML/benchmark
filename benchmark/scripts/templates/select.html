@@ -9,13 +9,22 @@
                             onclick="showFile(\''%}
     {% set button_post =  '\')">View</button>' %}
     {% set selected = "selected" %}
-{% else %}
+    {% set tag_class = "badge bg-primary bg-small" %}
+    {% set frbutton_position = "float-left" %}
+    {% set frtag_position = "float-right" %}
+    {% set level = "navbar" %}
+    "tag is-primary"
+    {% else %}
     {% set button_class = "button is-primary is-small" %}
     {% set h1_class = "title is-1 has-text-centered" %}
     {% set table_class = "table is-striped is-hoverable cell-border is-bordered" %}
     {% set button_pre = '<span class="tag is-link is-normal" type="button" onclick="showFile(\'' %}
     {% set button_post = '\')">View</span>' %}
     {% set selected = "is-selected" %}
+    {% set tag_class = "tag is-primary is-normal" %}
+    {% set frbutton_position = "level-left" %}
+    {% set frtag_position = "level-right" %}
+    {% set level = "level" %}
 {% endif %}
 {% block content %}
     {% include "partials/table_select_design.html" %}

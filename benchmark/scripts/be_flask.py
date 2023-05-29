@@ -20,7 +20,9 @@ TEST = "test"
 
 
 def process_data(file_name, data):
-    report = StubReport(os.path.join(Folders.results, file_name))
+    report = StubReport(
+        os.path.join(Folders.results, file_name), compare=app.config[COMPARE]
+    )
     new_list = []
     for result in data["results"]:
         symbol = report._compute_status(result["dataset"], result["score"])
@@ -116,8 +118,7 @@ def config(framework):
 
 def main(args_test=None):
     arguments = Arguments(prog="be_flask")
-    arguments.xset("model", required=False)
-    arguments.xset("score", required=False).xset("compare")
+    arguments.xset("compare")
     args = arguments.parse(args_test)
     config = EnvData().load()
     app.config[FRAMEWORK] = config[FRAMEWORK]

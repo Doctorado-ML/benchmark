@@ -149,9 +149,11 @@ class BaseReport(abc.ABC):
 
 
 class StubReport(BaseReport):
-    def __init__(self, file_name):
-        self.compare = False
+    def __init__(self, file_name, compare=False):
+        self.compare = compare
         super().__init__(file_name=file_name, best_file=False)
+        if self.compare:
+            self._load_best_results(self.score_name, self.data["model"])
 
     def print_line(self, line) -> None:
         pass
