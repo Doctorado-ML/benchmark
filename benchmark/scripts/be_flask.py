@@ -65,7 +65,10 @@ def show():
     selected_file = request.form["selected-file"]
     with open(os.path.join(Folders.results, selected_file)) as f:
         data = json.load(f)
-    summary = process_data(selected_file, data)
+    try:
+        summary = process_data(selected_file, data)
+    except Exception as e:
+        return render_template("error.html", message=str(e))
     return render_template(
         "report.html",
         data=data,

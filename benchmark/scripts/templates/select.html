@@ -1,42 +1,41 @@
 {% set title = "Benchmark Results" %}
 {% extends "base.html" %}
 {% if framework == "bootstrap" %}
-    {% set button_class = "btn btn-primary bt-sm" %}
-    {% set h1_class = "text-center" %}
-    {% set table_class = "table table-striped table-hover table-bordered" %}
-    {% set button_pre = '<button class="btn btn-primary btn-sm"
-                            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-                            onclick="showFile(\''%}
-    {% set button_post =  '\')">View</button>' %}
-    {% set selected = "selected" %}
-    {% set tag_class = "badge bg-primary bg-small" %}
-    {% set frbutton_position = "float-left" %}
-    {% set frtag_position = "float-right" %}
-    {% set level = "navbar" %}
-    "tag is-primary"
-    {% else %}
-    {% set button_class = "button is-primary is-small" %}
-    {% set h1_class = "title is-1 has-text-centered" %}
-    {% set table_class = "table is-striped is-hoverable cell-border is-bordered" %}
-    {% set button_pre = '<span class="tag is-link is-normal" type="button" onclick="showFile(\'' %}
-    {% set button_post = '\')">View</span>' %}
-    {% set selected = "is-selected" %}
-    {% set tag_class = "tag is-primary is-normal" %}
-    {% set frbutton_position = "level-left" %}
-    {% set frtag_position = "level-right" %}
-    {% set level = "level" %}
+  {% set button_class = "btn btn-primary bt-sm" %}
+  {% set h1_class = "text-center" %}
+  {% set table_class = "table table-striped table-hover table-bordered" %}
+  {% set button_pre = '<button class="btn btn-primary btn-sm"
+                          style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                          onclick="showFile(\''%}
+  {% set button_post =  '\')">View</button>' %}
+  {% set selected = "selected" %}
+  {% set tag_class = "badge bg-primary bg-small" %}
+  {% set frbutton_position = "float-left" %}
+  {% set frtag_position = "float-right" %}
+  {% set level = "navbar" %}
+  {% set align_right = "text-end" %}
+  {% set container = "container-fluid" %}
+{% else %}
+  {% set button_class = "button is-primary is-small" %}
+  {% set h1_class = "title is-1 has-text-centered" %}
+  {% set table_class = "table is-striped is-hoverable cell-border is-bordered" %}
+  {% set button_pre = '<span class="tag is-link is-normal" type="button" onclick="showFile(\'' %}
+  {% set button_post = '\')">View</span>' %}
+  {% set selected = "is-selected" %}
+  {% set align_right = "text-end" %}
+  {% set container = "container is-fluid" %}
 {% endif %}
 {% block content %}
-    {% include "partials/table_select_design.html" %}
+  {% include "partials/table_select_design.html" %}
 {% endblock %}
 
 {% block jscript %}
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-    {% if framework == "bootstrap" %}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" 
-            crossorigin="anonymous"></script>
-    {% endif %}
-    <script>
-        {% include "partials/js_select.js" %}
-    </script>
+  <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+  {% if framework == "bootstrap" %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" 
+        crossorigin="anonymous"></script>
+  {% endif %}
+  <script>
+    {% include "partials/js_select.js" %}
+  </script>
 {% endblock %}

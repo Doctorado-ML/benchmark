@@ -1,35 +1,39 @@
 <table id="file-table" class="{{ table_class }}">
-    <thead>
-        <tr>
-            <th>Model</th>
-            <th>Metric</th>
-            <th>Platform</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Stratified</th>
-            <th>Title</th>
-            <th>Score</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for file, data in files.items() %}
-            {% set parts = file.split('_') %}
-            {% set stratified = parts[6].split('.')[0] %}
-            <tr>
-                <td>{{ parts[2] }}</td>
-                <td>{{ parts[1] }}</td>
-                <td>{{ parts[3] }}</td>
-                <td>{{ parts[4] }}</td>
-                <td>{{ parts[5] }}</td>
-                <td>{{ 'True' if stratified =='1' else 'False' }}</td>
-                <td>{{ "%s" % data["title"] }}</td>
-                <td>{{ "%.6f" % data["score"] }}</td>
-                <td>
-                    {{ button_pre | safe }}{{ file }}{{ button_post | safe }}
-                    <input type="checkbox" class="{{ checkbox_class }}" name="selected_files" value="{{ file }}">
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Metric</th>
+      <th>Platform</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Stratified</th>
+      <th>Title</th>
+      <th>Score</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for file, data in files.items() %} {% set parts = file.split('_') %} {%
+    set stratified = parts[6].split('.')[0] %}
+    <tr>
+      <td>{{ parts[2] }}</td>
+      <td>{{ parts[1] }}</td>
+      <td>{{ parts[3] }}</td>
+      <td>{{ parts[4] }}</td>
+      <td>{{ parts[5] }}</td>
+      <td>{{ 'True' if stratified =='1' else 'False' }}</td>
+      <td>{{ "%s" % data["title"] }}</td>
+      <td class="{{ align_right }}">{{ "%.6f" % data["score"] }}</td>
+      <td>
+        {{ button_pre | safe }}{{ file }}{{ button_post | safe }}
+        <input
+          type="checkbox"
+          class="{{ checkbox_class }}"
+          name="selected_files"
+          value="{{ file }}"
+        />
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
