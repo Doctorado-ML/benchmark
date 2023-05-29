@@ -11,7 +11,7 @@ $(document).ready(function () {
   });
   function excelFile() {
     var selectedFiles = ["{{ file }}"];
-        // send data to server with ajax post
+    // send data to server with ajax post
     $.ajax({
         type:'POST',
         url:'/excel',

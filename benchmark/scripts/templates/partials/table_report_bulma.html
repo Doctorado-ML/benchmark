@@ -49,6 +49,9 @@
               </tr>
             </thead>
           </table>
+          <div>
+            <button class="{{ button }}" onclick="excelFile()"><i class="mdi mdi-file-excel"></i> Excel</button>
+          </div>
           <table id="report-table" class="table is-fullwidth is-striped is-hoverable is-bordered">
             <thead>
               <tr class="is-selected">
@@ -85,9 +88,6 @@
               Total score: {{ "%.6f" % (data.results | sum(attribute="score")) }}
             </b></h2>
             <h2>Number of files: {{ data.results | length }}</h2>
-            <div>
-              <button class="{{ button }}" onclick="excelFile()"><i class="mdi mdi-file-excel"></i> Excel</button>
-            </div>
         </div>
     </section>
   </div>

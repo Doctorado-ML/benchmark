@@ -9,7 +9,10 @@ $(document).ready(function () {
         "columnDefs": [{
             "targets": 8,
             "orderable": false
-        }]
+        }],
+        //"language": {
+        //    "lengthMenu": "_MENU_"
+        //}
     });
     // Check if row is selected
     $('#file-table tbody').on('click', 'tr', function () {
@@ -55,4 +58,10 @@ function excel() {
             alert(mensaje.mensaje);
         }
     });
+}
+function clearCheckBoxes() {
+    var checkbox = document.getElementsByName("selected_files");
+    for (i = 0; i < checkbox.length; i++) {
+        checkbox[i].checked=false;
+    }
 }
