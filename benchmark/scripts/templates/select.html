@@ -9,13 +9,14 @@
                           onclick="showFile(\''%}
   {% set button_post =  '\')"><i class="mdi mdi-eye"></i></button>' %}
   {% set selected = "selected" %}
-  {% set tag_class = "badge bg-primary bg-small" %}
+  {% set tag_class = "badge bg-info bg-small" %}
   {% set frbutton_position = "float-left" %}
   {% set frtag_position = "float-right" %}
   {% set level = "navbar" %}
   {% set align_right = "text-end" %}
   {% set container = "container-fluid" %}
-  {% set button_reset = '<button class="btn btn-primary btn-small btn-danger" onclick="clearCheckBoxes()"><i class="mdi mdi-backspace"></i></button>' %}
+  {% set button_reset = '<button class="btn btn-primary btn-small btn-danger" onclick="setCheckBoxes(false)"><i class="mdi mdi-checkbox-multiple-blank"></i></button>' %}
+  {% set button_all = '<button class="btn btn-primary btn-small btn-success" onclick="setCheckBoxes(true)"><i class="mdi mdi-checkbox-multiple-marked"></i></button>' %}
 {% else %}
   {% set button_class = "button is-primary is-small" %}
   {% set h1_class = "title is-1 has-text-centered" %}
@@ -25,9 +26,10 @@
   {% set selected = "is-selected" %}
   {% set align_right = "text-end" %}
   {% set level = "level" %}
-  {% set tag_class = "tag is-primary is-small" %}
+  {% set tag_class = "tag is-info is-small" %}
   {% set container = "container is-fluid" %}
-  {% set button_reset = '<span class="tag is-link is-danger" type="button" onclick="clearCheckBoxes()"><i class="mdi mdi-backspace"></i></span>' %}
+  {% set button_reset = '<span class="tag is-link is-danger" type="button" onclick="setCheckBoxes(false)"><i class="mdi mdi-checkbox-multiple-blank"></i></span>' %}
+  {% set button_all = '<span class="tag is-link is-success" type="button" onclick="setCheckBoxes(true)"><i class="mdi mdi-checkbox-multiple-marked"></i></span>' %}
 {% endif %}
 {% block content %}
   {% include "partials/table_select_design.html" %}

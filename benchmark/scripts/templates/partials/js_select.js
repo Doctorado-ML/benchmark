@@ -59,9 +59,9 @@ function excel() {
         }
     });
 }
-function clearCheckBoxes() {
+function setCheckBoxes(value) {
     var checkbox = document.getElementsByName("selected_files");
     for (i = 0; i < checkbox.length; i++) {
-        checkbox[i].checked=false;
+        checkbox[i].checked=value;
     }
 }
