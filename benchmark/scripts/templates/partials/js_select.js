@@ -23,6 +23,10 @@ $(document).ready(function () {
             $(this).addClass('{{ selected }}');
         }
     });
+    // Show file with doubleclick
+    $('#file-table tbody').on('dblclick', 'tr', function () {
+        showFile($(this).attr("id"));
+    });
     $(document).ajaxStart(function(){ 
         $("body").addClass('ajaxLoading');
     });
