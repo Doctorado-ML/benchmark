@@ -4,7 +4,7 @@ import json
 import webbrowser
 import xlsxwriter
 from benchmark.Utils import Files, Folders
-from benchmark.Arguments import Arguments, EnvData
+from benchmark.Arguments import EnvData
 from benchmark.ResultsBase import StubReport
 from benchmark.ResultsFiles import Excel
 from flask import Flask
@@ -15,13 +15,12 @@ from flask import render_template, request, redirect, url_for
 app = Flask(__name__)
 FRAMEWORK = "framework"
 FRAMEWORKS = "frameworks"
-COMPARE = "compare"
 TEST = "test"
 
 
-def process_data(file_name, data):
+def process_data(file_name, compare, data):
     report = StubReport(
-        os.path.join(Folders.results, file_name), compare=app.config[COMPARE]
+        os.path.join(Folders.results, file_name), compare=compare
     )
     new_list = []
     for result in data["results"]:
@@ -36,9 +35,9 @@ def process_data(file_name, data):
     return summary
 
 
-@app.route("/index")
+@app.route("/index/<compare>")
 @app.route("/")
-def index():
+def index(compare="False"):
     # Get a list of files in a directory
     files = {}
     names = Files.get_all_results(hidden=False)
@@ -57,33 +56,34 @@ def index():
         files=files,
         candidate=candidate[0],
         framework=app.config[FRAMEWORK],
+        compare=compare.capitalize() == "True",
     )
 
 
 @app.route("/show", methods=["post"])
 def show():
     selected_file = request.form["selected-file"]
+    compare = request.form["compare"] == "true"
     with open(os.path.join(Folders.results, selected_file)) as f:
         data = json.load(f)
     try:
-        summary = process_data(selected_file, data)
+        summary = process_data(selected_file, compare, data)
     except Exception as e:
-        return render_template("error.html", message=str(e))
+        return render_template("error.html", message=str(e), compare=compare)
     return render_template(
         "report.html",
         data=data,
         file=selected_file,
         summary=summary,
         framework=app.config[FRAMEWORK],
+        compare=compare,
     )
 
 
 @app.route("/excel", methods=["post"])
 def excel():
-    if request.is_json:
-        selected_files = request.json
-    else:
-        selected_files = request.form["selected-files"]
+    selected_files = request.json["selected-files"]
+    compare = request.json["compare"] == "true"
     book = None
     try:
         for file_name in selected_files:
@@ -96,7 +96,7 @@ def excel():
             excel = Excel(
                 file_name=file_name_result,
                 book=book,
-                compare=app.config[COMPARE],
+                compare=compare,
             )
             excel.report()
     except Exception as e:
@@ -122,8 +122,8 @@ def excel():
     )
 
 
-@app.route("/config/<framework>")
-def config(framework):
+@app.route("/config/<framework>/<compare>")
+def config(framework, compare):
     if not framework in app.config[FRAMEWORKS]:
         message = f"framework {framework} not supported"
         return render_template("error.html", message=message)
@@ -132,20 +132,13 @@ def config(framework):
     env.args[FRAMEWORK] = framework
     env.save()
     app.config[FRAMEWORK] = framework
-    return redirect(url_for("index"))
+    return redirect(url_for("index", compare=compare))
 
 
 def main(args_test=None):
-    arguments = Arguments(prog="be_flask")
-    arguments.xset("compare")
-    args = arguments.parse(args_test)
     config = EnvData().load()
     app.config[FRAMEWORK] = config[FRAMEWORK]
-    app.config[COMPARE] = args.compare
     app.config[FRAMEWORKS] = ["bootstrap", "bulma"]
     app.config[TEST] = args_test is not None
     webbrowser.open_new("http://127.0.0.1:1234/")
     app.run(port=1234)
-
-    # Poner checkboxes para seleccionar resultados y poner un botón abajo para hacer un excel con los seleccionados
-    # Calcular símbolo igual que en list, o bien si ha puesto el parámetro de compare, con best o con zeror

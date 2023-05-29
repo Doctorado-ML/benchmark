@@ -37,6 +37,7 @@ $(document).ready(function () {
 function showFile(selectedFile) {
     var form = $('<form action="/show" method="post">' +
         '<input type="hidden" name="selected-file" value="' + selectedFile + '" />' +
+        '<input type="hidden" name="compare" value='+$("#compare").is(':checked')+' />' +
         '</form>');
     $('body').append(form);
     form.submit();
@@ -78,4 +79,7 @@ function setCheckBoxes(value) {
     for (i = 0; i < checkbox.length; i++) {
         checkbox[i].checked=value;
     }
+}
+function redirectIndex(candidate){
+    location.href="/config/"+ candidate + "/" + $("#compare").is(':checked');
 }

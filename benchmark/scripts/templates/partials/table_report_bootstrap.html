@@ -2,7 +2,7 @@
     <section class="section">
       <div class="container-fluid">
         <div class="p-4 bg-primary text-white">
-          <button type="button" class="btn-close" aria-label="Close" onclick="location.href='/index';"></button>
+          <button type="button" class="btn-close" aria-label="Close" onclick="location.href = '/index/{{ compare }}'"></button>
           <h1>{{ data.title }}</h1>
         </div>
         <div>
@@ -77,7 +77,7 @@
             </table>
           </div>
           {% endif %}
-          <button type="button" class="btn-close" aria-label="Close" onclick="location.href='/index';"></button>
+          <button type="button" class="btn-close" aria-label="Close" onclick="location.href = '/index/{{ compare }}'"></button>
           <h7><b>
               Total score: {{ "%.6f" % (data.results | sum(attribute="score")) }}
             </b></h7>
