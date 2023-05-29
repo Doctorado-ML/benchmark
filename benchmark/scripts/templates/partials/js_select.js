@@ -54,11 +54,16 @@ function excel() {
         alert("Select at least one file");
         return;
     } 
-        // send data to server with ajax post
+    var compare = $("#compare").is(':checked');
+    // send data to server with ajax post
+    var data = {
+        selectedFiles: selectedFiles,
+        compare: compare
+    };
     $.ajax({
         type:'POST',
         url:'/excel',
-        data: JSON.stringify(selectedFiles),
+        data: JSON.stringify(data),
         contentType: "application/json",
         dataType: 'json',
         success: function(data){

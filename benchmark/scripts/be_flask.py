@@ -63,7 +63,7 @@ def index(compare="False"):
 @app.route("/show", methods=["post"])
 def show():
     selected_file = request.form["selected-file"]
-    compare = request.form["compare"] == "true"
+    compare = request.form["compare"].capitalize() == "True"
     with open(os.path.join(Folders.results, selected_file)) as f:
         data = json.load(f)
     try:
@@ -82,8 +82,8 @@ def show():
 
 @app.route("/excel", methods=["post"])
 def excel():
-    selected_files = request.json["selected-files"]
-    compare = request.json["compare"] == "true"
+    selected_files = request.json["selectedFiles"]
+    compare = request.json["compare"]
     book = None
     try:
         for file_name in selected_files:
