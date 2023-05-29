@@ -8,6 +8,12 @@ $(document).ready(function () {
             $(this).addClass('{{ selected }}');
         }
     });
+    $(document).ajaxStart(function(){ 
+        $("body").addClass('ajaxLoading');
+    });
+    $(document).ajaxStop(function(){ 
+        $("body").removeClass('ajaxLoading');
+    });
   });
   function excelFile() {
     var selectedFiles = ["{{ file }}"];

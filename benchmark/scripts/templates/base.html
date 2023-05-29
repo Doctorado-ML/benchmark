@@ -10,21 +10,24 @@
         crossorigin="anonymous"
         />
         <style>
-          body {
-              font-family: Courier;
-          }
-          #file-table tbody tr.selected td {
-              background-color: #0dcaf0;
-              color: white;
-          }
-          #report-table tbody tr.selected td {
-              background-color: #0dcaf0;
-              color: white;
-          }
-          .btn-small {
-              padding: 0.25rem 0.5rem;
-              font-size: 0.75rem;
-          }
+            body {
+                font-family: Courier;
+            }
+            #file-table tbody tr.selected td {
+                background-color: #0dcaf0;
+                color: white;
+            }
+            #report-table tbody tr.selected td {
+                background-color: #0dcaf0;
+                color: white;
+            }
+            .btn-small {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+            }
+            .ajaxLoading {  
+                cursor: progress !important;  
+            }
         </style>
     {% else %}
         <link
@@ -38,6 +41,9 @@
 
         .tag {
             cursor: pointer;
+        }
+        .ajaxLoading {  
+            cursor: progress !important;  
         }
         </style>
     {% endif %}
