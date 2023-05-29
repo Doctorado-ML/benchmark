@@ -51,11 +51,15 @@ function excel() {
         contentType: "application/json",
         dataType: 'json',
         success: function(data){
-            alert("Se ha generado el archivo "+data.file);
+            if (data.success) {
+                alert("Se ha generado el archivo "+data.file);
+            } else {
+                alert(data.error);
+            }
         },
         error: function (xhr, ajaxOptions, thrownError) {
-            var mensaje = JSON.parse(xhr.responseText || '{\"mensaje\": \"Error indeterminado\"}');
-            alert(mensaje.mensaje);
+            var mensaje = JSON.parse(xhr.responseText || '{\"message\": \"Error indeterminado\"}');
+            alert(mensaje.message);
         }
     });
 }

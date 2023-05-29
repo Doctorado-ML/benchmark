@@ -85,17 +85,33 @@ def excel():
     else:
         selected_files = request.form["selected-files"]
     book = None
-    for file_name in selected_files:
-        file_name_result = os.path.join(Folders.results, file_name)
-        if book is None:
-            file_excel = os.path.join(Folders.excel, Files.be_list_excel)
-            book = xlsxwriter.Workbook(file_excel, {"nan_inf_to_errors": True})
-        excel = Excel(
-            file_name=file_name_result,
-            book=book,
-            compare=app.config[COMPARE],
+    try:
+        for file_name in selected_files:
+            file_name_result = os.path.join(Folders.results, file_name)
+            if book is None:
+                file_excel = os.path.join(Folders.excel, Files.be_list_excel)
+                book = xlsxwriter.Workbook(
+                    file_excel, {"nan_inf_to_errors": True}
+                )
+            excel = Excel(
+                file_name=file_name_result,
+                book=book,
+                compare=app.config[COMPARE],
+            )
+            excel.report()
+    except Exception as e:
+        if book is not None:
+            book.close()
+        return (
+            json.dumps(
+                {
+                    "success": False,
+                    "error": "Could not create excel file, " + str(e),
+                }
+            ),
+            200,
+            {"ContentType": "application/json"},
         )
-        excel.report()
     if book is not None:
         book.close()
     Files.open(file_excel, test=app.config[TEST])
