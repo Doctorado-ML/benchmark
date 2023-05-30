@@ -7,6 +7,7 @@ from benchmark.Utils import Files, Folders
 from benchmark.Arguments import EnvData
 from benchmark.ResultsBase import StubReport
 from benchmark.ResultsFiles import Excel
+from benchmark.Datasets import Datasets
 from flask import Flask
 from flask import render_template, request, redirect, url_for
 
@@ -16,6 +17,25 @@ app = Flask(__name__)
 FRAMEWORK = "framework"
 FRAMEWORKS = "frameworks"
 TEST = "test"
+
+
+class AjaxResponse:
+    def __init__(self, success, file_name, code=200):
+        self.success = success
+        self.file_name = file_name
+        self.code = code
+
+    def to_string(self):
+        return (
+            json.dumps(
+                {
+                    "success": self.success,
+                    "file": self.file_name,
+                }
+            ),
+            self.code,
+            {"ContentType": "application/json"},
+        )
 
 
 def process_data(file_name, compare, data):
@@ -60,6 +80,20 @@ def index(compare="False"):
     )
 
 
+@app.route("/datasets/<compare>")
+def datasets(compare):
+    dt = Datasets()
+    datos = []
+    for dataset in dt:
+        datos.append(dt.get_attributes(dataset))
+    return render_template(
+        "datasets.html",
+        datasets=datos,
+        compare=compare,
+        framework=app.config[FRAMEWORK],
+    )
+
+
 @app.route("/show", methods=["post"])
 def show():
     selected_file = request.form["selected-file"]
@@ -85,6 +119,9 @@ def excel():
     selected_files = request.json["selectedFiles"]
     compare = request.json["compare"]
     book = None
+    if selected_files[0] == "datasets":
+        # Create a list of datasets
+        return AjaxResponse(True, "datasets").to_string()
     try:
         for file_name in selected_files:
             file_name_result = os.path.join(Folders.results, file_name)
@@ -102,24 +139,13 @@ def excel():
     except Exception as e:
         if book is not None:
             book.close()
-        return (
-            json.dumps(
-                {
-                    "success": False,
-                    "error": "Could not create excel file, " + str(e),
-                }
-            ),
-            200,
-            {"ContentType": "application/json"},
-        )
+        return AjaxResponse(
+            False, "Could not create excel file, " + str(e)
+        ).to_string()
     if book is not None:
         book.close()
     Files.open(file_excel, test=app.config[TEST])
-    return (
-        json.dumps({"success": True, "file": Files.be_list_excel}),
-        200,
-        {"ContentType": "application/json"},
-    )
+    return AjaxResponse(True, Files.be_list_excel).to_string()
 
 
 @app.route("/config/<framework>/<compare>")

@@ -5,6 +5,7 @@
             <button class="{{ button_class }}" onclick="redirectIndex('{{candidate}}')">Use {{ candidate
                 }}</button>
                 <button class="{{ button_class }}" onclick="excel()"><i class="mdi mdi-file-excel"></i> Excel</button>
+                <button class="{{ button_class }}" onclick="redirectDatasets()"><i class="mdi mdi-database-eye"></i> Datasets</button>
         </div>
         <div class={{ frtag_position }}>
             <input type="checkbox" id="compare" name="compare" {% if compare %} {{ "checked" }} {% endif %}>

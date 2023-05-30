@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% if framework == "bootstrap" %}
+  {% set close_button = '<button type="button" class="btn-close btn-small" aria-label="Close" onclick="location.href = \'/index/' ~ compare ~ '\'"></button>' %}
+  {% set button_class = "btn btn-primary btn-small" %}
+  {% set h1_class = "text-center" %}
+  {% set table_class = "table table-striped table-hover table-bordered" %}
+  {% set head_class = "bg-primary text-white" %}
+  {% set text_right = "text-end" %}
+  {% set container = "container-fluid" %}
+{% else %}
+  {% set close_button = '<button class="delete is-large" onclick="location.href = \'/index/' ~ compare ~ '\'"></button>' %}
+  {% set button_class = "button is-primary is-small" %}
+  {% set h1_class = "title is-1 has-text-centered" %}
+  {% set table_class = "table is-striped is-hoverable cell-border is-bordered" %}
+  {% set head_class = "is-selected" %}
+  {% set text_right = "has-text-right" %}
+  {% set container = "container is-fluid" %}
+{% endif %}
+{% block content %}
+  <div class="{{ container }}">
+    <h1 class="{{ h1_class }}">{{ close_button|safe }} Datasets Report</h1>
+    <button class="{{ button }}" onclick="excelFiles(['datasets'], false)"><i class="mdi mdi-file-excel"></i> Excel</button>
+    {% include "partials/datasets_table.html" %}
+  </div>
+{% endblock %}
+{% block jscript %}
+  <script>
+    {% include "partials/excelFiles.js" %}
+  </script>
+{% endblock %}

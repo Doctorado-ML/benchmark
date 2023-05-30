@@ -55,29 +55,7 @@ function excel() {
         return;
     } 
     var compare = $("#compare").is(':checked');
-    // send data to server with ajax post
-    var data = {
-        selectedFiles: selectedFiles,
-        compare: compare
-    };
-    $.ajax({
-        type:'POST',
-        url:'/excel',
-        data: JSON.stringify(data),
-        contentType: "application/json",
-        dataType: 'json',
-        success: function(data){
-            if (data.success) {
-                alert("Se ha generado el archivo "+data.file);
-            } else {
-                alert(data.error);
-            }
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            var mensaje = JSON.parse(xhr.responseText || '{\"message\": \"Error indeterminado\"}');
-            alert(mensaje.message);
-        }
-    });
+    excelFiles(selectedFiles, compare);
 }
 function setCheckBoxes(value) {
     var checkbox = document.getElementsByName("selected_files");
@@ -87,4 +65,7 @@ function setCheckBoxes(value) {
 }
 function redirectIndex(candidate){
     location.href="/config/"+ candidate + "/" + $("#compare").is(':checked');
+}
+function redirectDatasets(){
+    location.href="/datasets/" + $("#compare").is(':checked');
 }

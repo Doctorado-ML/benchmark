@@ -24,7 +24,7 @@
   {% set button_pre = '<span class="tag is-link is-normal" type="button" onclick="showFile(\'' %}
   {% set button_post = '\')"><i class="mdi mdi-eye"></i></span>' %}
   {% set selected = "is-selected" %}
-  {% set align_right = "text-end" %}
+  {% set align_right = "has-text-right" %}
   {% set level = "level" %}
   {% set tag_class = "tag is-info is-small" %}
   {% set container = "container is-fluid" %}
@@ -42,7 +42,8 @@
         crossorigin="anonymous"></script>
   {% endif %}
   <script>
-    {% include "partials/js_select.js" %}
+    {% include "partials/select.js" %}
+    {% include "partials/excelFiles.js" %}
   </script>
 {% endblock %}
 
