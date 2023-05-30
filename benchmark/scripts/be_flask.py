@@ -6,7 +6,7 @@ import xlsxwriter
 from benchmark.Utils import Files, Folders
 from benchmark.Arguments import EnvData
 from benchmark.ResultsBase import StubReport
-from benchmark.ResultsFiles import Excel
+from benchmark.ResultsFiles import Excel, ReportDatasets
 from benchmark.Datasets import Datasets
 from flask import Flask
 from flask import render_template, request, redirect, url_for
@@ -121,7 +121,11 @@ def excel():
     book = None
     if selected_files[0] == "datasets":
         # Create a list of datasets
-        return AjaxResponse(True, "datasets").to_string()
+        report = ReportDatasets(excel=True, output=False)
+        report.report()
+        excel_name = os.path.join(Folders.excel, Files.datasets_report_excel)
+        Files.open(excel_name, test=app.config[TEST])
+        return AjaxResponse(True, Files.datasets_report_excel).to_string()
     try:
         for file_name in selected_files:
             file_name_result = os.path.join(Folders.results, file_name)

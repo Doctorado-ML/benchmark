@@ -299,11 +299,11 @@ class ReportDatasets:
     color2 = "#FDE9D9"
     color3 = "#B1A0C7"
 
-    def __init__(self, excel=False, book=None):
+    def __init__(self, excel=False, book=None, output=True):
         self.excel = excel
         self.env = EnvData().load()
         self.close = False
-        self.output = True
+        self.output = output
         self.header_text = f"Datasets used in benchmark ver. {__version__}"
         if excel:
             self.max_length = 0

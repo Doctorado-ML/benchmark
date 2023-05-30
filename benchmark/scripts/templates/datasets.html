@@ -6,7 +6,8 @@
   {% set table_class = "table table-striped table-hover table-bordered" %}
   {% set head_class = "bg-primary text-white" %}
   {% set text_right = "text-end" %}
-  {% set container = "container-fluid" %}
+  {% set container = "container" %}
+  {% set selected = "selected" %}
 {% else %}
   {% set close_button = '<button class="delete is-large" onclick="location.href = \'/index/' ~ compare ~ '\'"></button>' %}
   {% set button_class = "button is-primary is-small" %}
@@ -14,17 +15,35 @@
   {% set table_class = "table is-striped is-hoverable cell-border is-bordered" %}
   {% set head_class = "is-selected" %}
   {% set text_right = "has-text-right" %}
-  {% set container = "container is-fluid" %}
+  {% set container = "container" %}
+  {% set selected = "is-selected" %}
 {% endif %}
 {% block content %}
   <div class="{{ container }}">
-    <h1 class="{{ h1_class }}">{{ close_button|safe }} Datasets Report</h1>
-    <button class="{{ button }}" onclick="excelFiles(['datasets'], false)"><i class="mdi mdi-file-excel"></i> Excel</button>
+    <h1 class="{{ h1_class }}">{{ close_button|safe }} Benchmark Datasets Report</h1>
+    <button class="{{ button_class }}" onclick="excelFiles(['datasets'], false)"><i class="mdi mdi-file-excel"></i> Excel</button>
     {% include "partials/datasets_table.html" %}
   </div>
 {% endblock %}
 {% block jscript %}
   <script>
     {% include "partials/excelFiles.js" %}
+    $(document).ready(function () {
+      $(document).ajaxStart(function(){ 
+          $("body").addClass('ajaxLoading');
+      });
+      $(document).ajaxStop(function(){ 
+          $("body").removeClass('ajaxLoading');
+      });
+    });
+    // Check if row is selected
+    $('#file-table tbody').on('click', 'tr', function () {
+      if ($(this).hasClass('{{ selected }}')) {
+          $(this).removeClass('{{ selected }}');
+      } else {
+          $('#file-table tbody tr.{{ selected }}').removeClass("{{ selected }}")
+          $(this).addClass('{{ selected }}');
+      }
+    });
   </script>
 {% endblock %}

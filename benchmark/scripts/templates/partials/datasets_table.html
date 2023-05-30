@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-  <table class="{{ table_class }}">
+  <table id="file-table" class="{{ table_class }}">
     <thead>
       <tr class="{{ head_class }}">
         <th class="{{ text_center }}">Dataset</th>
@@ -20,7 +20,7 @@
           <td class="{{ text_right }}">{{ dataset.cont_features }}</td>
           <td class="{{ text_right }}">{{ dataset.classes }}</td>
           <td>{{ dataset.balance }}</td>
-        <tr>
+        </tr>
       {% endfor %}
     </tbody>
   </table>
