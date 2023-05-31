@@ -164,7 +164,7 @@ def excel():
 
 @main.route("/config/<framework>/<compare>")
 def config(framework, compare):
-    if not framework in current_app.config[FRAMEWORKS]:
+    if framework not in current_app.config[FRAMEWORKS]:
         message = f"framework {framework} not supported"
         return render_template("error.html", message=message)
     env = EnvData()
