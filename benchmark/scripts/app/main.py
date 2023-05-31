@@ -183,4 +183,9 @@ def best_results(file, compare):
             data = json.load(f)
     except Exception as e:
         return render_template("error.html", message=str(e), compare=compare)
-    return render_template("report_best.html", data=data, compare=compare)
+    return render_template(
+        "report_best.html",
+        data=data,
+        compare=compare,
+        framework=current_app.config[FRAMEWORK],
+    )

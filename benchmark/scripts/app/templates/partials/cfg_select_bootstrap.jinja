@@ -1,5 +1,8 @@
-{%- macro header(title) -%}
+{%- macro header(title, close=False, url="") -%}
 <div class="p-4 bg-primary text-white">
+{%- if close -%}
+    <button type="button" class="btn-close" aria-label="Close" onclick="location.href = '{{url}}'"></button>
+{%- endif -%}
 <h1 class="alternate-font">{{ title }}</h1>
 </div>
 {%- endmacro -%}
@@ -44,4 +47,10 @@ float-left
 {%- endmacro -%}
 {%- macro get_right_position() -%}
 float-right
+{%- endmacro -%}
+{%- macro get_row_head_class() -%}
+bg-primary text-white
+{%- endmacro -%}
+{%- macro get_align_center() -%}
+text-center
 {%- endmacro -%}

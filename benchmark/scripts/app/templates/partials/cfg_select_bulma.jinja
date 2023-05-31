@@ -1,6 +1,9 @@
-{%- macro header(title) -%}
+{%- macro header(title, close=False, url="") -%}
 <div class="hero is-info is-bold">
 <div class="hero-body">
+    {%- if close -%}
+    <button class="delete is-large" onclick="location.href = '{{ url }}'"></button>
+    {%- endif -%}
     <h1 class="is-size-3 alternate-font">{{ title }}</h1>
 </div>
 </div>
@@ -38,9 +41,18 @@ level
 {%- macro get_align_right() -%}
 has-text-right
 {%- endmacro -%}
+{%- macro get_align_center() -%}
+has-text-center
+{%- endmacro -%}
 {%- macro get_left_position() -%}
 float-left
 {%- endmacro -%}
 {%- macro get_right_position() -%}
 float-right
+{%- endmacro -%}
+{%- macro get_row_head_class() -%}
+is-selected
+{%- endmacro -%}
+{%- macro get_align_center() -%}
+has-text-center
 {%- endmacro -%}
