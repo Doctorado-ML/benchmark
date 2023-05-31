@@ -1,0 +1,23 @@
+<table class="table">
+  <thead>
+    <tr>
+      <th>Dataset</th>
+      <th>Score</th>
+      <th>Hyperparameters</th>
+      <th>File</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for dataset, info in data.items() %}
+      <tr>
+        <td>{{ dataset }}</td>
+        <td>{{ '%9.7f' % info[0] }}</td>
+        <td>{{ info[1] }}</td>
+        <td>
+        {% set url = url_for(request.endpoint, **request.view_args)|urlencode %}
+         <a href="{{ url_for('main.showfile', file_name = info[2], compare = compare) }}?url={{ url }}">{{ info[2] }}</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>

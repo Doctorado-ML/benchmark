@@ -91,9 +91,12 @@ def datasets(compare):
         framework=current_app.config[FRAMEWORK],
     )
 
+
 @main.route("/showfile/<file_name>/<compare>")
-def showfile(file_name, compare):
+def showfile(file_name, compare, back=None):
     compare = compare.capitalize() == "True"
+    back = request.args["url"] if back is None else back
+    print(f"back [{back}]")
     with open(os.path.join(Folders.results, file_name)) as f:
         data = json.load(f)
     try:
@@ -106,15 +109,19 @@ def showfile(file_name, compare):
         file=file_name,
         summary=summary,
         framework=current_app.config[FRAMEWORK],
-        compare=compare,
+        back=back,
     )
+
 
 @main.route("/show", methods=["post"])
 def show():
     selected_file = request.form["selected-file"]
     compare = request.form["compare"]
-    return showfile(selected_file, compare)
-    
+    return showfile(
+        file_name=selected_file,
+        compare=compare,
+        back=url_for("main.index", compare=compare),
+    )
 
 
 @main.route("/excel", methods=["post"])
@@ -167,3 +174,13 @@ def config(framework, compare):
     current_app.config[FRAMEWORK] = framework
     return redirect(url_for("main.index", compare=compare))
 
+
+@main.route("/best_results/<file>/<compare>")
+def best_results(file, compare):
+    compare = compare.capitalize() == "True"
+    try:
+        with open(os.path.join(Folders.results, file)) as f:
+            data = json.load(f)
+    except Exception as e:
+        return render_template("error.html", message=str(e), compare=compare)
+    return render_template("report_best.html", data=data, compare=compare)

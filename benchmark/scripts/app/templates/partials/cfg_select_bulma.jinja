@@ -8,14 +8,14 @@
 {%- macro get_table_class() -%}
 table is-striped is-hoverable cell-border is-bordered
 {%- endmacro -%}
-{%- macro icon(icon) -%}
-<i class="mdi mdi-{{icon}}"></i>
+{%- macro icon(icon_name) -%}
+<i class="mdi mdi-{{icon_name}}"></i>
 {%- endmacro -%}
 {%- macro get_button(text, action) -%}
     <button class="button is-primary is-small" onclick="{{ action }}">{{ text|safe }}</button>
 {%- endmacro -%}
-{%- macro get_button_view(file) -%}
-    <span class="tag is-link is-normal" type="button" onclick="showFile('{{ file }}')"><i class="mdi mdi-eye"></i></span>
+{%- macro get_button_tag(icon_name, method, visible=True, name="") -%}
+    <span class="{{ "tag is-link is-normal" if visible else "" }}" type="button" onclick="{{ method }}" {{ "" if visible else "hidden='true'" }} {{ "" if name=="" else "name='" + name +"'"}}>{{icon(icon_name)}}</span>
 {%- endmacro -%}
 {%- macro get_button_reset() -%}
     <span class="tag is-link is-danger" type="button" onclick="setCheckBoxes(false)"><i class="mdi mdi-checkbox-multiple-blank"></i></span>

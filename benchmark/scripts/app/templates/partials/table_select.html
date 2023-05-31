@@ -26,7 +26,9 @@
         <td>{{ "%s" % data["title"] }}</td>
         <td class="{{ select.get_align_right() }}">{{ "%.6f" % data["score"] }}</td>
         <td>
-          {{ select.get_button_view(file) | safe }}
+          {{ select.get_button_tag("eye", "showFile('" ~ file ~ "')") | safe }}
+          {% set file_best = "best_results_" ~ parts[1] ~ "_" ~ parts[2] ~ ".json" %}
+          {{ select.get_button_tag("star-circle-outline", "redirectDouble('best_results', '" ~ file_best ~ "')", visible=False, name="best_buttons") | safe }}
           <input
             type="checkbox"
             name="selected_files"

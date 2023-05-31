@@ -14,4 +14,6 @@ def create_app():
     app.register_blueprint(main)
     app.config[FRAMEWORK] = config[FRAMEWORK]
     app.config[FRAMEWORKS] = ["bootstrap", "bulma"]
+    app.jinja_env.auto_reload = True
+    app.config["TEMPLATES_AUTO_RELOAD"] = True
     return app
