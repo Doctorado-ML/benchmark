@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_" ~ framework ~ ".html" %}
 {% if framework == "bootstrap" %}
   {% set close_button = '<button type="button" class="btn-close btn-small" aria-label="Close" onclick="location.href = \'/index/' ~ compare ~ '\'"></button>' %}
   {% set button_class = "btn btn-primary btn-small" %}

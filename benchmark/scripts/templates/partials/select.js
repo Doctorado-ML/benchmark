@@ -16,11 +16,11 @@ $(document).ready(function () {
     });
     // Check if row is selected
     $('#file-table tbody').on('click', 'tr', function () {
-        if ($(this).hasClass('{{ selected }}')) {
-            $(this).removeClass('{{ selected }}');
+        if ($(this).hasClass('{{ select.selected() }}')) {
+            $(this).removeClass('{{ select.selected() }}');
         } else {
-            table.$('tr.{{ selected }}').removeClass('{{ selected }}');
-            $(this).addClass('{{ selected }}');
+            table.$('tr.{{ select.selected() }}').removeClass('{{ select.selected() }}');
+            $(this).addClass('{{ select.selected() }}');
         }
     });
     // Show file with doubleclick

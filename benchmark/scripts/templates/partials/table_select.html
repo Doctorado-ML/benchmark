@@ -1,4 +1,4 @@
-<table id="file-table" class="{{ table_class }}">
+<table id="file-table" class="{{ select.get_table_class() }}">
   <thead>
     <tr>
       <th>Model</th>
@@ -9,7 +9,7 @@
       <th>Stratified</th>
       <th>Title</th>
       <th>Score</th>
-      <th>{{ button_reset|safe }} {{ button_all|safe }}</th>
+      <th>{{ select.get_button_reset()|safe }} {{ select.get_button_all()|safe }}</th>
     </tr>
   </thead>
   <tbody>
@@ -24,12 +24,11 @@
         <td>{{ parts[5] }}</td>
         <td>{{ 'True' if stratified =='1' else 'False' }}</td>
         <td>{{ "%s" % data["title"] }}</td>
-        <td class="{{ align_right }}">{{ "%.6f" % data["score"] }}</td>
+        <td class="{{ select.get_align_right() }}">{{ "%.6f" % data["score"] }}</td>
         <td>
-          {{ button_pre | safe }}{{ file }}{{ button_post | safe }}
+          {{ select.get_button_view(file) | safe }}
           <input
             type="checkbox"
-            class="{{ checkbox_class }}"
             name="selected_files"
             value="{{ file }}"
           />

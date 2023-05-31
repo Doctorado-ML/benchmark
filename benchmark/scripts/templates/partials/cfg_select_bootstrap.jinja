@@ -1,0 +1,47 @@
+{%- macro header(title) -%}
+<div class="p-4 bg-primary text-white">
+<h1 class="alternate-font">{{ title }}</h1>
+</div>
+{%- endmacro -%}
+{%- macro get_table_class() -%}
+table table-striped table-hover table-bordered
+{%- endmacro -%}
+{%- macro icon(icon) -%}
+<i class="mdi mdi-{{icon}}"></i>
+{%- endmacro -%}
+{%- macro get_button(text, action) -%}
+    <button class="btn btn-primary btn-small" onclick="{{ action }}">{{ text|safe }}</button>
+{%- endmacro -%}
+{%- macro get_button_class() -%}
+    button btn-primary btn-small
+{%- endmacro %}
+{%- macro get_button_view(file) -%}
+    <button class="btn btn-primary btn-small" onclick="showFile('{{ file }}')"><i class="mdi mdi-eye"></i></button>
+{%- endmacro -%}
+{%- macro get_button_reset() -%}
+<button class="btn btn-primary btn-small btn-danger" onclick="setCheckBoxes(false)"><i class="mdi mdi-checkbox-multiple-blank"></i></button>
+{%- endmacro -%}
+{%- macro get_button_all() -%}
+<button class="btn btn-primary btn-small btn-success" onclick="setCheckBoxes(true)"><i class="mdi mdi-checkbox-multiple-marked"></i></button>
+{%- endmacro -%}
+{%- macro get_tag_class() -%}
+badge bg-info bg-small
+{%- endmacro -%}
+{%- macro get_container_class() -%}
+container-fluid
+{%- endmacro -%}
+{%- macro selected() -%}
+selected
+{%- endmacro -%}
+{%- macro get_level_class() -%}
+navbar
+{%- endmacro -%}
+{%- macro get_align_right() -%}
+text-end
+{%- endmacro -%}
+{%- macro get_left_position() -%}
+float-left
+{%- endmacro -%}
+{%- macro get_right_position() -%}
+float-right
+{%- endmacro -%}

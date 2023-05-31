@@ -1,5 +1,5 @@
 {% set title = "Report Viewer" %}
-{% extends "base.html" %}
+{% extends "base_" ~ framework ~ ".html" %}
 {% block content%}
   {% if framework == "bootstrap" %}
     {% set center = "text-center" %}
