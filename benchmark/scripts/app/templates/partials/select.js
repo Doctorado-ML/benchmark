@@ -16,6 +16,9 @@ $(document).ready(function () {
     //    "lengthMenu": "_MENU_"
     //}
   });
+  $('#file-table').on( 'draw.dt', function () {
+    enable_disable_best_buttons();
+  } );
   // Check if row is selected
   $("#file-table tbody").on("click", "tr", function () {
     if ($(this).hasClass("{{ select.selected() }}")) {
@@ -38,22 +41,19 @@ $(document).ready(function () {
     $("body").removeClass("ajaxLoading");
   });
   $('#compare').change(function() {
-    if ($(this).is(':checked')) {
-      $("[name='best_buttons']").removeAttr("hidden");
-      $("[name='best_buttons']").addClass("tag is-link is-normal");
-    } else {
-      $("[name='best_buttons']").attr("hidden", true);
-      $("[name='best_buttons']").removeClass("tag is-link is-normal");
-    }
+    enable_disable_best_buttons();
   });
-  if ($('#compare').is(':checked')) {
-      $("[name='best_buttons']").removeAttr("hidden");
-      $("[name='best_buttons']").addClass("tag is-link is-normal");
-    } else {
-      $("[name='best_buttons']").attr("hidden", true);
-      $("[name='best_buttons']").removeClass("tag is-link is-normal");
-    }
+  enable_disable_best_buttons();
 });
+function enable_disable_best_buttons(){
+  if ($('#compare').is(':checked')) {
+    $("[name='best_buttons']").addClass("tag is-link is-normal");
+      $("[name='best_buttons']").removeAttr("hidden");
+    } else {
+      $("[name='best_buttons']").removeClass("tag is-link is-normal");
+      $("[name='best_buttons']").attr("hidden", true);
+    }
+}
 function showFile(selectedFile) {
   var form = $(
     '<form action="/show" method="post">' +
