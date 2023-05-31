@@ -7,7 +7,7 @@ from benchmark.Arguments import EnvData
 from benchmark.ResultsBase import StubReport
 from benchmark.ResultsFiles import Excel, ReportDatasets
 from benchmark.Datasets import Datasets
-from flask import Blueprint
+from flask import Blueprint, current_app
 from flask import render_template, request, redirect, url_for
 
 
@@ -67,13 +67,13 @@ def index(compare="False"):
             "score": report.score,
             "title": report.title,
         }
-    candidate = app.config[FRAMEWORKS].copy()
-    candidate.remove(app.config[FRAMEWORK])
+    candidate = current_app.config[FRAMEWORKS].copy()
+    candidate.remove(current_app.config[FRAMEWORK])
     return render_template(
         "select.html",
         files=files,
         candidate=candidate[0],
-        framework=app.config[FRAMEWORK],
+        framework=current_app.config[FRAMEWORK],
         compare=compare.capitalize() == "True",
     )
 
@@ -88,12 +88,12 @@ def datasets(compare):
         "datasets.html",
         datasets=datos,
         compare=compare,
-        framework=app.config[FRAMEWORK],
+        framework=current_app.config[FRAMEWORK],
     )
 
 @main.route("/showfile/<file_name>/<compare>")
 def showfile(file_name, compare):
-    compare = compare.capitalize()  == "True"
+    compare = compare.capitalize() == "True"
     with open(os.path.join(Folders.results, file_name)) as f:
         data = json.load(f)
     try:
@@ -105,7 +105,7 @@ def showfile(file_name, compare):
         data=data,
         file=file_name,
         summary=summary,
-        framework=app.config[FRAMEWORK],
+        framework=current_app.config[FRAMEWORK],
         compare=compare,
     )
 
@@ -127,7 +127,7 @@ def excel():
         report = ReportDatasets(excel=True, output=False)
         report.report()
         excel_name = os.path.join(Folders.excel, Files.datasets_report_excel)
-        Files.open(excel_name, test=app.config[TEST])
+        Files.open(excel_name, test=current_app.config[TEST])
         return AjaxResponse(True, Files.datasets_report_excel).to_string()
     try:
         for file_name in selected_files:
@@ -151,25 +151,19 @@ def excel():
         ).to_string()
     if book is not None:
         book.close()
-    Files.open(file_excel, test=app.config[TEST])
+    Files.open(file_excel, test=current_app.config[TEST])
     return AjaxResponse(True, Files.be_list_excel).to_string()
 
 
 @main.route("/config/<framework>/<compare>")
 def config(framework, compare):
-    if not framework in app.config[FRAMEWORKS]:
+    if not framework in current_app.config[FRAMEWORKS]:
         message = f"framework {framework} not supported"
         return render_template("error.html", message=message)
     env = EnvData()
     env.load()
     env.args[FRAMEWORK] = framework
     env.save()
-    app.config[FRAMEWORK] = framework
-    return redirect(url_for("index", compare=compare))
+    current_app.config[FRAMEWORK] = framework
+    return redirect(url_for("main.index", compare=compare))
 
-
-def create_app():
-    config = EnvData().load()
-    app.config[FRAMEWORK] = config[FRAMEWORK]
-    app.config[FRAMEWORKS] = ["bootstrap", "bulma"]
-    return app
