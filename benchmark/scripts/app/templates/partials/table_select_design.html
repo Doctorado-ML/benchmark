@@ -5,6 +5,7 @@
             {{ select.get_button("Use " ~ candidate, "redirectIndex('" ~ candidate ~ "')")|safe }}
             {{ select.get_button(select.icon("excel") ~ " Excel", "excel()")|safe }}
             {{ select.get_button(select.icon("database-eye") ~ " Datasets", "redirectDatasets()")|safe }}
+            {{ select.get_button(select.icon("star-circle-outline") ~ " Best results", "{{ url_for('best_results')}}")}}
         </div>
         <div class={{ select.get_right_position }}>
             <input type="checkbox" id="compare" name="compare" {% if compare %} {{ "checked" }} {% endif %}>
