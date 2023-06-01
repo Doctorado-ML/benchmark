@@ -235,6 +235,16 @@ class Arguments(argparse.ArgumentParser):
                     "help": "number of folds",
                 },
             ],
+            "output": [
+                ("-o", "--output"),
+                {
+                    "type": str,
+                    "default": "local",
+                    "choices": ["local", "docker"],
+                    "required": False,
+                    "help": "in be_flask tells if it is running in local or in docker {local, docker}",
+                },
+            ],
             "platform": [
                 ("-P", "--platform"),
                 {

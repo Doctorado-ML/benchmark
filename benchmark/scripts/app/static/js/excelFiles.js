@@ -12,7 +12,11 @@ function excelFiles(selectedFiles, compare) {
         dataType: 'json',
         success: function(data){
             if (data.success) {
-                alert("Se ha generado el archivo "+data.file);
+                if (data.output == "local") {
+                    alert("Se ha generado el archivo " + data.file);
+                } else {
+                    window.open('/download/' + data.file, "_blank");
+                }
             } else {
                 alert(data.file);
             }

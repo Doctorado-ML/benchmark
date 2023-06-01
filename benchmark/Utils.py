@@ -1,6 +1,5 @@
 import os
 import sys
-import json
 import subprocess
 
 PYTHON_VERSION = "{}.{}".format(sys.version_info.major, sys.version_info.minor)
@@ -16,6 +15,7 @@ class Folders:
     img = "img"
     excel = "excel"
     sql = "sql"
+    current = os.getcwd()
 
     @staticmethod
     def src():

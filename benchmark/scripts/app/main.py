@@ -1,19 +1,21 @@
 #!/usr/bin/env python
 import os
 import json
+import shutil
 import xlsxwriter
 from benchmark.Utils import Files, Folders
 from benchmark.Arguments import EnvData
 from benchmark.ResultsBase import StubReport
 from benchmark.ResultsFiles import Excel, ReportDatasets
 from benchmark.Datasets import Datasets
-from flask import Blueprint, current_app
+from flask import Blueprint, current_app, send_file
 from flask import render_template, request, redirect, url_for
 
 
 main = Blueprint("main", __name__)
 FRAMEWORK = "framework"
 FRAMEWORKS = "frameworks"
+OUTPUT = "output"
 TEST = "test"
 
 
@@ -29,6 +31,7 @@ class AjaxResponse:
                 {
                     "success": self.success,
                     "file": self.file_name,
+                    "output": current_app.config[OUTPUT],
                 }
             ),
             self.code,
@@ -120,7 +123,9 @@ def show():
     return showfile(
         file_name=selected_file,
         compare=compare,
-        back=url_for("main.index", compare=compare),
+        back=url_for(
+            "main.index", compare=compare, output=current_app.config[OUTPUT]
+        ),
     )
 
 
@@ -134,7 +139,8 @@ def excel():
         report = ReportDatasets(excel=True, output=False)
         report.report()
         excel_name = os.path.join(Folders.excel, Files.datasets_report_excel)
-        Files.open(excel_name, test=current_app.config[TEST])
+        if current_app.config[OUTPUT] == "local":
+            Files.open(excel_name, test=current_app.config[TEST])
         return AjaxResponse(True, Files.datasets_report_excel).to_string()
     try:
         for file_name in selected_files:
@@ -158,8 +164,19 @@ def excel():
         ).to_string()
     if book is not None:
         book.close()
-    Files.open(file_excel, test=current_app.config[TEST])
+    if current_app.config[OUTPUT] == "local":
+        Files.open(file_excel, test=current_app.config[TEST])
     return AjaxResponse(True, Files.be_list_excel).to_string()
+
+
+@main.route("/download/<file_name>")
+def download(file_name):
+    src = os.path.join(Folders.current, Folders.excel, file_name)
+    dest = os.path.join(
+        Folders.src(), "scripts", "app", "static", "excel", file_name
+    )
+    shutil.copyfile(src, dest)
+    return send_file(dest, as_attachment=True)
 
 
 @main.route("/config/<framework>/<compare>")
