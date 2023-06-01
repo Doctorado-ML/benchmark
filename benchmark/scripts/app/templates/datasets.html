@@ -1,4 +1,7 @@
 {% extends 'base_' ~ framework ~ '.html' %}
+{% macro javascript(file) %}
+  <script src="{{ url_for('static', filename=file) }}"></script>
+{% endmacro %}
 {% if framework == 'bootstrap' %}
   {% set button_class = 'btn btn-primary btn-small' %}
   {% set h1_class = 'text-center' %}
@@ -42,8 +45,8 @@
   </div>
 {% endblock %}
 {% block jscript %}
+{{ javascript("js/excelFiles.js") }}
   <script>
-    {% include "js/excelFiles.js" %}
     $(document).ready(function () {
       $(document).ajaxStart(function(){ 
           $("body").addClass('ajaxLoading');
