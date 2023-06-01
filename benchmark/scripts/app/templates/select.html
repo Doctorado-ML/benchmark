@@ -1,20 +1,20 @@
-{% set title = "Benchmark Results" %}
-{% extends "base_" ~ framework ~ ".html" %}
-{% import "partials/cfg_select_" ~ framework ~ ".jinja" as select %}
+{% macro javascript(file) %}
+  <script src="{{ url_for('static', filename=file) }}"></script>
+{% endmacro %}
+{% set title = 'Benchmark Results' %}
+{% extends 'base_' ~ framework ~ '.html' %}
+{% import 'partials/cfg_select_' ~ framework ~ '.jinja' as select %}
 {% block content %}
-  {% include "partials/table_select_design.html" %}
+  {% include 'partials/table_select_design.html' %}
 {% endblock %}
 
 {% block jscript %}
   <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
-  {% if framework == "bootstrap" %}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" 
-        crossorigin="anonymous"></script>
+  {% if framework == 'bootstrap' %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
   {% endif %}
   <script>
-    {% include "partials/select.js" %}
-    {% include "partials/excelFiles.js" %}
+    {% include'/js/select.js' %}
   </script>
+  {{ javascript('/js/excelFiles.js') }}
 {% endblock %}
-
-  

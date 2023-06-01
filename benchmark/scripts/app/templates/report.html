@@ -1,26 +1,29 @@
-{% set title = "Report Viewer" %}
-{% extends "base_" ~ framework ~ ".html" %}
-{% block content%}
-  {% if framework == "bootstrap" %}
-    {% set center = "text-center" %}
-    {% set right = "text-end" %}
-    {% set button = "btn btn-primary" %}
-    {% include "partials/table_report_bootstrap.html" %}
+{% macro javascript(file) %}
+  <script src="{{ url_for('static', filename=file) }}"></script>
+{% endmacro %}
+{% set title = 'Report Viewer' %}
+{% extends 'base_' ~ framework ~ '.html' %}
+{% block content %}
+  {% if framework == 'bootstrap' %}
+    {% set center = 'text-center' %}
+    {% set right = 'text-end' %}
+    {% set button = 'btn btn-primary' %}
+    {% include 'partials/table_report_bootstrap.html' %}
   {% else %}
-    {% set center = "has-text-centered" %}
-    {% set right = "has-text-right" %}
-    {% set button = "button is-primary" %}
-    {% include "partials/table_report_bulma.html" %}
+    {% set center = 'has-text-centered' %}
+    {% set right = 'has-text-right' %}
+    {% set button = 'button is-primary' %}
+    {% include 'partials/table_report_bulma.html' %}
   {% endif %}
 {% endblock %}
 {% block jscript %}
-  {% if framework == "bootstrap" %}
-    {% set selected = "selected" %}
+  {% if framework == 'bootstrap' %}
+    {% set selected = 'selected' %}
   {% else %}
-    {% set selected = "is-selected" %}
+    {% set selected = 'is-selected' %}
   {% endif %}
   <script>
-    {% include "partials/report.js" %}
-    {% include "partials/excelFiles.js" %}
+    {% include "js/report.js" %}
   </script>
+  {{ javascript("js/excelFiles.js") }}
 {% endblock %}

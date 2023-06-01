@@ -43,7 +43,7 @@
 {% endblock %}
 {% block jscript %}
   <script>
-    {% include "partials/excelFiles.js" %}
+    {% include "js/excelFiles.js" %}
     $(document).ready(function () {
       $(document).ajaxStart(function(){ 
           $("body").addClass('ajaxLoading');
