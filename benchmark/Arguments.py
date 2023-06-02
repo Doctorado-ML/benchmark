@@ -242,7 +242,10 @@ class Arguments(argparse.ArgumentParser):
                     "default": "local",
                     "choices": ["local", "docker"],
                     "required": False,
-                    "help": "in be_flask tells if it is running in local or in docker {local, docker}",
+                    "help": (
+                        "in be_flask tells if it is running in local or "
+                        "in docker {local, docker}"
+                    ),
                 },
             ],
             "platform": [

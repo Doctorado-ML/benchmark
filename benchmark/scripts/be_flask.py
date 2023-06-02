@@ -12,6 +12,7 @@ def main(args_test=None):
     app = create_app()
     app.config[TEST] = args_test is not None
     app.config[OUTPUT] = args.output
+    print("Output is ", args.output)
     if args.output == "local":
         webbrowser.open_new("http://127.0.0.1:1234/")
     app.run(port=1234, host="0.0.0.0")
