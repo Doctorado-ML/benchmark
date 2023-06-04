@@ -3,6 +3,11 @@ scikit-learn
 scipy
 python-dotenv
 flask
+bootstrap-flask
+flask-wtf
+flask-login
+flask-migrate
+flask_sqlalchemy
 odte
 cython
 fimdlp

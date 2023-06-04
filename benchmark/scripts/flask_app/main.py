@@ -31,3 +31,23 @@ def index():
     #     compare=compare.capitalize() == "True",
     # )
     return render_template("index.html")
+
+
+@main.route("/results")
+def results():
+    pass
+
+
+@main.route("/datasets")
+def datasets():
+    pass
+
+
+@main.route("/config")
+def config():
+    pass
+
+
+@main.route("/login")
+def login():
+    return render_template("login.html")
