@@ -15,17 +15,24 @@ login_manager = LoginManager()
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.get(int(user_id))
+    return User.query.get(int(user_id))
+
+
+def make_shell_context():
+    return {"db": db, "User": User}
 
 
 def create_app():
-    # db.create_all()
     app = Flask(__name__)
     bootstrap.init_app(app)
     # app.register_blueprint(results)
     app.config.from_object(Config)
+    db.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = "login"
+    login_manager.login_view = "main.login"
     app.jinja_env.auto_reload = True
     app.register_blueprint(main)
+    app.shell_context_processor(make_shell_context)
+    with app.app_context():
+        db.create_all()
     return app
