@@ -1,0 +1,58 @@
+{% extends 'base_bulma.html' %}
+{% block title %}
+    {% if title %}
+        {{ title }} - benchmark
+    {% else %}
+        Benchmark
+    {% endif %}
+{% endblock %}
+{% block navbar %}
+    <section class="hero is-fullheight is-default is-bold">
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <a class="navbar-item" href="../">
+                            <img src="../images/bulma.png" alt="Logo">
+                        </a>
+                        <span class="navbar-burger burger" data-target="navbarMenu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </div>
+                    <div id="navbarMenu" class="navbar-menu">
+                        <div class="navbar-end">
+                            <div class="tabs is-right">
+                                <ul>
+                                    <li id="home">
+                                        <a href="{{ url_for("main.index") }}">Home</a>
+                                    </li>
+                                    <li id="results">
+                                        <a href="">Results</a>
+                                    </li>
+                                    <li id="datasets">
+                                        <a href="">Datasets</a>
+                                    </li>
+                                    <li id="config">
+                                        <a href="">Config</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    {% endblock %}
+    {% block content %}
+        <div class="container">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}<div class="alert alert-info" role="alert">{{ message }}</div>{% endfor %}
+                {% endif %}
+            {% endwith %}
+            {# application content needs to be provided in the app_content block #}
+            {% block app_content %}{% endblock %}
+        </div>
+    {% endblock %}

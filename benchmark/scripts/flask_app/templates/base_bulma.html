@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            {% block title %}
+                {{ title|default }}
+            {% endblock title %}
+        </title>
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css" />
+        <link rel="stylesheet"
+              href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.1.96/css/materialdesignicons.css"
+              integrity="sha512-lD1LHcZ8tFHvMFNeo6qOLY/HjzSPCasPJOAoir22byDxlZI1R71S5lZel8zRL2TZ+Dut1wOHfYgSU2lHXuL00w=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer" />
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='css/main.css') }}" />
+    </head>
+    <body>
+        {% block navbar %}{% endblock %}
+        {% block content %}{% endblock %}
+    </body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {% block jscript %}{% endblock %}
+</html>
