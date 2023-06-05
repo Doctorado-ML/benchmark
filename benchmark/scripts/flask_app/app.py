@@ -5,7 +5,7 @@ from flask_login import LoginManager
 from .config import Config
 from .models import User, db
 
-# from .results import results
+from .results.main import results
 from .main import main
 
 bootstrap = Bootstrap5()
@@ -31,6 +31,7 @@ def create_app():
     login_manager.init_app(app)
     login_manager.login_view = "main.login"
     app.jinja_env.auto_reload = True
+    app.register_blueprint(results, url_prefix="/results")
     app.register_blueprint(main)
     app.shell_context_processor(make_shell_context)
     with app.app_context():

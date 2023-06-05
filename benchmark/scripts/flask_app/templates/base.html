@@ -20,5 +20,8 @@
             {% block content %}{% endblock %}
         </div>
     </body>
-    {% block jscript %}{{ bootstrap.load_js() }}{% endblock %}
+    {% block jscript %}
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        {{ bootstrap.load_js() }}
+    {% endblock %}
 </html>

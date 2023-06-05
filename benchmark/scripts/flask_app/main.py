@@ -1,19 +1,14 @@
-import os
 from flask import (
     Blueprint,
-    current_app,
     render_template,
     url_for,
     flash,
     redirect,
     request,
-    abort,
 )
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.urls import url_parse
-from benchmark.Utils import Files, Folders
 from .forms import LoginForm
-from benchmark.ResultsBase import StubReport
 from .models import User
 
 main = Blueprint("main", __name__)
@@ -22,46 +17,13 @@ main = Blueprint("main", __name__)
 @main.route("/")
 @main.route("/index")
 def index():
-    # Get a list of files in a directory
-    files = {}
-    compare = False
-    # names = Files.get_all_results(hidden=False)
-    # for name in names:
-    #     report = StubReport(os.path.join(Folders.results, name))
-    #     report.report()
-    #     files[name] = {
-    #         "duration": report.duration,
-    #         "score": report.score,
-    #         "title": report.title,
-    #     }
-    # candidate = current_app.config["FRAMEWORKS"].copy()
-    # candidate.remove(current_app.config["FRAMEWORK"])
-    # return render_template(
-    #     "select.html",
-    #     files=files,
-    #     candidate=candidate[0],
-    #     framework=current_app.config["FRAMEWORK"],
-    #     compare=compare.capitalize() == "True",
-    # )
     return render_template("index.html")
-
-
-@main.route("/results")
-@login_required
-def results():
-    return render_template("results.html")
-
-
-@main.route("/datasets")
-@login_required
-def datasets():
-    pass
 
 
 @main.route("/config")
 @login_required
 def config():
-    pass
+    return render_template("config.html")
 
 
 @main.route("/login", methods=["GET", "POST"])
