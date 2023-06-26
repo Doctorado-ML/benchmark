@@ -3,6 +3,7 @@ import os
 import json
 import shutil
 import xlsxwriter
+from dotenv import dotenv_values
 from benchmark.Utils import Files, Folders
 from benchmark.Arguments import EnvData
 from benchmark.ResultsBase import StubReport
@@ -99,7 +100,7 @@ def datasets(compare):
 def showfile(file_name, compare, back=None):
     compare = compare.capitalize() == "True"
     back = request.args["url"] if back is None else back
-    print(f"back [{back}]")
+    app_config = dotenv_values(".env")
     with open(os.path.join(Folders.results, file_name)) as f:
         data = json.load(f)
     try:
@@ -113,6 +114,7 @@ def showfile(file_name, compare, back=None):
         summary=summary,
         framework=current_app.config[FRAMEWORK],
         back=back,
+        app_config=app_config,
     )
 
 
