@@ -22,7 +22,7 @@ from .Arguments import EnvData
 class Randomized:
     @staticmethod
     def seeds():
-        return json.loads(EnvData.load()["seeds"])
+        return json.loads(EnvData().load()["seeds"])
 
 
 class BestResults:
@@ -117,7 +117,7 @@ class Experiment:
         discretize=None,
         folds=5,
     ):
-        env_data = EnvData.load()
+        env_data = EnvData().load()
         today = datetime.now()
         self.time = today.strftime("%H:%M:%S")
         self.date = today.strftime("%Y-%m-%d")

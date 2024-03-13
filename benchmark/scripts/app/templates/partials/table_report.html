@@ -1,0 +1,14 @@
+{% for item in data.results %}
+  <tr>
+    <td>{{ item.dataset }}</td>
+    <td class="{{ right }}">{{ '{:,}'.format(item.samples) }}</td>
+    <td class="{{ right }}">{{"%d" % item.features}}</td>
+    <td class="{{ right }}">{{"%d" % item.classes}}</td>
+    <td class="{{ right }}">{{ '{:,.2f}'.format(item.nodes|float) }}</td>
+    <td class="{{ right }}">{{ '{:,.2f}'.format(item.leaves|float) }}</td>
+    <td class="{{ right }}">{{ '{:,.2f}'.format(item.depth|float) }}</td>
+    <td class="{{ right }}">{{"%.6f±%.4f" % (item.score, item.score_std)}} {{ item.symbol|safe }}</td>
+    <td class="{{ right }}">{{"%.6f±%.4f" % (item.time, item.time_std)}}</td>
+    <td class="{{ center }}">{{ item.hyperparameters }}</td>
+  </tr>
+{% endfor %}

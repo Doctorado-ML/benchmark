@@ -1,0 +1,27 @@
+{% extends "base_" ~ framework ~ ".html" %}
+{% block content %}
+  <table id="file-table" class="{{ table_class }}">
+    <thead>
+      <tr class="{{ head_class }}">
+        <th class="{{ text_center }}">Dataset</th>
+        <th class="{{ text_center }}">Samples</th>
+        <th class="{{ text_center }}">Features</th>
+        <th class="{{ text_center }}">Cont. Feat.</th>
+        <th class="{{ text_center }}">Classes</th>
+        <th class="{{ text_center }}">Balance</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for dataset in datasets %}
+        <tr>
+          <td>{{ dataset.dataset }}</td>
+          <td class="{{ text_right }}">{{ "{:,}".format(dataset.samples) }}</td>
+          <td class="{{ text_right }}">{{ "{:,}".format(dataset.features) }}</td>
+          <td class="{{ text_right }}">{{ dataset.cont_features }}</td>
+          <td class="{{ text_right }}">{{ dataset.classes }}</td>
+          <td>{{ dataset.balance }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

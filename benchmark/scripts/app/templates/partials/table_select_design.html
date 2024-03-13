@@ -1,0 +1,15 @@
+<div class="{{ select.get_container_class() }}">
+    {{ select.header("Benchmark Results") }}
+    <div class="{{ select.get_level_class() }}">
+        <div class="{{ select.get_left_position() }}">
+            {{ select.get_button("Use " ~ candidate, "redirectDouble('config', '" ~ candidate ~ "')")|safe }}
+            {{ select.get_button(select.icon("excel") ~ " Excel", "excel()")|safe }}
+            {{ select.get_button(select.icon("database-eye") ~ " Datasets", "redirectSimple('datasets')")|safe }}
+        </div>
+        <div class="{{ select.get_right_position() }}">
+            <input type="checkbox" id="compare" name="compare" {% if compare %} {{ "checked" }} {% endif %}>
+            <span class="{{ select.get_tag_class() }}">Comparing with best results</span>
+        </div>
+    </div>
+    {% include "partials/table_select.html" %}
+</div>

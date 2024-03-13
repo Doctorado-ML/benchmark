@@ -1,0 +1,58 @@
+{%- macro header(title, close=False, url="") -%}
+<div class="hero is-info is-bold">
+<div class="hero-body">
+    {%- if close -%}
+    <button class="delete is-large" onclick="location.href = '{{ url }}'"></button>
+    {%- endif -%}
+    <h1 class="is-size-3 alternate-font">{{ title }}</h1>
+</div>
+</div>
+{%- endmacro -%}
+{%- macro get_table_class() -%}
+table is-striped is-hoverable cell-border is-bordered
+{%- endmacro -%}
+{%- macro icon(icon_name) -%}
+<i class="mdi mdi-{{icon_name}}"></i>
+{%- endmacro -%}
+{%- macro get_button(text, action) -%}
+    <button class="button is-primary is-small" onclick="{{ action }}">{{ text|safe }}</button>
+{%- endmacro -%}
+{%- macro get_button_tag(icon_name, method, visible=True, name="") -%}
+    <span class="{{ "tag is-link is-normal" if visible else "" }}" type="button" onclick="{{ method }}" {{ "" if visible else "hidden='true'" }} {{ "" if name=="" else "name='" + name +"'"}}>{{icon(icon_name)}}</span>
+{%- endmacro -%}
+{%- macro get_button_reset() -%}
+    <span class="tag is-link is-danger" type="button" onclick="setCheckBoxes(false)"><i class="mdi mdi-checkbox-multiple-blank"></i></span>
+{%- endmacro -%}
+{%- macro get_button_all() -%}
+    <span class="tag is-link is-success" type="button" onclick="setCheckBoxes(true)"><i class="mdi mdi-checkbox-multiple-marked"></i></span>
+{%- endmacro -%}
+{%- macro get_tag_class() -%}
+tag is-info is-small
+{%- endmacro -%}
+{%- macro get_container_class() -%}
+container is-fluid
+{%- endmacro -%}
+{%- macro selected() -%}
+is-selected
+{%- endmacro -%}
+{%- macro get_level_class() -%}
+level
+{%- endmacro -%}
+{%- macro get_align_right() -%}
+has-text-right
+{%- endmacro -%}
+{%- macro get_align_center() -%}
+has-text-center
+{%- endmacro -%}
+{%- macro get_left_position() -%}
+float-left
+{%- endmacro -%}
+{%- macro get_right_position() -%}
+float-right
+{%- endmacro -%}
+{%- macro get_row_head_class() -%}
+is-selected
+{%- endmacro -%}
+{%- macro get_align_center() -%}
+has-text-center
+{%- endmacro -%}

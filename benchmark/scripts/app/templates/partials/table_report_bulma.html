@@ -1,0 +1,100 @@
+<div id="app">
+  <header>
+    <div class="container is-fluid">
+      <div class="hero is-info is-bold">
+        <div class="hero-body">
+          <button class="delete is-large" onclick="location.href = '{{ back }}'"></button>
+          <h1 class="is-size-3">{{ data.title }}</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+  <section class="section">
+    <div class="container is-fluid">
+      <div>
+        <table class="table is-fullwidth is-striped is-bordered">
+          <thead>
+            <tr class="is-selected">
+              <th class="has-text-centered">Platform</th>
+              <th class="has-text-centered">Model</th>
+              <th class="has-text-centered">Date</th>
+              <th class="has-text-centered">Time</th>
+              {% if data.duration > 7200 %}
+                {% set unit = "h" %}
+                {% set divider = 3600 %}
+              {% else %}
+                {% set unit = "min" %}
+                {% set divider = 60 %}
+              {% endif %}
+              <th class="has-text-centered">Duration ({{ unit }})</th>
+              <th class="has-text-centered">Stratified</th>
+              <th class="has-text-centered">Discretized</th>
+              <th class="has-text-centered"># Folds</th>
+            </tr>
+            <tr>
+              <th class="has-text-centered">{{ data.platform }}</th>
+              <th class="has-text-centered">{{ data.model }} {{ data.version }}</th>
+              <th class="has-text-centered">{{ data.date }}</th>
+              <th class="has-text-centered">{{ data.time }}</th>
+              <th class="has-text-centered">{{ "%.2f" % (data.duration/divider) }}</th>
+              <th class="has-text-centered">{{ data.stratified }}</th>
+              <th class="has-text-centered">{{ data.discretized }}</th>
+              <th class="has-text-centered">{{ data.folds }}</th>
+            </tr>
+            <tr>
+              <th class="has-text-center is-selected">Language</th>
+              <th class="has-text-centered" colspan=3>{{ data.language }} {{ data.language_version }}</th>
+              <th class="has-text-centered is-selected">Seeds</th>
+              <th class="has-text-centered" colspan=6>{{ data.seeds }}</th>
+            </tr>
+          </thead>
+        </table>
+        <div>
+          <button class="{{ button }}" onclick="excelFile()">
+            <i class="mdi mdi-file-excel"></i> Excel
+          </button>
+        </div>
+        <table id="report-table"
+               class="table is-fullwidth is-striped is-hoverable is-bordered">
+          <thead>
+            <tr class="is-selected">
+              <th class="has-text-centered">Dataset</th>
+              <th class="has-text-centered">Samples</th>
+              <th class="has-text-centered">Features</th>
+              <th class="has-text-centered">Classes</th>
+              <th class="has-text-centered">{{ app_config.nodes }}</th>
+              <th class="has-text-centered">{{ app_config.leaves }}</th>
+              <th class="has-text-centered">{{ app_config.depth }}</th>
+              <th class="has-text-centered">{{ data.score_name|capitalize }}</th>
+              <th class="has-text-centered">Time</th>
+              <th class="has-text-centered">hyperparameters</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% include "partials/table_report.html" %}
+          </tbody>
+        </table>
+        {% if summary|length > 0 %}
+          <div class="col-2 col-lg-2">
+            <table class="table is-bordered">
+              <thead>
+                <tr class="is-selected">
+                  <th class="has-text-centered">Symbol</th>
+                  <th class="has-text-centered">Meaning</th>
+                  <th class="has-text-centered">Count</th>
+                </tr>
+              </thead>
+              {% include "partials/table_summary.html" %}
+            </table>
+          </div>
+        {% endif %}
+        <h2 class="has-text-white has-background-primary">
+          <b>
+            <button class="delete" onclick="location.href = '/index/{{ compare }}'"></button>
+            Total score: {{ "%.6f" % (data.results | sum(attribute="score") ) }}
+          </b>
+        </h2>
+        <h2>Number of files: {{ data.results | length }}</h2>
+      </div>
+    </section>
+  </div>

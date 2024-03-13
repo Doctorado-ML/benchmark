@@ -13,21 +13,27 @@ ALL_METRICS = (
 
 
 class EnvData:
-    @staticmethod
-    def load():
-        args = {}
+    def __init__(self):
+        self.args = {}
+
+    def load(self):
         try:
             with open(Files.dot_env) as f:
                 for line in f.read().splitlines():
                     if line == "" or line.startswith("#"):
                         continue
                     key, value = line.split("=")
-                    args[key] = value
+                    self.args[key] = value
         except FileNotFoundError:
             print(NO_ENV, file=sys.stderr)
             exit(1)
         else:
-            return args
+            return self.args
+
+    def save(self):
+        with open(Files.dot_env, "w") as f:
+            for key, value in self.args.items():
+                f.write(f"{key}={value}\n")
 
 
 class EnvDefault(argparse.Action):
@@ -35,7 +41,7 @@ class EnvDefault(argparse.Action):
     def __init__(
         self, envvar, required=True, default=None, mandatory=False, **kwargs
     ):
-        self._args = EnvData.load()
+        self._args = EnvData().load()
         self._overrides = {}
         if required and not mandatory:
             default = self._args[envvar]
@@ -227,6 +233,19 @@ class Arguments(argparse.ArgumentParser):
                     "type": int,
                     "required": True,
                     "help": "number of folds",
+                },
+            ],
+            "output": [
+                ("-o", "--output"),
+                {
+                    "type": str,
+                    "default": "local",
+                    "choices": ["local", "docker"],
+                    "required": False,
+                    "help": (
+                        "in be_flask tells if it is running in local or "
+                        "in docker {local, docker}"
+                    ),
                 },
             ],
             "platform": [

@@ -1,0 +1,47 @@
+{% set title = "Best Results" %}
+{% extends "base_" ~ framework ~ ".html" %}
+{% import "partials/cfg_select_" ~ framework ~ ".jinja" as select %}
+{% block content %}
+    <div class="container">
+        {{ select.header(title, True, url_for("main.index", compare=compare)) }}
+        <table id="file-table" class="{{ select.get_table_class() }}">
+            <thead>
+                <tr class="{{ select.get_row_head_class() }}">
+                <th class="{{ select.get_align_center() }}">Dataset</th>
+                <th class="{{ select.get_align_center() }}">Score</th>
+                <th class="{{ select.get_align_center() }}">Hyperparameters</th>
+                <th class="{{ select.get_align_center() }}">File</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dataset, info in data.items() %}
+                <tr>
+                    <td>{{ dataset }}</td>
+                    <td class="{{ select.get_align_right() }}">{{ '%9.7f' % info[0] }}</td>
+                    <td class="{{ select.get_align_center() }}">{{ info[1] }}</td>
+                    <td>
+                    {% set url = url_for(request.endpoint, **request.view_args)|urlencode %}
+                    <a href="{{ url_for('main.showfile', file_name = info[2], compare = compare) }}?url={{ url }}">{{ info[2] }}</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block jscript %}
+<script>
+    $(document).ready(function () {
+        // Check if row is selected
+        $('#file-table tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('{{ select.selected() }}')) {
+                $(this).removeClass('{{ select.selected() }}');
+            } else {
+                $('#file-table tbody tr.{{ select.selected() }}').removeClass("{{ select.selected() }}")
+                $(this).addClass('{{ select.selected() }}');
+            }
+        });
+  });
+</script>
+{% endblock %}
+
