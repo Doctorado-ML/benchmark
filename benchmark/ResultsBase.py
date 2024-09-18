@@ -108,9 +108,11 @@ class BaseReport(abc.ABC):
                     status = (
                         Symbols.cross
                         if accuracy <= max_value
-                        else Symbols.upward_arrow
-                        if accuracy > max_value
-                        else " "
+                        else (
+                            Symbols.upward_arrow
+                            if accuracy > max_value
+                            else " "
+                        )
                     )
         if status != " ":
             if status not in self._compare_totals:
@@ -161,6 +163,11 @@ class StubReport(BaseReport):
     def header(self) -> None:
         self.title = self.data["title"]
         self.duration = self.data["duration"]
+        self.model = self.data["model"]
+        self.date = self.data["date"]
+        self.time = self.data["time"]
+        self.metric = self.data["score_name"]
+        self.platform = self.data["platform"]
 
     def footer(self, accuracy: float) -> None:
         self.accuracy = accuracy
@@ -195,9 +202,11 @@ class Summary:
                 self.models.add(model)
                 report = StubReport(
                     os.path.join(
-                        Folders.hidden_results
-                        if self.hidden
-                        else Folders.results,
+                        (
+                            Folders.hidden_results
+                            if self.hidden
+                            else Folders.results
+                        ),
                         result,
                     )
                 )
