@@ -32,6 +32,8 @@ class DatasetsArff:
     def get_range_features(X, c_features):
         if c_features.strip() == "all":
             return list(range(X.shape[1]))
+        if c_features.strip() == "none":
+            return []
         return json.loads(c_features)
 
     def load(self, name, class_name):
@@ -129,27 +131,26 @@ class Datasets:
 
     def _init_names(self, dataset_name):
         file_name = os.path.join(self.dataset.folder(), Files.index)
-        default_class = "class"
         self.continuous_features = {}
         with open(file_name) as f:
             sets = f.read().splitlines()
             sets = [x for x in sets if not x.startswith("#")]
-            class_names = [default_class] * len(sets)
-        if "," in sets[0]:
-            result = []
-            class_names = []
-            for data in sets:
-                name, class_name, features = data.split(",", 2)
-                result.append(name)
-                class_names.append(class_name)
-                self.continuous_features[name] = features
-            sets = result
-        else:
-            for name in sets:
-                self.continuous_features[name] = None
+        results = []
+        class_names = []
+        for set_name in sets:
+            try:
+                name, class_name, features = set_name.split(";")
+            except ValueError:
+                class_name = "class"
+                features = "all"
+                name = set_name
+            results.append(name)
+            class_names.append(class_name)
+            features = features.strip()
+            self.continuous_features[name] = features
         # Set as dataset list the dataset passed as argument
         if dataset_name is None:
-            return class_names, sets
+            return class_names, results
         try:
             class_name = class_names[sets.index(dataset_name)]
         except ValueError:

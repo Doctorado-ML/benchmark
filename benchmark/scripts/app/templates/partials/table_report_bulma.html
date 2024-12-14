@@ -90,7 +90,7 @@
         {% endif %}
         <h2 class="has-text-white has-background-primary">
           <b>
-            <button class="delete" onclick="location.href = '/index/{{ compare }}'"></button>
+            <button class="delete" onclick="location.href = '{{ back }}'"></button>
             Total score: {{ "%.6f" % (data.results | sum(attribute="score") ) }}
           </b>
         </h2>
