@@ -152,7 +152,7 @@ class Datasets:
         if dataset_name is None:
             return class_names, results
         try:
-            class_name = class_names[sets.index(dataset_name)]
+            class_name = class_names[results.index(dataset_name)]
         except ValueError:
             raise ValueError(f"Unknown dataset: {dataset_name}")
         return [class_name], [dataset_name]

@@ -1,2 +1,2 @@
-iris,class,all
-wine,class,[0, 1]
+iris;class;all
+wine;class;[0, 1]
