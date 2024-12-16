@@ -68,7 +68,7 @@ class ArgumentsTest(TestBase):
         test_args = ["-n", "3", "-k", "date"]
         with self.assertRaises(SystemExit):
             arguments.parse(test_args)
-        self.assertRegexpMatches(
+        self.assertRegex(
             stderr.getvalue(),
             r"error: the following arguments are required: -m/--model",
         )
@@ -79,7 +79,7 @@ class ArgumentsTest(TestBase):
         test_args = ["-n", "3", "-m", "SVC"]
         with self.assertRaises(SystemExit):
             arguments.parse(test_args)
-        self.assertRegexpMatches(
+        self.assertRegex(
             stderr.getvalue(),
             r"error: the following arguments are required: -k/--key",
         )
@@ -114,7 +114,7 @@ class ArgumentsTest(TestBase):
         test_args = None
         with self.assertRaises(SystemExit):
             arguments.parse(test_args)
-        self.assertRegexpMatches(
+        self.assertRegex(
             stderr.getvalue(),
             r"error: the following arguments are required: -m/--model, "
             "-k/--key, --title",

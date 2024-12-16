@@ -120,7 +120,7 @@ class BeMainTest(TestBase):
                 module.main(parameter)
             self.assertEqual(msg.exception.code, 2)
             self.assertEqual(stderr.getvalue(), "")
-            self.assertRegexpMatches(stdout.getvalue(), message)
+            self.assertRegex(stdout.getvalue(), message)
 
     def test_be_main_best_params_non_existent(self):
         model = "GBC"
