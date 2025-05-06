@@ -1,7 +1,4 @@
-[![CI](https://github.com/Doctorado-ML/benchmark/actions/workflows/main.yml/badge.svg)](https://github.com/Doctorado-ML/benchmark/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/Doctorado-ML/benchmark/branch/main/graph/badge.svg?token=ZRP937NDSG)](https://codecov.io/gh/Doctorado-ML/benchmark)
-[![Quality Gate Status](https://sonar.rmontanana.es/api/project_badges/measure?project=benchmark&metric=alert_status&token=336a6e501988888543c3153baa91bad4b9914dd2)](https://sonar.rmontanana.es/dashboard?id=benchmark)
-[![Technical Debt](https://sonar.rmontanana.es/api/project_badges/measure?project=benchmark&metric=sqale_index&token=336a6e501988888543c3153baa91bad4b9914dd2)](https://sonar.rmontanana.es/dashboard?id=benchmark)
 ![https://img.shields.io/badge/python-3.8%2B-blue](https://img.shields.io/badge/python-3.8%2B-brightgreen)
 
 # benchmark
