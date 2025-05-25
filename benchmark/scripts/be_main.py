@@ -14,7 +14,7 @@ def main(args_test=None):
     arguments.xset("stratified").xset("score").xset("model", mandatory=True)
     arguments.xset("n_folds").xset("platform").xset("quiet").xset("title")
     arguments.xset("report").xset("ignore_nan").xset("discretize")
-    arguments.xset("fit_features")
+    arguments.xset("fit_features").xset("iwss")
     arguments.add_exclusive(
         ["grid_paramfile", "best_paramfile", "hyperparameters"]
     )
@@ -43,6 +43,7 @@ def main(args_test=None):
             folds=args.n_folds,
             fit_features=args.fit_features,
             discretize=args.discretize,
+            iwss=args.iwss,
         )
         job.do_experiment()
     except ValueError as e:

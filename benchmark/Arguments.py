@@ -160,6 +160,15 @@ class Arguments(argparse.ArgumentParser):
                     "help": "Ignore nan results",
                 },
             ],
+            "iwss": [
+                ("--iwss",),
+                {
+                    "default": False,
+                    "action": "store_true",
+                    "required": False,
+                    "help": "Do IWSS with training set and then apply to test set",
+                },
+            ],
             "key": [
                 ("-k", "--key"),
                 {

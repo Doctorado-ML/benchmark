@@ -71,6 +71,7 @@ class Models:
                 algorithm="SAMME",
                 random_state=random_state,
             ),
+            "AdaBoost": AdaBoostClassifier(random_state=random_state),
             "GBC": GradientBoostingClassifier(random_state=random_state),
             "RandomForest": RandomForestClassifier(random_state=random_state),
             "Mock": MockModel(random_state=random_state),
@@ -99,13 +100,13 @@ class Models:
             nodes = 0
             leaves = result.get_n_leaves()
             depth = 0
-        elif name.startswith("Bagging") or name.startswith("AdaBoost"):
+        elif name.startswith("Bagging") or name == "AdaBoostStree":
             nodes, leaves = list(
                 zip(*[x.nodes_leaves() for x in result.estimators_])
             )
             nodes, leaves = mean(nodes), mean(leaves)
             depth = mean([x.depth_ for x in result.estimators_])
-        elif name == "RandomForest":
+        elif name == "RandomForest" or name == "AdaBoost":
             leaves = mean([x.get_n_leaves() for x in result.estimators_])
             depth = mean([x.get_depth() for x in result.estimators_])
             nodes = mean([x.tree_.node_count for x in result.estimators_])
